@@ -29,7 +29,7 @@ Run `python tools/claude_runner_node_overlay.py` to copy the guidance tests into
 - A temporary container served `GET /health` on loopback: `status: ok`, seven flows, nine registered webhooks. It was stopped afterward.
 - Owner workspace build passed. Its full serial suite passed: 408 passed, 1 skipped, with localhost access.
 - A temporary test tree with the main-flow JavaScript replaced by `runner.py extract-code` passed 14 of the 21 A7 guidance commands. Seven suites still assert historical Code-node behavior or snapshots; their failures need review before claiming extracted-code acceptance.
-- Disposable SQLite and PostgreSQL compatibility rehearsals returned `/health` and authenticated `/status` 200 from runner and previous Python app, and both read the same parked row. Signed resumes and recovery budget paths were not rehearsed.
+- Disposable SQLite and PostgreSQL compatibility rehearsals returned `/health` and authenticated `/status` 200 from runner and previous Python app, and both read the same parked row. Resume signatures are now wait-generation-specific; the direct stale-generation route test passes. With `RECOVERY_WEBHOOKS_ENABLED=true`, both recovery routes register locally and reject synthetic unapproved IDs without external calls. Full approved Go 1/Go 2 resume and recovery ledger paths remain outstanding.
 
 These checks do not establish production parity. The extracted-code Node suite is not yet green, and the local cutover/rollback rehearsal is incomplete. No paid call, production read, deployment, engine switch, or n8n edit occurred.
 

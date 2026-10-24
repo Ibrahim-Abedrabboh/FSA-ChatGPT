@@ -103,6 +103,50 @@ def test_enabled_recovery_routes_reject_missing_authorization(runner, monkeypatc
             assert response.status_code == 403
 
 
+def test_enabled_recovery_paths_reject_unapproved_ids_before_external_calls(runner, monkeypatch):
+    import httpx
+
+    monkeypatch.setattr(runner, "app__RETIRED_WEBHOOKS", set())
+    monkeypatch.setenv("A7_BRIDGE_HEADER_VALUE", "synthetic-local-bridge")
+    monkeypatch.setenv("A7_BRIDGE_HEADER_NAME", "Authorization")
+    calls = []
+
+    def outside(request):
+        calls.append((request.method, str(request.url)))
+        raise AssertionError("rejected recovery request made an external call")
+
+    with TestClient(runner.app__create_app()) as client:
+        client.app.state.services.http = httpx.AsyncClient(transport=httpx.MockTransport(outside))
+        for path in ("a7/approved-blind-recovery", "a7/approved-package-recovery"):
+            response = client.post(f"/webhook/{path}", headers={"Authorization": "synthetic-local-bridge"}, json={
+                "recoveryId": "unapproved-local-test", "confirmed": True, "capUsd": 0.1, "paidCalls": 0,
+            })
+            assert response.status_code == 500
+        assert calls == []
+
+
+def test_old_wait_signature_cannot_resume_a_later_wait(runner, monkeypatch):
+    monkeypatch.setenv("RESUME_SIGNING_SECRET", "synthetic-resume-secret")
+    with TestClient(runner.app__create_app()) as client:
+        runtime = client.app.state.runtime
+        execution_id = runtime.services.store.create_execution("test-flow")
+        runtime.services.store.save_execution(execution_id, "waiting", {
+            "id": execution_id, "flow_id": "test-flow", "resume_generation": 1,
+            "wait": {"node": "Wait for go 2", "kind": "webhook"},
+        }, wait_kind="webhook")
+        stale = runtime.signature(execution_id, 1)
+        current = runtime.signature(execution_id, 2)
+        assert stale != current
+        response = client.post(f"/webhook-waiting/{execution_id}?signature={stale}", json={})
+        assert response.status_code == 401
+        runtime.services.store.save_execution(execution_id, "running", {
+            "id": execution_id, "flow_id": "test-flow", "resume_generation": 1,
+            "wait": {"node": "Wait for go 2", "kind": "webhook"},
+        }, wait_kind="webhook")
+        response = client.post(f"/webhook-waiting/{execution_id}?signature={current}", json={})
+        assert response.status_code == 409  # signature accepted; execution is deliberately marked running
+
+
 def test_former_n8n_host_cannot_go_outbound(runner):
     services = runner.engine_services__Services.__new__(runner.engine_services__Services)
     services.settings = runner.config__Settings(self_aliases=())

@@ -136920,6 +136920,7 @@ class engine_executor__Execution:
     error: dict[str, engine_executor__Any] | None = None
     wait: dict[str, engine_executor__Any] | None = None
     resume_url: str = ""
+    resume_generation: int = 0
     # Set while a webhook caller is waiting for a "Respond to Webhook" node.
     responder: engine_executor__asyncio.Future | None = None
 
@@ -136928,13 +136929,13 @@ class engine_executor__Execution:
             "id": self.id, "flow_id": self.flow_id, "mode": self.mode, "status": self.status,
             "started_at": self.started_at, "stack": self.stack, "waiting": self.waiting,
             "run_data": self.run_data, "last_node": self.last_node, "error": self.error,
-            "wait": self.wait, "resume_url": self.resume_url,
+            "wait": self.wait, "resume_url": self.resume_url, "resume_generation": self.resume_generation,
         }
 
     @classmethod
     def from_state(cls, state: dict[str, engine_executor__Any]) -> "engine_executor__Execution":
         ex = cls(id=state["id"], flow_id=state["flow_id"])
-        for k in ("mode", "status", "started_at", "stack", "waiting", "run_data", "last_node", "error", "wait", "resume_url"):
+        for k in ("mode", "status", "started_at", "stack", "waiting", "run_data", "last_node", "error", "wait", "resume_url", "resume_generation"):
             if k in state:
                 setattr(ex, k, state[k])
         return ex
@@ -140656,14 +140657,16 @@ class runtime__Runtime:
         return {config___env(h_env, default) for h_env, default, _ in config__HEADER_CREDENTIALS.values()}
 
     # ---------- resume links ----------
-    def signature(self, execution_id: str) -> str:
-        return runtime__hmac.new(self._resume_secret.encode(), f"resume:{execution_id}".encode(), runtime__hashlib.sha256).hexdigest()
+    def signature(self, execution_id: str, generation: int = 0) -> str:
+        message = f"resume:{execution_id}" if generation == 0 else f"resume:{execution_id}:{generation}"
+        return runtime__hmac.new(self._resume_secret.encode(), message.encode(), runtime__hashlib.sha256).hexdigest()
 
-    def resume_url(self, execution_id: str) -> str:
-        return f"{self.services.settings.public_base_url}/webhook-waiting/{execution_id}?signature={self.signature(execution_id)}"
+    def resume_url(self, execution_id: str, generation: int = 1) -> str:
+        return f"{self.services.settings.public_base_url}/webhook-waiting/{execution_id}?signature={self.signature(execution_id, generation)}"
 
-    def signature_ok(self, execution_id: str, signature: str) -> bool:
-        return runtime__hmac.compare_digest(self.signature(execution_id), signature or "")
+    def signature_ok(self, execution_id: str, signature: str, generation: int = 0, *, legacy: bool = False) -> bool:
+        expected = self.signature(execution_id) if legacy else self.signature(execution_id, generation)
+        return runtime__hmac.compare_digest(expected, signature or "")
 
     # ---------- starting runs ----------
     async def run_trigger(self, flow: engine_model__Flow, trigger: engine_model__NodeDef, items: list[engine_model__Item], wait_for_response: bool,
@@ -140677,7 +140680,7 @@ class runtime__Runtime:
                 binary[name] = await self.services.binaries.put(execution_id, data, mime, filename)
             items = [{**items[0], "binary": binary}, *items[1:]]
         execution = engine_executor__Execution(id=execution_id, flow_id=flow.id)
-        execution.resume_url = self.resume_url(execution_id)
+        execution.resume_url = self.resume_url(execution_id, execution.resume_generation + 1)
         loop = runtime__asyncio.get_running_loop()
         if wait_for_response:
             execution.responder = loop.create_future()
@@ -140787,7 +140790,8 @@ class runtime__Runtime:
         state = row["state"]
         flow = self.flows[state["flow_id"]]
         execution = engine_executor__Execution.from_state(state)
-        execution.resume_url = self.resume_url(execution.id)
+        execution.resume_generation += 1
+        execution.resume_url = self.resume_url(execution.id, execution.resume_generation + 1)
 
         async def go() -> None:
             try:
@@ -141167,7 +141171,12 @@ def app__create_app(settings: config__Settings | None = None, services: engine_s
     @app.api_route("/webhook-waiting/{execution_id}", methods=["GET", "POST"])
     async def webhook_waiting(execution_id: str, request: app__Request):
         runtime: runtime__Runtime = request.app.state.runtime
-        if not execution_id.isdigit() or not runtime.signature_ok(execution_id, request.query_params.get("signature", "")):
+        state_row = await app__asyncio.to_thread(runtime.services.store.load_execution, execution_id) if execution_id.isdigit() else None
+        state = state_row.get("state") if state_row else None
+        generation = state.get("resume_generation", 0) if isinstance(state, dict) else 0
+        legacy = isinstance(state, dict) and "resume_generation" not in state
+        if not execution_id.isdigit() or not state_row or not runtime.signature_ok(
+                execution_id, request.query_params.get("signature", ""), generation + 1, legacy=legacy):
             return app__JSONResponse(status_code=401, content={"code": 401, "message": "Invalid token"})
         item, _ = await app__request_item(request, f"../webhook-waiting/{execution_id}")
         item["json"].pop("webhookUrl", None)
