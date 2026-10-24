@@ -1,0 +1,1 @@
+const x=$('Validate analysis originals').first();return [{json:x.json,binary:x.binary}];

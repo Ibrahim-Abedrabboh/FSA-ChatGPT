@@ -1,0 +1,1 @@
+let pack=false;try{pack=$('Package · Context').first().json.ready===true}catch{}return [{json:{...$input.first().json,__packageRecovery:pack}}];

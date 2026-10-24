@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0c10">
+  <meta name="robots" content="noindex,nofollow">
+  <title>See it in your room — Midas</title>
+  <script src="./palette.js"></script>
+  <link rel="stylesheet" href="./consumer.css">
+  <script src="./consumer.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <header class="masthead"><a class="wordmark" href="https://midasfurniture.com" target="_blank" rel="noopener noreferrer" aria-label="Midas catalogue opens in a new tab"><strong>MIDAS</strong><span>IN YOUR ROOM</span></a><nav aria-label="Page navigation"><a href="https://midasfurniture.com" target="_blank" rel="noopener noreferrer">Browse Midas catalogue ↗</a><span class="status-tag">Local journey concept</span><fieldset class="look-switch"><legend class="sr-only">Appearance</legend><label><input type="radio" name="appearance" value="light"><span>Light</span></label><label><input type="radio" name="appearance" value="dark" checked><span>Dark</span></label><label><input type="radio" name="appearance" value="system"><span>Auto</span></label></fieldset></nav></header>
+  <main id="main">
+    <div class="intro"><p class="eyebrow">A ROOM OF YOUR OWN</p><h1>See how it could feel at home.</h1><p>Choose a Midas product, share a photo of your room, and describe where it should go. This page prepares your choices locally; a room image and purchase link are not available yet.</p></div>
+    <ol class="steps" aria-label="Journey steps"><li data-step-label="1">01 · Product</li><li data-step-label="2">02 · Room</li><li data-step-label="3">03 · Review</li></ol>
+    <section class="step" id="productStep" aria-labelledby="productTitle">
+      <p class="eyebrow">STEP 01 / 03</p><h2 id="productTitle">Start with a Midas piece.</h2>
+      <p>Browse the catalogue in a new tab, then return with its product link or SKU. We cannot verify approval or stock from this page.</p>
+      <label for="productRef">Midas product link or SKU <span aria-hidden="true">*</span></label>
+      <input id="productRef" autocomplete="off" placeholder="Paste a Midas product link or enter its SKU" maxlength="300" required>
+      <p class="hint">Original product photos remain the authority for shape, material, colour and construction. A prior generated picture is only a continuity guide.</p>
+      <div class="actions"><a class="quiet" href="https://midasfurniture.com" target="_blank" rel="noopener noreferrer">Open Midas catalogue ↗</a><button type="button" id="toRoom" class="primary">Continue to room</button></div>
+    </section>
+    <section class="step" id="roomStep" aria-labelledby="roomTitle" hidden>
+      <p class="eyebrow">STEP 02 / 03</p><h2 id="roomTitle">Your room sets the scene.</h2>
+      <p>Add one image of the room where you would consider the product. Your photo stays in this browser session and is not uploaded.</p>
+      <label for="roomFile">Room photo <span aria-hidden="true">*</span></label><input id="roomFile" type="file" accept="image/jpeg,image/png,image/webp" required>
+      <figure id="roomPreview" class="preview" hidden><img id="roomImage" alt="Your selected room photo"><figcaption id="roomCaption"></figcaption></figure>
+      <div class="field-grid"><div><label for="placement">Where should the product go?</label><textarea id="placement" rows="3" maxlength="500" placeholder="For example: along the far wall, clear of the door"></textarea></div><div><label for="roomLocks">What must stay unchanged?</label><textarea id="roomLocks" rows="3" maxlength="500" placeholder="For example: windows, doors, built-ins and existing furniture"></textarea></div></div>
+      <fieldset><legend>Room boundary</legend><label class="choice"><input type="radio" name="boundary" value="locked" checked> Keep the photographed room and camera view</label><label class="choice"><input type="radio" name="boundary" value="expand"> Propose an expansion beyond the photo edge, marked as an interpretation</label></fieldset>
+      <p class="hint">Photo-only dimensions are uncertain. Confirmed product dimensions and a room measurement would be needed to assess fit. Supporting pieces should prefer approved Midas products; none are selected or added here.</p>
+      <div class="actions"><button type="button" id="backProduct" class="quiet">Back to product</button><button type="button" id="toReview" class="primary">Review choices</button></div>
+    </section>
+    <section class="step" id="reviewStep" aria-labelledby="reviewTitle" hidden>
+      <p class="eyebrow">STEP 03 / 03</p><h2 id="reviewTitle">Review your idea.</h2>
+      <p>This is a request summary, not a generated room image or a product recommendation.</p>
+      <dl class="summary"><div><dt>Product reference</dt><dd id="reviewProduct"></dd></div><div><dt>Room photo</dt><dd id="reviewRoom"></dd></div><div><dt>Placement</dt><dd id="reviewPlacement"></dd></div><div><dt>Keep unchanged</dt><dd id="reviewLocks"></dd></div><div><dt>Room boundary</dt><dd id="reviewBoundary"></dd></div></dl>
+      <div class="notice"><h3>Preview and purchase are not connected</h3><p>Approved catalogue asset lookup, room rendering, fit checks, price, availability and a verified product purchase link need a consumer service. No image has been made and nothing has been sent.</p></div>
+      <div class="actions"><button type="button" id="backRoom" class="quiet">Edit room</button><a class="primary link-button" href="https://midasfurniture.com" target="_blank" rel="noopener noreferrer">Browse the Midas catalogue ↗</a></div>
+    </section>
+    <p id="pageStatus" class="page-status" role="status" aria-live="polite"></p>
+  </main>
+  <footer>VTON concept · Target fidelity and scoring require a calibrated benchmark before any visual result is described as accurate.</footer>
+</body>
+</html>

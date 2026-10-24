@@ -1,0 +1,31 @@
+# **Midas Virtual Studio: getting the source code out**
+
+First step before building the pipeline · 4 October 2026
+
+That changes the first step: **I can’t reach code that exists only inside a ChatGPT session, and I can’t deploy to its **chatgpt.site** hosting.** So before I build anything, the code has to come out into a place you own.
+
+This is worth doing regardless of who builds. Right now the only copy of the studio lives in a chat workspace, which is the situation the spec itself warns against.
+
+## **What I need from you**
+
+Ask that ChatGPT session to do one of these, whichever it supports:
+
+- **Push the project to a new private GitHub repository** under your account (preferred). Then tell me the repository name.
+
+- **Export the project as a zip.** Unzip it into a folder on your Mac and add that folder to this chat.
+
+I don’t know which export options that ChatGPT workspace offers, so it may only manage one of them, or neither.
+
+## **What happens next**
+
+- **If you get the code out:** I read it, confirm which pieces really exist (critic, repair logic, job ledger), and build the pipeline on top of them in that repository.
+
+- **If export isn’t possible:** tell me, and I’ll build the pipeline as a new standalone service in a new repository, using the spec and atlas as the blueprint. The existing site stays as it is, and its screens get pointed at the new service later. This is slower, because the pieces the atlas describes would be rewritten rather than reused.
+
+## **Coming up, not needed yet**
+
+- API keys for Magnific and OpenRouter, stored as secrets rather than pasted in chat.
+
+- A host that can run background jobs, since the current hosting may not.
+
+- A credit limit you approve before I run any paid test generations.

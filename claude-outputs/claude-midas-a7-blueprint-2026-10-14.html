@@ -1,0 +1,611 @@
+<title>Midas A7 Blueprint</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Playfair+Display:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--ink:#121111;--text:#363636;--muted:#606060;--page:#FFFFFF;--off:#F6F6F6;--soft:#F9F9F9;--line:#E9E9E9;--line2:#D1D1D1;
+--red:#B22020;--redbg:#FFF1F1;--gold:#F5CD6F;--goldbg:#FFF8E6;--ok:#2F6B3B;--okbg:#EEF6EF;--warn:#8A5A00;--warnbg:#FFF6E0;--blue:#24507A;--bluebg:#EEF3F8;
+--sans:"Nord","Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;--serif:"Playfair Display",Georgia,serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace;color-scheme:light}
+*{box-sizing:border-box}
+body{background:var(--page);color:var(--text);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+h1,h2{font-family:var(--serif);color:var(--ink);font-weight:600;letter-spacing:-.5px;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.1} h2{font-size:clamp(24px,3.4vw,32px);line-height:1.2}
+h3,h4{color:var(--ink);font-weight:600;margin:0;text-wrap:balance} h3{font-size:19px} h4{font-size:16px}
+p{margin:0} .muted{color:var(--muted)} .mono{font-family:var(--mono);font-size:.86em}
+a{color:var(--red)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+.top nav{max-width:1180px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));scrollbar-width:none}
+.top a{white-space:nowrap;text-decoration:none;color:var(--muted);font-size:13px;font-weight:500;padding:5px 11px;border-radius:30px}
+.top a:hover{color:var(--ink);background:var(--off)}
+.hero{padding-block:48px 28px;display:grid;gap:18px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);font-weight:600}
+.lede{font-size:17px;max-width:68ch;color:var(--text)}
+.status{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:12.5px;padding:4px 11px;border-radius:30px;border:1px solid var(--line2);background:var(--soft);color:var(--text)}
+.pill.red{border-color:#E7B9B9;background:var(--redbg);color:var(--red)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:6px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--page)}
+.kpi b{display:block;font:600 26px/1.15 var(--sans);color:var(--ink);font-variant-numeric:tabular-nums}
+.kpi span{font-size:13px;color:var(--muted)}
+section.block{padding-block:44px 8px;display:grid;gap:18px;scroll-margin-top:56px}
+.sub{max-width:72ch;color:var(--muted)}
+.callout{border-left:3px solid var(--red);background:var(--soft);padding:14px 18px;border-radius:0 8px 8px 0;max-width:80ch}
+.callout.gold{border-left-color:#D9A93A;background:var(--goldbg)}
+.diagram{margin:0;border:1px solid var(--line);border-radius:12px;background:var(--page);padding:14px;overflow-x:auto}
+.diagram pre{margin:0;min-width:min(100%,560px);background:transparent}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.grid2>*{min-width:0}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px 18px;background:var(--page);display:grid;gap:8px;align-content:start}
+.card ul,.card ol{margin:0;padding-left:18px} .card li{margin:3px 0}
+.lbl{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:720px}
+th{text-align:left;font-weight:600;color:var(--ink);background:var(--off);padding:9px 12px;border-bottom:1px solid var(--line2);font-size:12.5px}
+td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ph{font-size:12px;background:var(--bluebg);color:var(--blue);border-radius:30px;padding:2px 9px;white-space:nowrap}
+/* stages */
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters button{font:500 13px var(--sans);border:1px solid var(--line2);background:var(--page);color:var(--text);border-radius:30px;padding:6px 13px;cursor:pointer}
+.filters button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.stage{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.stage>header{display:flex;gap:14px;padding:16px 18px;background:var(--soft);border-bottom:1px solid var(--line)}
+.stage>header>div{min-width:0;display:grid;gap:3px}
+.scode{font:600 13px var(--mono);color:#fff;background:var(--ink);border-radius:8px;padding:6px 8px;height:fit-content}
+.grp{font-size:12.5px;color:var(--muted)}
+.step{border-top:1px solid var(--line)} .step:first-of-type{border-top:0}
+.step summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:34px minmax(0,190px) minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:12px 18px}
+.step summary::-webkit-details-marker{display:none}
+.step summary:hover{background:var(--soft)}
+.step[open] summary{background:var(--soft)}
+.sn{font:600 13px var(--mono);color:var(--red)} .st{font-weight:600;color:var(--ink)} .sd{color:var(--muted);font-size:14px}
+.badge{font-size:11.5px;font-weight:600;border-radius:30px;padding:2px 9px;white-space:nowrap}
+.b-has{background:var(--okbg);color:var(--ok)} .b-part{background:var(--warnbg);color:var(--warn)} .b-none{background:var(--redbg);color:var(--red)}
+.step dl{display:grid;grid-template-columns:110px minmax(0,1fr);gap:6px 14px;margin:0;padding:4px 18px 16px 64px;font-size:14px}
+.step dt{color:var(--muted);font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;padding-top:2px}
+.step dd{margin:0}
+.step.hide{display:none}
+/* stage strip */
+.strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.strip div{border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:4px;align-content:start;background:var(--page)}
+.strip b{font:600 12px var(--mono);color:var(--red)} .strip span{font-weight:600;color:var(--ink);font-size:14px;line-height:1.3} .strip small{color:var(--muted);font-size:12.5px;line-height:1.4}
+/* traces */
+.trace{border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:10px;border-top:3px solid var(--line2)}
+.t-ok{border-top-color:var(--ok)} .t-hold{border-top-color:var(--red)} .t-warn{border-top-color:#D9A93A}
+.ab{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.ab>div{background:var(--soft);border-radius:8px;padding:10px 12px;display:grid;gap:4px;min-width:0}
+.seq{font:12.5px/1.55 var(--mono);color:var(--ink);overflow-wrap:anywhere} .meta{font-size:12.5px;color:var(--muted)}
+.chain{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.chain li{display:flex;flex-direction:column;border:1px solid var(--line2);border-radius:8px;padding:5px 9px;font-size:12.5px;line-height:1.3;position:relative}
+.chain li b{font:600 12px var(--mono);color:var(--red)}
+.note{font-size:14px;color:var(--text)}
+/* cost */
+.seg{justify-self:start;display:inline-flex;border:1px solid var(--line2);border-radius:30px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{font:500 13px var(--sans);border:0;background:transparent;border-radius:30px;padding:6px 12px;cursor:pointer;color:var(--text)}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.bars{display:grid;gap:14px}
+.bjob{display:grid;gap:6px}
+.bjob h4{font-size:14px}
+.brow{display:grid;grid-template-columns:150px minmax(0,1fr) 70px;gap:10px;align-items:center;font-size:13px}
+.btrack{height:20px;background:var(--off);border-radius:5px;display:flex;overflow:hidden}
+.btrack i{display:block;height:100%}
+.bval{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;background:var(--c)}
+.cmp{display:grid;gap:10px}
+.cmp .brow{grid-template-columns:200px minmax(0,1fr) 70px}
+/* gaps */
+.gaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.gapcol{border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px;align-content:start;min-width:0}
+.gapcol h4{display:flex;justify-content:space-between;align-items:center}
+.cnt{font:600 12px var(--mono);background:var(--off);border-radius:30px;padding:2px 9px}
+.g-must{border-top:3px solid var(--red)} .g-should{border-top:3px solid #D9A93A} .g-later{border-top:3px solid var(--line2)}
+.gapcol ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:14px}
+.gapcol li{padding-bottom:10px;border-bottom:1px solid var(--line)} .gapcol li:last-child{border:0;padding:0}
+.decisions{counter-reset:d;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.decisions li{counter-increment:d;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.decisions li::before{content:counter(d);font:600 13px var(--mono);color:#fff;background:var(--red);border-radius:50%;width:24px;height:24px;display:grid;place-items:center}
+footer{border-top:1px solid var(--line);margin-top:48px;padding-top:20px;font-size:13px;color:var(--muted);display:grid;gap:6px}
+@media (max-width:860px){.strip{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){
+ .step summary{grid-template-columns:30px minmax(0,1fr);row-gap:2px} .step .sd{grid-column:2} .step .badge{grid-column:2;justify-self:start}
+ .step dl{grid-template-columns:1fr;padding:4px 16px 14px 16px} .step dt{padding-top:6px}
+ .brow,.cmp .brow{grid-template-columns:1fr 64px} .brow .btrack{grid-column:1/-1;grid-row:2}
+}
+</style>
+
+<div class="top"><nav aria-label="Sections">
+<a href="#answer">Answer</a><a href="#ab">A vs B</a><a href="#flow">Workflow</a><a href="#steps">21 steps</a><a href="#loops">Loops</a><a href="#traces">Traces</a><a href="#cases">Cases</a><a href="#portal">Client page</a><a href="#multi">Products &amp; rooms</a><a href="#models">Models</a><a href="#cost">Cost</a><a href="#gaps">A6 → A7</a><a href="#decide">Decisions</a>
+</nav></div>
+
+<div class="wrap">
+<header class="hero" id="answer">
+<p class="eyebrow">Midas Virtual Studio · design for pipeline A7 · 14 Oct 2026</p>
+<h1>A7: one controlled workflow, counts first</h1>
+<p class="lede">A7 keeps Architecture A: code decides the next stage and specialist models do the reading, planning, image making and checking. It closes the gap that let today's sectional sofa pass with fewer pieces than the product has. It adds the client page's missing inputs (several files, several outcomes, rooms, edits) and records the real cost of every job.</p>
+<div class="status"><span class="pill red">Design only. Nothing built in n8n.</span><span class="pill">No paid calls made for this page</span><span class="pill">Costs are estimates, not invoices</span><span class="pill">A6 stays published and unchanged</span></div>
+<div class="kpis">
+<div class="kpi"><b>6 · 21 · 5</b><span>stages · steps · loops</span></div>
+<div class="kpi"><b>6 / 14 / 1</b><span>steps in A6 · partly · missing</span></div>
+<div class="kpi"><b>$0.463</b><span>A7 estimate for today's job (A6: $0.668)</span></div>
+<div class="kpi"><b>+$0.109</b><span>each repair (new image + 3 checks)</span></div>
+</div>
+</header>
+
+<section class="block" id="ab">
+<h2>Controlled workflow or one agent</h2>
+<p class="sub">Both designs share six foundations: the original identity, a versioned contract, genuine Midas references, evidence-based review, bounded spend and a complete-package gate. They differ in who chooses the next action.</p>
+<div class="grid2">
+<div class="card"><p class="lbl">A · Surgical replacement · recommended for A7</p><h3>Code chooses; models perform</h3>
+<ul><li>Predictable steps, small prompts, cost bounds you can inspect, stable recovery.</li><li>The reviewer is a separate call, and in A7 a different model family from the planner.</li><li>Fits n8n: every step is a node or a small sub-workflow.</li><li>Risk: brittle on new kinds of input. A7 answers that with the Evidence loop: hold and ask, never guess.</li></ul></div>
+<div class="card"><p class="lbl">B · One agent with backend rules · not for now</p><h3>One agent does everything</h3>
+<ul><li>Better at ambiguous briefs and exploring compositions.</li><li>Reviews its own images. The source calls this "self-review" and says it is not independent.</li><li>More turns, longer context, harder to bound cost. It costs more in every control trace below.</li><li>Not built. The sources say a hybrid is "a result to earn through comparison".</li></ul></div>
+</div>
+<p class="callout"><b>Recommendation.</b> Build A7 as Architecture A. Try B, or an A/B hybrid for difficult compositions, only after the anchor set (step 18) shows it wins on false approvals and cost per accepted package.</p>
+</section>
+
+<section class="block" id="flow">
+<h2>The A7 workflow</h2>
+<p class="sub">Six stages hand one record to the next. Red hexagons are holds and reconciliation; gold rounded boxes are the owner's decisions. Repairs go back to stage 04, missing evidence goes back to stage 01, and nothing reaches the client as "Approved" without the owner.</p>
+<div class="strip"><div><b>01</b><span>Intake &amp; observe</span><small>Read every file and the request; record what is seen, what is supplied and what is unknown.</small></div><div><b>02</b><span>Compile scope</span><small>Choose the route, set what is locked and what may change, and stamp a versioned contract.</small></div><div><b>03</b><span>Retrieve &amp; style</span><small>Pick genuine Midas pieces and plan each image; the owner gives the first go.</small></div><div><b>04</b><span>Compile &amp; dispatch</span><small>Write each image request, choose the model, reserve the cost and make the image.</small></div><div><b>05</b><span>Critique &amp; correct</span><small>Check counts and identity first, style second; repair one defect at a time, at most twice.</small></div><div><b>06</b><span>Package &amp; release</span><small>Assemble every required output, record the owner&#x27;s decision and the cost.</small></div></div>
+<figure class="diagram"><pre class="mermaid" aria-label="A7 workflow with 21 steps, gates and loops">flowchart TD
+  IN([&quot;Client request + files&quot;]) --&gt; s1
+  subgraph S1[&quot;01 · Intake &amp; observe&quot;]
+    s1[&quot;1 Intent &amp; scope&quot;] --&gt; s2[&quot;2 Ingest files&quot;] --&gt; s3[&quot;3 Recognize pieces&quot;] --&gt; s4[&quot;4 Read signs&quot;] --&gt; s5[&quot;5 Unknowns + 2nd source count&quot;] --&gt; s6[&quot;6 Scene, sides, room&quot;]
+  end
+  s5 -- &quot;critical unknown&quot; --&gt; H1{{&quot;Hold: ask the client one question&quot;}}
+  H1 -- &quot;answer = brief v+1&quot; --&gt; s1
+  subgraph S2[&quot;02 · Compile scope&quot;]
+    s7[&quot;7 Route&quot;] --&gt; s8[&quot;8 Locks &amp; freedoms&quot;] --&gt; s9[&quot;9 Contract vN + conflicts&quot;]
+  end
+  s6 --&gt; s7
+  s9 -- &quot;critical conflict&quot; --&gt; H1
+  subgraph S3[&quot;03 · Retrieve &amp; style&quot;]
+    s10[&quot;10 Midas SKUs&quot;] --&gt; s11[&quot;11 Plan + plan check&quot;] --&gt; s12[&quot;12 Who leads the scene&quot;]
+  end
+  s9 --&gt; s10
+  s11 -- &quot;plan fails, max 2&quot; --&gt; s11
+  s12 --&gt; G1([&quot;Owner go 1&quot;])
+  subgraph S4[&quot;04 · Compile &amp; dispatch&quot;]
+    s13[&quot;13 Compile request&quot;] --&gt; s14[&quot;14 Model registry&quot;] --&gt; s15[&quot;15 Paid call, receipt, copy&quot;]
+  end
+  G1 --&gt; s13
+  s15 -- &quot;no receipt&quot; --&gt; R1{{&quot;Reconcile same request id&quot;}}
+  R1 -- &quot;receipt found&quot; --&gt; s16
+  subgraph S5[&quot;05 · Critique &amp; correct&quot;]
+    s16[&quot;16 Review + 2 blind counts + audit&quot;] --&gt; s17[&quot;17 Repair one defect&quot;]
+  end
+  s15 --&gt; s16
+  s17 -- &quot;repair ≤ 2&quot; --&gt; s13
+  s17 -- &quot;2 used&quot; --&gt; H2{{&quot;Hold output with reason&quot;}}
+  s16 -- &quot;white master passes&quot; --&gt; G2([&quot;Owner go 2&quot;]) --&gt; s13
+  subgraph S6[&quot;06 · Package &amp; release&quot;]
+    s20[&quot;20 Manifest + description&quot;] --&gt; OD([&quot;Owner decision&quot;]) --&gt; s21[&quot;21 Cost per accepted package&quot;]
+  end
+  s16 -- &quot;all outputs pass&quot; --&gt; s20
+  V[(&quot;19 Vault: every step writes here&quot;)]
+  B[&quot;18 Benchmark (offline)&quot;] -. &quot;updates registry&quot; .-&gt; s14
+  classDef hold fill:#FFF1F1,stroke:#B22020,color:#121111
+  classDef owner fill:#FFF8E6,stroke:#C9962A,color:#121111
+  class H1,H2,R1 hold
+  class G1,G2,OD owner
+</pre></figure>
+<h3>What each stage hands to the next</h3>
+<figure class="diagram"><pre class="mermaid" aria-label="Stage hand-offs">flowchart TD
+  A[&quot;01 Intake &amp; observe&quot;] -- &quot;Observation: typed facts, boxes, unknowns&quot; --&gt; B[&quot;02 Compile scope&quot;]
+  B -- &quot;Contract vN (stamped)&quot; --&gt; C[&quot;03 Retrieve &amp; style&quot;]
+  C -- &quot;Shortlist + scene plan per output&quot; --&gt; D[&quot;04 Compile &amp; dispatch&quot;]
+  D -- &quot;Candidate + receipt + hash&quot; --&gt; E[&quot;05 Critique &amp; correct&quot;]
+  E -- &quot;defect: repair order&quot; --&gt; D
+  E -- &quot;Reviewed candidates&quot; --&gt; F[&quot;06 Package &amp; release&quot;]
+  F -- &quot;Manifest or hold&quot; --&gt; O([&quot;Owner&quot;])
+  E -. &quot;missing evidence&quot; .-&gt; A
+  C -. &quot;plan breaks a lock&quot; .-&gt; B
+</pre></figure>
+</section>
+
+<section class="block" id="steps">
+<h2>The 21 steps</h2>
+<p class="sub">Every step with its input, output, how it runs, its model, its gate and its state in A6 today. The 21 are responsibilities, not 21 model calls: most are code, and several share one call. Open a step for detail.</p>
+<div class="filters" role="group" aria-label="Filter by state in A6">
+<button aria-pressed="true" data-f="all">All 21</button><button aria-pressed="false" data-f="none">Missing in A6 (1)</button><button aria-pressed="false" data-f="part">Partly in A6 (14)</button><button aria-pressed="false" data-f="has">In A6 (6)</button>
+</div>
+<section class="stage" id="stage-01">
+<header><span class="scode">01</span><div><h3>Intake &amp; observe</h3><p>Read every file and the request; record what is seen, what is supplied and what is unknown.</p><p class="grp">Steps 1 to 6 · group "Understand"</p></div></header>
+<details class="step" data-a6="part">
+<summary><span class="sn">01</span><span class="st">Intent &amp; scope</span><span class="sd">Turns the portal request into a versioned brief.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Portal request: Projects or Manual, start or job type, work-on, item role, outcomes (several allowed), view, proportions, resolution, number of images, preferences, suggestions, product facts (SKU, dimensions, colour, material), item inventory and exclusions, custom instructions, steering sliders, parent result for Edit or Variations.</dd>
+<dt>Output</dt><dd>Brief v1: requested and excluded pieces, allowed changes, the list of required outputs, parent link.</dd>
+<dt>How</dt><dd>Code checks every field. One small model call turns free-text instructions into structured locks.</dd>
+<dt>Model</dt><dd class="mono">gpt-6-luna</dd>
+<dt>Gate</dt><dd>A printed caption or an instruction never overrides the client&#x27;s stated count. An outcome that is not built is refused with a reason, never sent.</dd>
+<dt>A6 today</dt><dd>One outcome, one photo, free-text locks only; job type and work-on are fixed in code.</dd>
+</dl></details><details class="step" data-a6="part">
+<summary><span class="sn">02</span><span class="st">Eye · ingest</span><span class="sd">Reads and registers every file.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>All uploaded files with their role (product, room, inspiration, previous result, other views, specifications or Excel) and the Midas pieces picked in the portal.</dd>
+<dt>Output</dt><dd>Reference register: sha256, bytes, pixels, type, role and a permanent copy of each file; rows and text extracted from PDF, XLS and CSV.</dd>
+<dt>How</dt><dd>Code plus n8n file extraction. Files are copied to permanent storage before anything else runs.</dd>
+<dt>Model</dt><dd class="mono">none (code)</dd>
+<dt>Gate</dt><dd>A filename or a collage is never evidence of the inventory. A file without a role is held.</dd>
+<dt>A6 today</dt><dd>One photo; source checksum in the manifest; no permanent copy; no PDF or Excel.</dd>
+</dl></details><details class="step" data-a6="has">
+<summary><span class="sn">03</span><span class="st">Eye · recognize</span><span class="sd">Identifies the category, every piece and its function.</span><span class="badge b-has">In A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Product references and the client&#x27;s category.</dd>
+<dt>Output</dt><dd>Category; each piece with its count, box coordinates, seen-whole flag and role (product, excluded or context); alternatives kept when unsure.</dd>
+<dt>How</dt><dd>One structured vision call at temperature 0 that returns a box for every piece, so the count is the length of a list.</dd>
+<dt>Model</dt><dd class="mono">gemini-3.8-flash</dd>
+<dt>Gate</dt><dd>Inference is not specification. The client&#x27;s product type is final; a disagreement goes to the conflict list.</dd>
+<dt>A6 today</dt><dd>Done by gpt-4.1 without boxes.</dd>
+</dl></details><details class="step" data-a6="part">
+<summary><span class="sn">04</span><span class="st">Eye · interpret signs</span><span class="sd">Reads marks, insets, swatches and printed counts as evidence.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>The same images.</dd>
+<dt>Output</dt><dd>Selection map: crosses, arrows, insets, swatches, printed counts, open and closed states.</dd>
+<dt>How</dt><dd>Same call as step 3, then code applies the precedence: client statement, then printed label, then visual count. Every disagreement is recorded.</dd>
+<dt>Model</dt><dd class="mono">gemini-3.8-flash + code</dd>
+<dt>Gate</dt><dd>A crossed item is excluded. An inset is not an extra piece. A swatch is not an extra item.</dd>
+<dt>A6 today</dt><dd>Signals and printed counts are read; no precedence code.</dd>
+</dl></details><details class="step" data-a6="part">
+<summary><span class="sn">05</span><span class="st">Eye · preserve uncertainty</span><span class="sd">Separates facts by basis and stops on critical unknowns.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Steps 2 to 4.</dd>
+<dt>Output</dt><dd>Typed facts: observed, supplied, inferred, unknown, conflicted. A list of critical unknowns.</dd>
+<dt>How</dt><dd>Code, plus an independent count of the source photo by a second model family. If the two source counts differ, the count becomes a critical unknown.</dd>
+<dt>Model</dt><dd class="mono">claude-sonnet-5-5 (cross-check)</dd>
+<dt>Gate</dt><dd>A critical unknown holds the job and asks the client one question before any money is spent (Evidence loop).</dd>
+<dt>A6 today</dt><dd>Unknowns and one blocking question exist; no second count of the source.</dd>
+</dl></details><details class="step" data-a6="part">
+<summary><span class="sn">06</span><span class="st">Eye · scene &amp; time</span><span class="sd">Records relations, sided parts and room architecture.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Product references, room reference if any, parent result if any.</dd>
+<dt>Output</dt><dd>Set relations, sided parts, what rests on the product, room locks (walls, windows, camera) and the changes against a parent result.</dd>
+<dt>How</dt><dd>Product relations come from the step 3 call. A room reference gets its own structured call.</dd>
+<dt>Model</dt><dd class="mono">gemini-3.8-flash</dd>
+<dt>Gate</dt><dd>Boxes in 2D do not prove a 3D fit. Hidden geometry stays unknown.</dd>
+<dt>A6 today</dt><dd>Relations and sided parts exist; no room reference at all.</dd>
+</dl></details></section><section class="stage" id="stage-02">
+<header><span class="scode">02</span><div><h3>Compile scope</h3><p>Choose the route, set what is locked and what may change, and stamp a versioned contract.</p><p class="grp">Steps 7 to 9 · group "Decide"</p></div></header>
+<details class="step" data-a6="part">
+<summary><span class="sn">07</span><span class="st">Brain · route</span><span class="sd">Chooses the route for this item and these outputs.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Category, item role, input condition, outcomes, room, mode.</dd>
+<dt>Output</dt><dd>Profile and plan: which outputs, which gates (count, selection, colour hold), which models and the job budget.</dd>
+<dt>How</dt><dd>Code with the handling-profiles and gallery-template tables.</dd>
+<dt>Model</dt><dd class="mono">none (code)</dd>
+<dt>Gate</dt><dd>A profile is a set of parameters, not a separate workflow.</dd>
+<dt>A6 today</dt><dd>Handling profiles and templates exist; no gates per profile.</dd>
+</dl></details><details class="step" data-a6="part">
+<summary><span class="sn">08</span><span class="st">Brain · modes</span><span class="sd">Sets what is locked and what may change.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Steps 1 to 7.</dd>
+<dt>Output</dt><dd>Lock and variable matrix for each output: fidelity-locked (catalogue images, existing rooms) or creative-room.</dd>
+<dt>How</dt><dd>Code.</dd>
+<dt>Model</dt><dd class="mono">none (code)</dd>
+<dt>Gate</dt><dd>Creative freedom never changes the hero, the counts or a room lock.</dd>
+<dt>A6 today</dt><dd>Two modes exist; no room locks.</dd>
+</dl></details><details class="step" data-a6="has">
+<summary><span class="sn">09</span><span class="st">Brain · semantic grounding</span><span class="sd">Settles conflicts and stamps the contract.</span><span class="badge b-has">In A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Brief, facts and conflicts.</dd>
+<dt>Output</dt><dd>Contract version N: facts with their basis, conflict ledger, links from SKU to reference to claim, sha256 stamp, vault event.</dd>
+<dt>How</dt><dd>A cheap model classifies each conflict; code writes the ledger and stamps the contract.</dd>
+<dt>Model</dt><dd class="mono">gpt-6-luna</dd>
+<dt>Gate</dt><dd>A critical conflict holds before spending. A new brief version voids every plan and review made for the old one.</dd>
+<dt>A6 today</dt><dd>Conflict check, ledger and stamp exist; nothing voids old reviews when the brief changes.</dd>
+</dl></details></section><section class="stage" id="stage-03">
+<header><span class="scode">03</span><div><h3>Retrieve &amp; style</h3><p>Pick genuine Midas pieces and plan each image; the owner gives the first go.</p><p class="grp">Steps 10 to 12 · group "Style"</p></div></header>
+<details class="step" data-a6="part">
+<summary><span class="sn">10</span><span class="st">Stylist · retrieve</span><span class="sd">Finds genuine Midas supporting pieces.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Item role, palette, the client&#x27;s Midas picks, the catalogue table (SKU, image, dated facts, availability).</dd>
+<dt>Output</dt><dd>Shortlist with SKU, catalogue image and date; rejected pieces with reasons.</dd>
+<dt>How</dt><dd>Code filters the catalogue table. The client&#x27;s picks from the SKU picker are fixed choices.</dd>
+<dt>Model</dt><dd class="mono">none (code)</dd>
+<dt>Gate</dt><dd>Nothing is called a Midas product without its SKU and catalogue photo. Out-of-stock pieces are not offered.</dd>
+<dt>A6 today</dt><dd>Up to 12 candidates behind an on/off switch; no picker.</dd>
+</dl></details><details class="step" data-a6="has">
+<summary><span class="sn">11</span><span class="st">Stylist · compose</span><span class="sd">Plans every image and checks the plan.</span><span class="badge b-has">In A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Contract, shortlist, preferences, look reference.</dd>
+<dt>Output</dt><dd>Scene plan per output: setting, light, camera, arrangement, props. Up to 3 alternative boards for New Composition.</dd>
+<dt>How</dt><dd>One model plans; a model from another family checks the plan against the contract (counts, locks, a person never in front of the product). The client can ask to see the plan first.</dd>
+<dt>Model</dt><dd class="mono">gpt-6.1-sol + claude-sonnet-5-5</dd>
+<dt>Gate</dt><dd>The plan cannot change a count or a lock. The owner&#x27;s first go comes after this stage, before any paid image.</dd>
+<dt>A6 today</dt><dd>Planner, plan check and the first go exist; no boards and no client preview.</dd>
+</dl></details><details class="step" data-a6="part">
+<summary><span class="sn">12</span><span class="st">Stylist · reverse role</span><span class="sd">Decides what leads the scene.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Item role (hero, secondary, accessory-led).</dd>
+<dt>Output</dt><dd>Hero and support relation: furniture-led, accessory-led (Create with this item) or secondary.</dd>
+<dt>How</dt><dd>A parameter of the planner in step 11.</dd>
+<dt>Model</dt><dd class="mono">none (code)</dd>
+<dt>Gate</dt><dd>An accessory must do its job in the scene: bookends hold books, a box can be open and closed.</dd>
+<dt>A6 today</dt><dd>Accessory lead exists; no Secondary role.</dd>
+</dl></details></section><section class="stage" id="stage-04">
+<header><span class="scode">04</span><div><h3>Compile &amp; dispatch</h3><p>Write each image request, choose the model, reserve the cost and make the image.</p><p class="grp">Steps 13 to 15 · group "Generate"</p></div></header>
+<details class="step" data-a6="has">
+<summary><span class="sn">13</span><span class="st">Engine · compile</span><span class="sd">Writes the exact request for each image.</span><span class="badge b-has">In A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Plan, contract, reference register.</dd>
+<dt>Output</dt><dd>Per output: prompt, ordered references (vendor photo is always image 1), preserve list, frame.</dd>
+<dt>How</dt><dd>Code.</dd>
+<dt>Model</dt><dd class="mono">none (code)</dd>
+<dt>Gate</dt><dd>The white master uses neutral studio light only. A person may never stand in front of the product.</dd>
+<dt>A6 today</dt><dd>Exists; the client&#x27;s lighting choice leaks into the white master.</dd>
+</dl></details><details class="step" data-a6="part">
+<summary><span class="sn">14</span><span class="st">Engine · choose models</span><span class="sd">Picks the model for every call from a registry.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Model registry: id, capability, price and its date, results on the anchor set.</dd>
+<dt>Output</dt><dd>The model for each call, with the price date.</dd>
+<dt>How</dt><dd>Registry table. All images: gemini-nano-banana-2.1 at 2K. Reviewers come from a different family than the planner.</dd>
+<dt>Model</dt><dd class="mono">gemini-nano-banana-2.1</dd>
+<dt>Gate</dt><dd>A model enters the registry only after the Evaluation loop has run it on the anchor set.</dd>
+<dt>A6 today</dt><dd>A registry exists; two image models; no evidence column.</dd>
+</dl></details><details class="step" data-a6="part">
+<summary><span class="sn">15</span><span class="st">Operator · execute</span><span class="sd">Makes the paid call safely and keeps the result.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Compiled request, job budget, daily limit.</dd>
+<dt>Output</dt><dd>Operation record: key, claim, reserved cost, provider request id, receipt, actual usage and cost, permanent copy of the image.</dd>
+<dt>How</dt><dd>Operations table, daily limit and dispatch guard; retries only for errors that cost nothing.</dd>
+<dt>Model</dt><dd class="mono">provider API</dd>
+<dt>Gate</dt><dd>An uncertain receipt is reconciled by its request id. A second paid call is never made automatically.</dd>
+<dt>A6 today</dt><dd>Ledger, daily limit and receipts exist; no actual cost, no permanent copy, no reconcile path.</dd>
+</dl></details></section><section class="stage" id="stage-05">
+<header><span class="scode">05</span><div><h3>Critique &amp; correct</h3><p>Check counts and identity first, style second; repair one defect at a time, at most twice.</p><p class="grp">Steps 16 to 18 · group "Review"</p></div></header>
+<details class="step" data-a6="part">
+<summary><span class="sn">16</span><span class="st">Critique · assess</span><span class="sd">Checks every image against the original.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Candidate, vendor photo, contract, plan.</dd>
+<dt>Output</dt><dd>Review bound to the candidate hash, contract and plan with 7 checks and evidence; two blind counts; measured frame and white edge.</dd>
+<dt>How</dt><dd>Reviewer compares the two images. Two counters from two families count the pieces without being told the expected number; code compares both counts with the contract. A third family audits kept images, counts included; a final inspection compares the images with each other.</dd>
+<dt>Model</dt><dd class="mono">gpt-6.1-sol, gemini-3.8-flash, claude-sonnet-5-5</dd>
+<dt>Gate</dt><dd>A count mismatch, a disagreement between counters or an unclear count is a defect. Looks never outweigh a count. A close-up flags missing pieces when the whole product should be in view.</dd>
+<dt>A6 today</dt><dd>The reviewer is told the expected count; the audit does not count; close-ups only catch extra pieces.</dd>
+</dl></details><details class="step" data-a6="has">
+<summary><span class="sn">17</span><span class="st">Critique · repair</span><span class="sd">Fixes one named defect at a time.</span><span class="badge b-has">In A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Defects from step 16.</dd>
+<dt>Output</dt><dd>Repair order: one defect, target area, preserve list, references reset to the originals.</dd>
+<dt>How</dt><dd>Code controller. After each repair every lock is checked again, including areas the repair should not touch. The owner&#x27;s second go follows the white master.</dd>
+<dt>Model</dt><dd class="mono">none (code)</dd>
+<dt>Gate</dt><dd>A rejected image never becomes a reference. After two repairs the output is held with its reason.</dd>
+<dt>A6 today</dt><dd>Two-repair limit and repair plan exist; untouched areas are not explicitly re-checked.</dd>
+</dl></details><details class="step" data-a6="none">
+<summary><span class="sn">18</span><span class="st">Critique · benchmark</span><span class="sd">Measures the pipeline offline against owner-judged jobs.</span><span class="badge b-none">Not in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Frozen anchor set: owner-judged jobs with known counts (start with the 40 briefs and today&#x27;s three jobs).</dd>
+<dt>Output</dt><dd>False-approval rate, count accuracy per model, cost per accepted package.</dd>
+<dt>How</dt><dd>Evaluation loop, run outside live jobs when a model or a prompt changes, and monthly.</dd>
+<dt>Model</dt><dd class="mono">all review models</dd>
+<dt>Gate</dt><dd>No model or prompt change goes live without it. Scores are never presented as measurements.</dd>
+<dt>A6 today</dt><dd>Not built.</dd>
+</dl></details></section><section class="stage" id="stage-06">
+<header><span class="scode">06</span><div><h3>Package &amp; release</h3><p>Assemble every required output, record the owner&#x27;s decision and the cost.</p><p class="grp">Steps 19 to 21 · group "Record &amp; deliver"</p></div></header>
+<details class="step" data-a6="part">
+<summary><span class="sn">19</span><span class="st">Vault · memory</span><span class="sd">Keeps the record that survives everything.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Every step writes to it.</dd>
+<dt>Output</dt><dd>Project, job, item and output records; contract versions; parent links; saved spaces; append-only events.</dd>
+<dt>How</dt><dd>Data tables (projects, jobs, references, contracts, operations, reviews, packages, events) and a permanent asset store.</dd>
+<dt>Model</dt><dd class="mono">none (code)</dd>
+<dt>Gate</dt><dd>A chat or a browser history is never the record.</dd>
+<dt>A6 today</dt><dd>Runs, vault and operations tables exist; no projects or spaces; images live only on fal links.</dd>
+</dl></details><details class="step" data-a6="has">
+<summary><span class="sn">20</span><span class="st">Package &amp; release</span><span class="sd">Assembles the package and records the owner&#x27;s decision.</span><span class="badge b-has">In A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Reviewed outputs, required-output list.</dd>
+<dt>Output</dt><dd>Manifest: every required output reviewed and current, delivery files, checksums, description and metadata, hold reasons, owner decision.</dd>
+<dt>How</dt><dd>Code manifest and release gate; the owner decides in the page panel.</dd>
+<dt>Model</dt><dd class="mono">none (code)</dd>
+<dt>Gate</dt><dd>One good image is not a complete package. &#x27;Approved&#x27; appears only from the owner&#x27;s recorded decision.</dd>
+<dt>A6 today</dt><dd>Exists for one job at a time.</dd>
+</dl></details><details class="step" data-a6="part">
+<summary><span class="sn">21</span><span class="st">Business operator</span><span class="sd">Measures what each package really cost.</span><span class="badge b-part">Partly in A6</span></summary>
+<dl>
+<dt>Input</dt><dd>Receipts, repairs, owner time, timestamps.</dd>
+<dt>Output</dt><dd>Cost per job and per accepted package, repairs, owner minutes, median and slow-case time.</dd>
+<dt>How</dt><dd>Code from the receipts; a budget cap per job; a monthly report.</dd>
+<dt>Model</dt><dd class="mono">none (code)</dd>
+<dt>Gate</dt><dd>With no accepted package the cost per accepted package is undefined, not zero.</dd>
+<dt>A6 today</dt><dd>Counts paid calls; records no money.</dd>
+</dl></details></section>
+</section>
+
+<section class="block" id="loops">
+<h2>Five loops and when to build each</h2>
+<p class="sub">Each loop has a trigger, a limit and a stop. Four run inside a job; the Evaluation loop runs outside live jobs. All five follow the same correction rules: re-attach the original every time, repair only the named defect, check untouched areas again, reject new regressions, stop when evidence is missing or a limit is reached.</p>
+<div class="tw"><table class=""><thead><tr><th>Loop</th><th>Steps</th><th>Starts when</th><th>What it does</th><th>Limit</th><th>Build in</th></tr></thead><tbody><tr><td><b>Evidence loop</b></td><td>Steps 2 to 5, and 9</td><td>A critical unknown, two source counts that disagree, a colour swatch that conflicts with the photo.</td><td>Hold before any spend, ask the client one question or for one file, then resume as a new brief version.</td><td>No paid image until resolved. Hidden geometry stays unknown; nothing is rendered to answer a missing specification.</td><td><span class="ph">Phase 1</span></td></tr><tr><td><b>Styling loop</b></td><td>Steps 10 and 11</td><td>The plan check fails, or the job asks for alternatives (New Composition).</td><td>Re-plan against the contract; for New Composition compare up to 3 boards.</td><td>2 re-plans, then hold. The product never changes to make a scene work.</td><td><span class="ph">Phase 1 re-plan, phase 2 boards</span></td></tr><tr><td><b>Image loop</b></td><td>Steps 13 to 17</td><td>Any defect from step 16, counts first.</td><td>Repair one named defect with a preserve list, re-attach the originals, check every lock again.</td><td>2 repairs per output, then hold. A rejected image never becomes a reference.</td><td><span class="ph">Phase 1</span></td></tr><tr><td><b>Recovery loop</b></td><td>Step 15</td><td>No receipt, a timeout or an unclear provider status after a paid call.</td><td>Ask the provider about the same request id and record what it says.</td><td>Never a second paid call without proof the first never started. A confirmed failure keeps its charge.</td><td><span class="ph">Phase 1</span></td></tr><tr><td><b>Evaluation loop</b></td><td>Step 18, outside live jobs</td><td>A model or prompt change, or the monthly run.</td><td>Run the frozen anchor set, compare with owner verdicts, update the model registry.</td><td>No change goes live without it.</td><td><span class="ph">Phase 2 (collect anchors from now)</span></td></tr></tbody></table></div>
+<p class="callout gold"><b>The rule that holds every loop together:</b> "Passing a visual check produces a reviewed candidate; owner approval and complete package checks remain separate."</p>
+</section>
+
+<section class="block" id="traces">
+<h2>The four control scenarios, traced</h2>
+<p class="sub">States from the reference controller in the architecture files, run locally on 14 Oct with no network. Units are the controller's abstract cost units, not money. Below each, the same scenario as A7 steps.</p>
+<div class="grid2"><article class="trace t-ok"><h4>Defect repaired, package complete</h4>
+<div class="ab"><div><p class="lbl">A · controlled workflow</p><p class="seq">observed → planned → submitted → reviewing → repairable → submitted → reviewing → planned → submitted → reviewing → package → review_ready</p><p class="meta">12 states · 30 units</p></div>
+<div><p class="lbl">B · one agent + backend rules</p><p class="seq">Same, plus one self-inspection after the plan</p><p class="meta">13 states · 32 units</p></div></div>
+<p class="lbl">A7 path (step numbers)</p><ol class="chain"><li><b>1-12</b><span>Brief, observation, contract, plan</span></li><li><b>Go 1</b><span>owner</span></li><li><b>13-15</b><span>White master made</span></li><li><b>16</b><span>Count wrong: defect</span></li><li><b>17</b><span>Repair 1: count only</span></li><li><b>13-16</b><span>Re-made, all locks pass</span></li><li><b>Go 2</b><span>owner</span></li><li><b>13-16</b><span>Lifestyle images pass</span></li><li><b>19-20</b><span>Package complete</span></li><li><b>Owner</b><span>decision</span></li><li><b>21</b><span>Cost recorded</span></li></ol><p class="note">Ends as a reviewed package waiting for the owner. In B the same agent would also review its own image, which is not independent, and may pay for extra inspections.</p></article><article class="trace t-hold"><h4>Critical evidence missing</h4>
+<div class="ab"><div><p class="lbl">A · controlled workflow</p><p class="seq">observed → held</p><p class="meta">1 state · 0 spent</p></div>
+<div><p class="lbl">B · one agent + backend rules</p><p class="seq">observed → held</p><p class="meta">1 state · 0 spent</p></div></div>
+<p class="lbl">A7 path (step numbers)</p><ol class="chain"><li><b>1-4</b><span>Brief and observation</span></li><li><b>5</b><span>Critical unknown</span></li><li><b>Hold</b><span>no spend</span></li><li><b>Client</b><span>answers one question</span></li><li><b>1</b><span>Brief v2</span></li><li><b>2-12</b><span>Continues</span></li></ol><p class="note">Nothing is paid before the answer. In A6 this exists only as the blocking question; A7 adds the second source count, so a count disagreement also triggers it.</p></article><article class="trace t-warn"><h4>Provider receipt uncertain</h4>
+<div class="ab"><div><p class="lbl">A · controlled workflow</p><p class="seq">observed → planned → submitted → uncertain (10 units stay reserved)</p><p class="meta">4 states · 0 spent</p></div>
+<div><p class="lbl">B · one agent + backend rules</p><p class="seq">Same, plus one self-inspection</p><p class="meta">5 states · 2 spent</p></div></div>
+<p class="lbl">A7 path (step numbers)</p><ol class="chain"><li><b>13-15</b><span>Claim and reserve</span></li><li><b>15</b><span>No receipt</span></li><li><b>Reconcile</b><span>same request id</span></li><li><b>Receipt</b><span>found: continue to 16</span></li><li><b>Or</b><span>confirmed failure: charged, held</span></li></ol><p class="note">The reservation stays until the provider answers. A second paid call is never sent automatically.</p></article><article class="trace t-hold"><h4>Two repairs exhausted</h4>
+<div class="ab"><div><p class="lbl">A · controlled workflow</p><p class="seq">observed → planned → submitted → reviewing → repairable → submitted → reviewing → repairable → submitted → reviewing → held</p><p class="meta">11 states · 30 units</p></div>
+<div><p class="lbl">B · one agent + backend rules</p><p class="seq">Same, plus one self-inspection</p><p class="meta">12 states · 32 units</p></div></div>
+<p class="lbl">A7 path (step numbers)</p><ol class="chain"><li><b>16</b><span>Defect</span></li><li><b>17</b><span>Repair 1</span></li><li><b>16</b><span>Still wrong</span></li><li><b>17</b><span>Repair 2</span></li><li><b>16</b><span>Still wrong</span></li><li><b>Hold</b><span>output held</span></li><li><b>20</b><span>Package incomplete</span></li><li><b>Owner</b><span>new evidence or method</span></li></ol><p class="note">This is what the dining case did on 4 Oct: the count was fixed, the pedestal moved, the second repair did not restore it, and the image was held instead of paying a third time.</p></article></div>
+<h3>The responsibility that cannot disappear at deployment</h3>
+<div class="grid2">
+<div class="card"><p class="lbl">Brain → steps 7, 8, 9</p><p>Interpret the request, reconcile counts and conflicts, set the locks, choose the composition, plan the outputs.</p></div>
+<div class="card"><p class="lbl">Operator → steps 13, 14, 15, 21</p><p>Attach references, write and submit the request, choose the model, check status, keep candidates, export files, count cost.</p></div>
+<div class="card"><p class="lbl">Critique → steps 16, 17, 18</p><p>Compare originals and results, name defects, keep style separate from identity, pick repair targets, stop sequences that do not resolve.</p></div>
+<div class="card"><p class="lbl">What A7 must carry</p><p>In the case histories a person did these jobs in chat. A deployed pipeline needs the same inputs, saved decisions, evidence, rights to act and release rules, with no one in the chat.</p></div>
+</div>
+</section>
+
+<section class="block" id="cases">
+<h2>Real cases through A7</h2>
+<p class="sub">The four cases from the architecture files, plus today's run 362 for the sectional sofa (job cfdaefa8).</p>
+<div class="tw"><table class=""><thead><tr><th>Case</th><th>Input</th><th>A7 path (step numbers)</th><th>Result</th></tr></thead><tbody><tr><td><b>Twelve chairs · count and source conflict</b></td><td>Printed label says table + 12 chairs + 2 armchairs; the client means 12 in total.</td><td>4 precedence → 5 count locked at 12 → 16 first image shows 11 → 17 repair fixes the count but moves a pedestal → 16 regression → 17 second repair → hold.</td><td>Held. 4 image calls, 2 repairs.</td></tr><tr><td><b>Two chairs · exclusion mark</b></td><td>A large X over the table; the client asks for two chairs only.</td><td>4 X read as exclusion → 8 table locked out → 16 wide passes (2 chairs, 0 tables) → close-up invents a pattern → 17 one targeted repair → passes.</td><td>Review candidate. 3 image calls, 1 repair.</td></tr><tr><td><b>Terry textile · swatch conflict</b></td><td>The photo is rose-taupe; an inset swatch is olive; no colour code.</td><td>4 swatch is not an item → 5 colour conflict marked → 7 colour hold on the route → images made as provisional → 20 specification hold.</td><td>Provisional, not releasable. 2 image calls.</td></tr><tr><td><b>Bookends · accessory leads</b></td><td>Two different bookends; nothing else in the photo.</td><td>3 two pieces that differ → 12 accessory-led → 10 a Midas table supports them → 11 books between them → 16 function and count checked.</td><td>Review candidate. 2 image calls.</td></tr><tr><td><b>Sectional sofa · today&#x27;s run 362</b></td><td>Label: 4 armless + left arm + right arm + corner = 7.</td><td>A6: reviewer told 7, reported 7, passed. A7: two blind counters report about 5 → 16 count defect → 17 repair with the 7-piece preserve list.</td><td>In A6 marked ready for release; in A7 it would have been repaired or held.</td></tr></tbody></table></div>
+</section>
+
+<section class="block" id="portal">
+<h2>What the client page needs</h2>
+<div class="grid2">
+<div class="card"><p class="lbl">Projects tab</p><h3>Start by intent</h3><p>Four starts: <b>Product or collection</b>, <b>Existing room</b>, <b>New styled space</b>, <b>Saved project</b>. The workflow chooses the rest from the input, the category and the result asked for. Use it for a fast start.</p></div>
+<div class="card"><p class="lbl">Manual tab</p><h3>Start by job type</h3><p><b>New Project</b> (Batch or One by one), <b>Edit</b> (Choose from saving or New item), <b>Single item</b> (Hero or Secondary), then Item, Scope, Preferences and Suggestions. Use it for control over role, preferences and suggestions.</p></div>
+<div class="card"><p class="lbl">Same in both</p><ul><li>One backend path: A7 receives the same brief either way.</li><li>Same items, six reference roles, seven outcomes.</li><li>A project carries the department, the accepted direction and the original references.</li></ul></div>
+<div class="card"><p class="lbl">Different</p><ul><li>Rooms are explicit starts in Projects; Manual reaches them through Edit or a room reference.</li><li>Batch, One by one, Hero and Secondary exist only in Manual.</li><li>Preferences appear in Manual. Projects lets the workflow choose.</li><li>"New Project" is a Manual button; "Projects" is a tab. Keep both names, or rename one.</li></ul></div>
+</div>
+<h3>The nine "How choices combine" cases, mapped to A7</h3>
+<div class="tw"><table class=""><thead><tr><th>#</th><th>Case</th><th>Portal choice</th><th>A7 route and locks</th><th>Package</th><th>Key steps</th></tr></thead><tbody><tr><td>01</td><td><b>A 12-chair dining set</b></td><td>New Project › One by one › Dining Rooms › Lifestyle + Variations</td><td>Counted dining set; count gate 12; variations on light.</td><td>White master, daylight and evening scenes, whole-set view and details.</td><td><span class="mono">4 · 5 · 16</span></td></tr><tr><td>02</td><td><b>A five-seat modular corner</b></td><td>New Project › One by one › Living Rooms › New Composition + Website</td><td>Several photos are one item; 3 modules make 5 seats; set relations locked.</td><td>Composition with Midas tables, website set with wide and close views.</td><td><span class="mono">6 · 10 · 16</span></td></tr><tr><td>03</td><td><b>Two chairs, without the table</b></td><td>Single item › Hero › Dining Chairs › Lifestyle</td><td>Selection gate: include 2 chairs, exclude the table.</td><td>Lifestyle and a detail view.</td><td><span class="mono">4 · 8 · 16</span></td></tr><tr><td>04</td><td><b>An accessory as the starting point</b></td><td>Single item › Hero › accessory category › Create with this item</td><td>Accessory-led; Midas furniture supports it; function shown.</td><td>Main image, plus open and closed views for a box.</td><td><span class="mono">10 · 12 · 16</span></td></tr><tr><td>05</td><td><b>An accessory supporting a room</b></td><td>Single item › Secondary › Accessories › New Composition</td><td>Furniture-led scene; the accessory on a credible surface at true scale.</td><td>One composition.</td><td><span class="mono">11 · 12</span></td></tr><tr><td>06</td><td><b>Towels, bedding and textiles</b></td><td>New Project › One by one › textile category › Website</td><td>Swatches and repeats read as evidence; colour hold when they conflict.</td><td>Product in use and close-up.</td><td><span class="mono">4 · 5 · 7</span></td></tr><tr><td>07</td><td><b>Restyle an existing room</b></td><td>Edit › New item + room reference › Lifestyle</td><td>Room-locked: keep the architecture and camera, replace only the chosen pieces.</td><td>The client&#x27;s room with the new piece, same view.</td><td><span class="mono">6 · 8 · 16</span></td></tr><tr><td>08</td><td><b>A mixed vendor batch</b></td><td>New Project › Batch › Product or collection</td><td>One job per item or set, each with its own route and package.</td><td>One package per item.</td><td><span class="mono">1 · 19 · 21</span></td></tr><tr><td>09</td><td><b>Continue an accepted look</b></td><td>Edit › Choose from saving › Previous generation › Variations</td><td>Needs an owner-approved parent; carry its locks; vary only the chosen axis.</td><td>Variations of the accepted look.</td><td><span class="mono">1 · 9 · 19</span></td></tr></tbody></table></div>
+<h3>Chat box, refine and variations</h3>
+<div class="grid2">
+<div class="card"><p class="lbl">What the sources show</p><ul><li>The target client page has no chat box. Refinement is a form field ("Custom prompting") and the Variations outcome.</li><li>The arafat preview has one: six chips (Accessories, Spaces, Views, White background, Lighting, Variations). Each message makes a new version with its own cost confirmation. Variations need an approved parent.</li></ul></div>
+<div class="card"><p class="lbl">Effect on the workflow</p><ul><li>A message never edits an image in place. It creates a child job: brief v+1 linked to the parent, one changed axis, all other locks carried.</li><li>Old plans and reviews for that job are voided; the parent's results stay as history.</li><li>Cost and checks are the same as a new job. Free-text chat must pass step 1 like any instruction.</li></ul></div>
+<div class="card"><p class="lbl">What the client page needs</p><ul><li>Phase 2: a "Refine" panel on each result: the chips, one short note, a plan preview, then confirm.</li><li>Phase 3: a chat box on the same mechanism, once refine works.</li><li>No internal or provider names; "Generated image" labels; "Approved" only from the owner.</li></ul></div>
+</div>
+<figure class="diagram"><pre class="mermaid" aria-label="Refine or variation as a new version">sequenceDiagram
+  participant C as Client page
+  participant P as Pipeline (A7)
+  participant O as Owner
+  C-&gt;&gt;P: Chip or message on result X (one axis: light, view, accessories, room)
+  P-&gt;&gt;P: New brief v+1 linked to parent X, old plans and reviews voided
+  P--&gt;&gt;C: Plan preview and what stays locked
+  C-&gt;&gt;P: Confirm
+  P-&gt;&gt;O: Go 1 (plan)
+  O-&gt;&gt;P: go
+  P-&gt;&gt;P: Images, checks, at most 2 repairs each
+  P-&gt;&gt;O: Package for decision
+  O-&gt;&gt;P: approve or hold
+  P--&gt;&gt;C: Generated image, &quot;Approved&quot; only after the owner decision
+</pre></figure>
+</section>
+
+<section class="block" id="multi">
+<h2>Several products, rooms and spaces</h2>
+<div class="grid2">
+<div class="card"><p class="lbl">Several products</p><ul>
+<li><b>Several photos of one item are one item.</b> They are references with roles, not extra products.</li>
+<li><b>A batch is N jobs</b>, each with its own route, checks and package. A towel, a lamp and a dining set never share one image.</li>
+<li><b>One scene with several products</b> is New Composition: an inventory list with a count per item, and every item counted by the blind counters.</li>
+<li><b>Midas supporting pieces</b> come from the SKU picker or the catalogue table, each with its photo.</li>
+<li><b>"Multi-agent" in n8n</b> means parallel sub-workflow runs per item, one controller each, not agents talking to each other. A batch run splits items, runs them with a concurrency limit under the daily cap, then joins the packages.</li></ul></div>
+<div class="card"><p class="lbl">Existing rooms</p><ul>
+<li>The client uploads the room with the role <b>Room / target space</b>.</li>
+<li>Step 6 records room locks: walls, windows, floor, camera and objects that must stay.</li>
+<li>Step 8 allows changes only to the named pieces. Step 16 checks the room did not change.</li>
+<li>No room measurements: scale stays "not confirmed" unless the client gives dimensions.</li></ul></div>
+<div class="card"><p class="lbl">Creating and reusing a space</p><ul>
+<li><b>New styled space:</b> the client describes a room; A7 plans it around the required pieces. Output: a room image and the plan.</li>
+<li><b>Reuse:</b> today the only stated path is a previous generation or a saved project ("Reuse the accepted space").</li>
+<li><b>Proposal, not in any source:</b> a saved-spaces library per project. An owner-approved room image becomes a <span class="mono">target_room</span> reference other jobs can pick. Your decision.</li></ul></div>
+</div>
+<h3>How the records fit together</h3>
+<figure class="diagram"><pre class="mermaid" aria-label="Data model">erDiagram
+  PROJECT ||--o{ JOB : &quot;has (batch = N jobs)&quot;
+  PROJECT ||--o{ SPACE : &quot;keeps (proposal)&quot;
+  JOB ||--|{ REFERENCE : &quot;has, each with a role&quot;
+  JOB ||--|{ CONTRACT_VERSION : &quot;v1, v2 ...&quot;
+  JOB |o--o| JOB : &quot;parent of (edit, variation)&quot;
+  CONTRACT_VERSION ||--|{ OUTPUT : &quot;requires&quot;
+  OUTPUT ||--o{ OPERATION : &quot;paid calls&quot;
+  OPERATION ||--o| CANDIDATE : &quot;returns&quot;
+  CANDIDATE ||--o{ REVIEW : &quot;bound to hash + contract&quot;
+  JOB ||--o| PACKAGE : &quot;manifest&quot;
+  PACKAGE ||--o| OWNER_DECISION : &quot;approved or held&quot;
+  SPACE ||--o{ REFERENCE : &quot;reused as target_room&quot;
+</pre></figure>
+</section>
+
+<section class="block" id="models">
+<h2>Models</h2>
+<p class="sub">Your choices, with image generation fixed on <span class="mono">gemini-nano-banana-2.1</span>. Prices checked on 14 Oct 2026 from the providers' pricing pages.</p>
+<p class="callout"><b>A naming note.</b> There is no "Nano Banana Pro 2.1". The model id <span class="mono">gemini-nano-banana-2.1</span> is Google's "Nano Banana 2.1", the efficient tier, stable since 6 Oct 2026. "Nano Banana Pro" is a different model, <span class="mono">gemini-3-pro-image</span>, which A6 uses today through fal.ai. A7 uses 2.1 as you asked; check it on products with known piece counts before it replaces Pro on every job.</p>
+<div class="tw"><table class=""><thead><tr><th>Job</th><th>A6 today</th><th>A7</th><th>Price per 1M tokens (in / out)</th><th>Why</th></tr></thead><tbody><tr><td>Photo reading and signs (3, 4, 6)</td><td><span class="mono muted">gpt-4.1</span></td><td><span class="mono">gemini-3.8-flash</span></td><td>$0.75 / $3.75</td><td>Documented box output, so a count is a list length. Cheap. Price doubles on 1 Jan 2027.</td></tr><tr><td>Source count cross-check (5)</td><td><span class="mono muted">none</span></td><td><span class="mono">claude-sonnet-5-5</span></td><td>$2 / $10</td><td>A second family counts the source, so one model&#x27;s mistake cannot set the inventory alone.</td></tr><tr><td>Conflict check (9)</td><td><span class="mono muted">gpt-4.1</span></td><td><span class="mono">gpt-6-luna</span></td><td>$0.10 / $0.50</td><td>Short text classification; OpenAI&#x27;s named replacement for gpt-4.1.</td></tr><tr><td>Look reader</td><td><span class="mono muted">gpt-4.1</span></td><td><span class="mono">gemini-3.8-flash</span></td><td>$0.75 / $3.75</td><td>Reads an inspiration image into words.</td></tr><tr><td>Scene planning (11)</td><td><span class="mono muted">gpt-4.1</span></td><td><span class="mono">gpt-6.1-sol</span></td><td>$2 / $10</td><td>Planning with structured output.</td></tr><tr><td>Plan check (11)</td><td><span class="mono muted">gpt-4.1</span></td><td><span class="mono">claude-sonnet-5-5</span></td><td>$2 / $10</td><td>A different family from the planner, so it does not share its blind spots.</td></tr><tr><td>Review (16)</td><td><span class="mono muted">gpt-4.1</span></td><td><span class="mono">gpt-6.1-sol</span></td><td>$2 / $10</td><td>Compares the original and the candidate at high detail.</td></tr><tr><td>Blind counters (16)</td><td><span class="mono muted">none</span></td><td><span class="mono">gemini-3.8-flash + claude-sonnet-5-5</span></td><td>see above</td><td>Two families, neither told the expected number; code compares.</td></tr><tr><td>Audit (16)</td><td><span class="mono muted">gpt-4o</span></td><td><span class="mono">claude-sonnet-5-5</span></td><td>$2 / $10</td><td>Differs from the reviewer; now also counts.</td></tr><tr><td>Final inspection (16)</td><td><span class="mono muted">gpt-4o</span></td><td><span class="mono">gpt-6.1-sol</span></td><td>$2 / $10</td><td>Compares the images of one package with each other.</td></tr><tr><td>Description writer (20)</td><td><span class="mono muted">gpt-4.1</span></td><td><span class="mono">claude-sonnet-5-5</span></td><td>$2 / $10</td><td>Writes from recorded facts only.</td></tr><tr><td>Description check (20)</td><td><span class="mono muted">gpt-4o</span></td><td><span class="mono">gpt-6-luna</span></td><td>$0.10 / $0.50</td><td>Checks each statement has a source.</td></tr><tr><td>All images (13 to 15)</td><td><span class="mono muted">nano-banana-pro + flux-2-max (fal.ai)</span></td><td><span class="mono">gemini-nano-banana-2.1</span></td><td>$0.0504 per 2K output; ≈$0.064 per image with prompt, 2 references and assumed thinking (Google) · ≈$0.075 (fal.ai)</td><td>Your choice. Stable since 6 Oct 2026; up to 14 reference images. Google calls Pro “the premium choice” for accurate brand consistency, so run it on the anchor set before switching every job.</td></tr></tbody></table></div>
+<p class="sub">Reviewers and counters come from a different family than the planner, so one model's blind spot cannot pass its own work. OpenAI removes gpt-4.1 and gpt-4o from the API on 14 Jan 2027; A6 depends on both. Gemini 3.8 Flash prices double on 1 Jan 2027.</p>
+</section>
+
+<section class="block" id="cost">
+<h2>Cost per job</h2>
+<p class="sub">Estimated in USD. Token sizes come from the real calls of run 362, divided by four characters per token; n8n does not store token use. Excluded: the n8n plan, storage and the owner's time.</p>
+<div class="seg" role="group" aria-label="Price basis">
+<button aria-pressed="true" data-k="total">Google direct</button><button aria-pressed="false" data-k="total_fal">Through fal.ai</button><button aria-pressed="false" data-k="total_think3">Thinking ×3 (sensitivity)</button>
+</div>
+<div class="legend" id="legend"></div>
+<p class="sub" id="splitnote" hidden>The split by line is shown for Google direct only; this view shows totals.</p>
+<div class="bars" id="bars"></div>
+<div class="tw"><table id="costtable"><thead><tr><th>Job</th><th class="num">No correction</th><th class="num">1 repair per image</th><th class="num">2 repairs per image (maximum)</th></tr></thead><tbody></tbody></table></div>
+<h3>Today's job: A6 against A7</h3>
+<div class="cmp" id="cmp"></div>
+<p class="sub">Most of the difference is the image price: A6 pays a flat $0.20 for the Flux white image and $0.15 for each Nano Banana Pro image on fal.ai. A7 adds three checks per image (two blind counts and the counting audit) and still costs less. The cheaper image model is the reason, and its quality is not yet tested.</p>
+<details class="step"><summary><span class="sn">$</span><span class="st">Cost of each A7 call</span><span class="sd">Tokens in, tokens out, images attached</span><span class="badge b-part">Estimate</span></summary>
+<div class="tw" style="margin:0 18px 16px"><table><thead><tr><th>Step</th><th>Model</th><th class="num">Tokens in</th><th class="num">Tokens out</th><th class="num">Images</th><th class="num">USD</th></tr></thead><tbody><tr><td>Photo reading</td><td class="mono">gemini-3.8-flash</td><td class="num">1,740</td><td class="num">519</td><td class="num">1</td><td class="num">$0.0060</td></tr><tr><td>Source count cross-check</td><td class="mono">claude-sonnet-5-5</td><td class="num">900</td><td class="num">250</td><td class="num">1</td><td class="num">$0.0100</td></tr><tr><td>Conflict check</td><td class="mono">gpt-6-luna</td><td class="num">1,450</td><td class="num">38</td><td class="num">0</td><td class="num">$0.0002</td></tr><tr><td>Scene planning</td><td class="mono">gpt-6.1-sol</td><td class="num">2,707</td><td class="num">797</td><td class="num">0</td><td class="num">$0.0214</td></tr><tr><td>Plan check</td><td class="mono">claude-sonnet-5-5</td><td class="num">2,230</td><td class="num">934</td><td class="num">0</td><td class="num">$0.0231</td></tr><tr><td>Review</td><td class="mono">gpt-6.1-sol</td><td class="num">3,670</td><td class="num">806</td><td class="num">2</td><td class="num">$0.0315</td></tr><tr><td>Blind count a</td><td class="mono">gemini-3.8-flash</td><td class="num">700</td><td class="num">300</td><td class="num">1</td><td class="num">$0.0036</td></tr><tr><td>Blind count b</td><td class="mono">claude-sonnet-5-5</td><td class="num">700</td><td class="num">250</td><td class="num">1</td><td class="num">$0.0096</td></tr><tr><td>Audit with count</td><td class="mono">claude-sonnet-5-5</td><td class="num">1,236</td><td class="num">206</td><td class="num">2</td><td class="num">$0.0130</td></tr><tr><td>Final inspection</td><td class="mono">gpt-6.1-sol</td><td class="num">900</td><td class="num">250</td><td class="num">2</td><td class="num">$0.0148</td></tr><tr><td>Description writer</td><td class="mono">claude-sonnet-5-5</td><td class="num">1,114</td><td class="num">301</td><td class="num">0</td><td class="num">$0.0083</td></tr><tr><td>Description check</td><td class="mono">gpt-6-luna</td><td class="num">1,306</td><td class="num">32</td><td class="num">0</td><td class="num">$0.0002</td></tr></tbody></table></div></details>
+<div class="callout"><b>Assumptions.</b> Reasoning tokens equal the visible output (×1); the ×3 view shows the effect if they run three times higher. The image token count for gpt-6.1-sol is not published; 2,000 is assumed. An image costs about $0.064 on Google directly: $0.0504 for the 2K output plus the prompt, two references and about 1,000 thinking tokens. On fal.ai it is about $0.075. White BK adds background removal at $0.018. Real costs will come from receipts once step 15 records them.</div>
+</section>
+
+<section class="block" id="gaps">
+<h2>What A6 is missing</h2>
+<p class="sub">Everything A7 needs that A6 lacks today, with the A7 step that fixes it.</p>
+<div class="gaps"><div class="gapcol g-must"><h4>Must <span class="cnt">11</span></h4><ul><li><b>Blind piece count by two model families, compared in code</b> <span class="mono muted">step 16</span><br><span class="muted">A6: Today&#x27;s sectional passed with about 5 of 7 pieces.</span></li><li><b>Audit counts too; close-ups catch missing pieces</b> <span class="mono muted">step 16</span><br><span class="muted">A6: The audit has no count check.</span></li><li><b>Several references per item, each with a role (product, room, inspiration, previous result, other views, specs)</b> <span class="mono muted">step 1 · 2</span><br><span class="muted">A6: One photo only.</span></li><li><b>Several outcomes per request (White BK + Lifestyle + Website)</b> <span class="mono muted">step 1 · 7</span><br><span class="muted">A6: One outcome per request.</span></li><li><b>Structured inventory, exclusions, SKU and dimensions</b> <span class="mono muted">step 1 · 5</span><br><span class="muted">A6: Free-text locks only.</span></li><li><b>Permanent copy of every source and output</b> <span class="mono muted">step 2 · 15 · 19</span><br><span class="muted">A6: fal.media links can expire.</span></li><li><b>Actual cost from each receipt; cost per job and per accepted package</b> <span class="mono muted">step 15 · 21</span><br><span class="muted">A6: Only counts of paid calls.</span></li><li><b>Reconcile an uncertain receipt by request id</b> <span class="mono muted">step 15</span><br><span class="muted">A6: No reconcile path.</span></li><li><b>White master in neutral light; a person never in front of the product</b> <span class="mono muted">step 13</span><br><span class="muted">A6: Found in run 325 and 339 plans.</span></li><li><b>Move off gpt-4.1 and gpt-4o</b> <span class="mono muted">step 14</span><br><span class="muted">A6: OpenAI removes both from the API on 14 Jan 2027.</span></li><li><b>Hide run data; change both keys after</b> <span class="mono muted">step 19</span><br><span class="muted">A6: Keys are stored in run records.</span></li></ul></div><div class="gapcol g-should"><h4>Should <span class="cnt">7</span></h4><ul><li><b>Projects tab with its four starts; Manual job types Edit, Single item and Batch</b> <span class="mono muted">step 1</span><br><span class="muted">A6: Job type fixed in code.</span></li><li><b>Existing room as an input with room locks</b> <span class="mono muted">step 6 · 8</span><br><span class="muted">A6: No room reference.</span></li><li><b>Variations and Request a change as a new brief version with a parent</b> <span class="mono muted">step 1 · 9 · 19</span><br><span class="muted">A6: Request a change only reopens the form.</span></li><li><b>Midas SKU picker in the portal</b> <span class="mono muted">step 10</span><br><span class="muted">A6: On/off switch only.</span></li><li><b>A brief change voids old plans and reviews</b> <span class="mono muted">step 9</span><br><span class="muted">A6: Not enforced.</span></li><li><b>Client-safe text on decision, batch and file replies; CORS limited to the portal</b> <span class="mono muted">step 20</span><br><span class="muted">A6: Internal text and CORS * remain.</span></li><li><b>Anchor set and evaluation loop</b> <span class="mono muted">step 18</span><br><span class="muted">A6: Not built.</span></li></ul></div><div class="gapcol g-later"><h4>Later <span class="cnt">4</span></h4><ul><li><b>Refine panel with chips, then a chat box on the same mechanism</b> <span class="mono muted">step 1 · 9</span><br><span class="muted">A6: Only on the arafat preview site.</span></li><li><b>Saved spaces library per project</b> <span class="mono muted">step 19</span><br><span class="muted">A6: No source describes one yet; proposal.</span></li><li><b>Up to 3 boards for New Composition; client sees the plan first</b> <span class="mono muted">step 11</span><br><span class="muted">A6: Single plan; owner-only preview.</span></li><li><b>Arabic copy after native review</b> <span class="mono muted">step portal</span><br><span class="muted">A6: English only.</span></li></ul></div></div>
+</section>
+
+<section class="block" id="decide">
+<h2>Build order and your decisions</h2>
+<div class="grid2">
+<div class="card"><p class="lbl">Phase 1 · the core</p><p>Count gates, structured intake (several references, outcomes, inventory), permanent copies, cost from receipts, reconcile path, neutral white master, new models, Evidence loop. Built as a new numbered pipeline, <span class="mono">Claude · Midas A7</span>, with its own addresses, run log and <span class="mono">claude-midas-a7-</span> run ids. Tested with pinned data first.</p></div>
+<div class="card"><p class="lbl">Phase 2 · the client page</p><p>Projects tab, rooms, Edit and Variations as child jobs, Refine panel, SKU picker, client-safe replies, anchor set and Evaluation loop.</p></div>
+<div class="card"><p class="lbl">Phase 3 · later</p><p>Chat box, saved-spaces library, three boards for New Composition, client plan preview, Arabic copy after a native review.</p></div>
+</div>
+<ol class="decisions">
+<li><div><b>Approve this design</b> as the scope of phase 1, or tell me what to change.</div></li>
+<li><div><b>Image model test.</b> A paid test on products with known piece counts, Nano Banana 2.1 against Pro. It needs your word in that message and a budget, for example 10 products.</div></li>
+<li><div><b>Google direct or fal.ai for images.</b> Google is about 15% cheaper per image (about 7% per job) but needs a new Gemini key saved in n8n. fal.ai already has a key.</div></li>
+<li><div><b>Permanent storage</b> for sources and outputs. Pick the store; the fal.ai links can expire.</div></li>
+<li><div><b>Show cost to the client?</b> The arafat preview shows a credit estimate before each version. The client page shows none today.</div></li>
+<li><div><b>Saved spaces and the chat box:</b> keep them in phase 3, move them earlier, or drop them.</div></li>
+<li><div><b>Still open from before:</b> hide run data and change both keys; fix the owner key in n8n; client-safe replies; limit CORS to the portal; the daily cap; permanent storage.</div></li>
+</ol>
+</section>
+
+<footer>
+<p><b>Sources:</b> the studio-architectures and workflow-pipelines pages and their files (two-architectures.txt, framework.json, coverage.json, controller.mjs, cases), the client-first-page and its guide, and the arafat studio preview, all read on 14 Oct 2026. A6 in n8n: workflow FPAF0QHltl8iIcdZ, version b1b0f696, run 362. Prices: ai.google.dev pricing and the gemini-nano-banana-2.1 model page (updated 6 Oct 2026), developers.openai.com pricing, fal.ai model pages, Anthropic pricing.</p>
+<p>Scores in any review are model judgements, not measurements. The 90 to 95 fidelity target is not achieved by A6 or by this design. A passed review is a reviewed candidate, not an approval.</p>
+</footer>
+</div>
+
+<script>
+const COST = {"jobs": ["White BK, 1 image", "Lifestyle, 2 images + white master", "Website package, 4 images", "Lifestyle + Website, 1 master + 2 + 3"], "rows": {"White BK, 1 image": [{"job": "White BK, 1 image", "outcome": "White BK", "images": 1, "repairs": 0, "case": "no correction", "lines": {"Fixed: read, check and plan the job": 0.0607, "Images made": 0.0819, "Checks on every image made": 0.0447, "Audit and final inspection of kept images": 0.013, "Description and its check": 0.0084}, "total": 0.2087, "total_fal": 0.2197, "total_think3": 0.2858}, {"job": "White BK, 1 image", "outcome": "White BK", "images": 1, "repairs": 1, "case": "one repair per image", "lines": {"Fixed: read, check and plan the job": 0.0607, "Images made": 0.1638, "Checks on every image made": 0.0894, "Audit and final inspection of kept images": 0.013, "Description and its check": 0.0084}, "total": 0.3352, "total_fal": 0.3573, "total_think3": 0.4357}, {"job": "White BK, 1 image", "outcome": "White BK", "images": 1, "repairs": 2, "case": "two repairs per image (maximum)", "lines": {"Fixed: read, check and plan the job": 0.0607, "Images made": 0.2457, "Checks on every image made": 0.134, "Audit and final inspection of kept images": 0.013, "Description and its check": 0.0084}, "total": 0.4618, "total_fal": 0.4949, "total_think3": 0.5856}], "Lifestyle, 2 images + white master": [{"job": "Lifestyle, 2 images + white master", "outcome": "Lifestyle", "images": 3, "repairs": 0, "case": "no correction", "lines": {"Fixed: read, check and plan the job": 0.0607, "Images made": 0.1917, "Checks on every image made": 0.134, "Audit and final inspection of kept images": 0.0686, "Description and its check": 0.0084}, "total": 0.4634, "total_fal": 0.4965, "total_think3": 0.6055}, {"job": "Lifestyle, 2 images + white master", "outcome": "Lifestyle", "images": 3, "repairs": 3, "case": "one repair per image", "lines": {"Fixed: read, check and plan the job": 0.0607, "Images made": 0.3833, "Checks on every image made": 0.2681, "Audit and final inspection of kept images": 0.0686, "Description and its check": 0.0084}, "total": 0.7891, "total_fal": 0.8552, "total_think3": 1.0012}, {"job": "Lifestyle, 2 images + white master", "outcome": "Lifestyle", "images": 3, "repairs": 6, "case": "two repairs per image (maximum)", "lines": {"Fixed: read, check and plan the job": 0.0607, "Images made": 0.575, "Checks on every image made": 0.4021, "Audit and final inspection of kept images": 0.0686, "Description and its check": 0.0084}, "total": 1.1147, "total_fal": 1.214, "total_think3": 1.397}], "Website package, 4 images": [{"job": "Website package, 4 images", "outcome": "Website", "images": 4, "repairs": 0, "case": "no correction", "lines": {"Fixed: read, check and plan the job": 0.0607, "Images made": 0.2555, "Checks on every image made": 0.1787, "Audit and final inspection of kept images": 0.0964, "Description and its check": 0.0084}, "total": 0.5997, "total_fal": 0.6438, "total_think3": 0.7743}, {"job": "Website package, 4 images", "outcome": "Website", "images": 4, "repairs": 4, "case": "one repair per image", "lines": {"Fixed: read, check and plan the job": 0.0607, "Images made": 0.5111, "Checks on every image made": 0.3574, "Audit and final inspection of kept images": 0.0964, "Description and its check": 0.0084}, "total": 1.034, "total_fal": 1.1222, "total_think3": 1.302}, {"job": "Website package, 4 images", "outcome": "Website", "images": 4, "repairs": 8, "case": "two repairs per image (maximum)", "lines": {"Fixed: read, check and plan the job": 0.0607, "Images made": 0.7666, "Checks on every image made": 0.5361, "Audit and final inspection of kept images": 0.0964, "Description and its check": 0.0084}, "total": 1.4682, "total_fal": 1.6005, "total_think3": 1.8297}], "Lifestyle + Website, 1 master + 2 + 3": [{"job": "Lifestyle + Website, 1 master + 2 + 3", "outcome": "Lifestyle + Website", "images": 6, "repairs": 0, "case": "no correction", "lines": {"Fixed: read, check and plan the job": 0.0607, "Images made": 0.3833, "Checks on every image made": 0.2681, "Audit and final inspection of kept images": 0.152, "Description and its check": 0.0084}, "total": 0.8724, "total_fal": 0.9386, "total_think3": 1.112}, {"job": "Lifestyle + Website, 1 master + 2 + 3", "outcome": "Lifestyle + Website", "images": 6, "repairs": 6, "case": "one repair per image", "lines": {"Fixed: read, check and plan the job": 0.0607, "Images made": 0.7666, "Checks on every image made": 0.5361, "Audit and final inspection of kept images": 0.152, "Description and its check": 0.0084}, "total": 1.5238, "total_fal": 1.6561, "total_think3": 1.9036}, {"job": "Lifestyle + Website, 1 master + 2 + 3", "outcome": "Lifestyle + Website", "images": 6, "repairs": 12, "case": "two repairs per image (maximum)", "lines": {"Fixed: read, check and plan the job": 0.0607, "Images made": 1.1499, "Checks on every image made": 0.8042, "Audit and final inspection of kept images": 0.152, "Description and its check": 0.0084}, "total": 2.1752, "total_fal": 2.3736, "total_think3": 2.6951}]}, "keys": ["Fixed: read, check and plan the job", "Images made", "Checks on every image made", "Audit and final inspection of kept images", "Description and its check"], "a6": {"lines": {"Fixed: read, check and plan the job": 0.0544, "Images made": 0.5, "Checks on every image made": 0.0699, "Audit and final inspection of kept images": 0.0331, "Description and its check": 0.0109}, "total": 0.6683}, "a7": 0.4634, "per_repair": 0.1086};
+const COLORS = ["#121111","#B22020","#D9A93A","#24507A","#8A8A8A"];
+const CASES = ["no correction","one repair per image","two repairs per image (maximum)"];
+let key = "total";
+const $ = s => document.querySelector(s);
+function legend(){ $("#legend").innerHTML = COST.keys.map((k,i)=>`<span style="--c:${COLORS[i]}">${k}</span>`).join(""); }
+function draw(){
+  const all = COST.jobs.flatMap(j=>COST.rows[j].map(r=>r[key]));
+  const max = Math.max(...all, COST.a6.total) * 1.02;
+  $("#bars").innerHTML = COST.jobs.map(j => `<div class="bjob"><h4>${j}</h4>` + COST.rows[j].map(r => {
+      const segs = key==="total" ? COST.keys.map((k,i)=>`<i title="${k}: $${r.lines[k].toFixed(3)}" style="width:${(r.lines[k]/max*100).toFixed(2)}%;background:${COLORS[i]}"></i>`).join("")
+                                 : `<i style="width:${(r[key]/max*100).toFixed(2)}%;background:#5A5656"></i>`;
+      return `<div class="brow"><span>${r.case.replace(" (maximum)"," (max)")}</span><div class="btrack" role="img" aria-label="${j}, ${r.case}: $${r[key].toFixed(3)}">${segs}</div><span class="bval">$${r[key].toFixed(3)}</span></div>`;
+  }).join("") + `</div>`).join("");
+  $("#costtable tbody").innerHTML = COST.jobs.map(j => `<tr><td>${j}</td>` + CASES.map(c => {
+      const r = COST.rows[j].find(x=>x.case===c); return `<td class="num">$${r[key].toFixed(3)}</td>`; }).join("") + `</tr>`).join("");
+  const a7 = COST.rows[COST.jobs[1]].find(x=>x.case===CASES[0]);
+  const row = (label, lines, total) => `<div class="brow"><span>${label}</span><div class="btrack">${COST.keys.map((k,i)=>`<i title="${k}: $${(lines[k]||0).toFixed(3)}" style="width:${((lines[k]||0)/max*100).toFixed(2)}%;background:${COLORS[i]}"></i>`).join("")}</div><span class="bval">$${total.toFixed(3)}</span></div>`;
+  const a7row = key==="total" ? row("A7, same job, no repair", a7.lines, a7.total)
+     : `<div class="brow"><span>A7, same job, no repair</span><div class="btrack"><i style="width:${(a7[key]/max*100).toFixed(2)}%;background:#5A5656"></i></div><span class="bval">$${a7[key].toFixed(3)}</span></div>`;
+  $("#cmp").innerHTML = row("A6 run 362 (fal.ai, as run)", COST.a6.lines, COST.a6.total) + a7row;
+  $("#legend").hidden = false; $("#splitnote").hidden = key==="total";
+}
+document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".seg button").forEach(x=>x.setAttribute("aria-pressed", x===b)); key = b.dataset.k; draw(); }));
+document.querySelectorAll(".filters button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".filters button").forEach(x=>x.setAttribute("aria-pressed", x===b));
+  const f = b.dataset.f; document.querySelectorAll("#steps .step").forEach(s => s.classList.toggle("hide", f!=="all" && s.dataset.a6!==f)); }));
+legend(); draw();
+</script>

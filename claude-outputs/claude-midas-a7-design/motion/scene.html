@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A7 Revision Motion</title>
+<style>
+@font-face{font-family:"Playfair Display";font-weight:400;font-style:normal;src:url(node_modules/@fontsource/playfair-display/files/playfair-display-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Playfair Display";font-weight:400;font-style:italic;src:url(node_modules/@fontsource/playfair-display/files/playfair-display-latin-400-italic.woff2) format("woff2")}
+@font-face{font-family:"Playfair Display";font-weight:700;font-style:normal;src:url(node_modules/@fontsource/playfair-display/files/playfair-display-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Manrope";font-weight:400;src:url(node_modules/@fontsource/manrope/files/manrope-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Manrope";font-weight:600;src:url(node_modules/@fontsource/manrope/files/manrope-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Space Grotesk";font-weight:500;src:url(node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-500-normal.woff2) format("woff2")}
+:root{
+  --ink:#121111;--page:#FFFFFF;--off:#F6F6F6;--muted:#606060;--soft:#747474;
+  --line:#E9E9E9;--line2:#D1D1D1;--red:#B22020;--redbg:#FFBABA;--gold:#F5CD6F;
+  --disp:"Playfair Display",Georgia,serif;--body:Manrope,system-ui,sans-serif;--label:"Space Grotesk",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--page);color:var(--ink);-webkit-font-smoothing:antialiased}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--page)}
+svg#g{position:absolute;inset:0}
+.abs{position:absolute}
+.w{display:inline-block;will-change:transform}
+.line{overflow:hidden;display:block;padding-bottom:.12em}
+.kick{font-family:var(--label);font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--red);font-size:20px}
+.disp{font-family:var(--disp)}
+.it{font-style:italic}
+.pill{white-space:nowrap;font-family:var(--label);font-weight:500;font-size:19px;border:1.5px solid var(--ink);border-radius:30px;padding:8px 18px;display:inline-flex;gap:10px;align-items:center;background:#fff}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--gold)}
+.tok{font-family:var(--label);font-weight:500;font-size:19px;border-radius:30px;padding:9px 18px;white-space:nowrap;transform:translate(-50%,-50%);display:flex;gap:8px;align-items:center}
+.tok.f{background:var(--ink);color:#fff}
+.tok.r{background:#fff;color:var(--ink);border:1.5px dashed var(--ink)}
+.chip{font-family:var(--label);font-weight:500;font-size:18px;border:1.5px solid var(--line2);border-radius:30px;padding:7px 15px;background:#fff;transform:translate(-50%,-50%);white-space:nowrap}
+.card{font-family:var(--label);font-weight:500;font-size:19px;background:#fff;border:1.5px solid var(--ink);border-radius:10px;padding:10px 16px;transform:translate(-50%,-50%);white-space:nowrap}
+.nlabel{font-family:var(--label);font-weight:500;font-size:22px;letter-spacing:.02em;transform:translateX(-50%);white-space:nowrap;text-align:center}
+.cap-main{font-family:var(--disp);font-size:60px;line-height:1.08;letter-spacing:-1px}
+.cap-sub{font-family:var(--body);font-size:28px;color:var(--muted);margin-top:14px}
+.num{font-variant-numeric:lining-nums;font-family:var(--disp);font-size:150px;line-height:1;letter-spacing:-4px;width:200px;height:150px;overflow:hidden}
+.small{font-family:var(--body);font-size:20px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div id="root">
+  <svg id="g" width="1920" height="1080" viewBox="0 0 1920 1080">
+    <defs>
+      <pattern id="dots" width="48" height="48" patternUnits="userSpaceOnUse">
+        <circle cx="2" cy="2" r="1.6" fill="#E6E6E6"/>
+      </pattern>
+    </defs>
+    <rect id="grid" x="-96" y="-96" width="2112" height="1272" fill="url(#dots)"/>
+    <text id="bigA7" x="1960" y="1010" text-anchor="end" font-family="Playfair Display" font-style="italic" font-size="720" fill="#F6F6F6">A7</text>
+    <line id="goldline" x1="160" y1="300" x2="1760" y2="300" stroke="#F5CD6F" stroke-width="3"/>
+    <g id="arcs"></g>
+    <g id="loops"></g>
+    <g id="nodes"></g>
+    <g id="fx"></g>
+    <g id="rail"></g>
+  </svg>
+  <div id="html"></div>
+</div>
+<script>
+// ---------- math ----------
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const lerp=(a,b,p)=>a+(b-a)*p;
+const eOut=p=>1-Math.pow(1-p,4);
+const eIO=p=>p<.5?8*p*p*p*p:1-Math.pow(-2*p+2,4)/2;
+const eExpo=p=>p>=1?1:1-Math.pow(2,-10*p);
+// closed-form damped spring, 0 -> 1
+function spring(t,zeta=.55,w=13){ if(t<=0)return 0; const wd=w*Math.sqrt(1-zeta*zeta);
+  return 1-Math.exp(-zeta*w*t)*(Math.cos(wd*t)+(zeta*w/wd)*Math.sin(wd*t)); }
+const NS="http://www.w3.org/2000/svg";
+function S(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);(parent||document.getElementById('g')).appendChild(e);return e;}
+function H(html,cls,parent){const d=document.createElement('div');d.className='abs '+(cls||'');d.innerHTML=html;(parent||document.getElementById('html')).appendChild(d);return d;}
+function words(el){ // wrap words of every .line in spans
+  el.querySelectorAll('.line').forEach(l=>{l.innerHTML=l.textContent.split(' ').map(w=>`<span class="w">${w}</span>`).join(' ');});
+  return [...el.querySelectorAll('.w')];
+}
+function revealWords(ws,t,start,stagger=.06,outAt=1e9,outDur=.45){
+  ws.forEach((w,i)=>{
+    const pi=spring(t-start-i*stagger,.75,11);
+    const po=eIO(seg(t,outAt+i*.02,outAt+outDur+i*.02));
+    const y=(1-pi)*110 - po*110; const o=clamp(pi*1.4)*(1-po);
+    w.style.transform=`translateY(${y}%)`; w.style.opacity=o;
+  });
+}
+
+// ---------- layout ----------
+const NY=410, R=80;
+const N={client:{x:400,y:NY,label:'Client page'},pipe:{x:960,y:NY,label:'Pipeline (A7)'},owner:{x:1520,y:NY,label:'Owner'}};
+
+// ---------- timeline ----------
+const T_STAGE=4.4;
+const DUR=[3.6,3.8,3.6,2.9,4.1,4.0,4.1,3.9];
+const STEP0=[];{let s=T_STAGE+.6;for(const d of DUR){STEP0.push(s);s+=d;}}
+const T_OUT=STEP0[7]+DUR[7]; // outro start
+const TOTAL=T_OUT+7.2;
+window.TOTAL=TOTAL;
+
+// ---------- nodes ----------
+const nodeEls={};
+for(const k in N){const n=N[k];
+  const g=S('g',{},document.getElementById('nodes'));
+  const ripple=S('circle',{cx:n.x,cy:n.y,r:R,fill:'none',stroke:'#F5CD6F','stroke-width':3,opacity:0},g);
+  const ring=S('circle',{cx:n.x,cy:n.y,r:R,fill:'#fff',stroke:'#121111','stroke-width':2},g);
+  const ic=S('g',{fill:'none',stroke:'#121111','stroke-width':2.4,'stroke-linecap':'round','stroke-linejoin':'round'},g);
+  let paths=[];
+  if(k==='client'){paths=[`M${n.x-36} ${n.y-26}h72v52h-72z`,`M${n.x-36} ${n.y-14}h72`,`M${n.x-24} ${n.y+16}l14-14 10 9 8-7 16 12`];}
+  if(k==='pipe'){paths=[`M${n.x} ${n.y-30}l34 14-34 14-34-14z`,`M${n.x-34} ${n.y+2}l34 14 34-14`,`M${n.x-34} ${n.y+18}l34 14 34-14`];}
+  if(k==='owner'){paths=[`M${n.x} ${n.y-30}a13 13 0 1 0 0.01 0`,`M${n.x-28} ${n.y+28}c0-22 12-30 28-30s28 8 28 30`];}
+  const pe=paths.map(d=>S('path',{d},ic));
+  const lab=H(n.label,'nlabel');lab.style.left=n.x+'px';lab.style.top=(n.y+R+22)+'px';
+  nodeEls[k]={g,ripple,ring,ic,pe,lab,n,hits:[]};
+}
+pe_len(); function pe_len(){for(const k in nodeEls)nodeEls[k].pe.forEach(p=>{p._L=p.getTotalLength();p.setAttribute('stroke-dasharray',p._L);});}
+
+// ---------- arcs ----------
+function edgePt(n,toward,off){const dx=toward.x-n.x,dy=toward.y-n.y,l=Math.hypot(dx,dy);return{x:n.x+dx/l*(R+off),y:n.y+dy/l*(R+off)};}
+function mkArc(from,to,cy,dashed){
+  const a=N[from],b=N[to];const c={x:(a.x+b.x)/2,y:cy};
+  const p0=edgePt(a,c,6),p1=edgePt(b,c,14);
+  const d=`M${p0.x} ${p0.y} Q${c.x} ${c.y} ${p1.x} ${p1.y}`;
+  return mkPath(d,dashed);
+}
+function mkLoop(ext){ // self-loop petal on the right of the pipeline
+  const n=N.pipe;const P=(a,r)=>({x:n.x+r*Math.cos(a*Math.PI/180),y:n.y+r*Math.sin(a*Math.PI/180)});
+  const s=P(-38,R+6),e=P(38,R+14);
+  return mkPath(`M${s.x} ${s.y} C${n.x+R+ext} ${n.y-ext*.95} ${n.x+R+ext} ${n.y+ext*.95} ${e.x} ${e.y}`,false,document.getElementById('loops'));
+}
+let maskN=0;
+function mkPath(d,dashed,parent){
+  parent=parent||document.getElementById('arcs');
+  const g=S('g',{},parent);
+  const probe=S('path',{d,fill:'none',stroke:'none'},g);const L=probe.getTotalLength();
+  let main;
+  if(dashed){
+    const id='m'+(maskN++);const m=S('mask',{id,maskUnits:'userSpaceOnUse',x:0,y:0,width:1920,height:1080},g);
+    const mp=S('path',{d,fill:'none',stroke:'#fff','stroke-width':8,'stroke-dasharray':L,'stroke-dashoffset':L},m);
+    main=S('path',{d,fill:'none',stroke:'#121111','stroke-width':2.4,'stroke-dasharray':'9 9',mask:`url(#${id})`},g);
+    main._reveal=p=>mp.setAttribute('stroke-dashoffset',L*(1-p));
+  }else{
+    main=S('path',{d,fill:'none',stroke:'#121111','stroke-width':2.4,'stroke-dasharray':L,'stroke-dashoffset':L},g);
+    main._reveal=p=>main.setAttribute('stroke-dashoffset',L*(1-p));
+  }
+  const trail=S('path',{d,fill:'none',stroke:'#B22020','stroke-width':5,'stroke-linecap':'round','stroke-dasharray':`0 ${L}`,opacity:0},g);
+  const head=S('path',{d:'M0 0L-18 -9L-18 9Z',fill:'#121111',opacity:0},g);
+  const end=probe.getPointAtLength(L),pre=probe.getPointAtLength(L-3);
+  const ang=Math.atan2(end.y-pre.y,end.x-pre.x)*180/Math.PI;
+  return {g,probe,L,main,trail,head,end,ang,
+    set(draw,tok,alpha){ // draw 0..1, tok 0..1 (token position) or -1
+      main._reveal(eIO(draw));
+      const hs=spring(draw>=.98?(draw-.98)*40:0,.5,14);
+      head.setAttribute('transform',`translate(${end.x} ${end.y}) rotate(${ang}) scale(${hs})`);
+      head.setAttribute('opacity',draw>=.98?1:0);
+      g.setAttribute('opacity',alpha);
+      if(tok>0&&tok<1){const tl=140,pos=L*tok;trail.setAttribute('stroke-dasharray',`${Math.min(tl,pos)} ${L*2}`);trail.setAttribute('stroke-dashoffset',-(pos-Math.min(tl,pos)));trail.setAttribute('opacity',.9);}
+      else trail.setAttribute('opacity',0);
+    },
+    at(p){return probe.getPointAtLength(L*clamp(p));}};
+}
+
+// step definitions
+const H_ = (h,c)=>H(h,c);
+const steps=[];
+function addStep(o){steps.push(o);}
+// 1 client -> pipe
+addStep({route:'Client page → Pipeline (A7)',main:'Chip or message on result X',sub:'One axis: light, view, accessories, room',
+  paths:[{p:mkArc('client','pipe',200,false),tok:H_('<span>result X</span><span style="opacity:.55">·</span><span>light</span>','tok f'),to:'pipe',a:.95,b:2.0}]});
+// 2 self loop
+addStep({route:'Inside the pipeline',main:'New brief v+1, linked to parent X',sub:'Old plans and reviews voided',
+  loops:[{p:mkLoop(190)}]});
+// 3 pipe -> client (return)
+addStep({route:'Pipeline (A7) → Client page',main:'Plan preview and what stays locked',sub:'The client sees the plan before anything is made',
+  paths:[{p:mkArc('pipe','client',650,true),tok:H_('<svg width="16" height="18" viewBox="0 0 16 18" fill="none" stroke="#121111" stroke-width="2"><rect x="2" y="8" width="12" height="9" rx="1.5"/><path d="M5 8V5a3 3 0 0 1 6 0v3"/></svg><span>plan preview</span>','tok r'),to:'client',a:.6,b:1.8}]});
+// 4 client -> pipe
+addStep({route:'Client page → Pipeline (A7)',main:'Confirm',sub:'Nothing runs until the client confirms',
+  paths:[{p:mkArc('client','pipe',265,false),tok:H_('<span>✓</span><span>confirm</span>','tok f'),to:'pipe',a:.45,b:1.5}]});
+// 5 pipe -> owner, owner -> pipe
+addStep({route:'Pipeline (A7) ⇄ Owner',main:'Go 1 (plan)',sub:'The owner replies: go',
+  paths:[{p:mkArc('pipe','owner',210,false),tok:H_('<span>go 1 · plan</span>','tok f'),to:'owner',a:.5,b:1.6,d0:0,d1:.9},
+         {p:mkArc('owner','pipe',640,false),tok:H_('<span>go</span>','tok f'),to:'pipe',a:2.25,b:3.2,d0:1.8,d1:2.6}]});
+// 6 self loop
+addStep({route:'Inside the pipeline',main:'Images, checks',sub:'At most 2 repairs each, then hold',
+  loops:[{p:mkLoop(250)}]});
+// 7 pipe -> owner, owner -> pipe
+addStep({route:'Pipeline (A7) ⇄ Owner',main:'Package for decision',sub:'The owner replies: approve or hold',
+  paths:[{p:mkArc('pipe','owner',265,false),tok:H_('<span>package</span>','tok f'),to:'owner',a:.5,b:1.6,d0:0,d1:.9},
+         {p:mkArc('owner','pipe',700,false),tok:H_('<span>approve</span><span style="opacity:.55">or</span><span>hold</span>','tok f'),to:'pipe',a:2.25,b:3.25,d0:1.8,d1:2.6}]});
+// 8 pipe -> client
+addStep({route:'Pipeline (A7) → Client page',main:'Generated image',sub:'“Approved” only after the owner decision',
+  paths:[{p:mkArc('pipe','client',715,true),tok:H_('<span>generated image</span>','tok r'),to:'client',a:.6,b:1.8}]});
+
+// captions
+const capWrap=H('','');capWrap.style.left='330px';capWrap.style.top='772px';capWrap.style.width='1400px';
+steps.forEach((s,i)=>{
+  const c=H(`<div class="kick line">${s.route}</div><div class="cap-main line" style="margin-top:10px">${s.main}</div><div class="cap-sub line">${s.sub}</div>`,'',capWrap);
+  c.style.left='0';c.style.top='0';c.style.width='1400px';
+  s.cap=c; s.capW=words(c);
+});
+// big step number
+const numBox=H('<div class="num" style="position:relative"><div id="nA" style="position:absolute"></div><div id="nB" style="position:absolute"></div></div><div class="kick" style="margin-top:6px;color:#747474">Step</div>','');
+numBox.style.left='96px';numBox.style.top='760px';
+const nA=document.getElementById('nA'),nB=document.getElementById('nB');
+
+// header (stage)
+const head=H(`<div class="kick">Pipeline A7 · Design, 14 Oct 2026</div><div class="disp" style="font-size:40px;letter-spacing:-1px;margin-top:6px">Refine or variation, <span class="it">as a new version</span></div>`,'');
+head.style.left='96px';head.style.top='56px';
+const badge=H('<span class="dot"></span>Design · not built yet','pill');badge.style.left='1824px';badge.style.top='70px';badge.style.transform='translateX(-100%)';
+
+// intro
+const intro=H(`<div class="kick line">Pipeline A7 · Design, 14 Oct 2026</div>
+<div class="disp line" style="font-size:132px;letter-spacing:-3px;line-height:1.02;margin-top:26px">Refine or variation,</div>
+<div class="disp it line" style="font-size:132px;letter-spacing:-3px;line-height:1.02">as a new version.</div>
+<div class="line" style="font-family:var(--body);font-size:32px;color:#606060;margin-top:34px">One change on result X becomes brief v+1, checked and approved like any job.</div>`,'');
+intro.style.left='160px';intro.style.top='250px';intro.style.width='1650px';
+const introW=words(intro);
+const introPill=H('<span class="dot"></span>Design · not built yet','pill');introPill.style.left='160px';introPill.style.top='820px';
+
+// step-2 props
+const cX=H('result X','card');const cV=H('brief v+1','card');cV.style.borderColor='#B22020';cV.style.color='#B22020';
+const SK='<span class="sk" style="position:absolute;left:10px;top:50%;height:2.5px;background:#B22020;width:0"></span>';const cPlan=H('old plan'+SK,'chip');const cRev=H('old review'+SK,'chip');
+const linkL=S('line',{stroke:'#F5CD6F','stroke-width':3},document.getElementById('fx'));
+const strike1=S('line',{stroke:'#B22020','stroke-width':2.5},document.getElementById('fx'));
+const strike2=S('line',{stroke:'#B22020','stroke-width':2.5},document.getElementById('fx'));
+// step-1 chips
+const axes=['light','view','accessories','room'].map(a=>H(a,'chip'));
+// step-3 preview panel
+const prev=H(`<div style="font-family:var(--label);font-size:16px;letter-spacing:.14em;color:#B22020;text-transform:uppercase">Plan preview</div>
+<div style="font-family:var(--body);font-size:19px;margin-top:8px">Changes: <b>one axis</b></div>
+<div style="font-family:var(--body);font-size:19px;margin-top:4px;display:flex;gap:8px;align-items:center"><svg width="14" height="16" viewBox="0 0 16 18" fill="none" stroke="#121111" stroke-width="2"><rect x="2" y="8" width="12" height="9" rx="1.5"/><path d="M5 8V5a3 3 0 0 1 6 0v3"/></svg>Locked: the product as photographed</div>`,'');
+prev.style.cssText+='background:#fff;border:1.5px solid #121111;border-radius:12px;padding:14px 18px;width:330px';
+// step-6 frames
+const frames=[0,1,2].map(i=>H('<div class="fr" style="width:96px;height:72px;border:1.5px solid #121111;border-radius:6px;position:relative;overflow:hidden;background:#F6F6F6"><div class="sh" style="position:absolute;top:0;bottom:0;width:60%;background:linear-gradient(90deg,transparent,#fff,transparent)"></div><svg class="ck" style="position:absolute;right:6px;bottom:6px" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#121111"/><path d="M6 11.5l3.2 3L16 7.5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></div><div style="display:flex;gap:6px;justify-content:center;margin-top:8px"><span class="rp" style="width:10px;height:10px;border-radius:50%;border:1.5px solid #B22020"></span><span class="rp" style="width:10px;height:10px;border-radius:50%;border:1.5px solid #B22020"></span></div>',''));
+const repLab=H('repair slots: 2 per image','small');
+// step-7 options at owner
+const opt=H('<span class="pill" style="font-size:18px">approve</span><span class="small" style="padding:0 10px">or</span><span class="pill" style="font-size:18px">hold</span>','');opt.style.display='flex';opt.style.alignItems='center';
+// step-8 result at client
+const res=H(`<div style="width:210px;height:140px;border:1.5px solid #121111;border-radius:8px;background:linear-gradient(160deg,#F6F6F6,#E9E9E9);position:relative;overflow:hidden">
+<svg width="210" height="140" viewBox="0 0 210 140" fill="none" stroke="#606060" stroke-width="2"><path d="M40 100h130M55 100V78h100v22M62 78V62h86v16"/></svg></div>
+<div style="font-family:var(--label);font-size:17px;margin-top:10px">Generated image</div>
+<div class="stamp" style="margin-top:8px;font-family:var(--label);font-size:15px;letter-spacing:.06em;border:1.5px dashed #B22020;color:#B22020;border-radius:14px;padding:5px 12px;display:inline-block;max-width:220px;line-height:1.35">“Approved” only after the owner decision</div>`,'');
+
+// rail
+const rail=document.getElementById('rail');
+const RX0=330,RX1=1824,RY=1012;
+const railBase=S('line',{x1:RX0,y1:RY,x2:RX1,y2:RY,stroke:'#E9E9E9','stroke-width':2},rail);
+const railFill=S('line',{x1:RX0,y1:RY,x2:RX0,y2:RY,stroke:'#121111','stroke-width':2},rail);
+const ticks=DUR.map((_,i)=>{const x=lerp(RX0,RX1,i/7);return{x,c:S('circle',{cx:x,cy:RY,r:6,fill:'#fff',stroke:'#D1D1D1','stroke-width':2},rail),
+  t:(()=>{const e=S('text',{x,y:RY-18,'text-anchor':'middle','font-family':'Space Grotesk','font-size':15,fill:'#747474'},rail);e.textContent=String(i+1).padStart(2,'0');return e;})()};});
+
+// outro
+const out=H(`<div class="kick line">Every change, a new version</div>`,'');out.style.left='160px';out.style.top='210px';
+const outW=words(out);
+const vX=H('result X','card'),v1=H('brief v+1','card'),v2=H('v+2 …','card');
+v1.style.borderColor='#B22020';v1.style.color='#B22020';v2.style.borderStyle='dashed';v2.style.color='#747474';v2.style.borderColor='#D1D1D1';
+const hist=H('history','small');
+const vl1=S('line',{stroke:'#F5CD6F','stroke-width':3},document.getElementById('fx'));
+const vl2=S('line',{stroke:'#D1D1D1','stroke-width':3,'stroke-dasharray':'8 8'},document.getElementById('fx'));
+const outT=H(`<div class="disp line" style="font-size:64px;letter-spacing:-1.5px;line-height:1.1">Every change is a new version</div>
+<div class="disp it line" style="font-size:64px;letter-spacing:-1.5px;line-height:1.1">linked to its parent.</div>
+<div class="line" style="font-family:var(--body);font-size:28px;color:#606060;margin-top:22px">Earlier results stay as history.</div>
+<div class="line" style="font-family:var(--body);font-size:28px;color:#606060;margin-top:6px">“Approved” is shown to the client only after the owner’s recorded decision.</div>`,'');
+outT.style.left='160px';outT.style.top='600px';outT.style.width='1600px';
+const outTW=words(outT);
+const endPill=H('<span class="dot"></span>Design for pipeline A7 · 14 Oct 2026 · not built yet','pill');endPill.style.left='160px';endPill.style.top='940px';
+
+// ---------- render ----------
+function vis(el,o,x,y,s=1){el.style.opacity=o;if(x!==undefined){el.style.left=x+'px';el.style.top=y+'px';}if(s!==1||el._s)el.style.scale=s;el._s=1;}
+function stepIdx(t){let k=-1;for(let i=0;i<8;i++)if(t>=STEP0[i])k=i;return k;}
+
+window.render=function(t){
+  // background drift
+  document.getElementById('grid').setAttribute('transform',`translate(${-(t*6)%48} ${-(t*3)%48})`);
+  const bigA=document.getElementById('bigA7');
+  bigA.setAttribute('transform',`translate(${-t*4} 0)`);bigA.setAttribute('opacity',seg(t,T_STAGE-.5,T_STAGE+1)*(1-seg(t,T_OUT,T_OUT+.8)));
+
+  // intro
+  revealWords(introW,t,.25,.07,3.4,.5);
+  const gl=document.getElementById('goldline');
+  const gp=eIO(seg(t,.1,1.6)),gq=eIO(seg(t,3.3,4.1));
+  gl.setAttribute('x1',lerp(160,1760,gq));gl.setAttribute('x2',lerp(160,1760,gp));gl.setAttribute('y1',212);gl.setAttribute('y2',212);
+  gl.setAttribute('opacity',t<4.2?1:0);
+  const ip=spring(t-1.6,.7,11),iq=eIO(seg(t,3.5,4.0));
+  vis(introPill,clamp(ip)*(1-iq),160,820+(1-ip)*30);
+
+  const stOn=eOut(seg(t,T_STAGE-.2,T_STAGE+.8))*(1-eIO(seg(t,T_OUT,T_OUT+.9)));
+  head.style.opacity=stOn; head.style.transform=`translateY(${(1-stOn)*-20}px)`;
+  badge.style.opacity=eOut(seg(t,T_STAGE,T_STAGE+.8))*(1-eIO(seg(t,T_OUT,T_OUT+.8)));
+  // nodes in
+  ['client','pipe','owner'].forEach((k,i)=>{
+    const ne=nodeEls[k];const st=T_STAGE+i*.18;const sp=spring(t-st,.55,12);
+    const fade=1-eIO(seg(t,T_OUT,T_OUT+.9));
+    let pulse=0, rip=0;
+    ne.hits.forEach(h=>{const d=t-h;if(d>0&&d<1.2){pulse=Math.max(pulse,Math.sin(Math.PI*clamp(d/.45))*.12);rip=Math.max(rip,d<1?1-d:0);}});
+    const sc=sp*(1+pulse);
+    ne.g.setAttribute('transform',`translate(${ne.n.x} ${ne.n.y}) scale(${Math.max(0,sc)}) translate(${-ne.n.x} ${-ne.n.y})`);
+    ne.g.setAttribute('opacity',clamp(sp*3)*fade);
+    ne.pe.forEach((p,j)=>p.setAttribute('stroke-dashoffset',p._L*(1-eIO(seg(t,st+.25+j*.12,st+.9+j*.12)))));
+    ne.ripple.setAttribute('r',R+(1-rip)*60);ne.ripple.setAttribute('opacity',rip*.9);
+    const act=stepIdx(t);
+    ne.lab.style.opacity=clamp(sp)*fade; ne.lab.style.transform=`translateX(-50%) translateY(${(1-clamp(sp))*14}px)`;
+  });
+
+  // steps
+  const cur=stepIdx(t);
+  steps.forEach((s,i)=>{
+    const s0=STEP0[i],lt=t-s0,D=DUR[i];
+    const active=t>=s0 && t<s0+D;
+    const done=t>=s0+D;
+    const outFade=1-eIO(seg(t,T_OUT,T_OUT+.9));
+    const histA=done?lerp(1,.16,eIO(seg(t,s0+D,s0+D+.6))):1;
+    (s.paths||[]).forEach(pp=>{
+      const d0=pp.d0??0,d1=pp.d1??.9;
+      const dr=t<s0?0:seg(lt,d0,d1);
+      const tp=lt<pp.a?-1:(lt>pp.b?2:eIO(seg(lt,pp.a,pp.b)));
+      pp.p.set(dr,tp>0&&tp<1?tp:-1,(t<s0?0:histA)*outFade);
+      if(tp>0&&tp<1){const q=pp.p.at(tp);const pop=spring(lt-pp.a,.6,14);vis(pp.tok,clamp(tp/.08)*clamp((1-tp)/.06),q.x,q.y,.6+.4*clamp(pop));}
+      else pp.tok.style.opacity=0;
+      if(!pp._hit){pp._hit=1;nodeEls[pp.to].hits.push(s0+pp.b);}
+    });
+    (s.loops||[]).forEach(lp=>{
+      const dr=t<s0?0:seg(lt,.1,1.3);
+      const tp=lt<.3||lt>2.0?-1:eIO(seg(lt,.3,2.0));
+      lp.p.set(dr,tp,(t<s0?0:histA)*outFade);
+      if(!lp._hit){lp._hit=1;nodeEls.pipe.hits.push(s0+2.0);}
+    });
+    // caption
+    const capOut=s0+D-.45;
+    revealWords(s.capW,t,s0+.05,.045,i===7?T_OUT-.1:capOut,.4);
+    s.cap.style.visibility=(t>s0-0.1&&t<(i===7?T_OUT+1:s0+D+.2))?'visible':'hidden';
+  });
+
+  // step number roll
+  const ci=cur<0?0:cur;
+  const nt=cur<0?0:t-STEP0[cur];
+  const roll=eOut(seg(nt,0,.55));
+  const numOn=eOut(seg(t,STEP0[0]-.3,STEP0[0]+.3))*(1-eIO(seg(t,T_OUT,T_OUT+.6)));
+  nA.textContent=String(ci+1).padStart(2,'0'); nB.textContent=String(Math.max(ci,1)).padStart(2,'0');
+  nA.style.transform=`translateY(${(1-roll)*130}%)`; nB.style.transform=`translateY(${-roll*130}%)`; nB.style.visibility=roll>=1?'hidden':'visible';
+  nB.style.opacity=ci===0?0:1; numBox.style.opacity=numOn;
+  // rail
+  const rOn=eOut(seg(t,T_STAGE+.2,T_STAGE+1))*(1-eIO(seg(t,T_OUT,T_OUT+.8)));
+  rail.setAttribute('opacity',rOn);
+  let prog=0; if(cur>=0){prog=(cur+eIO(seg(t-STEP0[cur],0,DUR[cur]*.9)))/7;}
+  railFill.setAttribute('x2',lerp(RX0,RX1,clamp(Math.min(prog,cur>=0?(cur+ (cur<7?eIO(seg(t-STEP0[cur],DUR[cur]*.7,DUR[cur])):0))/7:0))));
+  ticks.forEach((k,i)=>{const on=i<=cur;const isA=i===cur;
+    k.c.setAttribute('fill',on?(isA?'#B22020':'#121111'):'#fff');k.c.setAttribute('stroke',on?(isA?'#B22020':'#121111'):'#D1D1D1');
+    k.c.setAttribute('r',isA?6+3*spring(t-STEP0[i],.45,14)*(1-0)-0:6);
+    k.t.setAttribute('fill',isA?'#B22020':'#747474');});
+
+  // ---- step-specific props ----
+  // step 1: axis chips around client
+  {const s0=STEP0[0],lt=t-s0;const pos=[[-110,-150],[30,-168],[150,-128],[-200,-60]];
+   axes.forEach((a,i)=>{const p=spring(lt-.0-i*.09,.55,13);const sel=i===0;
+     const leave=eIO(seg(lt,.75,1.1));const gone=eIO(seg(lt,2.6,3.1));
+     const o=clamp(p*2)*(sel?(1-leave):(1-gone*1)) ;
+     a.style.borderColor=sel&&lt>.45?'#B22020':'#D1D1D1';a.style.color=sel&&lt>.45?'#B22020':'#121111';
+     vis(a,t<s0?0:o,N.client.x+pos[i][0]*clamp(p),N.client.y+pos[i][1]*clamp(p),.7+.3*clamp(p));});
+  }
+  // step 2: version cards + voided
+  {const s0=STEP0[1],lt=t-s0,D=DUR[1];const off=eIO(seg(lt,D-.5,D-.05));
+   const p1=spring(lt-.2,.6,12),p2=spring(lt-1.0,.5,12);
+   const on=t>=s0?1:0;
+   vis(cX,on*clamp(p1*2)*(1-off),N.pipe.x-150,N.pipe.y+190,.8+.2*clamp(p1));
+   vis(cV,on*clamp(p2*2)*(1-off),N.pipe.x-150+lerp(0,300,clamp(p2)),N.pipe.y+190,.8+.2*clamp(p2));
+   linkL.setAttribute('x1',N.pipe.x-90);linkL.setAttribute('y1',N.pipe.y+190);
+   linkL.setAttribute('x2',lerp(N.pipe.x-90,N.pipe.x+80,clamp(p2)));linkL.setAttribute('y2',N.pipe.y+190);linkL.setAttribute('opacity',on*clamp(p2*3)*(1-off));
+   const q=spring(lt-.5,.6,12);
+   const vo=eIO(seg(lt,1.7,2.3));
+   vis(cPlan,on*clamp(q*2)*(1-off)*(1-.55*vo),N.pipe.x+380,N.pipe.y-34);
+   vis(cRev,on*clamp(q*2)*(1-off)*(1-.55*vo),N.pipe.x+380,N.pipe.y+26);
+   cPlan.style.position='absolute';cRev.style.position='absolute';
+   const s1=eIO(seg(lt,1.5,1.9)),s2=eIO(seg(lt,1.7,2.1));
+   cPlan.querySelector('.sk').style.width=`calc((100% - 20px) * ${s1})`;cRev.querySelector('.sk').style.width=`calc((100% - 20px) * ${s2})`;
+   strike1.setAttribute('opacity',0);strike2.setAttribute('opacity',0);
+  }
+  // step 3: plan preview panel near client
+  {const s0=STEP0[2],lt=t-s0,D=DUR[2];const p=spring(lt-1.8,.6,12);const off=eIO(seg(lt,D-.4,D));
+   vis(prev,t>=s0?clamp(p*2)*(1-off):0,N.client.x-165,N.client.y+150+(1-clamp(p))*20);}
+  // step 6: frames above pipeline
+  {const s0=STEP0[5],lt=t-s0,D=DUR[5];const off=eIO(seg(lt,D-.45,D));
+   frames.forEach((f,i)=>{const p=spring(lt-.35-i*.15,.6,12);
+     vis(f,t>=s0?clamp(p*2)*(1-off):0,N.pipe.x-110+(i-1)*125,N.pipe.y+150+(1-clamp(p))*20);
+     const sh=f.querySelector('.sh');sh.style.left=(-60+((lt*90+i*30)%160))+'%';sh.style.opacity=lt<1.9+i*.25?1:0;
+     const ck=f.querySelector('.ck');const cp=spring(lt-(1.9+i*.25),.45,15);ck.style.transform=`scale(${clamp(cp,0,1.3)})`;ck.style.opacity=cp>0?1:0;});
+   vis(repLab,t>=s0?eOut(seg(lt,1.0,1.5))*(1-off):0,N.pipe.x-235,N.pipe.y+282);
+  }
+  // step 7: options near owner after return starts
+  {const s0=STEP0[6],lt=t-s0,D=DUR[6];const p=spring(lt-1.5,.6,12);const off=eIO(seg(lt,D-.4,D));
+   vis(opt,t>=s0?clamp(p*2)*(1-off):0,N.owner.x-120,N.owner.y-190+(1-clamp(p))*16);}
+  // step 8: result at client
+  {const s0=STEP0[7],lt=t-s0;const p=spring(lt-1.8,.6,11);const off=eIO(seg(t,T_OUT,T_OUT+.6));
+   vis(res,t>=s0?clamp(p*2)*(1-off):0,60,N.client.y-160+(1-clamp(p))*20);
+   const st=res.querySelector('.stamp');const sp=spring(lt-2.4,.42,15);st.style.transform=`scale(${clamp(sp,0,1.4)}) rotate(${(1-clamp(sp))*-8}deg)`;st.style.opacity=sp>0?1:0;}
+
+  // ---- outro ----
+  {const o0=T_OUT+.5;const lt=t-o0;
+   revealWords(outW,t,o0,.05);
+   const cy=420;const xs=[460,960,1460];
+   const p0=spring(lt-.1,.6,12),p1=spring(lt-.8,.55,12),p2=spring(lt-1.4,.6,12);
+   vis(vX,t>=o0?clamp(p0*2):0,xs[0],cy,.8+.2*clamp(p0));
+   vis(v1,t>=o0?clamp(p1*2):0,xs[1],cy,.8+.2*clamp(p1));
+   vis(v2,t>=o0?clamp(p2*2):0,xs[2],cy,.8+.2*clamp(p2));
+   vis(hist,t>=o0?eOut(seg(lt,.9,1.4)):0,xs[0]-30,cy+44);
+   const l1=eIO(seg(lt,.5,1.1)),l2=eIO(seg(lt,1.1,1.7));
+   vl1.setAttribute('x1',xs[0]+72);vl1.setAttribute('y1',cy);vl1.setAttribute('x2',lerp(xs[0]+72,xs[1]-82,l1));vl1.setAttribute('y2',cy);vl1.setAttribute('opacity',t>=o0?1:0);
+   vl2.setAttribute('x1',xs[1]+82);vl2.setAttribute('y1',cy);vl2.setAttribute('x2',lerp(xs[1]+82,xs[2]-62,l2));vl2.setAttribute('y2',cy);vl2.setAttribute('opacity',t>=o0?1:0);
+   revealWords(outTW,t,o0+1.6,.05);
+   const ep=spring(lt-3.6,.6,11);vis(endPill,t>=o0?clamp(ep*2):0,160,940+(1-clamp(ep))*20);
+  }
+};
+window.ready=document.fonts.ready.then(()=>{ /* recompute widths after fonts */ window.render(0); return true;});
+</script>
+</body>
+</html>

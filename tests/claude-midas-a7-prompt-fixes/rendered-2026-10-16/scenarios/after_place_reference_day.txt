@@ -1,0 +1,26 @@
+3 images are attached. Image 1 is the vendor photo. It is the only authority for the product.
+Image 2 is the owner-approved catalogue master of the same product. Use it to read clean product detail; image 1 decides wherever the two differ.
+Image 3 is the room. Keep the room exactly as it is: its walls, floor, windows, camera and light. Do not redesign or extend it.
+Place the exact product from image 1 into the room: Against the long wall.
+Product: Sectional sofa.
+Exact product inventory to show:
+- 1 x left-arm piece
+- 4 x armless piece
+- 1 x corner piece
+- 1 x right-arm piece
+Total product pieces: 7. No more and no fewer.
+Product colour as read from image 1: warm grey. Image 1 decides the exact shade; keep it under the scene light.
+Identifying details read from image 1; keep each exactly as in the vendor photo, in the same place on the product: boucle grey upholstery.
+Handedness, fixed. These parts sit on one side of the product, given as seen by a person standing in front of it: left-arm piece; right-arm piece. Never mirror the product and never swap its ends.
+Category guidance: Create a residential lounge. Preserve every module, seat count, open side, arm, cushion and orientation. Arrange the conversation area around sourced Midas center and side tables when provided. Do not merge or redesign modules to force a corner. These are composition guidelines, not evidence of the source inventory. Original images and explicit owner corrections take precedence.
+Not confirmed from the photos or the brief: back of the sofa; dimensions; material composition. Do not invent these. Where the photos hide them, keep them hidden.
+Scale: the product's supplied size is not confirmed. Keep a realistic, plausible scale against the room, doors and the Midas pieces; never enlarge or shrink the product to fill space.
+Apart from the room as it is, the product and the Midas pieces listed above, add nothing: no other furniture, rugs, lamps or light fittings, plants, books, art, textiles (except plain sheer curtains or blinds at the windows), decor, people, text, logos or watermarks. Where the plan had a piece that is not listed here, that spot stays empty.
+The product stands level on the floor or its correct surface, with natural contact shadows; it never floats. Light on the product matches the room light.
+Hero view. The product's longest side spans about 60-70% of the frame.
+Camera: eye height about 110-120 cm (living room preset), as in the room image. The camera sees the product from the same side, angle and perspective as image 1 (the vendor photo); vertical lines stay vertical; no fisheye or wide-angle distortion. The room may stand square to the camera while the product stands at the angle image 1 shows. Framing guide: the floor meets the bottom edge of the frame. From the plan: Level at the centre of the sofa.
+Light: about 4000 K colour temperature (Daylight preset): daylight through the windows. From the plan: Soft morning daylight. Light sources: daylight through the windows and the room's built-in light: recessed downlights, a cove light or a plain ceiling fixture, shown as part of the architecture, not as a product; no table lamp, floor lamp or other freestanding or saleable light fitting.
+Frame: landscape, 16:9, wider than tall. The photograph fills the whole frame: no borders, bars, frames or split panels.
+Photorealistic interior photography, premium retail catalogue style, natural materials, accurate proportions, sharp focus, balanced exposure.
+No illustration, CGI look, cartoon style, painting, fisheye lens, wide-angle distortion, tilted verticals, extreme perspective, oversaturation, blur or noise.
+Before returning the image, check it against image 1: exactly 7 product pieces, each identifying detail in its place, the handedness, nothing added beyond the room, the product and the listed Midas pieces, every piece standing on its surface with a contact shadow, and light that matches the room. Correct anything that differs.

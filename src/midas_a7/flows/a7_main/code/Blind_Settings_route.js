@@ -1,0 +1,1 @@
+let recover=false;try{recover=$('Blind · Context').first().json.ready===true}catch{}return [{json:{...$input.first().json,__blindRecovery:recover}}];

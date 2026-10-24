@@ -1,0 +1,13 @@
+.git
+.github
+claude-outputs
+docs
+n8n
+tests
+tools
+data
+services
+**/node_modules
+**/__pycache__
+*.db
+*.pyc

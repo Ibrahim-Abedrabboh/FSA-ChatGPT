@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Overview — Midas Studio</title>
+  <script src="./palette.js"></script>
+  <link rel="stylesheet" href="./overview.css">
+  <script src="./overview-model.js" defer></script>
+  <script src="./overview.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="shell">
+    <aside class="side">
+      <a class="wordmark" href="/owner/overview/"><strong>MIDAS</strong><span>STUDIO</span></a>
+      <nav class="side-nav" aria-label="Studio">
+        <ul>
+          <li><a href="/owner/overview/" aria-current="page">Overview</a></li>
+          <li><a href="/owner/start/">New case</a></li>
+          <li><a href="/owner/#savedWorkSection">Saved work</a></li>
+          <li><a href="/owner/#jobsSection">Jobs</a></li>
+          <li><a href="/owner/#previousWorkSection">Previous work</a></li>
+          <li><a href="/owner/catalogue/">Midas catalogue</a></li>
+        </ul>
+      </nav>
+      <details class="more">
+        <summary>More</summary>
+        <ul>
+          <li><a href="/owner/model-tests/">Testing models</a></li>
+          <li><a href="/consumer/">Consumer VTON concept</a></li>
+          <li><a href="/owner/controls/">Advanced controls</a></li>
+          <li><a href="/owner/">Full studio page</a></li>
+        </ul>
+        <fieldset class="appearance">
+          <legend>Appearance</legend>
+          <label><input type="radio" name="appearance" value="light"> Light</label>
+          <label><input type="radio" name="appearance" value="dark"> Dark</label>
+          <label><input type="radio" name="appearance" value="system"> Match my device</label>
+        </fieldset>
+      </details>
+      <div class="side-foot">
+        <span class="preview-tag">Private owner preview</span>
+        <button id="signOut" class="quiet-button" type="button">Sign out</button>
+      </div>
+    </aside>
+
+    <main id="main" class="main">
+      <header class="head">
+        <div>
+          <h1>Overview</h1>
+          <p class="lead">What needs you now, from your saved work and A7 jobs.</p>
+        </div>
+        <div class="head-actions">
+          <button id="refreshOverview" class="quiet-button" type="button">Refresh</button>
+          <a class="primary-link" href="/owner/start/">＋ New case</a>
+        </div>
+      </header>
+      <p id="overviewStatus" class="status-line" role="status">Loading saved work and jobs…</p>
+
+      <section class="metrics-section" aria-labelledby="metricsTitle">
+        <h2 id="metricsTitle" class="sr-only">Saved work at a glance</h2>
+        <dl id="metrics" class="metrics">
+          <div class="metric"><dt>Drafts</dt><dd class="metric-value" id="metricDrafts">—</dd><dd class="metric-note">Saved, not yet sent</dd></div>
+          <div class="metric"><dt>In progress</dt><dd class="metric-value" id="metricProgress">—</dd><dd class="metric-note">Sent to A7 or running</dd></div>
+          <div class="metric" id="metricAttentionBox"><dt>Needs attention</dt><dd class="metric-value" id="metricAttention">—</dd><dd class="metric-note">Held, failed or outcome unknown</dd></div>
+        </dl>
+      </section>
+
+      <div class="columns">
+        <section class="panel" aria-labelledby="attentionTitle">
+          <div class="panel-head">
+            <h2 id="attentionTitle">Needs your attention</h2>
+            <a class="text-link" href="/owner/#jobsSection">All jobs <span aria-hidden="true">→</span></a>
+          </div>
+          <ul id="attentionList" class="items"></ul>
+          <p id="attentionEmpty" class="empty" hidden>Nothing needs you right now.</p>
+          <p id="attentionMore" class="more-note" hidden></p>
+        </section>
+
+        <section class="panel start-panel" aria-labelledby="startTitle">
+          <h2 id="startTitle">Start something</h2>
+          <ul class="shortcuts">
+            <li><a href="/owner/start/"><strong>New case</strong><span>Upload product photos and prepare a job.</span></a></li>
+            <li><a href="/owner/catalogue/"><strong>Choose from the Midas catalogue</strong><span>Select up to 10 products to bring into the studio.</span></a></li>
+            <li><a href="/owner/#previousWorkSection"><strong>Browse previous work</strong><span>Past studio projects for reference.</span></a></li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="panel" aria-labelledby="recentTitle">
+        <div class="panel-head">
+          <h2 id="recentTitle">Recent jobs</h2>
+          <a class="text-link" href="/owner/#jobsSection">Open Jobs <span aria-hidden="true">→</span></a>
+        </div>
+        <ul id="recentList" class="items"></ul>
+        <p id="recentEmpty" class="empty" hidden>No A7 jobs are recorded yet.</p>
+      </section>
+
+      <p class="foot">This page only reads your saved work and recorded A7 jobs. It starts no analysis, generation or approval; those stay on the studio page.</p>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,499 @@
+{
+ "title": "Claude · Midas A7 catalogue audit",
+ "made": "2026-10-16",
+ "table_snapshot": "data/claude-midas-catalogue-snapshot-2026-10-16.json",
+ "listing": "data/claude-midas-accessories-2026-10-16.json",
+ "summary": {
+  "rows": 428,
+  "hand_rows": 16,
+  "imported_rows": 412,
+  "stock_as_recorded": {
+   "in_stock": 385,
+   "pre_order": 4,
+   "out_of_stock": 38,
+   "not_confirmed": 1
+  },
+  "findings_by_check": {
+   "finish_read_by_eye": 3,
+   "hand_row_differs_from_listing": 2,
+   "page_outside_kuwait_en": 1,
+   "size_incomplete": 3,
+   "size_or_finish_from_other_store": 2,
+   "size_or_finish_source_not_recorded": 24,
+   "stock_not_clear": 1,
+   "stock_reading_old": 16
+  },
+  "rows_with_a_finding": 16
+ },
+ "findings": [
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 1,
+   "sku": "141368",
+   "name": "CHALLVOR centre table",
+   "hand_row": true,
+   "detail": "dimensions \"90 × 90 × 28 cm\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "finish_read_by_eye",
+   "id": 1,
+   "sku": "141368",
+   "name": "CHALLVOR centre table",
+   "hand_row": true,
+   "detail": "finish \"Engineered wood; off-white, marble-effect appearance\": part of it is a reading (\"appearance\"), not a page field",
+   "proposed_fix": "owner: keep only what the Kuwait /en/ page states and record the page and date; the read-by-eye part goes to notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 2,
+   "sku": "141365",
+   "name": "CHALLVOR side table",
+   "hand_row": true,
+   "detail": "dimensions \"45 × 45 × 45 cm\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "finish_read_by_eye",
+   "id": 2,
+   "sku": "141365",
+   "name": "CHALLVOR side table",
+   "hand_row": true,
+   "detail": "finish \"Engineered wood; grey/off-white, marble-effect appearance\": part of it is a reading (\"appearance\"), not a page field",
+   "proposed_fix": "owner: keep only what the Kuwait /en/ page states and record the page and date; the read-by-eye part goes to notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 3,
+   "sku": "158478",
+   "name": "DUVAIRA centre + side table set",
+   "hand_row": true,
+   "detail": "dimensions \"Centre 113 × 103 × 35; side 60 × 60 × 49 cm\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 3,
+   "sku": "158478",
+   "name": "DUVAIRA centre + side table set",
+   "hand_row": true,
+   "detail": "finish \"Solid-wood top; brown/beige; two pieces\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 4,
+   "sku": "160218",
+   "name": "VILARI centre table",
+   "hand_row": true,
+   "detail": "dimensions \"150 × 80 × 38 cm\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 4,
+   "sku": "160218",
+   "name": "VILARI centre table",
+   "hand_row": true,
+   "detail": "finish \"Tempered-glass top; brown/gold framework and wood trays\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 5,
+   "sku": "162510",
+   "name": "FERNLAY side table",
+   "hand_row": true,
+   "detail": "dimensions \"60 × 60 × 55 cm\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 5,
+   "sku": "162510",
+   "name": "FERNLAY side table",
+   "hand_row": true,
+   "detail": "finish \"Mirrored tops; metal; black/gold\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_incomplete",
+   "id": 6,
+   "sku": "174770",
+   "name": "RENESMEE table lamp",
+   "hand_row": true,
+   "detail": "dimensions \"W42 × H60 cm; depth omitted\": a part is missing on the page, and the row says so",
+   "proposed_fix": "no change: the row already says which part is missing; that part stays \"not confirmed\""
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 6,
+   "sku": "174770",
+   "name": "RENESMEE table lamp",
+   "hand_row": true,
+   "detail": "finish \"Metal; white/silver\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 7,
+   "sku": "174781",
+   "name": "OAKLYNN table lamp",
+   "hand_row": true,
+   "detail": "dimensions \"35 × 24 × 75 cm\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 7,
+   "sku": "174781",
+   "name": "OAKLYNN table lamp",
+   "hand_row": true,
+   "detail": "finish \"Metal; white/grey\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_incomplete",
+   "id": 8,
+   "sku": "174788",
+   "name": "White/gold table lamp",
+   "hand_row": true,
+   "detail": "dimensions \"W36 × H68 cm; depth omitted\": a part is missing on the page, and the row says so",
+   "proposed_fix": "no change: the row already says which part is missing; that part stays \"not confirmed\""
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 8,
+   "sku": "174788",
+   "name": "White/gold table lamp",
+   "hand_row": true,
+   "detail": "finish \"Metal; white/gold\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 9,
+   "sku": "176249",
+   "name": "Black/gold floor vase",
+   "hand_row": true,
+   "detail": "dimensions \"44 × 44 × 106 cm\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "finish_read_by_eye",
+   "id": 9,
+   "sku": "176249",
+   "name": "Black/gold floor vase",
+   "hand_row": true,
+   "detail": "finish \"Metal; black with visible gold collar\": part of it is a reading (\"visible\"), not a page field",
+   "proposed_fix": "owner: keep only what the Kuwait /en/ page states and record the page and date; the read-by-eye part goes to notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 10,
+   "sku": "167956",
+   "name": "CIELO vase",
+   "hand_row": true,
+   "detail": "dimensions \"17 × 13 × 19 cm\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 10,
+   "sku": "167956",
+   "name": "CIELO vase",
+   "hand_row": true,
+   "detail": "finish \"Ceramic; dark beige\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 11,
+   "sku": "167722",
+   "name": "MINA bowl",
+   "hand_row": true,
+   "detail": "dimensions \"22 × 32 × 15 cm\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 11,
+   "sku": "167722",
+   "name": "MINA bowl",
+   "hand_row": true,
+   "detail": "finish \"KARE Design; stoneware; blue/multi\" was written by hand on 2026-09-28; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 12,
+   "sku": "173765",
+   "name": "ORGANIC dinner plate",
+   "hand_row": true,
+   "detail": "dimensions \"26 × 26 × 2 cm\" was written by hand on 2026-10-07; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 12,
+   "sku": "173765",
+   "name": "ORGANIC dinner plate",
+   "hand_row": true,
+   "detail": "finish \"Ceramic; cream\" was written by hand on 2026-10-07; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 13,
+   "sku": "167602",
+   "name": "RIFFLE footed drinking glass, large",
+   "hand_row": true,
+   "detail": "dimensions \"9 × 8 × 25 cm\" was written by hand on 2026-10-07; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 13,
+   "sku": "167602",
+   "name": "RIFFLE footed drinking glass, large",
+   "hand_row": true,
+   "detail": "finish \"KARE Design; glass; clear\" was written by hand on 2026-10-07; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_incomplete",
+   "id": 14,
+   "sku": "170143",
+   "name": "WEX wall art",
+   "hand_row": true,
+   "detail": "dimensions \"W90 × H120 cm; depth omitted\": a part is missing on the page, and the row says so",
+   "proposed_fix": "no change: the row already says which part is missing; that part stays \"not confirmed\""
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 14,
+   "sku": "170143",
+   "name": "WEX wall art",
+   "hand_row": true,
+   "detail": "finish \"Canvas and polystyrene; beige\" was written by hand on 2026-10-07; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 15,
+   "sku": "170985",
+   "name": "CELATO vase",
+   "hand_row": true,
+   "detail": "dimensions \"17 × 13 × 19 cm\" was written by hand on 2026-10-07; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_source_not_recorded",
+   "id": 15,
+   "sku": "170985",
+   "name": "CELATO vase",
+   "hand_row": true,
+   "detail": "finish \"Ceramic; white\" was written by hand on 2026-10-07; the row does not say which page field it came from",
+   "proposed_fix": "no change needed for scenes today; when the row is next checked, note the page field and date in the notes"
+  },
+  {
+   "check": "size_or_finish_from_other_store",
+   "id": 16,
+   "sku": "161283",
+   "name": "SANOVA end table",
+   "hand_row": true,
+   "detail": "dimensions \"50 × 40 × 60 cm\" comes from a page outside Midas Kuwait /en/",
+   "proposed_fix": "owner: replace it from the Kuwait /en/ product page, or set it to \"not confirmed\""
+  },
+  {
+   "check": "size_or_finish_from_other_store",
+   "id": 16,
+   "sku": "161283",
+   "name": "SANOVA end table",
+   "hand_row": true,
+   "detail": "finish \"Light blue; material not confirmed, the page fields disagree\" comes from a page outside Midas Kuwait /en/",
+   "proposed_fix": "owner: replace it from the Kuwait /en/ product page, or set it to \"not confirmed\""
+  },
+  {
+   "check": "page_outside_kuwait_en",
+   "id": 16,
+   "sku": "161283",
+   "name": "SANOVA end table",
+   "hand_row": true,
+   "detail": "product link is https://midasfurniture.com/ksa_en/sanova-end-table-living-rooms-midas.html",
+   "proposed_fix": "owner: give the Kuwait /en/ page for this SKU, or mark the row inactive (A7 step 10 and 19c already refuse it)"
+  },
+  {
+   "check": "hand_row_differs_from_listing",
+   "id": 6,
+   "sku": "174770",
+   "name": "RENESMEE table lamp",
+   "hand_row": true,
+   "detail": "stock in the row: \"Out of stock\" (read 2026-09-28); listing: \"In stock\" (read 2026-10-16)",
+   "proposed_fix": "owner: allow the refresh to update stock on this hand row, or update it by hand; A7 checks the live page again at scene time either way"
+  },
+  {
+   "check": "hand_row_differs_from_listing",
+   "id": 8,
+   "sku": "174788",
+   "name": "White/gold table lamp",
+   "hand_row": true,
+   "detail": "stock in the row: \"Pre-Order\" (read 2026-09-28); listing: \"In stock\" (read 2026-10-16)",
+   "proposed_fix": "owner: allow the refresh to update stock on this hand row, or update it by hand; A7 checks the live page again at scene time either way"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 1,
+   "sku": "141368",
+   "name": "CHALLVOR centre table",
+   "hand_row": true,
+   "detail": "stock \"In stock\" read 18 days ago (2026-09-28)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 2,
+   "sku": "141365",
+   "name": "CHALLVOR side table",
+   "hand_row": true,
+   "detail": "stock \"In stock\" read 18 days ago (2026-09-28)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 3,
+   "sku": "158478",
+   "name": "DUVAIRA centre + side table set",
+   "hand_row": true,
+   "detail": "stock \"Pre-Order\" read 18 days ago (2026-09-28)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 4,
+   "sku": "160218",
+   "name": "VILARI centre table",
+   "hand_row": true,
+   "detail": "stock \"In stock\" read 18 days ago (2026-09-28)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 5,
+   "sku": "162510",
+   "name": "FERNLAY side table",
+   "hand_row": true,
+   "detail": "stock \"Pre-Order\" read 18 days ago (2026-09-28)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 6,
+   "sku": "174770",
+   "name": "RENESMEE table lamp",
+   "hand_row": true,
+   "detail": "stock \"Out of stock\" read 18 days ago (2026-09-28)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 7,
+   "sku": "174781",
+   "name": "OAKLYNN table lamp",
+   "hand_row": true,
+   "detail": "stock \"In stock\" read 18 days ago (2026-09-28)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 8,
+   "sku": "174788",
+   "name": "White/gold table lamp",
+   "hand_row": true,
+   "detail": "stock \"Pre-Order\" read 18 days ago (2026-09-28)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 9,
+   "sku": "176249",
+   "name": "Black/gold floor vase",
+   "hand_row": true,
+   "detail": "stock \"In stock\" read 18 days ago (2026-09-28)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 10,
+   "sku": "167956",
+   "name": "CIELO vase",
+   "hand_row": true,
+   "detail": "stock \"Out of stock\" read 18 days ago (2026-09-28)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 11,
+   "sku": "167722",
+   "name": "MINA bowl",
+   "hand_row": true,
+   "detail": "stock \"In stock\" read 18 days ago (2026-09-28)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 12,
+   "sku": "173765",
+   "name": "ORGANIC dinner plate",
+   "hand_row": true,
+   "detail": "stock \"In stock\" read 9 days ago (2026-10-07)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 13,
+   "sku": "167602",
+   "name": "RIFFLE footed drinking glass, large",
+   "hand_row": true,
+   "detail": "stock \"In stock\" read 9 days ago (2026-10-07)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 14,
+   "sku": "170143",
+   "name": "WEX wall art",
+   "hand_row": true,
+   "detail": "stock \"Pre-Order\" read 9 days ago (2026-10-07)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 15,
+   "sku": "170985",
+   "name": "CELATO vase",
+   "hand_row": true,
+   "detail": "stock \"In stock\" read 9 days ago (2026-10-07)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_reading_old",
+   "id": 16,
+   "sku": "161283",
+   "name": "SANOVA end table",
+   "hand_row": true,
+   "detail": "stock \"In stock on the Saudi store; Kuwait page not found on 2026-10-07\" read 9 days ago (2026-10-07)",
+   "proposed_fix": "no change needed for scenes (19c reads the live page); refresh the row so the shortlist is not built on old stock"
+  },
+  {
+   "check": "stock_not_clear",
+   "id": 16,
+   "sku": "161283",
+   "name": "SANOVA end table",
+   "hand_row": true,
+   "detail": "availability is \"In stock on the Saudi store; Kuwait page not found on 2026-10-07\"",
+   "proposed_fix": "A7 does not offer it; owner decides whether to keep the row"
+  }
+ ],
+ "note": "Report only. No row was changed. Every fix is a proposal for the owner."
+}

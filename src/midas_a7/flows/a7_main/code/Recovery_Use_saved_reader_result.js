@@ -1,0 +1,1 @@
+const it=$input.first(),r=it.json.preserved_reader_response;if(it.json.reader_recovery!==true||!it.json.reader_replacement||!r||r.status!=='completed'||!Array.isArray(r.output))throw Error('preserved_response_missing');return [{json:{...r,__budgetAllowed:true,__readerResponsePreserved:true},binary:it.binary}];

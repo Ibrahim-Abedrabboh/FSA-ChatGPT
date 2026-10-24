@@ -1,0 +1,212 @@
+[
+ {
+  "test": "T1 go with the settings as shipped (no Drive folder, both models trial) → hold before reserving, nothing sent",
+  "ok": true,
+  "info": "hold | No Google Drive folder is set for images (04 Settings, drive_root_folder_id). Nothing was sent or paid."
+ },
+ {
+  "test": "T2 Drive folder set, models still trial → hold \"no image model is approved\"",
+  "ok": true,
+  "info": "hold | No image model is approved yet. The model registry has: gemini-nano-banana-2.1 (trial), gemini-3-pro-image (trial). Mark one row approved after the model test. Nothing was sent or paid."
+ },
+ {
+  "test": "T3 approved model: reserve, send, two checks, candidate saved to Drive → awaiting review",
+  "ok": true,
+  "info": "awaiting_review | The white master (attempt 1) was made and saved in Google Drive. It is a candidate: not reviewed and not approved. Stage 05 reviews it next, then the owner's go 2. Cost of this call: USD 0.0567 (computed from Google's to | op completed"
+ },
+ {
+  "test": "T4 Google refuses (HTTP 400) → failed_not_started, not charged, hold, not resent",
+  "ok": true,
+  "info": "hold | Google refused the request before starting (HTTP 400, INVALID_ARGUMENT: bad aspect ratio). No charge is expected (not confirmed). It is not sent again by itself. | op failed_not_started"
+ },
+ {
+  "test": "T5 no answer, error text holds the key → uncertain, may be charged, key removed everywhere",
+  "ok": true,
+  "info": "hold | No answer from Google (request to https://generativelanguage.googleapis.com/v1beta/interactions?key=[removed] failed, reason: socket hang up). The request may have started and may be charged. It is not sent again; check  | op uncertain_no_id"
+ },
+ {
+  "test": "T6 still running after the last check → uncertain, request id kept, never resent",
+  "ok": true,
+  "info": "hold | Still not finished after 3 checks (last status: in_progress). The request (Google id int_abc123) may still finish and may be charged. It is not sent again. Fetching a late result is not built yet. | op uncertain"
+ },
+ {
+  "test": "T7 daily limit reached → hold before the Drive folder and the reservation",
+  "ok": true,
+  "info": "hold | The daily limit of 2 paid image calls is reached (2 used today, UTC). Nothing was sent."
+ },
+ {
+  "test": "T8 the same operation key already exists → never sent twice",
+  "ok": true,
+  "info": "hold | An operation with the key claude-a7-20261016164035-m0bt9d:white_master:try1 already exists (status uncertain, Google request int_old). A paid call is never sent twice; check its receipt first."
+ },
+ {
+  "test": "T9 job estimate already used up → hold before reserving",
+  "ok": true,
+  "info": "hold | This call (reserved USD 0.0692) would take the job past its estimate of USD 1.261 (already reserved or spent: USD 50.0000). Nothing was sent."
+ },
+ {
+  "test": "T10 vendor photo changed after intake → not sent, reservation marked not_sent",
+  "ok": true,
+  "info": "hold | Reference 1 (sofa.png) is not the file received at intake (checksum differs), so nothing was sent. | op not_sent"
+ },
+ {
+  "test": "T11 frame not listed for the approved model → hold, frame not changed",
+  "ok": true,
+  "info": "hold | gemini-nano-banana-2.1 does not list the frame 1:1 (it lists 16:9, 9:16). The frame is not changed without the owner."
+ },
+ {
+  "test": "T12 Drive folder could not be made → not sent, not paid",
+  "ok": true,
+  "info": "hold | The run folder could not be made in Google Drive (File not found: root-folder-1), so nothing was sent or paid. Check the folder id in 04 Settings and the Drive connection. | op not_sent"
+ },
+ {
+  "test": "T13 image made but the Drive upload failed → paid, completed_not_stored, hold",
+  "ok": true,
+  "info": "hold | The image was made and is charged, but Google Drive did not save it (quota exceeded). It exists only in this n8n execution for now. It is not made again. | op completed_not_stored"
+ },
+ {
+  "test": "T14 completed with no image → completed_no_image, hold",
+  "ok": true,
+  "info": "hold | Google finished but returned no image. The call may be charged (see the token counts). It is not sent again. | op completed_no_image"
+ },
+ {
+  "test": "T15 Google ends as failed with usage → failed, charge kept, no retry",
+  "ok": true,
+  "info": "hold | Google ended the request as \"failed\" (safety block). A confirmed failure keeps its charge. It is not sent again; a repair or new try needs the owner. | op failed"
+ },
+ {
+  "test": "T16 reservation not saved → nothing sent",
+  "ok": true,
+  "info": "hold | The reservation could not be saved in the operations table, so nothing was sent or paid. | op not_sent"
+ },
+ {
+  "test": "T17 Google answers \"completed\" at once → no checks, candidate saved",
+  "ok": true,
+  "info": "awaiting_review | The white master (attempt 1) was made and saved in Google Drive. It is a candidate: not reviewed and not approved. Stage 05 reviews it next, then the owner's go 2. Cost of this call: USD 0.0567 (computed from Google's to | op completed"
+ },
+ {
+  "test": "T18 image returned as a link only → paid, hold, download not built",
+  "ok": true,
+  "info": "hold | Google finished but returned the image as a link only; downloading it is not built. The call is charged. Google request int_abc123. | op completed_not_stored"
+ },
+ {
+  "test": "T19 operations table unreadable → hold, nothing sent",
+  "ok": true,
+  "info": "hold | The operations table could not be read, so the daily limit cannot be checked. Nothing was sent."
+ },
+ {
+  "test": "T20 Drive checksum differs from the image → hold",
+  "ok": true,
+  "info": "hold | Google Drive saved the file, but its checksum differs from the image received. Check the Drive file before use. | op completed"
+ },
+ {
+  "test": "T21 white background only, 4K brief, thinking set → size 4K, thinking sent, candidate",
+  "ok": true,
+  "info": "awaiting_review | The white master (attempt 1) was made and saved in Google Drive. It is a candidate: not reviewed and not approved. Stage 05 reviews it next, then the owner's go 2. Cost of this call: USD 0.0567 (computed from Google's to | op completed"
+ },
+ {
+  "test": "T22 two approved rows → lower priority number wins",
+  "ok": true,
+  "info": "awaiting_review | The white master (attempt 1) was made and saved in Google Drive. It is a candidate: not reviewed and not approved. Stage 05 reviews it next, then the owner's go 2. Cost of this call: USD 0.0567 (computed from Google's to | op completed"
+ },
+ {
+  "test": "T23 registry row points to another address → hold (the address is fixed in the request node)",
+  "ok": true,
+  "info": "hold | The registry row for gemini-nano-banana-2.1 names another address (https://evil.example.com/v1beta/interactions). Only https://generativelanguage.googleapis.com/v1beta/interactions is built."
+ },
+ {
+  "test": "T24 owner says stop → stage 04 never runs",
+  "ok": true,
+  "info": "stopped_by_owner | Stopped by the owner at go 1 (2026-10-16T16:40:35.828Z). No image was made or paid for."
+ },
+ {
+  "test": "T25 vendor photo cropped → hold at compile, nothing reserved",
+  "ok": true,
+  "info": "hold | The vendor photo is cropped: part of the product is outside the frame. A white master that shows the whole product would have to invent that part, so nothing is made. Ask the client for a photo that shows the whole produ"
+ },
+ {
+  "test": "T26 photo shows 5 pieces, contract holds 7 → hold, missing pieces are not invented",
+  "ok": true,
+  "info": "hold | The photo shows 5 product pieces and the contract holds 7. Drawing the 2 missing pieces would invent how they look and where they stand, so nothing is made. Ask the client for a photo that shows every piece."
+ },
+ {
+  "test": "T27 operations read passes its input through (no error flag) → hold, nothing sent",
+  "ok": true,
+  "info": "hold | The operations table could not be read, so the daily limit cannot be checked. Nothing was sent."
+ },
+ {
+  "test": "T28 Drive upload passes its input through → completed_not_stored, hold",
+  "ok": true,
+  "info": "hold | The image was made and is charged, but Google Drive did not save it (the upload step failed and returned no file). It exists only in this n8n execution for now. It is not made again. | op completed_not_stored"
+ },
+ {
+  "test": "T29 receipt update matches no row → hold, not awaiting review",
+  "ok": true,
+  "info": "hold | The receipt could not be written to the operations table; its row may still say \"reserved\" or \"submitted\". The full receipt is in this run's vault. | op completed"
+ },
+ {
+  "test": "T30 receipt update passes its input through → hold",
+  "ok": true,
+  "info": "hold | The receipt could not be written to the operations table; its row may still say \"reserved\" or \"submitted\". The full receipt is in this run's vault. | op completed"
+ },
+ {
+  "test": "T31 Google returns a 3-byte \"image\" → completed_bad_image, paid, hold, no crash",
+  "ok": true,
+  "info": "hold | Google finished, but what it returned is not a readable PNG, JPEG or WebP image (3 bytes). The call is charged. It is not sent again. | op completed_bad_image"
+ },
+ {
+  "test": "T32 error text with \"key\":\"AIza...\" → removed everywhere",
+  "ok": true,
+  "info": "hold | No answer from Google ({\"error\":\"bad\",\"key\":\"[removed]\",\"x\":1} and [removed]). The request may have started and may be charged. It is not sent again; check Google AI Studio before any new try. | op uncertain_no_id"
+ },
+ {
+  "test": "T33 HTTP 408 at send → uncertain (may have started), never resent",
+  "ok": true,
+  "info": "hold | Google returned an error that does not prove the request never started (HTTP 408) and no request id. The request may have started and may be charged. It is not sent again; check Google AI Studio before any new try. | op uncertain_no_id"
+ },
+ {
+  "test": "T34 repair attempt 4 → hold (at most two repairs per image)",
+  "ok": true,
+  "info": "hold | Attempt 4 for white_master is outside the rule of at most two repairs per image, so nothing is made."
+ },
+ {
+  "test": "T35 repair attempt 2 → corrections and preserve list in the prompt, key try2",
+  "ok": true,
+  "info": "awaiting_review | The white master (attempt 2) was made and saved in Google Drive. It is a candidate: not reviewed and not approved. Stage 05 reviews it next, then the owner's go 2. Cost of this call: USD 0.0567 (computed from Google's to | op completed"
+ },
+ {
+  "test": "T36 white prompt never asks to draw unseen parts; studio camera line",
+  "ok": true,
+  "info": "awaiting_review | The white master (attempt 1) was made and saved in Google Drive. It is a candidate: not reviewed and not approved. Stage 05 reviews it next, then the owner's go 2. Cost of this call: USD 0.0567 (computed from Google's to | op completed"
+ },
+ {
+  "test": "T37 an earlier try with this key stopped before payment → hold, send the job again",
+  "ok": true,
+  "info": "hold | An earlier try with the key claude-a7-20261016164035-4ssk83:white_master:try1 stopped before payment (status not_sent). A key is never used twice; send the job again to make a new run."
+ },
+ {
+  "test": "T41 reader says cropped but every product box is inside the frame (Test 10, execution 450) → not held, the flag is kept as a note",
+  "ok": true,
+  "info": "awaiting_review | The white master (attempt 1) was made and saved in Google Drive. It is a candidate: not reviewed and not approved. Stage 05 reviews it next, then the owner's go 2. Cost of this call: USD 0.0567 (computed from Google's to | op completed"
+ },
+ {
+  "test": "T42 reader says cropped and gives no product box → still held (nothing to check it against)",
+  "ok": true,
+  "info": "hold | The vendor photo is cropped: part of the product is outside the frame. A white master that shows the whole product would have to invent that part, so nothing is made. Ask the client for a photo that shows the whole produ"
+ },
+ {
+  "test": "T38 synchronous answer, finished, no request id → read at once, no checks, candidate saved, no id recorded",
+  "ok": true,
+  "info": "awaiting_review | The white master (attempt 1) was made and saved in Google Drive. It is a candidate: not reviewed and not approved. Stage 05 reviews it next, then the owner's go 2. Cost of this call: USD 0.0567 (computed from Google's to | op completed"
+ },
+ {
+  "test": "T39 synchronous answer without id that is not finished → uncertain, never resent",
+  "ok": true,
+  "info": "hold | Google answered without a request id. The request may have started and may be charged. It is not sent again; check Google AI Studio before any new try. | op uncertain_no_id"
+ },
+ {
+  "test": "T40 photo recorded as image/png whose bytes are JPEG → sent as image/jpeg, noted",
+  "ok": true,
+  "info": "awaiting_review | The white master (attempt 1) was made and saved in Google Drive. It is a candidate: not reviewed and not approved. Stage 05 reviews it next, then the owner's go 2. Cost of this call: USD 0.0567 (computed from Google's to | op completed"
+ }
+]

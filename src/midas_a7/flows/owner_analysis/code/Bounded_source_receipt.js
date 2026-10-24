@@ -1,0 +1,5 @@
+const r=$input.first().json;let body=r.body??r.data;try{if(typeof body==='string')body=JSON.parse(body)}catch{body=null}
+const p=JSON.parse($('Validate analysis-only intake').first().json.payload);
+const ok=r.statusCode>=200&&r.statusCode<300&&body?.status==='analysis_complete'&&body?.draftId===p.draftId&&body?.clientRunId===p.clientRunId&&body?.runId===p.runId&&body?.sourceSha256===p.sourceSha256&&body?.referenceFingerprint===p.referenceFingerprint&&Array.isArray(body?.readers)&&body.readers.length>=3&&body.readers.length<=4;
+if(!ok)return [{json:{http_status:409,error:'analysis_outcome_uncertain',accepted:false}}];
+return [{json:{http_status:200,accepted:true,receiptId:body.receiptId,draftId:body.draftId,clientRunId:body.clientRunId,runId:body.runId,sourceSha256:body.sourceSha256,referenceFingerprint:body.referenceFingerprint,roomSha256:body.roomSha256??null,intentFingerprint:p.intentFingerprint,readers:body.readers}}];

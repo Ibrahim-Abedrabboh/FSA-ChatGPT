@@ -1,0 +1,60 @@
+{
+  "execution": "478",
+  "workflow": "BySxuove4y88tu74",
+  "version": "dc1d4fb0",
+  "run": "17 Oct 2026, 02:34:00\u201302:34:28 Amman",
+  "label": "PIPELINE TEST ONLY: generated test photo, NOT A VENDOR PHOTO",
+  "result": "PASS (pipeline test only)",
+  "tokens": {
+    "input": 1701,
+    "output": 2910
+  },
+  "usd_estimate": 0.01219,
+  "read": {
+    "product_total": 13,
+    "table": 1,
+    "armless_chairs": 10,
+    "armchairs": 2
+  },
+  "count_by_kind": [
+    {
+      "kind": "table",
+      "count": 1
+    },
+    {
+      "kind": "armchair",
+      "count": 2
+    },
+    {
+      "kind": "armless chair",
+      "count": 10
+    }
+  ],
+  "roles": {
+    "product": 13
+  },
+  "cropped": false,
+  "seen_whole": {
+    "true": [
+      "dining table",
+      "left armchair",
+      "right armchair",
+      "front armless chair 1-5"
+    ],
+    "false": [
+      "back armless chair 1-5"
+    ]
+  },
+  "relations": [
+    "the 10 armless chairs are arranged in two rows of five along the long sides of the table",
+    "the two armchairs are positioned at the two short ends of the table"
+  ],
+  "unknowns": [
+    "exact wood species",
+    "fabric composition and underside construction",
+    "full view of table top surface"
+  ],
+  "conflicts": [],
+  "colour_observed": "light natural oak wood table top and base, beige upholstery, dark brown wood chair legs and arms",
+  "note": "One call, first try; retries off; no fallback. A model judgement, not a measurement. Dining stays parked (owner 01:54)."
+}

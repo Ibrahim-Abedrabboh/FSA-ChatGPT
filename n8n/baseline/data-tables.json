@@ -1,0 +1,634 @@
+{
+ "tables": [
+  {
+   "id": "l0roUCBwIQL3h9Eq",
+   "name": "Claude Midas A7 runs",
+   "columns": [
+    {
+     "name": "run_id",
+     "type": "string"
+    },
+    {
+     "name": "client_run_id",
+     "type": "string"
+    },
+    {
+     "name": "parent_run_id",
+     "type": "string"
+    },
+    {
+     "name": "job_type",
+     "type": "string"
+    },
+    {
+     "name": "stage",
+     "type": "string"
+    },
+    {
+     "name": "status",
+     "type": "string"
+    },
+    {
+     "name": "hold_reason",
+     "type": "string"
+    },
+    {
+     "name": "client_question",
+     "type": "string"
+    },
+    {
+     "name": "outcomes",
+     "type": "string"
+    },
+    {
+     "name": "required_outputs",
+     "type": "string"
+    },
+    {
+     "name": "brief_version",
+     "type": "number"
+    },
+    {
+     "name": "contract_version",
+     "type": "number"
+    },
+    {
+     "name": "contract_stamp",
+     "type": "string"
+    },
+    {
+     "name": "references",
+     "type": "string"
+    },
+    {
+     "name": "observation",
+     "type": "string"
+    },
+    {
+     "name": "contract",
+     "type": "string"
+    },
+    {
+     "name": "not_applied",
+     "type": "string"
+    },
+    {
+     "name": "cost_estimate",
+     "type": "string"
+    },
+    {
+     "name": "trail",
+     "type": "string"
+    },
+    {
+     "name": "execution_id",
+     "type": "string"
+    },
+    {
+     "name": "received_at",
+     "type": "string"
+    },
+    {
+     "name": "resume_url",
+     "type": "string"
+    },
+    {
+     "name": "go1_token",
+     "type": "string"
+    },
+    {
+     "name": "go1_decision",
+     "type": "string"
+    },
+    {
+     "name": "go1_note",
+     "type": "string"
+    },
+    {
+     "name": "go1_at",
+     "type": "string"
+    },
+    {
+     "name": "go1_rounds",
+     "type": "number"
+    },
+    {
+     "name": "stage04",
+     "type": "string"
+    },
+    {
+     "name": "review",
+     "type": "string"
+    },
+    {
+     "name": "go2_token",
+     "type": "string"
+    },
+    {
+     "name": "go2_round",
+     "type": "number"
+    },
+    {
+     "name": "go2_decision",
+     "type": "string"
+    },
+    {
+     "name": "go2_note",
+     "type": "string"
+    },
+    {
+     "name": "go2_at",
+     "type": "string"
+    },
+    {
+     "name": "package",
+     "type": "string"
+    },
+    {
+     "name": "scenes",
+     "type": "string"
+    }
+   ]
+  },
+  {
+   "id": "AgXKkFbIj5dQAnvn",
+   "name": "Claude Midas A7 handling profiles v2",
+   "columns": [
+    {
+     "name": "profile_id",
+     "type": "string"
+    },
+    {
+     "name": "name",
+     "type": "string"
+    },
+    {
+     "name": "family",
+     "type": "string"
+    },
+    {
+     "name": "labels",
+     "type": "string"
+    },
+    {
+     "name": "prop_policy",
+     "type": "string"
+    },
+    {
+     "name": "scene",
+     "type": "string"
+    },
+    {
+     "name": "checks",
+     "type": "string"
+    },
+    {
+     "name": "guide",
+     "type": "string"
+    },
+    {
+     "name": "guide_source",
+     "type": "string"
+    },
+    {
+     "name": "a7_edit",
+     "type": "string"
+    },
+    {
+     "name": "basis",
+     "type": "string"
+    }
+   ]
+  },
+  {
+   "id": "Tyn4UT6BmIYMHAYl",
+   "name": "Claude Midas A7 vault",
+   "columns": [
+    {
+     "name": "run_id",
+     "type": "string"
+    },
+    {
+     "name": "client_run_id",
+     "type": "string"
+    },
+    {
+     "name": "kind",
+     "type": "string"
+    },
+    {
+     "name": "stage",
+     "type": "string"
+    },
+    {
+     "name": "step",
+     "type": "number"
+    },
+    {
+     "name": "brief_version",
+     "type": "number"
+    },
+    {
+     "name": "contract_version",
+     "type": "number"
+    },
+    {
+     "name": "contract_stamp",
+     "type": "string"
+    },
+    {
+     "name": "ref",
+     "type": "string"
+    },
+    {
+     "name": "payload",
+     "type": "string"
+    },
+    {
+     "name": "actor",
+     "type": "string"
+    },
+    {
+     "name": "at",
+     "type": "string"
+    }
+   ]
+  },
+  {
+   "id": "lwJbRv4TVqlFTILl",
+   "name": "Claude Midas A7 catalogue",
+   "columns": [
+    {
+     "name": "sku",
+     "type": "string"
+    },
+    {
+     "name": "name",
+     "type": "string"
+    },
+    {
+     "name": "kind",
+     "type": "string"
+    },
+    {
+     "name": "url",
+     "type": "string"
+    },
+    {
+     "name": "image_url",
+     "type": "string"
+    },
+    {
+     "name": "dimensions",
+     "type": "string"
+    },
+    {
+     "name": "finish",
+     "type": "string"
+    },
+    {
+     "name": "availability",
+     "type": "string"
+    },
+    {
+     "name": "retrieved",
+     "type": "string"
+    },
+    {
+     "name": "notes",
+     "type": "string"
+    },
+    {
+     "name": "active",
+     "type": "boolean"
+    },
+    {
+     "name": "visual_weight",
+     "type": "string"
+    },
+    {
+     "name": "silhouette",
+     "type": "string"
+    },
+    {
+     "name": "texture",
+     "type": "string"
+    },
+    {
+     "name": "style",
+     "type": "string"
+    },
+    {
+     "name": "colour_hex",
+     "type": "string"
+    },
+    {
+     "name": "tags_basis",
+     "type": "string"
+    },
+    {
+     "name": "stock_checked",
+     "type": "string"
+    }
+   ]
+  },
+  {
+   "id": "eso9cF84jXYIGu5S",
+   "name": "Claude Midas A7 model registry",
+   "columns": [
+    {
+     "name": "model_id",
+     "type": "string"
+    },
+    {
+     "name": "label",
+     "type": "string"
+    },
+    {
+     "name": "status",
+     "type": "string"
+    },
+    {
+     "name": "priority",
+     "type": "number"
+    },
+    {
+     "name": "endpoint",
+     "type": "string"
+    },
+    {
+     "name": "input_usd_per_m",
+     "type": "number"
+    },
+    {
+     "name": "text_out_usd_per_m",
+     "type": "number"
+    },
+    {
+     "name": "image_out_usd_per_m",
+     "type": "number"
+    },
+    {
+     "name": "input_image_tokens",
+     "type": "number"
+    },
+    {
+     "name": "image_tokens_1k",
+     "type": "number"
+    },
+    {
+     "name": "image_tokens_2k",
+     "type": "number"
+    },
+    {
+     "name": "image_tokens_4k",
+     "type": "number"
+    },
+    {
+     "name": "max_refs",
+     "type": "number"
+    },
+    {
+     "name": "ratios",
+     "type": "string"
+    },
+    {
+     "name": "sizes",
+     "type": "string"
+    },
+    {
+     "name": "price_date",
+     "type": "string"
+    },
+    {
+     "name": "price_source",
+     "type": "string"
+    },
+    {
+     "name": "evidence",
+     "type": "string"
+    },
+    {
+     "name": "notes",
+     "type": "string"
+    }
+   ]
+  },
+  {
+   "id": "cw86pzlOSjKSrU01",
+   "name": "Claude Midas A7 operations",
+   "columns": [
+    {
+     "name": "operation_key",
+     "type": "string"
+    },
+    {
+     "name": "run_id",
+     "type": "string"
+    },
+    {
+     "name": "client_run_id",
+     "type": "string"
+    },
+    {
+     "name": "output_id",
+     "type": "string"
+    },
+    {
+     "name": "attempt",
+     "type": "number"
+    },
+    {
+     "name": "model",
+     "type": "string"
+    },
+    {
+     "name": "price_date",
+     "type": "string"
+    },
+    {
+     "name": "contract_stamp",
+     "type": "string"
+    },
+    {
+     "name": "prompt",
+     "type": "string"
+    },
+    {
+     "name": "prompt_sha256",
+     "type": "string"
+    },
+    {
+     "name": "reference_roles",
+     "type": "string"
+    },
+    {
+     "name": "settings",
+     "type": "string"
+    },
+    {
+     "name": "status",
+     "type": "string"
+    },
+    {
+     "name": "reserved_usd",
+     "type": "number"
+    },
+    {
+     "name": "provider_request_id",
+     "type": "string"
+    },
+    {
+     "name": "provider_status",
+     "type": "string"
+    },
+    {
+     "name": "receipt",
+     "type": "string"
+    },
+    {
+     "name": "actual_usd",
+     "type": "number"
+    },
+    {
+     "name": "cost_basis",
+     "type": "string"
+    },
+    {
+     "name": "image_sha256",
+     "type": "string"
+    },
+    {
+     "name": "image_bytes",
+     "type": "number"
+    },
+    {
+     "name": "image_px",
+     "type": "string"
+    },
+    {
+     "name": "drive_file_id",
+     "type": "string"
+    },
+    {
+     "name": "drive_folder_id",
+     "type": "string"
+    },
+    {
+     "name": "problem",
+     "type": "string"
+    },
+    {
+     "name": "day",
+     "type": "string"
+    },
+    {
+     "name": "at",
+     "type": "string"
+    },
+    {
+     "name": "updated_at",
+     "type": "string"
+    }
+   ]
+  },
+  {
+   "id": "OpszBn1IWmYzWftI",
+   "name": "Claude · Midas A7 identity",
+   "columns": [
+    {
+     "name": "identity_key",
+     "type": "string"
+    },
+    {
+     "name": "package_version",
+     "type": "number"
+    },
+    {
+     "name": "run_id",
+     "type": "string"
+    },
+    {
+     "name": "client_run_id",
+     "type": "string"
+    },
+    {
+     "name": "sku",
+     "type": "string"
+    },
+    {
+     "name": "product_type",
+     "type": "string"
+    },
+    {
+     "name": "contract_stamp",
+     "type": "string"
+    },
+    {
+     "name": "approved_by",
+     "type": "string"
+    },
+    {
+     "name": "approved_at",
+     "type": "string"
+    },
+    {
+     "name": "approved_attempt",
+     "type": "number"
+    },
+    {
+     "name": "master_sha256",
+     "type": "string"
+    },
+    {
+     "name": "master_drive_id",
+     "type": "string"
+    },
+    {
+     "name": "jpg_sha256",
+     "type": "string"
+    },
+    {
+     "name": "jpg_drive_id",
+     "type": "string"
+    },
+    {
+     "name": "webp_sha256",
+     "type": "string"
+    },
+    {
+     "name": "webp_drive_id",
+     "type": "string"
+    },
+    {
+     "name": "manifest_sha256",
+     "type": "string"
+    },
+    {
+     "name": "manifest_drive_id",
+     "type": "string"
+    },
+    {
+     "name": "spec_card",
+     "type": "string"
+    },
+    {
+     "name": "cost_usd",
+     "type": "number"
+    },
+    {
+     "name": "cost_basis",
+     "type": "string"
+    },
+    {
+     "name": "status",
+     "type": "string"
+    },
+    {
+     "name": "at",
+     "type": "string"
+    }
+   ]
+  }
+ ]
+}

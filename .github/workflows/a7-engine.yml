@@ -1,0 +1,37 @@
+name: A7 engine
+on:
+  pull_request:
+    paths:
+      - 'services/a7-engine/**'
+      - 'claude-outputs/claude-midas-a7-owner-workspace/lib/**'
+      - 'claude-outputs/claude-midas-a7-owner-workspace/analysis-reader-prompts-live.md'
+      - 'claude-outputs/claude-midas-a7-owner-workspace/a7-analysis-node-snapshot.json'
+      - '.github/workflows/a7-engine.yml'
+  push:
+    paths:
+      - 'services/a7-engine/**'
+      - 'claude-outputs/claude-midas-a7-owner-workspace/lib/**'
+      - 'claude-outputs/claude-midas-a7-owner-workspace/analysis-reader-prompts-live.md'
+      - 'claude-outputs/claude-midas-a7-owner-workspace/a7-analysis-node-snapshot.json'
+      - '.github/workflows/a7-engine.yml'
+permissions:
+  contents: read
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/a7-engine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: services/a7-engine/requirements-dev.txt
+      # Node runs the owner site's own JavaScript in tests/test_site_crosscheck.py (no network).
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -q

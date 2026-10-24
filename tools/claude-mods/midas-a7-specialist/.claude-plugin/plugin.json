@@ -1,0 +1,1 @@
+{ "name": "midas-a7-specialist", "version": "0.1.0", "description": "The Specialist: a reviewer agent that checks every Midas A7 diff against CLAUDE.md before the owner sees it", "author": { "name": "Midas Studio" } }

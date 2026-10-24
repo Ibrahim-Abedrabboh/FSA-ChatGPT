@@ -1,0 +1,1 @@
+const b=$input.first().json.body;if(b?.recoveryId!=="owner-blind-replacement-20261018-1"||b.confirmed!==true||b.capUsd!==.1)throw Error('blind_approval_missing');return [{json:{authorized:true}}];

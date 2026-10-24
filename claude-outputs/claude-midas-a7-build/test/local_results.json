@@ -1,0 +1,437 @@
+[
+ {
+  "test": "S1 sectional, counts agree with client",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:d0c241713190 | events 9"
+ },
+ {
+  "test": "S2 run-362 case: client 7, both readers 5 → owner question",
+  "ok": true,
+  "info": "hold (client) | Client says 7; photo shows reader 5, second count 5. | Q: Please confirm how many pieces the product has. | sha256:de280b9ba332 | events 7"
+ },
+ {
+  "test": "S3 no client count, readers disagree (7 vs 5) → hold before stage 02",
+  "ok": true,
+  "info": "hold (client) | Two independent counts of the photo disagree (7 and 5) and no number was given or written. | Q: Please tell us how many pieces the product has, and which pieces belong to it. | events 5"
+ },
+ {
+  "test": "S4 dining 12 chairs + table, printed label differs → client wins, ready",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:4761c1ed5b73 | events 9"
+ },
+ {
+  "test": "S5 two chairs, table crossed out → excluded, selection gate",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:357a16e214c3 | events 9"
+ },
+ {
+  "test": "S6 towel with olive swatch → colour conflict classified minor, colour hold flagged",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:622c8eddff3b | events 9"
+ },
+ {
+  "test": "S7 no files → refused, nothing read",
+  "ok": true,
+  "info": "refused | "
+ },
+ {
+  "test": "S8 variations without a parent → refused",
+  "ok": true,
+  "info": "refused | "
+ },
+ {
+  "test": "S9 readers unavailable (bad credential) → hold, nothing invented",
+  "ok": true,
+  "info": "hold (owner) | The photo reader did not answer (credential problem), so the photo could not be read yet. The client was not asked anything. | events 5"
+ },
+ {
+  "test": "S10 room photo → room locks on scene outputs, white master keeps neutral light",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:35bf8f93cef2 | events 10"
+ },
+ {
+  "test": "S11 same job sent again → contract v2, v1 voided",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:dbd3e90c72ab | events 10"
+ },
+ {
+  "test": "S12 written instructions but classifier failed → hold",
+  "ok": true,
+  "info": "hold (client) | The written instructions could not be turned into rules. | Q: Please rewrite your instructions in short, simple points. | sha256:d4301677dabd | events 7"
+ },
+ {
+  "test": "S13 instructions turned into locks",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:b10c4d227489 | events 9"
+ },
+ {
+  "test": "S14 first reader 503 → owner hold, the client is not asked for a new photo",
+  "ok": true,
+  "info": "hold (owner) | The photo reader did not answer (Service unavailable - try again later or consider setting this node to retry automatically (in the node settings)), so the photo could not be read yet. The client was not asked anything. | events 5"
+ },
+ {
+  "test": "S15 first reader cut off (MAX_TOKENS) → owner hold",
+  "ok": true,
+  "info": "hold (owner) | The photo reader was cut off before it finished (output limit reached). The client was not asked anything. | events 5"
+ },
+ {
+  "test": "S16 second count 503 → owner hold",
+  "ok": true,
+  "info": "hold (owner) | The second count did not answer (Service unavailable - try again later or consider setting this node to retry automatically (in the node settings)), so the photo could not be read yet. The client was not asked anything. | events 5"
+ },
+ {
+  "test": "S17 room reader 503 → owner hold, not \"send a clearer room photo\"",
+  "ok": true,
+  "info": "hold (owner) | The room reader did not answer (Service unavailable - try again later or consider setting this node to retry automatically (in the node settings)), so the photo could not be read yet. The client was not asked anything. | events 6"
+ },
+ {
+  "test": "S18 reader test case 6: no number, stool and mirror counted → ask which pieces belong",
+  "ok": true,
+  "info": "hold (client) | No piece count was given, nothing written settles it, and it is not confirmed whether these belong to the product: mirror, stool. | Q: Please confirm which pieces belong to the product. We were not sure about: mirror, stool. | events 5"
+ },
+ {
+  "test": "S19 reader test case 8 as a \"bed set\": reader doubts the nightstands, nothing written → ask",
+  "ok": true,
+  "info": "hold (client) | No piece count was given, nothing written settles it, and it is not confirmed whether these belong to the product: nightstand. | Q: Please confirm which pieces belong to the product. We were not sure about: nightstand. | events 5"
+ },
+ {
+  "test": "S20 reader test case 1: no number, only pillows doubted → no hold, contract ready",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:42d5fa05c461 | events 9"
+ },
+ {
+  "test": "S21 reader test case 9, no number: itemised label covers the 7 seen → inventory 15 from the label, no hold",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:864164f887d2 | events 9"
+ },
+ {
+  "test": "S21b label does not cover what is seen (label 6 chairs, 8 chairs seen) → hold",
+  "ok": true,
+  "info": "hold (client) | The label on the photo says 6 pieces (6 CHAIRS), but 8 are visible, and the label does not match the pieces seen. | Q: Please tell us how many pieces the product has, and which pieces belong to it. | events 5"
+ },
+ {
+  "test": "S22 reader test case 9, client says 15: label sum agrees → no label conflict, client wins",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:926efe9f57e4 | events 9"
+ },
+ {
+  "test": "S23 printed label total differs from the client → one conflict, client wins",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:b03b192edc7b | events 9"
+ },
+ {
+  "test": "S24 swatch colours kept apart from the photo colour",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:24ff7fc25387 | events 9"
+ },
+ {
+  "test": "S25 companion piece named in the product type → no membership hold",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:0a4931fba423 | events 9"
+ },
+ {
+  "test": "S26 a single stool on its own → no membership hold",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:bcc73e91fbda | events 9"
+ },
+ {
+  "test": "S27 written notes name the stool and mirror → no question, 6 pieces",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:1a6dc0d5ad72 | events 9"
+ },
+ {
+  "test": "S28 notes say the stool is sold separately → stool excluded, mirror still asked",
+  "ok": true,
+  "info": "hold (client) | No piece count was given, nothing written settles it, and it is not confirmed whether these belong to the product: mirror. | Q: Please confirm which pieces belong to the product. We were not sure about: mirror. | events 5"
+ },
+ {
+  "test": "S29 reader test case 8, written product type \"Bed\" → nightstands not part, proceeds with 1",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:a6339e713531 | events 9"
+ },
+ {
+  "test": "S30 readers disagree, product type says \"7-piece\" → written total used, conflict classified",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:3b3dd39202f2 | events 9"
+ },
+ {
+  "test": "S31 text spec file read: it names the stool and mirror → no question",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:503eb410dd96 | events 10"
+ },
+ {
+  "test": "S32 PDF spec cannot be read and a question is due → owner checks the file first",
+  "ok": true,
+  "info": "hold (owner) | A written file about the product was sent but could not be read yet (spec.pdf; PDF, Excel and Word need an extract step). Check it before the client is asked: Please confirm which pieces belong to the product. We were not sure about: mirror, stool. | events 6"
+ },
+ {
+  "test": "S33 PDF spec unread but nothing to ask → no hold",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:162b8e28dcee | events 10"
+ },
+ {
+  "test": "S34 sectional lifestyle → shortlist, plan, check, awaiting go 1",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:0516c30fa5a8 | events 9"
+ },
+ {
+  "test": "S35 planner invents a SKU and dresses the white master → code removes both, records the fix",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:bda27c66d9d4 | events 9"
+ },
+ {
+  "test": "S36 client pick left out of the plan, critic passes anyway → owner hold (no rewrite)",
+  "ok": true,
+  "info": "hold (owner) | Shot 2 (wide): the plan still fails and the check gave no rewrite: code findings not resolved: client pick(s) not planned in any scene shot: 160218 VILARI centre table. Shot 3 (detail): the plan still fails and the check gave no rewrite: code findings not resolved: client pick(s) not planned in any scene shot: 160218 VILARI centre table. | sha256:8c07094ccf6e | events 9"
+ },
+ {
+  "test": "S37 client pick left out, critic rewrites with the pick → passes in round 2, 1 rewrite used",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:410b4592df19 | events 9"
+ },
+ {
+  "test": "S38 client pick out of stock → one client question, no planner call",
+  "ok": true,
+  "info": "hold (client) | Picked Midas item(s) cannot be used: 174770 (out of stock as read on 2026-09-28). | Q: The Midas item 174770 (RENESMEE table lamp) cannot be shown in this job (out of stock as read on 2026-09-28); should we leave it out?. | sha256:de6ef7c63859 | events 8"
+ },
+ {
+  "test": "S39 client pick not in the catalogue → client question",
+  "ok": true,
+  "info": "hold (client) | Picked Midas item(s) cannot be used: 123456 (not in our catalogue list). | Q: We could not find the Midas item 123456; please check the item number, or remove it. | sha256:f19cc1d0954e | events 8"
+ },
+ {
+  "test": "S40 side table product, client picks a side table → same kind, client question",
+  "ok": true,
+  "info": "hold (client) | Picked Midas item(s) cannot be used: 141365 (same kind as the product (table)). | Q: The Midas item 141365 (CHALLVOR side table) cannot be shown in this job (same kind as the product (table)); should we leave it out?. | sha256:11b69558659b | events 8"
+ },
+ {
+  "test": "S41 critic fails three rounds → 2 rewrites, then owner hold",
+  "ok": true,
+  "info": "hold (owner) | Shot 2 (wide): the plan still fails after 2 rewrite(s) of this shot; the job limit of 2 rewrite rounds is used: room_rules: simulated fail. Shot 3 (detail): the plan still fails after 2 rewrite(s) of this shot; the job limit of 2 rewrite rounds is used: room_rules: simulated fail. | sha256:f70f2943e003 | events 9"
+ },
+ {
+  "test": "S42 critic unreadable twice → owner hold, no plan goes forward unchecked",
+  "ok": true,
+  "info": "hold (owner) | The plan check could not be read after two tries, so no plan goes forward unchecked. | sha256:d3171918188c | events 9"
+ },
+ {
+  "test": "S43 planner error → owner hold, critic not called",
+  "ok": true,
+  "info": "hold (owner) | The planner did not return a readable plan (an error or a cut-off answer). Run the job again; the client was not asked anything. | sha256:8403f4ca2e9e | events 9"
+ },
+ {
+  "test": "S44 white background only → no retrieval, no planner, awaiting go 1",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:53f56c54ad68 | events 9"
+ },
+ {
+  "test": "S45 dining set → tables rejected as same kind; lamps, plates and glasses kept",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:4b4d7a8603f6 | events 9"
+ },
+ {
+  "test": "S46 bookends \"create with this item\" → accessory leads, planner told so",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:501ee2ae66d5 | events 9"
+ },
+ {
+  "test": "S47 two chairs, table excluded → Midas tables rejected because the job excludes them",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:223800f4fe93 | events 9"
+ },
+ {
+  "test": "S48 planner uses 4 different Midas pieces → 4th removed (limit 3)",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:e5e658882036 | events 9"
+ },
+ {
+  "test": "S49 people set to none: a planned person → removed; generic props removed and listed at go 1",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:e9dc177432fa | events 9"
+ },
+ {
+  "test": "S50 catalogue table empty → generic props only, go 1 says so",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:6c09c1f7cef9 | events 9"
+ },
+ {
+  "test": "S51 pick written last after 3 others → limit of 3 still holds, pick kept",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:9f040c6b5522 | events 9"
+ },
+ {
+  "test": "S52 planner leaves out a scene shot → owner hold, no crash",
+  "ok": true,
+  "info": "hold (owner) | The planner did not return a readable plan (no plan for: detail). Run the job again; the client was not asked anything. | sha256:7977f7771ee4 | events 9"
+ },
+ {
+  "test": "S53 planner leaves out the white master → studio plan used, recorded",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:c70df919191c | events 9"
+ },
+ {
+  "test": "S54 white-only job with a Midas pick → client question, pick not dropped",
+  "ok": true,
+  "info": "hold (client) | Midas item(s) 160218 were picked, but the job asks only for white background images, which show the product alone. | Q: You picked Midas item(s) 160218, but white background images show the product alone. Should we leave them out, or add a room image to the job? | sha256:20790e777885 | events 8"
+ },
+ {
+  "test": "S55 pick with stock text \"Sold out\" → treated as out of stock, client question",
+  "ok": true,
+  "info": "hold (client) | Picked Midas item(s) cannot be used: 160218 (out of stock as read on 2026-09-28). | Q: The Midas item 160218 (VILARI centre table) cannot be shown in this job (out of stock as read on 2026-09-28); should we leave it out?. | sha256:28258b141e6e | events 8"
+ },
+ {
+  "test": "S56 round-2 critic message shows the shots already passed, for consistency",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:ebca951a76fa | events 9"
+ },
+ {
+  "test": "S57 two bad picks → one client question naming both",
+  "ok": true,
+  "info": "hold (client) | Picked Midas item(s) cannot be used: 174770 (out of stock as read on 2026-09-28); 123456 (not in our catalogue list). | Q: About the Midas items you picked: 1) the Midas item 174770 (RENESMEE table lamp) cannot be shown in this job (out of stock as read on 2026-09-28); should we leave it out? 2) we could not find the Midas item 123456; please check the item number, or remove it. | sha256:09ba199a7924 | events 8"
+ },
+ {
+  "test": "S58 generic props removed by code and listed at go 1; a prop named VILARI is flagged; no person read into \"model boat\"",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:e0fcf4f830f4 | events 9"
+ },
+ {
+  "test": "S59 default: no person; plants only as Midas pieces; rules sent to planner and critic",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:7f60911e8184 | events 9"
+ },
+ {
+  "test": "S59b Human presence asked → one adult allowed, kept in the person field, rules sent to planner and critic",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:053829cc02d6 | events 9"
+ },
+ {
+  "test": "G1 owner says go → go 1 given; only the decision and status are added to the vault",
+  "ok": true,
+  "info": "go_1_given | Go 1 given by the owner at 2026-10-16T16:40:35.503Z. Stage 04 makes the white master next: compile, model and storage check, dispatch guard, then one paid image call. | sha256:ae3c3bb42c7d | events 11"
+ },
+ {
+  "test": "G2 owner says stop → stopped, nothing made",
+  "ok": true,
+  "info": "stopped_by_owner | Stopped by the owner at go 1 (2026-10-16T16:40:35.508Z). No image was made or paid for. | sha256:773ebce6fe9d | events 11"
+ },
+ {
+  "test": "G3 no answer in 24 hours → owner hold",
+  "ok": true,
+  "info": "hold (owner) | No go 1 answer arrived within 24 hours, so the run stopped. Send the job again to plan it afresh. | sha256:fdd876fa1685 | events 12"
+ },
+ {
+  "test": "G4 answer without the run token → ignored, the run keeps waiting, nothing written",
+  "ok": true,
+  "info": "awaiting_go_1 | Waiting for the owner's go 1 on the plan. After a go, stage 04 makes the white master only (one paid image call, if a model is approved and storage is set). No paid image was made. | sha256:d198f66f0cfc | events 9"
+ },
+ {
+  "test": "G5 owner edits the light of shot 2 → checked again → asked again → go",
+  "ok": true,
+  "info": "go_1_given | Go 1 given by the owner at 2026-10-16T16:40:35.521Z. Stage 04 makes the white master next: compile, model and storage check, dispatch guard, then one paid image call. | sha256:8c5e187873f6 | events 15"
+ },
+ {
+  "test": "G6 owner sends a note only → new plan with the note → go",
+  "ok": true,
+  "info": "go_1_given | Go 1 given by the owner at 2026-10-16T16:40:35.527Z. Stage 04 makes the white master next: compile, model and storage check, dispatch guard, then one paid image call. | sha256:d0c63ce1eee9 | events 15"
+ },
+ {
+  "test": "G7 owner edits only the white master → nothing changes, owner hold",
+  "ok": true,
+  "info": "hold (owner) | The change request named no shot or field that can change, and had no note. | sha256:3876508e5ffc | events 12"
+ },
+ {
+  "test": "G8 a 4th change round → owner hold",
+  "ok": true,
+  "info": "hold (owner) | The owner asked for changes 3 times on this run. Send the job again with the new wishes. | sha256:f7db2ad92cf0 | events 24"
+ },
+ {
+  "test": "G9 owner edit adds a SKU not on the shortlist → removed by code before the check",
+  "ok": true,
+  "info": "go_1_given | Go 1 given by the owner at 2026-10-16T16:40:35.547Z. Stage 04 makes the white master next: compile, model and storage check, dispatch guard, then one paid image call. | sha256:451b5a08f6ca | events 15"
+ },
+ {
+  "test": "G13 six forged answers → owner hold; recorded as ignored by an unknown caller, never as the owner",
+  "ok": true,
+  "info": "hold (owner) | More than 5 calls reached the waiting run without the decision address, so it stopped for safety. Send the job again. | sha256:95c55afb3b16 | events 12"
+ },
+ {
+  "test": "D1 valid go → forwarded with the run token and address",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D2 no run waiting → 409, nothing forwarded",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D3 decision \"approve\" → 400",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D4 resume address on another host → 409",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D5 change with no edits and no note → 400",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D6 two runs waiting under one job id → 409",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D8 resume call failed → 502, not forwarded",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D9 resume call worked → 200, forwarded, says stage 05 asks for go 2",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D10 answer for an older round → 409, names the plan waiting now",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D11 change on a white-only job → 400",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D12 change with a note and edits together → 400",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D13 change to shot 1 (white master) or shot 9 → 400 listing the scene shots",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D14 a 4th change round → 400",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D15 no webhook address known → refuse (host check never skipped)",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D16 valid change with edits → forwarded with run id and round",
+  "ok": true,
+  "info": ""
+ },
+ {
+  "test": "D7 a held run (not waiting) → 409",
+  "ok": true,
+  "info": ""
+ }
+]

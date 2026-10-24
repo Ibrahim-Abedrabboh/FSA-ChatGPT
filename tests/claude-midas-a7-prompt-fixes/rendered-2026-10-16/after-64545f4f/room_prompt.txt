@@ -1,0 +1,12 @@
+No image is attached. Create a photograph of an empty room.
+Build only the room shell: walls, floor, ceiling, skirting, windows with plain sheer curtains or blinds, doors, fixed architectural details, and built-in light (recessed downlights, a cove light or a plain ceiling fixture). No furniture, no rugs, no lamps or other light fittings apart from the built-in light, no plants, no art, no mirrors, no textiles except plain sheer curtains or blinds at the windows, no decor, no products, no people, no text.
+Walls: warm plaster.
+Floor: light oak boards.
+Windows: a large window on the left with plain sheer curtains.
+Room size: about 5 x 4 m.
+Leave this floor zone clear, empty and fully visible: centred against the long wall.
+Camera: eye height about 110-120 cm (living room preset). Camera level: 0 degrees pitch, roll and yaw; one-point perspective; vertical lines stay vertical; no fisheye or wide-angle distortion.
+Light: about 4000 K colour temperature (Daylight preset): daylight through the windows. Light sources: daylight through the windows and the room's built-in light: recessed downlights, a cove light or a plain ceiling fixture, shown as part of the architecture, not as a product; no lamps.
+Frame: landscape, 16:9, wider than tall. The photograph fills the whole frame: no borders, bars, frames or split panels.
+Photorealistic interior photography, premium retail catalogue style, natural materials, accurate proportions, sharp focus, balanced exposure.
+No illustration, CGI look, cartoon style, painting, fisheye lens, wide-angle distortion, tilted verticals, extreme perspective, oversaturation, blur or noise.

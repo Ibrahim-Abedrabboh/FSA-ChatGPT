@@ -1,0 +1,1 @@
+const r=$input.first().json;if(r.statusCode!==200||r.body?.send!==true||!r.body.permit||r.body.reservedMicroUsd>100000)throw Error('blind_send_denied');return [{json:{body:$('Blind · Build request').first().json.body}}];

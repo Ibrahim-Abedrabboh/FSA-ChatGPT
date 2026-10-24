@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#EDEEF1">
+  <!-- Midas owner studio (Claude-final-midas-a7, 18 Oct 2026): the "client first page" experience
+       (midas-client-studio.arafat312096.chatgpt.site/client-first-page), connected to this site's own /api/owner/* only.
+       Revised 18 Oct 2026 to the full first-page guide: every option can be chosen. Options A7 records but does not apply yet are
+       marked "Recorded · not applied by A7 yet"; A7 lists them back itself under "not applied". -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self'; form-action 'none'; base-uri 'none'">
+  <title>Midas Virtual Studio</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="taxonomy.js" defer></script>
+  <script src="owner-link.js" defer></script>
+  <script src="preview-image.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body class="cf">
+  <a class="cf-skip" href="#main">Skip to the studio</a>
+  <header class="cf-header">
+    <a class="cf-logo" href="/owner/" aria-label="Midas Virtual Studio, start">MIDAS<span>VIRTUAL STUDIO</span></a>
+    <nav class="cf-header-end" aria-label="Studio">
+      <span class="cf-badge" id="who">Owner studio</span>
+      <button class="cf-link" type="button" id="open-requests">Requests</button>
+      <a class="cf-link" href="/owner/guide/"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6"/><circle cx="12" cy="17" r=".6"/></svg>Guide</a>
+      <a class="cf-link cf-hide-sm" href="/owner/desk/">Studio desk</a>
+      <button class="cf-link" type="button" id="sign-out">Sign out</button>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <p class="cf-notice" id="boot" role="status">Opening the studio…</p>
+
+    <div id="app" hidden>
+      <div class="cf-title">
+        <h1 id="page-title">Start creating.</h1>
+        <div class="cf-tabs" role="group" aria-label="How to start">
+          <button type="button" id="mode-projects" aria-pressed="false">Projects</button>
+          <button type="button" id="mode-manual" aria-pressed="true">Manual</button>
+        </div>
+      </div>
+
+      <nav class="cf-stage-nav" id="stage-nav" aria-label="Steps"></nav>
+
+      <section class="cf-workspace">
+        <div class="cf-editor" id="editor">
+
+          <!-- 01 The Job (Manual) -->
+          <section class="cf-section" id="s-job" aria-labelledby="h-job">
+            <header><h2 id="h-job">What would you like to do?</h2></header>
+            <div class="cf-job-grid" id="job-grid"></div>
+            <div class="cf-job-detail" id="job-detail"></div>
+          </section>
+
+          <!-- 01 Project (Projects) -->
+          <section class="cf-section" id="s-project" aria-labelledby="h-project">
+            <header><h2 id="h-project">Where would you like to begin?</h2></header>
+            <div class="cf-source-grid" id="start-grid"></div>
+            <div class="cf-saved" id="saved-pick" hidden></div>
+            <label class="cf-field" id="room-brief-field" hidden><span>Describe the room <b class="cf-rec">Recorded · not applied by A7 yet</b></span><textarea id="room-brief" rows="3" maxlength="600" placeholder="For example: a bright open-plan dining room with tall windows."></textarea></label>
+          </section>
+
+          <!-- 02 The Item -->
+          <section class="cf-section" id="s-item" aria-labelledby="h-item">
+            <header><h2 id="h-item">Add your item.</h2><p id="item-lead"></p></header>
+            <div class="cf-item-tabs" id="item-tabs" role="group" aria-label="Items" hidden></div>
+            <label class="cf-field" id="item-name-field" hidden><span>Item name <small>shown in your requests</small></span><input id="item-name" maxlength="80" placeholder="For example: Oslo dining set"></label>
+            <div class="cf-three-col">
+              <label class="cf-field"><span>Department</span><select id="department"></select></label>
+              <label class="cf-field"><span>Category</span><select id="category"></select></label>
+              <label class="cf-field"><span>Sub-category</span><select id="sub-category"></select></label>
+            </div>
+            <div class="cf-input-bar">
+              <h3>Bring your references</h3>
+              <button class="cf-text-button" type="button" id="choose-midas" aria-expanded="false">Choose from Midas</button>
+            </div>
+            <label class="cf-field" id="catalogue-field" hidden><span>Midas products as references <small>SKU or product link, one per line</small> <b class="cf-rec">Recorded · not applied by A7 yet</b></span><textarea id="catalogue" rows="2" maxlength="1200"></textarea><small class="cf-help">To place Midas pieces in the scene, list their SKUs under More options → Specific items.</small></label>
+            <label class="cf-field"><span>Reference type</span><select id="ref-type"></select></label>
+            <label class="cf-upload" id="drop">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 15v4h14v-4"/></svg>
+              <strong>Add images</strong>
+              <span>Choose files from your device</span>
+              <small id="upload-note">JPG, PNG or WebP · larger photos are reduced to 3 MB in this browser · up to 12 references per item.</small>
+              <input type="file" id="files" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/avif,.heic,.heif" multiple aria-describedby="files-error">
+            </label>
+            <p class="cf-error" id="files-error" role="alert" hidden></p>
+            <div class="cf-file-list" id="file-list"></div>
+
+            <div class="cf-pieces">
+              <div class="cf-input-bar"><h3>Pieces in the photo</h3><span class="cf-req">Required</span></div>
+              <p class="cf-help">List each kind of piece and how many, for example 2 corner sofa. The studio checks its own count against yours before anything is made.</p>
+              <div id="pieces"></div>
+              <button class="cf-text-button" type="button" id="add-piece">+ Add a piece</button>
+              <p class="cf-error" id="pieces-error" role="alert" hidden></p>
+            </div>
+          </section>
+
+          <!-- 03 Scope -->
+          <section class="cf-section" id="s-scope" aria-labelledby="h-scope">
+            <header><h2 id="h-scope">What would you like to create?</h2><p>Select one or more.</p></header>
+            <div class="cf-scope-grid" id="scope-grid"></div>
+            <label class="cf-field" id="other-field" hidden><span>Describe the other outcome <small>sent to the studio as an explicit instruction</small></span><textarea id="other-outcome" rows="2" maxlength="300"></textarea></label>
+            <p class="cf-help cf-note-line" id="variations-note" hidden></p>
+            <label class="cf-check-line" id="white-master-field" hidden><input type="checkbox" id="white-master" checked> <span>Also make the white catalogue image <small>On by default. Untick to make only the room images; White BK and Website always include it.</small></span></label>
+            <details class="cf-delivery" id="delivery">
+              <summary>View &amp; delivery <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+              <div class="cf-two-col">
+                <label class="cf-field"><span>Views</span><select id="view"></select></label>
+                <label class="cf-field"><span>Image proportions</span><select id="aspect"></select></label>
+                <label class="cf-field"><span>Resolution</span><select id="resolution"></select></label>
+                <label class="cf-field"><span>Camera view</span><select id="camera"></select></label>
+                <label class="cf-field"><span>Series</span><select id="series"></select></label>
+                <label class="cf-field"><span>Number of variations</span><select id="var-count"></select></label>
+              </div>
+              <div id="var-axes-box"><p class="cf-label">Vary only <small>sent as an instruction</small></p><div class="cf-pills" id="var-axes"></div></div>
+              <p class="cf-help" id="view-note"></p>
+            </details>
+            <p class="cf-plan" id="plan-line"></p>
+            <label class="cf-field cf-budget"><span>Job budget, USD <small>0.25 to 10.00</small></span><input id="budget" type="number" min="0.25" max="10" step="0.01" inputmode="decimal" aria-describedby="budget-help"></label>
+            <p class="cf-help" id="budget-help"></p>
+          </section>
+
+          <!-- 04 Preferences -->
+          <section class="cf-section" id="s-preferences" aria-labelledby="h-preferences">
+            <header><h2 id="h-preferences">Preferences</h2><p id="prefs-note"></p></header>
+            <fieldset class="cf-preferences" id="prefs">
+              <legend class="cf-sr">Room preferences</legend>
+              <p class="cf-label">Lighting <small>3 options</small></p>
+              <div class="cf-pills" id="lighting"></div>
+              <p class="cf-label">Wall paint <small>8 options</small></p>
+              <div class="cf-swatches" id="wall"></div>
+              <p class="cf-label">Floor <small>4 options</small></p>
+              <div class="cf-pills" id="floor"></div>
+            </fieldset>
+            <label class="cf-toggle-line"><span>Use workflow defaults</span><input type="checkbox" role="switch" id="defaults"></label>
+          </section>
+
+          <!-- 05 Suggestions -->
+          <section class="cf-section" id="s-suggestions" aria-labelledby="h-suggestions">
+            <header><h2 id="h-suggestions">Add the finishing touches.</h2></header>
+            <div class="cf-toggles">
+              <label class="cf-toggle-card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c8 0 14-6 14-14C11 5 5 9 5 15v4Zm0 0 7-7"/></svg><span><strong>Plants</strong><small>Natural accents <b class="cf-rec">Recorded · not applied by A7 yet</b></small></span><input type="checkbox" role="switch" id="plants"></label>
+              <label class="cf-toggle-card" id="human-card"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/></svg><span><strong>Human</strong><small id="human-note">Lifestyle presence · at most one person, never in front of the item</small></span><input type="checkbox" role="switch" id="human"></label>
+            </div>
+            <label class="cf-field"><span>Mood / Vibes <b class="cf-rec" id="mood-rec">Recorded · not applied by A7 yet</b></span><select id="mood"></select></label>
+          </section>
+
+          <!-- Job: after sending -->
+          <section class="cf-section" id="s-run" aria-labelledby="h-run">
+            <header><h2 id="h-run" tabindex="-1">Your request is with the studio.</h2><p id="run-lead"></p></header>
+            <p class="cf-ref">Request reference <code id="run-ref"></code></p>
+            <ol class="cf-timeline" id="timeline"></ol>
+            <div class="cf-shots" id="shots"></div>
+            <section class="cf-decision" id="decision" aria-live="polite" hidden></section>
+            <p class="cf-error" id="run-error" role="alert" hidden></p>
+            <div class="cf-flow-actions">
+              <div class="cf-actions-left"><button class="cf-text-button" type="button" id="run-check">Check now</button></div>
+              <button class="cf-secondary" type="button" id="run-new">Start a new request</button>
+            </div>
+          </section>
+
+          <div class="cf-flow-actions" id="flow-actions">
+            <div class="cf-actions-left">
+              <button class="cf-back" type="button" id="back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>Back</button>
+              <button class="cf-more" type="button" id="more"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8M14 4v6M8 14v6"/></svg>More options</button>
+            </div>
+            <button class="cf-primary" type="button" id="next">Continue to the item</button>
+          </div>
+        </div>
+      </section>
+      <p class="cf-foot" id="draft-note"></p>
+    </div>
+  </main>
+
+  <!-- More options: items 7 to 15 of the guide -->
+  <dialog class="cf-dialog" id="more-dialog" aria-labelledby="more-title">
+    <button class="cf-close" type="button" data-close aria-label="Close">×</button>
+    <h2 id="more-title">More options</h2>
+    <p class="cf-dialog-lead">Adjust only what you need.</p>
+    <details class="cf-option-group" id="opt-picks"><summary>7 · Specific items / Combo</summary>
+      <label class="cf-field"><span>Midas items to use <small>SKU, one per line, up to 12</small></span><textarea id="picks" rows="3" maxlength="520" placeholder="174788"></textarea></label>
+      <p class="cf-help">The studio places the items you name when they are confirmed in stock; otherwise it chooses up to three Midas pieces, or none.</p>
+      <label class="cf-field"><span>Product links <b class="cf-rec">Recorded · not applied by A7 yet</b></span><input id="links" maxlength="300" placeholder="https://"></label>
+    </details>
+    <details class="cf-option-group" id="opt-data"><summary>8 · Additional input data <small id="data-for"></small></summary>
+      <div class="cf-two-col">
+        <label class="cf-field"><span>SKU</span><input id="sku" maxlength="40" autocomplete="off"></label>
+        <label class="cf-field"><span>Dimensions</span><input id="dimensions" maxlength="120" placeholder="For example 220 x 95 x 80 cm"></label>
+        <label class="cf-field"><span>Confirmed colour</span><input id="color" maxlength="60"></label>
+        <label class="cf-field"><span>Confirmed fabric / material</span><input id="material" maxlength="80"></label>
+      </div>
+      <label class="cf-field"><span>Product notes</span><textarea id="description" maxlength="1200" rows="3" placeholder="Facts from the supplier. Leave empty if unsure: the studio does not guess."></textarea></label>
+      <p class="cf-help">Item count and relationships are set in The Item, under Pieces in the photo.</p>
+    </details>
+    <details class="cf-option-group"><summary>9 · Include description and meta</summary>
+      <div class="cf-pills" id="include-meta"></div>
+      <p class="cf-help" id="include-meta-note"></p>
+    </details>
+    <details class="cf-option-group" id="opt-previous"><summary>10 · Use previous generation (space, look)</summary>
+      <div id="prev-box"></div>
+    </details>
+    <details class="cf-option-group"><summary>11 · Other pieces images</summary><p>Add them in The Item with the reference type “Other views / pieces”. A reverse view or a detail inset is not a new saleable piece.</p></details>
+    <details class="cf-option-group" id="opt-prompt"><summary>12 · Custom prompting</summary>
+      <label class="cf-field"><span>Instructions for the studio</span><textarea id="instructions" rows="3" maxlength="1200" placeholder="For example: keep the original windows, or show the two chairs without the table."></textarea></label>
+      <label class="cf-field"><span>Details to keep exactly as in the photo <small>one per line</small></span><textarea id="locks" rows="3"></textarea></label>
+      <label class="cf-field"><span>Things to exclude <small>one per line</small></span><textarea id="must-not" rows="2"></textarea></label>
+      <p class="cf-help" id="budget-note"></p>
+    </details>
+    <details class="cf-option-group"><summary>13 · Steering</summary><p>This heading is unfinished in the guide, so it adds no fields. Write revision instructions under Custom prompting.</p></details>
+    <details class="cf-option-group" id="opt-strength"><summary>14 · Fidelity / Styling / Cluttering</summary>
+      <p class="cf-help">Steering strength out of 100, not a measured score. <b class="cf-rec">Recorded · not applied by A7 yet</b> The studio keeps the product exactly as photographed.</p>
+      <div id="strengths"></div>
+    </details>
+    <details class="cf-option-group" id="opt-validation"><summary>15 · Human validation</summary>
+      <div class="cf-pills" id="review-first"></div>
+      <p class="cf-help" id="review-first-note"></p>
+      <label class="cf-toggle-line"><span>Use semantic grounding <b class="cf-rec">Recorded · not applied by A7 yet</b></span><input type="checkbox" role="switch" id="grounding"></label>
+    </details>
+    <button class="cf-primary cf-wide" type="button" data-close>Done</button>
+  </dialog>
+
+  <!-- Review your choices -->
+  <dialog class="cf-dialog" id="review-dialog" aria-labelledby="review-title">
+    <button class="cf-close" type="button" data-close aria-label="Close">×</button>
+    <h2 id="review-title">Review your choices</h2>
+    <p class="cf-dialog-lead">Your selections for this item or project. Nothing is sent until you confirm the cost.</p>
+    <dl class="cf-review" id="review-list"></dl>
+    <div class="cf-recorded" id="review-recorded" hidden></div>
+    <div class="cf-blockers" id="review-blockers" hidden></div>
+    <details class="cf-review-more"><summary>Preferences, instructions &amp; references</summary><dl class="cf-review" id="review-more"></dl></details>
+    <p class="cf-error" id="send-error" role="alert" hidden></p>
+    <div class="cf-dialog-actions">
+      <button class="cf-secondary" type="button" data-close>Return to my choices</button>
+      <button class="cf-primary" type="button" id="send">Save and check the cost</button>
+    </div>
+  </dialog>
+
+  <!-- Cost before processing -->
+  <dialog class="cf-dialog" id="cost-dialog" aria-labelledby="cost-title">
+    <button class="cf-close" type="button" id="cost-close" aria-label="Close">×</button>
+    <h2 id="cost-title">Confirm the cost before processing</h2>
+    <p class="cf-dialog-lead">Nothing has been sent yet. Your request and photos are saved as a project version.</p>
+    <p><span class="cf-pill-state" id="cost-state"></span></p>
+    <dl class="cf-review" id="cost-facts"></dl>
+    <div class="cf-cost-items" id="cost-items"></div>
+    <details class="cf-review-more"><summary>Basis</summary><div id="cost-more"></div></details>
+    <p class="cf-blockers" id="cost-blocked" hidden></p>
+    <label class="cf-check-line" id="cost-check"><input type="checkbox" id="cost-confirm"> <span id="cost-confirm-text">I confirm this estimate and want the studio to start paid processing once.</span></label>
+    <div class="cf-dialog-actions">
+      <button class="cf-secondary" type="button" id="cost-cancel">Not now</button>
+      <button class="cf-primary" type="button" id="cost-go" disabled>Start processing</button>
+    </div>
+  </dialog>
+
+  <!-- Requests: saved versions on the owner account -->
+  <dialog class="cf-dialog" id="requests-dialog" aria-labelledby="requests-title">
+    <button class="cf-close" type="button" data-close aria-label="Close">×</button>
+    <h2 id="requests-title">Your requests</h2>
+    <p class="cf-dialog-lead">Saved projects and versions on your owner account.</p>
+    <div class="cf-requests" id="requests-list"></div>
+  </dialog>
+
+  <p class="cf-sr" id="live" role="status" aria-live="polite"></p>
+</body>
+</html>

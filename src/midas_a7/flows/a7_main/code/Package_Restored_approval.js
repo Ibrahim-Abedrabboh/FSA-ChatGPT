@@ -1,0 +1,11 @@
+function restoreApprovedPackage(c){
+ if(c?.ready!==true||c.paidCalls!==0||c.row?.go2_decision!=='approve'||c.decision?.decision!=='approve'||c.review?.result!=='passed'||!c.cost?.operations)throw Error('package_context_missing');
+ const r=c.row,contract=JSON.parse(r.contract),s04=JSON.parse(r.stage04),d=c.decision;
+ if(c.brief.outputs.some(o=>o.id!=='white_master')||contract.outputs.some(o=>o.kind!=='white'))throw Error('package_paid_path_denied');
+ const st={...contract,brief:c.brief,stage04:s04,contract,contract_stamp:r.contract_stamp,contract_version:r.contract_version,observation:JSON.parse(r.observation),references:JSON.parse(r.references),not_applied:JSON.parse(r.not_applied),cost_estimate:JSON.parse(r.cost_estimate),trail:JSON.parse(r.trail),received_at:r.received_at,go1_rounds:r.go1_rounds||0,go1_last:{decision:'go',by:'owner',at:r.go1_at,note:r.go1_note||''},go2_round:d.round,go2_last:d,review:c.review,review_log:JSON.parse(r.review).log||[],stage:'06 Package',status:'white_master_approved',critical:[],text_calls:[],text_calls_new:[],package_cost_history:c.cost};
+ st.approved={output_id:d.release.output_id,attempt:c.review.attempt,by:'owner',at:d.at,note:d.note||'',candidate:s04.candidate,release:d.release,contract_stamp:r.contract_stamp,review_result:c.review.result,without_review:false,approval_kind:'approved by the owner',shown_as:d.release.label,client_shown_as:'Approved',product_box_2d:c.review.product_box_2d};
+ // Historical calls are restored for summaries only, never appended as new calls.
+ st.text_calls=c.cost.operations.filter(o=>o.node!=='15g Send to Google').map(o=>({node:o.node,model:o.model,status:o.status,usd:o.status==='completed'?o.usd:null,held_usd:o.status!=='completed'?o.usd:0,usage:o.usage,receipt_ref:o.receipt_ref,operation_key:o.operation_key,basis:o.basis}));
+ return st;
+}
+const r=$input.first().json;if(r.statusCode!==200)throw Error('package_claim_denied:'+String(r.body?.error||r.statusCode));return [{json:restoreApprovedPackage(r.body)}];

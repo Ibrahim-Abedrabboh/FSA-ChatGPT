@@ -1,0 +1,3 @@
+# midas-a7-shield (The Shield)
+
+Masks secrets in everything a Claude Code session stores: tool results, notes and the model's own text. It covers provider keys (Anthropic, OpenAI, Google, GitHub, Slack), bearer tokens and Authorization headers, `X-Midas-Key` and `X-Midas-Owner-Key` values, `sig=`/`signature=`/`key=`/`token=` query parameters, the project's secret environment variables (A7_READ_AUTHORIZATION, A7_BRIDGE_HEADER_VALUE, MIDAS_*_HEADER_VALUE, RESUME_SIGNING_SECRET, FILE_LINK_SECRET, provider keys), secret JSON fields and database URL passwords. The name stays and the value becomes `<redacted>`, before the row reaches the transcript or the next request (CLAUDE.md rule 1). The status line counts masked rows. It changes nothing outside the session.

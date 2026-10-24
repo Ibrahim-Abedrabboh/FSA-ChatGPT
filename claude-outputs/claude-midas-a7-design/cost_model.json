@@ -1,0 +1,355 @@
+{
+ "prices": {
+  "gemini-3.8-flash": "ai.google.dev/gemini-api/docs/pricing (through 31 Dec 2026; doubles 1 Jan 2027)",
+  "gpt-6.1-sol": "developers.openai.com/api/docs/pricing; image tokens not published for this model: 2000 is an estimate",
+  "gpt-6-luna": "developers.openai.com/api/docs/pricing",
+  "claude-sonnet-5-5": "Anthropic pricing (research notes); image tokens estimated from the 28px-patch rule",
+  "gpt-4.1": "A6 today; retired from the API 14 Jan 2027",
+  "gpt-4o": "A6 today; retired from the API 14 Jan 2027"
+ },
+ "price_values": {
+  "gemini-3.8-flash": {
+   "i": 0.75,
+   "o": 3.75,
+   "img": 1120
+  },
+  "gpt-6.1-sol": {
+   "i": 2.0,
+   "o": 10.0,
+   "img": 2000
+  },
+  "gpt-6-luna": {
+   "i": 0.1,
+   "o": 0.5,
+   "img": 0
+  },
+  "claude-sonnet-5-5": {
+   "i": 2.0,
+   "o": 10.0,
+   "img": 1600
+  },
+  "gpt-4.1": {
+   "i": 2.0,
+   "o": 8.0,
+   "img": 765
+  },
+  "gpt-4o": {
+   "i": 2.5,
+   "o": 10.0,
+   "img": 765
+  }
+ },
+ "image_prices": {
+  "nano-2.1 (Google API)": 0.0639,
+  "nano-2.1 (fal.ai)": 0.0749,
+  "nano-pro (fal.ai, A6)": 0.15,
+  "flux-2-max (fal.ai, A6)": 0.2
+ },
+ "bg_remove": 0.018,
+ "a7_calls": {
+  "photo reading (3,4,6)": {
+   "model": "gemini-3.8-flash",
+   "in_tok": 1740,
+   "out_tok": 519,
+   "images": 1,
+   "usd": 0.00604
+  },
+  "source count cross-check": {
+   "model": "claude-sonnet-5-5",
+   "in_tok": 900,
+   "out_tok": 250,
+   "images": 1,
+   "usd": 0.01
+  },
+  "conflict check (9)": {
+   "model": "gpt-6-luna",
+   "in_tok": 1450,
+   "out_tok": 38,
+   "images": 0,
+   "usd": 0.00018
+  },
+  "scene planning (11)": {
+   "model": "gpt-6.1-sol",
+   "in_tok": 2707,
+   "out_tok": 797,
+   "images": 0,
+   "usd": 0.02135
+  },
+  "plan check (11)": {
+   "model": "claude-sonnet-5-5",
+   "in_tok": 2230,
+   "out_tok": 934,
+   "images": 0,
+   "usd": 0.02314
+  },
+  "review (16)": {
+   "model": "gpt-6.1-sol",
+   "in_tok": 3670,
+   "out_tok": 806,
+   "images": 2,
+   "usd": 0.03146
+  },
+  "blind count A (16)": {
+   "model": "gemini-3.8-flash",
+   "in_tok": 700,
+   "out_tok": 300,
+   "images": 1,
+   "usd": 0.00361
+  },
+  "blind count B (16)": {
+   "model": "claude-sonnet-5-5",
+   "in_tok": 700,
+   "out_tok": 250,
+   "images": 1,
+   "usd": 0.0096
+  },
+  "audit with count (16)": {
+   "model": "claude-sonnet-5-5",
+   "in_tok": 1236,
+   "out_tok": 206,
+   "images": 2,
+   "usd": 0.01299
+  },
+  "final inspection (16)": {
+   "model": "gpt-6.1-sol",
+   "in_tok": 900,
+   "out_tok": 250,
+   "images": 2,
+   "usd": 0.0148
+  },
+  "description writer (20)": {
+   "model": "claude-sonnet-5-5",
+   "in_tok": 1114,
+   "out_tok": 301,
+   "images": 0,
+   "usd": 0.00825
+  },
+  "description check (20)": {
+   "model": "gpt-6-luna",
+   "in_tok": 1306,
+   "out_tok": 32,
+   "images": 0,
+   "usd": 0.00016
+  }
+ },
+ "scenarios": [
+  {
+   "job": "White BK, 1 image",
+   "outcome": "White BK",
+   "images": 1,
+   "repairs": 0,
+   "case": "no correction",
+   "lines": {
+    "Fixed: read, check and plan the job": 0.0607,
+    "Images made": 0.0819,
+    "Checks on every image made": 0.0447,
+    "Audit and final inspection of kept images": 0.013,
+    "Description and its check": 0.0084
+   },
+   "total": 0.2087,
+   "total_fal": 0.2197,
+   "total_think3": 0.2858
+  },
+  {
+   "job": "White BK, 1 image",
+   "outcome": "White BK",
+   "images": 1,
+   "repairs": 1,
+   "case": "one repair per image",
+   "lines": {
+    "Fixed: read, check and plan the job": 0.0607,
+    "Images made": 0.1638,
+    "Checks on every image made": 0.0894,
+    "Audit and final inspection of kept images": 0.013,
+    "Description and its check": 0.0084
+   },
+   "total": 0.3352,
+   "total_fal": 0.3573,
+   "total_think3": 0.4357
+  },
+  {
+   "job": "White BK, 1 image",
+   "outcome": "White BK",
+   "images": 1,
+   "repairs": 2,
+   "case": "two repairs per image (maximum)",
+   "lines": {
+    "Fixed: read, check and plan the job": 0.0607,
+    "Images made": 0.2457,
+    "Checks on every image made": 0.134,
+    "Audit and final inspection of kept images": 0.013,
+    "Description and its check": 0.0084
+   },
+   "total": 0.4618,
+   "total_fal": 0.4949,
+   "total_think3": 0.5856
+  },
+  {
+   "job": "Lifestyle, 2 images + white master",
+   "outcome": "Lifestyle",
+   "images": 3,
+   "repairs": 0,
+   "case": "no correction",
+   "lines": {
+    "Fixed: read, check and plan the job": 0.0607,
+    "Images made": 0.1917,
+    "Checks on every image made": 0.134,
+    "Audit and final inspection of kept images": 0.0686,
+    "Description and its check": 0.0084
+   },
+   "total": 0.4634,
+   "total_fal": 0.4965,
+   "total_think3": 0.6055
+  },
+  {
+   "job": "Lifestyle, 2 images + white master",
+   "outcome": "Lifestyle",
+   "images": 3,
+   "repairs": 3,
+   "case": "one repair per image",
+   "lines": {
+    "Fixed: read, check and plan the job": 0.0607,
+    "Images made": 0.3833,
+    "Checks on every image made": 0.2681,
+    "Audit and final inspection of kept images": 0.0686,
+    "Description and its check": 0.0084
+   },
+   "total": 0.7891,
+   "total_fal": 0.8552,
+   "total_think3": 1.0012
+  },
+  {
+   "job": "Lifestyle, 2 images + white master",
+   "outcome": "Lifestyle",
+   "images": 3,
+   "repairs": 6,
+   "case": "two repairs per image (maximum)",
+   "lines": {
+    "Fixed: read, check and plan the job": 0.0607,
+    "Images made": 0.575,
+    "Checks on every image made": 0.4021,
+    "Audit and final inspection of kept images": 0.0686,
+    "Description and its check": 0.0084
+   },
+   "total": 1.1147,
+   "total_fal": 1.214,
+   "total_think3": 1.397
+  },
+  {
+   "job": "Website package, 4 images",
+   "outcome": "Website",
+   "images": 4,
+   "repairs": 0,
+   "case": "no correction",
+   "lines": {
+    "Fixed: read, check and plan the job": 0.0607,
+    "Images made": 0.2555,
+    "Checks on every image made": 0.1787,
+    "Audit and final inspection of kept images": 0.0964,
+    "Description and its check": 0.0084
+   },
+   "total": 0.5997,
+   "total_fal": 0.6438,
+   "total_think3": 0.7743
+  },
+  {
+   "job": "Website package, 4 images",
+   "outcome": "Website",
+   "images": 4,
+   "repairs": 4,
+   "case": "one repair per image",
+   "lines": {
+    "Fixed: read, check and plan the job": 0.0607,
+    "Images made": 0.5111,
+    "Checks on every image made": 0.3574,
+    "Audit and final inspection of kept images": 0.0964,
+    "Description and its check": 0.0084
+   },
+   "total": 1.034,
+   "total_fal": 1.1222,
+   "total_think3": 1.302
+  },
+  {
+   "job": "Website package, 4 images",
+   "outcome": "Website",
+   "images": 4,
+   "repairs": 8,
+   "case": "two repairs per image (maximum)",
+   "lines": {
+    "Fixed: read, check and plan the job": 0.0607,
+    "Images made": 0.7666,
+    "Checks on every image made": 0.5361,
+    "Audit and final inspection of kept images": 0.0964,
+    "Description and its check": 0.0084
+   },
+   "total": 1.4682,
+   "total_fal": 1.6005,
+   "total_think3": 1.8297
+  },
+  {
+   "job": "Lifestyle + Website, 1 master + 2 + 3",
+   "outcome": "Lifestyle + Website",
+   "images": 6,
+   "repairs": 0,
+   "case": "no correction",
+   "lines": {
+    "Fixed: read, check and plan the job": 0.0607,
+    "Images made": 0.3833,
+    "Checks on every image made": 0.2681,
+    "Audit and final inspection of kept images": 0.152,
+    "Description and its check": 0.0084
+   },
+   "total": 0.8724,
+   "total_fal": 0.9386,
+   "total_think3": 1.112
+  },
+  {
+   "job": "Lifestyle + Website, 1 master + 2 + 3",
+   "outcome": "Lifestyle + Website",
+   "images": 6,
+   "repairs": 6,
+   "case": "one repair per image",
+   "lines": {
+    "Fixed: read, check and plan the job": 0.0607,
+    "Images made": 0.7666,
+    "Checks on every image made": 0.5361,
+    "Audit and final inspection of kept images": 0.152,
+    "Description and its check": 0.0084
+   },
+   "total": 1.5238,
+   "total_fal": 1.6561,
+   "total_think3": 1.9036
+  },
+  {
+   "job": "Lifestyle + Website, 1 master + 2 + 3",
+   "outcome": "Lifestyle + Website",
+   "images": 6,
+   "repairs": 12,
+   "case": "two repairs per image (maximum)",
+   "lines": {
+    "Fixed: read, check and plan the job": 0.0607,
+    "Images made": 1.1499,
+    "Checks on every image made": 0.8042,
+    "Audit and final inspection of kept images": 0.152,
+    "Description and its check": 0.0084
+   },
+   "total": 2.1752,
+   "total_fal": 2.3736,
+   "total_think3": 2.6951
+  }
+ ],
+ "a6_job_cfdaefa8": {
+  "lines": {
+   "Fixed: read, check and plan the job": 0.0544,
+   "Images made": 0.5,
+   "Checks on every image made": 0.0699,
+   "Audit and final inspection of kept images": 0.0331,
+   "Description and its check": 0.0109
+  },
+  "total": 0.6683
+ },
+ "a7_same_job": {
+  "total": 0.4634
+ },
+ "per_repair_a7": 0.1086
+}

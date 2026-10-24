@@ -1,0 +1,1 @@
+return [{json:$('Blind · Evidence').first().json}];

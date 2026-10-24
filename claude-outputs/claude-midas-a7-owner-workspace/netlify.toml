@@ -1,0 +1,72 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+[build.environment]
+  NODE_VERSION = "24"
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+# Retired new-job screens (22 Oct 2026): only /owner/ sends jobs.
+[[redirects]]
+  from = "/owner/client"
+  to = "/owner/"
+  status = 302
+  force = true
+[[redirects]]
+  from = "/owner/client/*"
+  to = "/owner/"
+  status = 302
+  force = true
+[[redirects]]
+  from = "/owner/guide"
+  to = "/owner/"
+  status = 302
+  force = true
+[[redirects]]
+  from = "/owner/guide/*"
+  to = "/owner/"
+  status = 302
+  force = true
+[[redirects]]
+  from = "/owner/draft3"
+  to = "/owner/"
+  status = 302
+  force = true
+[[redirects]]
+  from = "/owner/draft3/*"
+  to = "/owner/"
+  status = 302
+  force = true
+[[redirects]]
+  from = "/owner/desk"
+  to = "/owner/"
+  status = 302
+  force = true
+[[redirects]]
+  from = "/owner/desk/*"
+  to = "/owner/"
+  status = 302
+  force = true
+[[redirects]]
+  from = "/owner/*"
+  to = "/owner/:splat"
+  status = 200
+  force = true
+  conditions = {Role = ["owner"]}
+[[redirects]]
+  from = "/owner/*"
+  to = "/index.html"
+  status = 401
+  force = true
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    X-Frame-Options = "DENY"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
+[[headers]]
+  for = "/owner/*"
+  [headers.values]
+    Cache-Control = "private, no-store"

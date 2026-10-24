@@ -1,0 +1,1 @@
+const it=$('Job accepted').first();return [{json:it.json,binary:it.binary}];

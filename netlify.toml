@@ -1,0 +1,5 @@
+# Guard (Claude-final-midas-a7, 18 Oct 2026). The Netlify project claude-final-midas-a7 must build from its base directory
+# claude-outputs/claude-midas-a7-owner-workspace, which has its own netlify.toml (functions, access rules, security headers).
+# If a build ever starts from the repository root instead, it fails here, so the repository's files are never published.
+[build]
+  command = "echo 'Set the Netlify base directory to claude-outputs/claude-midas-a7-owner-workspace. Nothing is published from the repository root.' && exit 1"

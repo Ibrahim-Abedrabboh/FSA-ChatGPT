@@ -1,0 +1,1 @@
+const it=$input.first(),r=it.json;if(r.statusCode<200||r.statusCode>=300||!r.body||r.body.error)return [{json:{error:'OpenAI fallback unavailable (HTTP '+(r.statusCode||'unknown')+'). No automatic resend.'}}];return [{json:r.body,binary:it.binary}];

@@ -1,0 +1,62 @@
+{
+  "title": "Claude · Dining 12 generated test photo (NOT A VENDOR PHOTO)",
+  "recorded": "2026-10-17, 01:5x Amman",
+  "status": "generated test photo",
+  "owner_rule": "Owner, 17 Oct 2026 01:54: allowed for ONE reader test only, as an exception to the 00:43 rule. It never becomes a vendor photo, a reference or a source for any image job, and is never shown as a Midas product. All results from it are labelled 'pipeline test only'. Dining stays parked whatever the result.",
+  "file": {
+    "name": "generated-test-photo-NOT-VENDOR.png",
+    "format": "PNG",
+    "width": 1376,
+    "height": 768,
+    "bytes": 613910,
+    "sha256": "5c8b4e5f6e6a1cd0e33ed4afbfed112eff9c40362e91d932c479691ed16b71a1"
+  },
+  "origin": {
+    "made_by": "the owner, with an image tool outside this chat, from the prompt Claude wrote on 17 Oct 2026, 01:1x (plus the 01:3x arrangement change)",
+    "tool_and_run": "not confirmed (the owner has not named the tool or run)",
+    "received_in_chat": "17 Oct 2026, 01:34 Amman (the second of two images sent then)"
+  },
+  "drive": {
+    "folder": "Testing/Dining 12",
+    "folder_id": "1do4lqe6-LjLXAYHRUJaTZvYTDaT8D1D8",
+    "file_id": "1akFp64COlPJXetAwuNck_rJNPamZvfMf",
+    "note": "Uploaded by the owner as main.jpg (613,910 bytes); renamed by Claude to generated-test-photo-NOT-VENDOR.png with a NOT A VENDOR PHOTO description, 17 Oct 02:3x. sha256 checked equal in execution 478 (gate)."
+  },
+  "claude_free_check": {
+    "count_by_eye": "1 table; far side 5 armless; near side 5 armless; 1 armchair at each end; 12 chairs; matching fabric and frame",
+    "not_cropped": true,
+    "people": false,
+    "hidden": "near row hides most of the table top and the lower half of the far chairs",
+    "note": "Claude's own reading, not the reader's answer and not the owner's sheet."
+  },
+  "answer_sheet": {
+    "status": "confirmed by the owner, 17 Oct 2026 02:31 (\"OK\")",
+    "pieces": 13,
+    "table": 1,
+    "armless_chairs": 10,
+    "armchairs": 2,
+    "layout": "5 + 5 on the long sides, 1 armchair at each end"
+  },
+  "rejected_candidates": [
+    {
+      "sha256": "5f04a13dd7769b46fe4a3616654d2f1823a8eb38700fab88dedddad64c1166ab",
+      "size": "1376x768",
+      "why": "showroom with people; about 4 + 6 armless, one grey chair, armchair apart from the table"
+    },
+    {
+      "sha256": "d1a7e85c371110311833fd8b067cb1d45f18ee853b69d8b938fcd3adbd7593fd",
+      "size": "1376x768",
+      "why": "10 chairs (4 + 4 + 2); odd arm on the right armchair"
+    },
+    {
+      "sha256": "853e0cd1bfccb8d3f1b9836b044151f3bf25f2a1d4b35eba8cb03ebdae2fc14e",
+      "size": "1536x1024",
+      "why": "11 chairs (5 + 4 + 2)"
+    }
+  ],
+  "reader_test": {
+    "execution": "478",
+    "result": "PASS (pipeline test only): 13 product pieces = 1 table + 10 armless + 2 armchairs",
+    "usd_estimate": 0.01219
+  }
+}

@@ -1,0 +1,1 @@
+const r=$input.first().json;if(r.statusCode!==200||r.body?.ready!==true)throw Error('blind_context_rejected');return [{json:r.body}];

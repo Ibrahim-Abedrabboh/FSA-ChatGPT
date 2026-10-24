@@ -1,0 +1,1 @@
+{ "name": "midas-a7-dashboard", "version": "0.1.0", "description": "The Dashboard: a pane with the A7 service's health, its run status and the latest Railway log lines, refreshed every minute", "author": { "name": "Midas Studio" }, "types": "./types/index.d.ts" }

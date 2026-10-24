@@ -1,0 +1,199 @@
+{
+ "checked_at_amman": "2026-10-14 18:19",
+ "workflow_export_sha256": "7244a2e640cef370c3ff351695f0a1899a7d661b6922db309890b574ccdb6712",
+ "run_export_sha256": "3283e0d04a05a1dbc27b417c5cc2d5cccbb243a6bf60a650a4586f74330739ad",
+ "workflow_version": "b1b0f696-3dc3-4b10-ab90-c790d5df9dd3",
+ "run": "362",
+ "md_sha256": "07adff545650d24d042e6c03813370e101ec2dd08f7907604f811629251d0269",
+ "docx_sha256": "493eb949e0ee63192f6da42acf2e2374c19e9188d925201c7d9391fe0d078172",
+ "sources": 26,
+ "md_blocks": 26,
+ "md_exact": 26,
+ "unmatched_md_blocks": 0,
+ "docx_contains": 26,
+ "fence_swaps": 0,
+ "rows": [
+  {
+   "source": "02 Eye reads the product photo \u00b7 fixed instructions",
+   "chars": 6653,
+   "sha256": "4b67cc9bc808ce61",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "04 Stylist plans the scenes \u00b7 fixed instructions",
+   "chars": 7489,
+   "sha256": "2fbc79b8573e4dc7",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "05b Plan critic \u00b7 fixed instructions",
+   "chars": 3212,
+   "sha256": "fcb2cfd2c713e584",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "10 Reviewer compares two images \u00b7 fixed instructions",
+   "chars": 10201,
+   "sha256": "9ab6fa0cc9cb9269",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "14 Auditor compares two images \u00b7 fixed instructions",
+   "chars": 3075,
+   "sha256": "0ddc6c95eb233109",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "17 Final inspector \u00b7 fixed instructions",
+   "chars": 2317,
+   "sha256": "21c222f5e6399917",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "03f Conflict check \u00b7 fixed instructions",
+   "chars": 3894,
+   "sha256": "c3f061d7a9a35dd1",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "21b Description writer \u00b7 fixed instructions",
+   "chars": 1858,
+   "sha256": "5fc6103d9ac5b4ff",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "21d Description check \u00b7 fixed instructions",
+   "chars": 1629,
+   "sha256": "6ec61d70cb8044ce",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "03m Look reader \u00b7 fixed instructions",
+   "chars": 1637,
+   "sha256": "0f1c4b98452291ad",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "03m Look reader \u00b7 message template",
+   "chars": 229,
+   "sha256": "5c8be203d12f4ce7",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "01 Job intake \u00b7 eye_request (run 362)",
+   "chars": 306,
+   "sha256": "3a68852a6eabc51a",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "03d Contract ticket \u00b7 resolver_request (run 362)",
+   "chars": 1904,
+   "sha256": "786be0adb5a29719",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "03c Category and catalogue brief \u00b7 plan_request (run 362)",
+   "chars": 3339,
+   "sha256": "c8b3d58072b6c8fd",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "05a Plan critic ticket \u00b7 plan_check_request (run 362)",
+   "chars": 5708,
+   "sha256": "3219800484de505d",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "09d Review tickets again \u00b7 audit_request \u00b7 image 1 (run 362)",
+   "chars": 4626,
+   "sha256": "e6f9a7d0910ce332",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "09d Review tickets again \u00b7 audit_request \u00b7 image 2 (run 362)",
+   "chars": 4476,
+   "sha256": "e93fbab80dba2702",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "09d Review tickets again \u00b7 audit_request \u00b7 image 3 (run 362)",
+   "chars": 4339,
+   "sha256": "9e25ee2f6bcebca2",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "13 Audit tickets \u00b7 audit_request \u00b7 image 1 (run 362)",
+   "chars": 2095,
+   "sha256": "3a23613b3031fad4",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "13 Audit tickets \u00b7 audit_request \u00b7 image 2 (run 362)",
+   "chars": 1757,
+   "sha256": "cf2cf100ad2e978c",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "13 Audit tickets \u00b7 audit_request \u00b7 image 3 (run 362)",
+   "chars": 1757,
+   "sha256": "cf2cf100ad2e978c",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "21a Description ticket \u00b7 description_request (run 362)",
+   "chars": 2600,
+   "sha256": "e5fce0bb8b542a6d",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "21c Description \u00b7 description_check_request (run 362)",
+   "chars": 3595,
+   "sha256": "dfa70ca8f5f36911",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "07 Image requests \u00b7 prompt \u00b7 image 1 (run 362)",
+   "chars": 7036,
+   "sha256": "b6602807244b187e",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "07 Image requests \u00b7 prompt \u00b7 image 2 (run 362)",
+   "chars": 5208,
+   "sha256": "1da5403209d2fd3d",
+   "md_exact": true,
+   "docx_contains": true
+  },
+  {
+   "source": "07 Image requests \u00b7 prompt \u00b7 image 3 (run 362)",
+   "chars": 5108,
+   "sha256": "1ed52c01a37e955c",
+   "md_exact": true,
+   "docx_contains": true
+  }
+ ]
+}

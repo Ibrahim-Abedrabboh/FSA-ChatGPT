@@ -1,0 +1,13 @@
+{
+  "what": "Scratch n8n run of the stage 06 Edit Image settings (18f jpg, 18g webp) and the exact 18h code, on a code-made 2048 x 2048 black-and-white PNG",
+  "workflow": "Claude · scratch · A7 package resize test (UPIDK9W2UkJgQdBA), archived after the run",
+  "execution": "428",
+  "date": "2026-10-15T22:22Z (16 Oct 2026, 01:22 Kuwait)",
+  "status": "success",
+  "files": [
+    {"format": "jpg", "mime": "image/jpeg", "px": "1125x1125", "bytes": 9334, "sha256": "1469b77390adbbcd25c91973ce0fc041e6ea86ef5efbf7c48be9154c6f795212"},
+    {"format": "webp", "mime": "image/webp", "px": "1125x1125", "bytes": 2584, "sha256": "bbb743a11b1b098d847ac24569e08e40912ee8eb2c5c6b2a10f14db95937cf03"}
+  ],
+  "files_ok": true,
+  "limits": "Test image is a flat 1-bit shape, not a product photo. Colour profile, metadata and visual quality of a real photo were not checked. No credentials, no AI, no paid call."
+}

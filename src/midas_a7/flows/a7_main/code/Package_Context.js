@@ -1,0 +1,1 @@
+const r=$input.first().json;if(r.statusCode!==200||r.body?.ready!==true||r.body.paidCalls!==0)throw Error('package_context_rejected:'+String(r.body?.error||r.statusCode));return [{json:r.body}];

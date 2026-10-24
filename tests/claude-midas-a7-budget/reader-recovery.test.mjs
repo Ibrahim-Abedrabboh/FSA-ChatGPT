@@ -1,0 +1,44 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {restoreReaderCheckpoint,countedReaderInput} from '../../n8n/claude-midas-a7/budget-guards/reader-recovery.mjs';
+import {installReaderRecovery} from '../../n8n/claude-midas-a7/budget-guards/install-reader-recovery.mjs';
+import {guardWorkflow} from '../../n8n/claude-midas-a7/budget-guards/build-guarded-workflow.mjs';
+import {readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
+const sha='a'.repeat(64),client='owner-12345678-1234-4234-8234-123456789abc',run='claude-a7-test-reader',request={clientRunId:client,recovery:{clientId:client,runId:run,requestId:'12345678-1234-4234-8234-123456789abc',sourceSha256:sha}};
+const row={run_id:run,client_run_id:client,status:'hold',stage:'01 Intake & observe',observation:JSON.stringify({count_eye:null,count_second:2,unclear_second:['Recorded uncertainty']}),references:JSON.stringify([{role:'product',sha256:sha}]),trail:'[]',not_applied:'[]'};
+const event=(kind,payload)=>({run_id:run,client_run_id:client,kind,payload:JSON.stringify(payload)});
+const events=[event('brief',{outcomes:['white_bk'],outputs:[{id:'white_master'}]}),event('reference',{role:'product',sha256:sha,key:'old'}),event('text_call',{node:'03 Eye reads the product photo',error:'Service unavailable',tokens:null}),event('text_call',{node:'05 Second count',error:'',tokens:{input:1000,output:100}})];
+test('recovery hashes upload before database reads and restores from evidence-only input',async()=>{
+ const baseline=guardWorkflow(JSON.parse(await readFile(new URL('../../n8n/claude-midas-a7/workflow-1cgZc9rmBOrPdKIe.json',import.meta.url))));
+ const w=installReaderRecovery(baseline),AF=Object.getPrototypeOf(async function(){}).constructor;
+ const code=name=>new AF('$input','$','require',w.nodes.find(n=>n.name===name).parameters.jsCode);
+ const bytes=Buffer.from('synthetic recovery source'),hash=createHash('sha256').update(bytes).digest('hex');
+ const upload={json:{body:{payload:JSON.stringify({...request,verifiedSourceSha256:'f'.repeat(64),recovery:{...request.recovery,sourceSha256:hash}})}},binary:{files:{mimeType:'image/png'}}};
+ let reads=0;
+ const [prepared]=await code('Recovery · Request').call({helpers:{getBinaryDataBuffer:async(index,key)=>{assert.equal(index,0);assert.equal(key,'files');reads++;return bytes;}}},{first:()=>upload},()=>{throw Error('unexpected upstream lookup')},createRequire(import.meta.url));
+ assert.equal(prepared.json.verifiedSourceSha256,hash);assert.equal(reads,1);
+ const actualRow={...row,references:JSON.stringify([{role:'product',sha256:hash}])};
+ const actualEvents=events.map(e=>e.kind==='reference'?event('reference',{role:'product',sha256:hash}):e);
+ const lookup=name=>({first:()=>prepared,all:()=>[{json:actualRow}]});
+ const current={all:()=>actualEvents.map(json=>({json}))};
+ const noBinary={helpers:{getBinaryDataBuffer:async()=>{throw Error('evidence input has no binary');}}};
+ const [restored]=await code('Recovery · Restore checkpoint').call(noBinary,current,lookup,createRequire(import.meta.url));
+ assert.equal(restored.json.cached_second.total,2);assert.equal(restored.binary,upload.binary);
+ prepared.json.verifiedSourceSha256='';
+ await assert.rejects(()=>code('Recovery · Restore checkpoint').call(noBinary,current,lookup,createRequire(import.meta.url)),/recovery_source_unverified/);
+ prepared.json.verifiedSourceSha256='b'.repeat(64);
+ await assert.rejects(()=>code('Recovery · Restore checkpoint').call(noBinary,current,lookup,createRequire(import.meta.url)),/recovery_scope_or_source_changed/);
+});
+test('checkpoint reuses recorded count, same identity and original source without inheriting approval',()=>{const s=restoreReaderCheckpoint(request,[row],events,sha,'files');assert.equal(s.run_id,run);assert.equal(s.cached_second.total,2);assert.equal(s.text_calls.length,2);assert.deepEqual(s.text_calls_new,[]);assert.equal(s.product_key,'files');assert.equal(s.go1_token,undefined);assert.equal(s.contract,undefined);assert.equal(s.guidance_required,true);});
+test('incomplete, changed, ambiguous or post-approval checkpoints are denied',()=>{for(const changed of [{...row,status:'awaiting_go_1'},{...row,contract_stamp:'approved'},{...row,observation:JSON.stringify({count_eye:2,count_second:2})}])assert.throws(()=>restoreReaderCheckpoint(request,[changed],events,sha,'files'));assert.throws(()=>restoreReaderCheckpoint(request,[row,row],events,sha,'files'));assert.throws(()=>restoreReaderCheckpoint(request,[row],events,'b'.repeat(64),'files'));assert.throws(()=>restoreReaderCheckpoint(request,[row],events.slice(0,3),sha,'files'));});
+test('fallback input count rejects error, zero, oversized or unbound receipts',()=>{const r={statusCode:200,body:{object:'response.input_tokens',input_tokens:500}};assert.equal(countedReaderInput(r,sha).inputTokens,950);for(const invalid of [{...r,statusCode:503},{statusCode:200,body:{input_tokens:500}},{statusCode:200,body:{object:'response.input_tokens',input_tokens:0}},{statusCode:200,body:{object:'response.input_tokens',input_tokens:2000000}}])assert.throws(()=>countedReaderInput(invalid,sha));});
+test('installed recovery bypasses prior paid readers, retains all guards and preserves node identities',async()=>{
+ const baseline=guardWorkflow(JSON.parse(await readFile(new URL('../../n8n/claude-midas-a7/workflow-1cgZc9rmBOrPdKIe.json',import.meta.url))));const w=installReaderRecovery(baseline),find=n=>w.nodes.find(x=>x.name===n);
+ assert.deepEqual(w.connections['Recovery · Reuse readers?'].main[0].map(e=>e.node),['Recovery · Saved answer available?']);
+ for(const n of baseline.nodes){assert.equal(find(n.name).id,n.id);assert.deepEqual(find(n.name).credentials,n.credentials);if(/webhook|wait/.test(n.type))assert.deepEqual(find(n.name),n);}
+ assert.deepEqual(w.connections['Budget · 03b · Allowed'].main[0].map(e=>e.node),['03b Eye fallback (OpenAI)']);assert.equal(find('03b Eye fallback (OpenAI)').retryOnFail,false);
+ assert.match(find('04-06 Evidence').parameters.jsCode,/if\(!s.reader_recovery\) textCall\(sTc, 3/);assert.match(find('04-06 Evidence').parameters.jsCode,/if\(!s.reader_recovery\) textCall\(sTc, 4/);
+ const AF=Object.getPrototypeOf(async function(){}).constructor;for(const n of w.nodes.filter(n=>n.type==='n8n-nodes-base.code'))assert.doesNotThrow(()=>new AF('$input','$','require',n.parameters.jsCode),n.name);
+ assert.throws(()=>installReaderRecovery(w),/already_installed/);
+});

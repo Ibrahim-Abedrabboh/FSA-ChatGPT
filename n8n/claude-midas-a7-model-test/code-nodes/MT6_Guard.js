@@ -1,0 +1,31 @@
+// Model test · Guard before any paid call: the owner's go token is new, earlier calls are settled, and the planned calls fit the caps. Code only (15 Oct 2026).
+// The results table must answer with real rows or with nothing (positive proof). Rows from pinned tests (run id claude-mt-test-...) are not earlier calls.
+const P = $('MT4 Plan').first().json;
+const cfg = $('MT1 Config').first().json;
+const items = $input.all().map(i => i.json);
+const readOk = items.length > 0 && items.every(r => r && !r.error && !r.orders && (Object.keys(r).length === 0 || (r.operation_key && r.id !== undefined)));
+const rows = items.filter(r => r && r.operation_key);
+const token = String(cfg.go_token || '').trim();
+const used = rows.filter(r => r.go_token === token);
+const planned = new Set(P.orders.map(o => o.folder + '|' + o.model));
+const earlier = rows.filter(r => r.go_token !== token && !/^claude-mt-test-/.test(String(r.run_id || '')) && planned.has(r.folder + '|' + r.model));
+const OPEN = ['reserved', 'uncertain', 'uncertain_no_id', 'receipt_unreadable'];
+const open = earlier.filter(r => OPEN.indexOf(String(r.status)) !== -1);
+const done = earlier.filter(r => String(r.status) === 'completed');
+const p = [], notes = [];
+if (cfg.paid_calls_allowed !== true || P.mode !== 'paid') p.push('The paid switch is off.');
+if (!/^[A-Za-z0-9_-]{8,64}$/.test(token)) p.push('No valid go token is set (8 to 64 letters, digits, - or _).');
+else if (!readOk) p.push('The results table could not be read, so it cannot be shown that this go token is unused.');
+else if (used.length) p.push('This go token was already used (' + used.length + ' rows in the results table). A new paid run needs a new go token.');
+if (readOk && open.length && cfg.resend_after_uncertain !== true) p.push(open.length + ' earlier calls for the same photos and models may have been charged without a result (' + open.map(r => r.folder + ' / ' + r.model + ': ' + r.status).join('; ') + '). Check them first, or set resend_after_uncertain to true to make them again.');
+if (done.length) notes.push(done.length + ' of the planned calls were already made under another go token; this run makes them again and pays again.');
+if (P.problems && P.problems.length) p.push('The plan has problems: ' + P.problems.join(' '));
+const calls = P.orders.length;
+const reserve = Number(P.totals.reserve_usd) || 0;
+const keys = P.orders.map(o => o.operation_key);
+if (!calls) p.push('No call is planned.');
+if (new Set(keys).size !== keys.length) p.push('Two planned calls share one operation key.');
+if (calls > (Number(cfg.max_calls) || 0)) p.push(calls + ' planned calls are more than the cap of ' + (Number(cfg.max_calls) || 0) + '.');
+if (reserve > (Number(cfg.max_spend_usd) || 0)) p.push('The planned calls reserve USD ' + reserve.toFixed(2) + ', above the cap of USD ' + (Number(cfg.max_spend_usd) || 0).toFixed(2) + '.');
+if (P.orders.some(o => o.go_token !== token || o.operation_key.indexOf('claude-mt:' + token + ':') !== 0)) p.push('An order does not carry this go token.');
+return [{ json: { clear: p.length === 0, problems: p.map(x => x + ' Nothing was sent.'), notes, calls, reserve_usd: reserve, token_rows_found: used.length, earlier_rows: earlier.length } }];

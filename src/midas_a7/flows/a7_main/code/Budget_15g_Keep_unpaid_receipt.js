@@ -1,0 +1,1 @@
+const it=$input.first();const json={...it.json};delete json.__budgetSkip;return [{json,binary:it.binary}];

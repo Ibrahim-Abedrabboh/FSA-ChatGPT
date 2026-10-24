@@ -1,0 +1,74 @@
+{
+ "02 Eye reads the product photo": {
+  "calls": 1,
+  "instr_chars": 6653,
+  "msg_chars_avg": 306,
+  "out_chars_avg": 2075,
+  "in_tok_est": 1740,
+  "out_tok_est": 519,
+  "images": 1
+ },
+ "03f Conflict check": {
+  "calls": 1,
+  "instr_chars": 3894,
+  "msg_chars_avg": 1904,
+  "out_chars_avg": 151,
+  "in_tok_est": 1450,
+  "out_tok_est": 38,
+  "images": 0
+ },
+ "04 Stylist plans the scenes": {
+  "calls": 1,
+  "instr_chars": 7489,
+  "msg_chars_avg": 3339,
+  "out_chars_avg": 3188,
+  "in_tok_est": 2707,
+  "out_tok_est": 797,
+  "images": 0
+ },
+ "05b Plan critic": {
+  "calls": 1,
+  "instr_chars": 3212,
+  "msg_chars_avg": 5708,
+  "out_chars_avg": 3737,
+  "in_tok_est": 2230,
+  "out_tok_est": 934,
+  "images": 0
+ },
+ "10 Reviewer compares two images": {
+  "calls": 3,
+  "instr_chars": 10201,
+  "msg_chars_avg": 4480,
+  "out_chars_avg": 3222,
+  "in_tok_est": 3670,
+  "out_tok_est": 806,
+  "images": 2
+ },
+ "14 Auditor compares two images": {
+  "calls": 3,
+  "instr_chars": 3075,
+  "msg_chars_avg": 1870,
+  "out_chars_avg": 823,
+  "in_tok_est": 1236,
+  "out_tok_est": 206,
+  "images": 2
+ },
+ "21b Description writer": {
+  "calls": 1,
+  "instr_chars": 1858,
+  "msg_chars_avg": 2600,
+  "out_chars_avg": 1205,
+  "in_tok_est": 1114,
+  "out_tok_est": 301,
+  "images": 0
+ },
+ "21d Description check": {
+  "calls": 1,
+  "instr_chars": 1629,
+  "msg_chars_avg": 3595,
+  "out_chars_avg": 130,
+  "in_tok_est": 1306,
+  "out_tok_est": 32,
+  "images": 0
+ }
+}

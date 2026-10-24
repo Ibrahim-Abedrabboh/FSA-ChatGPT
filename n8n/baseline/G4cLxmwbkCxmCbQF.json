@@ -1,0 +1,213 @@
+{
+ "id": "G4cLxmwbkCxmCbQF",
+ "name": "A7 · Owner status and history (read only)",
+ "versionId": "ba566aef-6402-4400-b5ee-509c25afa8e1",
+ "activeVersionId": "ba566aef-6402-4400-b5ee-509c25afa8e1",
+ "active": true,
+ "settings": {
+  "executionOrder": "v1",
+  "availableInMCP": true,
+  "binaryMode": "separate",
+  "timeSavedMode": "fixed",
+  "saveDataErrorExecution": "none",
+  "saveDataSuccessExecution": "none",
+  "saveManualExecutions": false,
+  "callerPolicy": "workflowsFromSameOwner"
+ },
+ "nodes": [
+  {
+   "parameters": {
+    "path": "a7/owner-read",
+    "authentication": "headerAuth",
+    "responseMode": "responseNode",
+    "options": {
+     "allowedOrigins": ""
+    }
+   },
+   "id": "48e2282f-3ae8-4430-9eaf-2ea5c40e4c24",
+   "name": "Owner read webhook",
+   "type": "n8n-nodes-base.webhook",
+   "typeVersion": 2.2,
+   "position": [
+    0,
+    0
+   ],
+   "webhookId": "c751b5e3-e052-4dec-a37b-e0fb3ee4033e",
+   "credentials": {
+    "httpHeaderAuth": {
+     "id": "S6DlmKQiz2USSkNE",
+     "name": "A7 GPT bridge inbound"
+    }
+   }
+  },
+  {
+   "parameters": {
+    "operation": "get",
+    "dataTableId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "l0roUCBwIQL3h9Eq"
+    },
+    "limit": 1001,
+    "orderBy": true,
+    "orderByColumn": "updatedAt"
+   },
+   "id": "9dc76cf5-71b7-4920-9e44-27d5abd467aa",
+   "name": "Read recent A7 runs",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    240,
+    0
+   ],
+   "executeOnce": true,
+   "alwaysOutputData": true
+  },
+  {
+   "parameters": {
+    "conditions": {
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "strict",
+      "version": 1
+     },
+     "conditions": [
+      {
+       "leftValue": "={{ $json.run_id || \"\" }}",
+       "operator": {
+        "type": "string",
+        "operation": "notEmpty"
+       }
+      }
+     ],
+     "combinator": "and"
+    },
+    "options": {}
+   },
+   "id": "5a85ff1d-dd10-47b2-b2f9-5ca5bf852e80",
+   "name": "Has recorded runs",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    480,
+    0
+   ]
+  },
+  {
+   "parameters": {
+    "jsCode": "function safeText(value, max = 500) {\n  if (typeof value !== 'string') return '';\n  return value.replace(/https?:\\/\\/\\S+/gi, '[link hidden]')\n    .replace(/(?:Bearer\\s+)[A-Za-z0-9._~+\\/-]+/gi, '[credential hidden]')\n    .replace(/(?:token|authorization|api[_ -]?key|secret|password|resume_url)\\s*[:=]\\s*[^\\s,;]+/gi, '[credential hidden]')\n    .replace(/eyJ[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+/g, '[credential hidden]')\n    .slice(0, max);\n}\nfunction validId(value) { return typeof value === 'string' && /^[A-Za-z0-9._-]{1,120}$/.test(value); }\nfunction isoDate(value) { return typeof value === 'string' && Number.isFinite(Date.parse(value)) ? new Date(value).toISOString() : null; }\nfunction safeObservation(raw) {\n let value=raw;try{if(typeof value==='string')value=JSON.parse(value);}catch{return null;}\n if(!value||typeof value!=='object'||Array.isArray(value))return null;\n const count=v=>Number.isSafeInteger(v)&&v>=0&&v<=200?v:null;\n const textList=v=>Array.isArray(v)?v.slice(0,20).map(x=>safeText(typeof x==='string'?x:x&&typeof x==='object'?['feature','what','detail','location','side','text','basis'].map(k=>typeof x[k]==='string'?x[k]:'').filter(Boolean).join(' · '):'',300)).filter(Boolean):[];\n const category=safeText(value.category_seen,120),eye=count(value.count_eye),second=count(value.count_second);\n if(!category&&eye===null&&second===null)return null;\n return {category,eyeCount:eye,secondCount:second,statedCount:count(value.count_stated),printedCount:count(value.count_printed),colour:safeText(value.colour_observed,180),materialAppearance:safeText(value.material_appearance,180),cropped:value.cropped===true,cropNote:safeText(value.crop_note,350),hidden:textList(value.hidden),locks:textList(value.design_locks),relationships:textList(value.relations),uncertainties:textList(value.unclear_second),otherViews:textList(value.views_not_pieces),unreadFiles:textList(value.written?.files_not_read),pieces:Array.isArray(value.pieces_seen)?value.pieces_seen.slice(0,60).map(p=>({kind:safeText(p?.kind,80),label:safeText(p?.label,100),role:safeText(p?.role,40),features:textList(p?.features||p?.visible_features),cutOff:p?.cut_off===true})):[]};\n}\nfunction projectRun(row, includeHistory = false) {\n  if (!validId(row?.run_id)) return null;\n  const job = {\n    id: row.run_id, clientId: safeText(row.client_run_id, 120),\n    type: safeText(row.job_type, 80), status: safeText(row.status, 80), stage: safeText(row.stage, 100),\n    summary: safeText(row.hold_reason || row.client_question),\n    createdAt: isoDate(row.createdAt), updatedAt: isoDate(row.updatedAt),\n    decisions: {\n      go1: { decision: safeText(row.go1_decision, 80), at: isoDate(row.go1_at) },\n      go2: { decision: safeText(row.go2_decision, 80), at: isoDate(row.go2_at) }\n    }\n  };\n  if (includeHistory) {\n    job.observation = safeObservation(row.observation);\n    let history;\n    try { history = JSON.parse(row.trail || '[]'); } catch { history = null; }\n    job.historyAvailable = Array.isArray(history);\n    job.historyTruncated = Array.isArray(history) && history.length > 300;\n    job.history = Array.isArray(history) ? history.slice(-300).map(entry => ({\n      name: safeText(entry?.name, 100), at: isoDate(entry?.at), note: safeText(entry?.note, 800),\n      step: Number.isSafeInteger(entry?.step) ? entry.step : null\n    })).filter(entry => entry.name) : [];\n  }\n  return job;\n}\n// One run can be recorded twice when a send was repeated (same run id and client id, two rows). Those are one job:\n// keep the most recently updated row. Rows that share a run id but belong to different clients stay ambiguous.\nfunction latestPerRun(rows) {\n  const best = new Map();\n  for (const row of rows) {\n    const key = row.run_id + '\\u0000' + (row.client_run_id || '');\n    const old = best.get(key), at = String(row.updatedAt || ''), oldAt = String(old?.updatedAt || '');\n    if (!old || at > oldAt || (at === oldAt && Number(row.id) > Number(old.id))) best.set(key, row);\n  }\n  const keep = new Set(best.values());\n  return rows.filter(row => keep.has(row));\n}\nfunction readResponse(rows, query, now = new Date().toISOString()) {\n  const source = latestPerRun(rows.filter(row => validId(row?.run_id)));\n  const capped = source.length > 1000;\n  const visible = source.slice(0,1000);\n  const offset = Number(query.offset || 0);\n  if (!Number.isSafeInteger(offset) || offset < 0 || offset > 1000 || (query.id && !validId(query.id))) return { error: 'invalid_query', http_status: 400 };\n  if (query.id) {\n    const matching = visible.filter(row => row.run_id === query.id);\n    if (!matching.length) return { error: 'not_found', http_status: 404 };\n    if (matching.length !== 1) return { error: 'ambiguous_run', http_status: 409 };\n    return { job: projectRun(matching[0], true), asOf: now, source: 'A7 runs table', http_status: 200 };\n  }\n  const jobs = visible.slice(offset, offset + 50).map(row => projectRun(row));\n  return { jobs, total: visible.length, capped, nextOffset: offset + jobs.length < visible.length ? offset + jobs.length : null, asOf: now, source: 'A7 runs table', http_status: 200 };\n}\n\nconst rows = $input.all().map(item => item.json);\nconst query = $('Owner read webhook').first().json.query || {};\nreturn [{json: readResponse(rows, query)}];"
+   },
+   "id": "927a3b4b-ef23-4673-981c-0959c3dd03ac",
+   "name": "Project safe status and history",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    720,
+    -80
+   ]
+  },
+  {
+   "parameters": {
+    "respondWith": "json",
+    "responseBody": "={{ JSON.stringify($json) }}",
+    "options": {
+     "responseCode": "={{ $json.http_status || 200 }}",
+     "responseHeaders": {
+      "entries": [
+       {
+        "name": "Cache-Control",
+        "value": "no-store"
+       }
+      ]
+     }
+    }
+   },
+   "id": "21049e21-0e93-4d5b-ba56-6cbc925f9dae",
+   "name": "Respond owner read",
+   "type": "n8n-nodes-base.respondToWebhook",
+   "typeVersion": 1.5,
+   "position": [
+    960,
+    0
+   ]
+  },
+  {
+   "parameters": {
+    "jsCode": "const q=$('Owner read webhook').first().json.query||{}; return [{json:q.id?{error:'not_found',http_status:404}:{jobs:[],total:0,capped:false,nextOffset:null,asOf:new Date().toISOString(),source:'A7 runs table',http_status:200}}];"
+   },
+   "id": "5e924021-5cd5-4ae8-880b-267a002c54f3",
+   "name": "Return empty queue",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    720,
+    128
+   ]
+  }
+ ],
+ "connections": {
+  "Owner read webhook": {
+   "main": [
+    [
+     {
+      "node": "Read recent A7 runs",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Read recent A7 runs": {
+   "main": [
+    [
+     {
+      "node": "Has recorded runs",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Has recorded runs": {
+   "main": [
+    [
+     {
+      "node": "Project safe status and history",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "Return empty queue",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Project safe status and history": {
+   "main": [
+    [
+     {
+      "node": "Respond owner read",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Return empty queue": {
+   "main": [
+    [
+     {
+      "node": "Respond owner read",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ }
+}

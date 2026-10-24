@@ -1,0 +1,19 @@
+%% Description: A7 data model (records and how they link). Design, 14 Oct 2026.
+%% A project holds jobs (a batch is N jobs). Each job has references (each with a role), contract versions and outputs.
+%% Each output has paid operations; each operation returns a candidate; each candidate has reviews bound to its hash and contract.
+%% A job may have a parent job (edit or variation). A package holds the owner's decision.
+%% SPACE (saved rooms reused as target_room references) is a proposal, not in any source.
+%% ----
+erDiagram
+  PROJECT ||--o{ JOB : "has (batch = N jobs)"
+  PROJECT ||--o{ SPACE : "keeps (proposal)"
+  JOB ||--|{ REFERENCE : "has, each with a role"
+  JOB ||--|{ CONTRACT_VERSION : "v1, v2 ..."
+  JOB |o--o| JOB : "parent of (edit, variation)"
+  CONTRACT_VERSION ||--|{ OUTPUT : "requires"
+  OUTPUT ||--o{ OPERATION : "paid calls"
+  OPERATION ||--o| CANDIDATE : "returns"
+  CANDIDATE ||--o{ REVIEW : "bound to hash + contract"
+  JOB ||--o| PACKAGE : "manifest"
+  PACKAGE ||--o| OWNER_DECISION : "approved or held"
+  SPACE ||--o{ REFERENCE : "reused as target_room"

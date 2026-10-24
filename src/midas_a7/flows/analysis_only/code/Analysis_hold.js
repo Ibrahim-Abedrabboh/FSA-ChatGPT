@@ -1,0 +1,1 @@
+const p=$('Validate analysis originals').first().json.source_payload;return [{json:{status:'analysis_outcome_uncertain',accepted:false,draftId:p.draftId,clientRunId:p.clientRunId,runId:p.runId,automaticResend:false}}];

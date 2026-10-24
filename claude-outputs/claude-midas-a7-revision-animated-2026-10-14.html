@@ -1,0 +1,229 @@
+<title>A7 Revision Flow</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  :root {
+    --bg: #f8f9fa;
+    --node: #e8e2f7;
+    --node-line: #7b68b5;
+    --ink: #1f1d2b;
+    --muted: #5b5870;
+    --life: #b7aedb;
+    --solid: #2b2540;
+    --dash: #6a5aa8;
+    --accent: #b22020;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-block: clamp(16px, 3vw, 32px);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: grid;
+    gap: 14px;
+  }
+  header { display: grid; gap: 4px; }
+  h1 { margin: 0; font-size: clamp(1.25rem, 2.6vw, 1.8rem); font-weight: 700; letter-spacing: -0.01em; }
+  header p { margin: 0; color: var(--muted); font-size: clamp(0.85rem, 1.6vw, 0.95rem); }
+  .stage {
+    background: #fff;
+    border: 1px solid #e3e1ea;
+    border-radius: 14px;
+    padding: clamp(6px, 1.5vw, 14px);
+    overflow-x: auto;
+  }
+  svg { display: block; width: 100%; height: auto; min-width: 560px; }
+  .node rect { fill: var(--node); stroke: var(--node-line); stroke-width: 1.5; }
+  .node text { fill: var(--ink); font-weight: 650; font-size: 17px; }
+  .life { stroke: var(--life); stroke-width: 2; }
+  .msg { stroke: var(--solid); stroke-width: 2; fill: none; }
+  .msg.dashed { stroke: var(--dash); stroke-dasharray: 5,5; }
+  .label { fill: var(--ink); font-size: 15px; font-weight: 500; paint-order: stroke; stroke: #fff; stroke-width: 6px; stroke-linejoin: round; }
+  .label.small { font-size: 14px; }
+  .label.strong { font-weight: 700; }
+  .step { paint-order: stroke; stroke: #fff; stroke-width: 5px; fill: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  button {
+    font: 600 0.9rem system-ui, -apple-system, sans-serif;
+    border: 1px solid var(--ink); background: var(--ink); color: #fff;
+    border-radius: 999px; padding: 7px 16px; cursor: pointer;
+  }
+  button.ghost { background: transparent; color: var(--ink); }
+  .bar { flex: 1; min-width: 140px; height: 6px; background: #e3e1ea; border-radius: 6px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--node-line); }
+  .time { font: 600 0.85rem ui-monospace, Menlo, monospace; color: var(--muted); min-width: 4.5em; text-align: right; }
+  footer { color: var(--muted); font-size: 0.82rem; }
+</style>
+
+<main>
+  <header>
+    <h1>A7 · Refine or variation, as a new version</h1>
+    <p>Design for pipeline A7, 14 Oct 2026. Not built yet. One change on result X becomes brief v+1, checked and approved like any job.</p>
+  </header>
+
+  <div class="controls" role="group" aria-label="Playback">
+    <button id="play">Pause</button>
+    <button id="replay" class="ghost">Replay</button>
+    <div class="bar" aria-hidden="true"><i id="progress"></i></div>
+    <span class="time" id="time">0.0 s</span>
+  </div>
+
+  <section class="stage" aria-label="Animated sequence diagram">
+    <svg id="diagram" viewBox="0 0 1000 900" role="img" aria-labelledby="dtitle">
+      <title id="dtitle">Sequence: Client page, Pipeline (A7) and Owner exchange a revision request, plan, approvals and the result.</title>
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#2b2540"/>
+        </marker>
+        <marker id="arrowDash" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#6a5aa8"/>
+        </marker>
+      </defs>
+      <g id="infra"></g>
+      <g id="messages"></g>
+    </svg>
+  </section>
+
+  <footer>"Approved" is shown to the client only after the owner's recorded decision. Every change is a new version linked to its parent; earlier results stay as history.</footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(() => {
+  const NS = 'http://www.w3.org/2000/svg';
+  const VB_W = 1000;                       // viewBox width; columns are fractions of it
+  const COL = { client: 0.20, pipe: 0.50, owner: 0.80 };
+  const X = key => COL[key] * VB_W;
+  const NODE_W = 0.17 * VB_W, NODE_H = 46;
+  const TOP = 20, LIFE_TOP = TOP + NODE_H, BOTTOM = 830, LIFE_BOTTOM = BOTTOM;
+
+  const el = (tag, attrs = {}, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+    if (parent) parent.appendChild(n);
+    return n;
+  };
+  const text = (str, attrs, parent) => { const t = el('text', { 'text-anchor': 'middle', ...attrs }, parent); t.textContent = str; return t; };
+
+  // ---------- infrastructure: lifelines + top/bottom nodes ----------
+  const infra = document.getElementById('infra');
+  const names = { client: 'Client page', pipe: 'Pipeline (A7)', owner: 'Owner' };
+  for (const key of Object.keys(COL)) {
+    el('line', { class: 'life', x1: X(key), x2: X(key), y1: LIFE_TOP, y2: LIFE_BOTTOM }, infra);
+    for (const y of [TOP, BOTTOM]) {
+      const g = el('g', { class: 'node' }, infra);
+      el('rect', { x: X(key) - NODE_W / 2, y, width: NODE_W, height: NODE_H, rx: 10, ry: 10 }, g);
+      text(names[key], { x: X(key), y: y + NODE_H / 2 + 6 }, g);
+    }
+  }
+
+  // ---------- messages ----------
+  const msgs = document.getElementById('messages');
+  const steps = [];   // each: {group, parts, kind}
+
+  function arrow(from, to, y, label, { dashed = false, step = null } = {}) {
+    const g = el('g', { opacity: 0 }, msgs);
+    const x1 = X(from), x2 = X(to);
+    const dir = Math.sign(x2 - x1);
+    const end = x2 - dir * 2;                       // stop just short of the lifeline
+    const line = el('line', { class: 'msg' + (dashed ? ' dashed' : ''), x1, y1: y, x2: x1, y2: y,
+      'marker-end': `url(#${dashed ? 'arrowDash' : 'arrow'})` }, g);
+    const mid = (x1 + x2) / 2;
+    const lines = Array.isArray(label) ? label : [label];
+    const tg = el('g', { opacity: 0 }, g);
+    lines.forEach((l, i) => text(l, { class: 'label' + (lines.length > 1 ? ' small' : ''), x: mid, y: y - 10 - (lines.length - 1 - i) * 18 }, tg));
+    if (step) text(step, { class: 'step', x: mid, y: y - 12 - lines.length * 18 }, tg);
+    return { g, line, tg, toX: end };
+  }
+
+  function selfLoop(key, y, h, label, step) {
+    const g = el('g', { opacity: 0 }, msgs);
+    const x = X(key), w = 0.07 * VB_W;
+    const d = `M ${x} ${y} C ${x + w} ${y}, ${x + w} ${y}, ${x + w} ${y + h / 2} S ${x + w} ${y + h}, ${x + 2} ${y + h}`;
+    const path = el('path', { class: 'msg', d, 'marker-end': 'url(#arrow)' }, g);
+    const tg = el('g', { opacity: 0 }, g);
+    const lx = x + w + 0.12 * VB_W;                 // label centred to the right of the loop
+    const lines = Array.isArray(label) ? label : [label];
+    lines.forEach((l, i) => text(l, { class: 'label small', x: lx, y: y + h / 2 - (lines.length - 1) * 9 + i * 18 + 5 }, tg));
+    if (step) text(step, { class: 'step', x: lx, y: y + h / 2 - (lines.length - 1) * 9 - 18 }, tg);
+    return { g, path, tg };
+  }
+
+  const s1  = arrow('client', 'pipe', 140, ['Chip or message on result X', '(one axis: light, view, accessories, room)'], { step: 'STEP 1' });
+  const s2  = selfLoop('pipe', 175, 70, ['New brief v+1 linked to parent X,', 'old plans and reviews voided'], 'STEP 2');
+  const s3  = arrow('pipe', 'client', 320, 'Plan preview and what stays locked', { dashed: true, step: 'STEP 3' });
+  const s4  = arrow('client', 'pipe', 395, 'Confirm', { step: 'STEP 4' });
+  const s5a = arrow('pipe', 'owner', 470, 'Go 1 (plan)', { step: 'STEP 5' });
+  const s5b = arrow('owner', 'pipe', 520, 'go');
+  const s6  = selfLoop('pipe', 560, 70, ['Images, checks,', 'at most 2 repairs each'], 'STEP 6');
+  const s7a = arrow('pipe', 'owner', 700, 'Package for decision', { step: 'STEP 7' });
+  const s7b = arrow('owner', 'pipe', 750, 'approve or hold');
+  const s8  = arrow('pipe', 'client', 805, 'Generated image, "Approved" only after the owner decision', { dashed: true, step: 'STEP 8' });
+
+  // ---------- GSAP master timeline (≈20 s) ----------
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.inOut' } });
+
+  tl.from(infra, { opacity: 0, duration: 1 }, 0);
+
+  const drawArrow = (a, dur = 0.9, at = '+=0.45') => {
+    tl.set(a.g, { opacity: 1 }, at)
+      .to(a.line, { attr: { x2: a.toX }, duration: dur }, '<')
+      .to(a.tg, { opacity: 1, duration: 0.6, ease: 'power1.out' }, '<0.15');
+  };
+  const drawLoop = (l, dur = 1.1) => {
+    const len = l.path.getTotalLength();
+    gsap.set(l.path, { strokeDasharray: len, strokeDashoffset: len });
+    tl.set(l.g, { opacity: 1 }, '+=0.45')
+      .to(l.path, { strokeDashoffset: 0, duration: dur }, '<')
+      .to(l.tg, { opacity: 1, duration: 0.6, ease: 'power1.out' }, '<0.2');
+  };
+
+  drawArrow(s1, 1.0, 1.2);       // step 1 starts after the infrastructure
+  tl.to({}, { duration: 1.2 });
+  drawLoop(s2);
+  tl.to({}, { duration: 1.4 });
+  drawArrow(s3, 1.0);
+  tl.to({}, { duration: 1.1 });
+  drawArrow(s4, 0.8);
+  tl.to({}, { duration: 0.9 });
+  drawArrow(s5a, 0.8);
+  drawArrow(s5b, 0.45, '+=0.1');  // swift return
+  tl.to({}, { duration: 1.0 });
+  drawLoop(s6);
+  tl.to({}, { duration: 1.4 });
+  drawArrow(s7a, 0.8);
+  tl.to({}, { duration: 0.5 });
+  drawArrow(s7b, 0.7);
+  tl.to({}, { duration: 1.0 });
+  drawArrow(s8, 1.4);
+  tl.to({}, { duration: 1.2 });                      // hold the final frame
+  const TARGET = 20;                                  // seconds of playback
+  tl.timeScale(tl.duration() / TARGET);               // fit the whole sequence into exactly 20 s
+
+  // ---------- controls ----------
+  const playBtn = document.getElementById('play');
+  const bar = document.getElementById('progress');
+  const time = document.getElementById('time');
+  tl.eventCallback('onUpdate', () => {
+    bar.style.width = (tl.progress() * 100).toFixed(1) + '%';
+    time.textContent = (tl.progress() * TARGET).toFixed(1) + ' s';
+  });
+  tl.eventCallback('onComplete', () => { playBtn.textContent = 'Play'; });
+  playBtn.addEventListener('click', () => {
+    if (tl.isActive()) { tl.pause(); playBtn.textContent = 'Play'; }
+    else { if (tl.progress() === 1) tl.restart(); else tl.play(); playBtn.textContent = 'Pause'; }
+  });
+  document.getElementById('replay').addEventListener('click', () => { tl.restart(); playBtn.textContent = 'Pause'; });
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { tl.progress(1); playBtn.textContent = 'Play'; }
+  else tl.play();
+  window.__A7_TL = tl;
+})();
+</script>

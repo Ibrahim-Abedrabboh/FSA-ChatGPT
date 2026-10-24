@@ -1,0 +1,52 @@
+name: A7 guidance and owner controls
+on:
+  pull_request:
+  push:
+    branches: [main, codex/a7-owner-read-status, Claude-final-midas-a7]
+permissions:
+  contents: read
+jobs:
+  guidance-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node tests/claude-midas-a7-guidance/run_tests_guidance.js
+      - run: node tests/claude-midas-a7-release/run_tests_release.js
+      - run: node tests/claude-midas-a7-instructions/run_tests_instructions.js
+      - run: node tests/claude-midas-a7-fidelity/run_tests_fidelity.js
+      - run: node tests/claude-midas-a7-prompt-fixes/run_tests_prompt_fixes.js
+      - run: node tests/claude-midas-a7-phase-1/run_tests_phase1.js
+      - run: node --test tests/claude-midas-a7-budget/*.test.mjs
+      - run: node --test tests/claude-midas-a7-baseline/claude-baseline-invariants.test.mjs
+      - run: node tests/claude-midas-a7-stage-06/run_tests06.js
+      - run: node --test tests/claude-midas-a7-edit-phase-2/*.test.cjs
+      # Local suites that read the same code nodes but were not in CI, so drift went unnoticed (stage 05 and phase 1b, 17-21 Oct 2026).
+      - run: node tests/claude-midas-a7-stage-05/run_tests05.js
+      - run: node tests/claude-midas-a7-phase-1b/run_tests_phase1b.js
+      - run: node tests/claude-midas-a7-stage-07/run_tests07.js
+      - run: node tests/claude-midas-a7-scene-files/run_tests_scene_files.js
+      - run: node tests/claude-midas-a7-views-framing/run_tests_views_framing.js
+      - run: node tests/claude-midas-a7-fallback/run_tests_fallback.js
+      - run: node tests/claude-midas-a7-model-test/run_tests_mt4.js
+      - run: node tests/claude-midas-facet-rules/run_tests_facet_rules.js
+      - run: node tests/claude-midas-catalogue-refresh/run_tests_hand_stock.js
+      - run: node tests/claude-midas-catalogue-refresh/run_tests_preorder.js
+      - run: python3 -I tests/claude-midas-catalogue-audit/run_tests_audit.py
+  owner-controls:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: claude-outputs/claude-midas-a7-owner-workspace
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: claude-outputs/claude-midas-a7-owner-workspace/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run build

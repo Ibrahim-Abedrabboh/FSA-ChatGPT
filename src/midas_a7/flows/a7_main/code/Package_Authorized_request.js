@@ -1,0 +1,1 @@
+const b=$input.first().json.body;if(b?.recoveryId!=="owner-package-recovery-20261018-1"||b.confirmed!==true||b.paidCalls!==0)throw Error('package_request_denied');return [{json:{authorized:true}}];

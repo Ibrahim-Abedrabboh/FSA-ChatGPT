@@ -1,0 +1,577 @@
+{
+ "id": "Mo9c5GmTcx0K79F7",
+ "name": "A7 · Owner submission and approval bridge",
+ "versionId": "b41c6e1d-ad38-403a-939c-dd4802f7cd06",
+ "activeVersionId": "b41c6e1d-ad38-403a-939c-dd4802f7cd06",
+ "active": true,
+ "settings": {
+  "executionOrder": "v1",
+  "availableInMCP": true,
+  "binaryMode": "separate",
+  "timeSavedMode": "fixed",
+  "saveDataErrorExecution": "none",
+  "saveDataSuccessExecution": "none",
+  "saveManualExecutions": false,
+  "callerPolicy": "workflowsFromSameOwner"
+ },
+ "nodes": [
+  {
+   "parameters": {
+    "path": "a7/owner-context",
+    "authentication": "headerAuth",
+    "responseMode": "responseNode",
+    "options": {}
+   },
+   "id": "45d533b4-2f24-43ab-923f-f53b39e4eff0",
+   "name": "Owner context",
+   "webhookId": "c524fd3e-fc7b-428a-a58d-03d5dde3e373",
+   "type": "n8n-nodes-base.webhook",
+   "typeVersion": 2.2,
+   "position": [
+    0,
+    0
+   ],
+   "credentials": {
+    "httpHeaderAuth": {
+     "id": "S6DlmKQiz2USSkNE",
+     "name": "A7 GPT bridge inbound"
+    }
+   }
+  },
+  {
+   "parameters": {
+    "operation": "get",
+    "dataTableId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "l0roUCBwIQL3h9Eq"
+    },
+    "matchType": "allConditions",
+    "filters": {
+     "conditions": [
+      {
+       "keyName": "run_id",
+       "keyValue": "={{ $('Owner context').first().json.query.id }}"
+      }
+     ]
+    },
+    "limit": 2
+   },
+   "id": "4e5ebfba-688e-4180-a54f-867d5ed2b4b1",
+   "name": "Read owner run",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "executeOnce": true,
+   "alwaysOutputData": true,
+   "position": [
+    240,
+    0
+   ]
+  },
+  {
+   "parameters": {
+    "operation": "get",
+    "dataTableId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "Tyn4UT6BmIYMHAYl"
+    },
+    "matchType": "allConditions",
+    "filters": {
+     "conditions": [
+      {
+       "keyName": "run_id",
+       "keyValue": "={{ $('Owner context').first().json.query.id }}"
+      }
+     ]
+    },
+    "limit": 100,
+    "orderBy": true,
+    "orderByColumn": "at"
+   },
+   "id": "c1270736-e04f-41d7-a724-4fb2bed200e0",
+   "name": "Read owner tickets",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "executeOnce": true,
+   "alwaysOutputData": true,
+   "position": [
+    480,
+    0
+   ]
+  },
+  {
+   "parameters": {
+    "jsCode": "const q=$('Owner context').first().json.query||{};\nconst matched=$('Read owner run').all().map(i=>i.json).filter(r=>r.run_id===q.id);\n// A repeated send can record one run twice (same run id and client id): keep the most recently updated row. Different clients stay ambiguous.\nconst latest=new Map();for(const r of matched){const k=String(r.client_run_id||''),o=latest.get(k),at=String(r.updatedAt||''),oat=String(o?.updatedAt||'');if(!o||at>oat||(at===oat&&Number(r.id)>Number(o.id)))latest.set(k,r);}\nconst rows=[...latest.values()];\nconst safe=(v,n=800)=>typeof v==='string'?v.replace(/https?:\\/\\/\\S+/gi,'[link omitted]').replace(/(?:token|authorization|secret|password|resume_url)\\s*[:=]\\s*[^\\s,;]+/gi,'[hidden]').slice(0,n):'';\nconst arr=v=>Array.isArray(v)?v:[];\nconst parse=(s,f)=>{try{return JSON.parse(s)??f}catch{return f}};\nif(rows.length!==1)return [{json:{http_status:rows.length?409:404,error:rows.length?'ambiguous_run':'not_found'}}];\nconst r=rows[0], gate=r.status==='awaiting_go_1'?'go1':r.status==='awaiting_go_2'?'go2':null;\nconst kind=gate==='go1'?'go1_ticket':'go2_ticket';\nconst events=$input.all().map(i=>i.json).filter(e=>e.run_id===r.run_id&&e.kind===kind&&e.contract_stamp===r.contract_stamp).sort((a,b)=>String(b.at).localeCompare(String(a.at)));\nconst ticket=parse(events[0]?.payload,null), round=Number(gate==='go1'?r.go1_rounds:r.go2_round);\nconst review=parse(r.review,{}), cost=parse(r.cost_estimate,{});\nconst candidate=gate==='go2'?ticket?.candidate:null;\nfunction drive(v){\n if(typeof v!=='string')return null;\n const match=v.match(/^https:\\/\\/drive\\.google\\.com\\/file\\/d\\/([A-Za-z0-9_-]+)\\/view(?:\\?usp=(?:drivesdk|sharing|drive_link))?$/);\n return match?'https://drive.google.com/file/d/'+match[1]+'/view':null;\n}\nconst crypto=require('crypto');\nconst revision=crypto.createHash('sha256').update(JSON.stringify([r.run_id,r.status,round,r.contract_stamp,events[0]?.at||'',ticket])).digest('hex');\nlet allowed=gate==='go1'?['go','change','stop']:gate==='go2'&&Array.isArray(review.go2_decisions)?review.go2_decisions.filter(x=>['approve','repair','stop','review_again','approve_unreviewed'].includes(x)):[];\nif(!ticket||!r.resume_url||!(gate==='go1'?r.go1_token:r.go2_token)||!Number.isSafeInteger(round)||round<0)allowed=[];\nif(gate==='go1'&&(round>=3||!(ticket?.shots||[]).some(s=>s.kind!=='white')))allowed=allowed.filter(x=>x!=='change');\n// Edit phase 2.4: an edit of an approved image is planned from that image (brief.edit.base); a plan change at its Go 1 holds the run, so it is not offered.\nconst briefEvent=$input.all().map(i=>i.json).find(e=>e.run_id===r.run_id&&e.kind==='brief');\nif(gate==='go1'&&parse(briefEvent?.payload,null)?.edit?.base)allowed=allowed.filter(x=>x!=='change');\nif(gate==='go2'&&round>=3)allowed=allowed.filter(x=>x!=='repair');\nif(gate==='go2'&&!drive(candidate?.link))allowed=allowed.filter(x=>x==='stop');\n// A ticket older than 24 hours cannot continue the run; stopping it stays possible, so the run is not left waiting with no way out.\nconst expired=Boolean(gate)&&(!events[0]?.at||Date.now()-Date.parse(events[0].at)>24*60*60*1000);\nif(expired)allowed=allowed.filter(x=>x==='stop');\nconst ticketWarnings=arr(ticket?.warnings).concat(arr(ticket?.risks),arr(ticket?.not_confirmed).map(x=>'Not confirmed: '+safe(x)),arr(ticket?.stage04_precheck?.will_hold).map(x=>'Generation hold: '+safe(x)));\nconst shots=arr(ticket?.shots).slice(0,10).map(shot=>{\n const plan=Object.fromEntries(['room_size','setting','light','camera','presentation','person','rationale'].map(k=>[k,safe(shot.plan?.[k],1200)]));\n plan.room=Object.entries(shot.plan?.room||{}).filter(([k])=>['walls','floor','windows','zone'].includes(k)).map(([k,v])=>k+': '+safe(v,160)).join('; ');\n plan.midas_pieces=arr(shot.plan?.midas_pieces).slice(0,6).map(m=>safe(m.sku,40)+' · quantity '+(Number.isSafeInteger(m.count)?m.count:'not confirmed')+' · '+safe(m.purpose,160)+' · '+safe(m.rests_on,120)).join('; ');\n return {number:shot.n,output:safe(shot.output_id,80),kind:safe(shot.kind,40),frame:safe(shot.frame,120),check:safe(shot.plan_check,120),plan};\n});\nconst numericCost=Object.fromEntries(Object.entries(cost).filter(([k,v])=>/^[a-z_]+$/.test(k)&&typeof v==='number'&&Number.isFinite(v)&&v>=0));\n// Delivered files of a finished package or scene set: private Drive file links only, labelled, deduplicated, at most 30.\nconst deliveries=[],seen=new Set();\nfunction collect(v,kind,label,depth){\n if(!v||typeof v!=='object'||depth>6||deliveries.length>=30)return;\n if(Array.isArray(v)){for(const x of v)collect(x,kind,label,depth+1);return;}\n const link=drive(v.link);\n if(link&&!seen.has(link)){seen.add(link);deliveries.push({link,label:safe(String(v.file_name||v.output_id||label),120),px:typeof v.px==='string'&&/^\\d{2,5}x\\d{2,5}$/.test(v.px)?v.px:null,kind});}\n for(const [k,x] of Object.entries(v))if(x&&typeof x==='object')collect(x,k==='master'?'master':k==='manifest'?'manifest':kind,label,depth+1);\n}\ncollect(parse(r.package,null),'file','Package file',0);\ncollect(parse(r.scenes,null),'scene','Scene image',0);\nreturn [{json:{http_status:200,runId:r.run_id,clientId:r.client_run_id,status:r.status,gate,round,revision,allowed,decisionNeeded:expired?'This approval ticket is more than 24 hours old, so the run cannot continue from it. You can stop the run; to try again, save the version again and send a new job.':safe(ticket?.decision_needed,1800),shots,warnings:ticketWarnings.slice(0,30).map(x=>safe(x)),candidate:drive(candidate?.link),review:{result:safe(review.result,80),defects:(Array.isArray(review.defects)?review.defects:[]).slice(0,20).map(x=>safe(typeof x==='string'?x:JSON.stringify(x))),uncertain:(Array.isArray(review.unsure)?review.unsure:[]).slice(0,20).map(x=>safe(typeof x==='string'?x:JSON.stringify(x)))},cost:numericCost,deliveries,asOf:new Date().toISOString()}}];"
+   },
+   "id": "d8bbe82a-40dd-4375-b69d-d6510eb9dc4d",
+   "name": "Safe approval context",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    720,
+    0
+   ]
+  },
+  {
+   "parameters": {
+    "respondWith": "json",
+    "responseBody": "={{ JSON.stringify($json) }}",
+    "options": {
+     "responseCode": "={{ $json.http_status || 200 }}",
+     "responseHeaders": {
+      "entries": [
+       {
+        "name": "Cache-Control",
+        "value": "no-store"
+       }
+      ]
+     }
+    }
+   },
+   "id": "7788f2b2-799d-40c8-b70c-d3fef60d429b",
+   "name": "Return owner response",
+   "type": "n8n-nodes-base.respondToWebhook",
+   "typeVersion": 1.5,
+   "position": [
+    960,
+    400
+   ]
+  },
+  {
+   "parameters": {
+    "httpMethod": "POST",
+    "path": "a7/owner-submit",
+    "authentication": "headerAuth",
+    "responseMode": "responseNode",
+    "options": {}
+   },
+   "id": "d6cc9f5e-14cd-442c-bcf3-906a0adf61c4",
+   "name": "Owner submit",
+   "webhookId": "0bc53901-9563-4486-97db-337a352c0633",
+   "type": "n8n-nodes-base.webhook",
+   "typeVersion": 2.2,
+   "position": [
+    0,
+    400
+   ],
+   "credentials": {
+    "httpHeaderAuth": {
+     "id": "S6DlmKQiz2USSkNE",
+     "name": "A7 GPT bridge inbound"
+    }
+   }
+  },
+  {
+   "parameters": {
+    "jsCode": "const it=$input.first();let probe=it.json.body?.payload;try{if(typeof probe==='string')probe=JSON.parse(probe)}catch{probe=null}if(probe?.transportProbe===true){if(!/^owner-[a-f0-9-]{36}$/.test(probe.clientRunId||'')||Object.keys(it.binary||{}).length!==1)throw Error('invalid_transport_probe');try{const key=Object.keys(it.binary)[0];const data=await this.helpers.getBinaryDataBuffer(0,key);if(!data.length||data.length>3*1024*1024)throw Error('invalid_probe_size');return [{json:{http_status:200,transportProbe:true,valid:true,bytes:data.length,clientId:probe.clientRunId}}];}catch(error){return [{json:{http_status:409,transportProbe:true,valid:false,error:'probe_binary_unavailable',errorType:String(error.name||'Error').replace(/[^A-Za-z]/g,'').slice(0,40)}}];}}\n// Owner submission: 1 to 12 files (photos, plus specification files). Every file keeps its saved name (role-<uuid>) so that\n// \"02 Ingest files\" matches it to payload.references by name and reads its role; nothing is renamed or dropped.\nconst MAX_FILES=12,MAX_FILE=3*1024*1024,MAX_TOTAL=14*1024*1024;\nconst EXT={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'};\nconst SPEC={'text/plain':'txt','text/csv':'csv','application/json':'json','application/pdf':'pdf','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':'xlsx'};\n// Same role reading as \"02 Ingest files\" (roleOf), so the bridge refuses what A7 would not use.\nfunction roleOf(label){const r=String(label||'').trim().toLowerCase();if(!r)return '';if(/room|space|target/.test(r))return 'room';if(/look|inspiration/.test(r))return 'look';if(/previous|result|generation/.test(r))return 'previous';if(/view|angle/.test(r))return 'other_view';if(/spec|sheet|excel|document/.test(r))return 'spec';if(/product|vendor/.test(r))return 'product';return 'other';}\nconst item=$input.first();let p=item.json.body?.payload;try{if(typeof p==='string')p=JSON.parse(p)}catch{p=null}\nconst b=item.binary||{},keys=Object.keys(b);\nif(!p||typeof p!=='object'||!/^owner-[a-f0-9-]{36}$/.test(p.clientRunId||'')||keys.length<1||keys.length>MAX_FILES)throw new Error('Invalid owner submission');\nconst refs=Array.isArray(p.references)?p.references:[];\nif(refs.length!==keys.length)throw Error('owner_references_mismatch');\nconst NAME=/^(product|room|other_view|look|previous|spec)-[a-f0-9-]{36}$/,used=new Set(),out={},uploadFields=[];let total=0,products=0,rooms=0;\nfor(let i=0;i<keys.length;i++){\n const key=keys[i],f=b[key]||{},raw=String(f.fileName||''),bare=raw.replace(/\\.(jpe?g|png|webp|txt|csv|json|pdf|xlsx)$/i,'');\n const idx=refs.findIndex((r,j)=>!used.has(j)&&r&&typeof r.name==='string'&&(r.name===raw||r.name===bare));\n if(idx===-1)throw Error('owner_file_without_reference');\n used.add(idx);\n const name=refs[idx].name,role=roleOf(refs[idx].role);\n if(!NAME.test(name)||!['product','room','other_view','look','previous','spec'].includes(role)||!name.startsWith(role+'-'))throw Error('invalid_owner_role');\n if(role==='product')products++;if(role==='room')rooms++;\n const mime=f.mimeType,ext=EXT[mime]||(role==='spec'?SPEC[mime]:undefined);if(!ext)throw Error('invalid_owner_image');\n const bytes=await this.helpers.getBinaryDataBuffer(0,key);\n if(!bytes.length||bytes.length>MAX_FILE)throw Error('invalid_owner_image');\n total+=bytes.length;if(total>MAX_TOTAL)throw Error('owner_upload_too_large');\n const field='files'+i;out[field]={data:bytes.toString('base64'),mimeType:mime,fileName:name,fileExtension:ext};uploadFields.push(field);\n}\n// A7 reads one product photo and at most one room photo; a second of either would be registered but never used.\nif(products!==1||rooms>1)throw Error('owner_roles_invalid');\nreturn [{json:{payload:JSON.stringify(p),uploadFields,fileCount:uploadFields.length,totalBytes:total},binary:out}];\n"
+   },
+   "id": "11bb1df2-677b-4d57-99bb-19f65d8e0dfb",
+   "name": "Normalize owner upload",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    208,
+    400
+   ]
+  },
+  {
+   "parameters": {
+    "jsCode": "function actionReceipt(response,expectedClientId){\n const r=response||{};let b=r.body??r.data;\n try{if(typeof b==='string')b=JSON.parse(b);}catch{b=null;}\n const json=b&&typeof b==='object'&&!Array.isArray(b);\n const httpOk=r.statusCode>=200&&r.statusCode<300&&!r.error;\n const intake=json&&b.ok===true&&b.status==='received'&&b.job_id===expectedClientId;\n const decision=json&&b.forwarded===true&&b.id===expectedClientId;\n const accepted=Boolean(httpOk&&(intake||decision));\n const error=!accepted&&json&&/^[a-z_]{1,80}$/.test(b.error||'')?b.error:\n  !accepted&&r.statusCode>=500?'upstream_workflow_failed':null;\n // Return an application receipt even for a failed upstream request. An edge\n // gateway can replace HTTP 502 bodies; callers must check accepted explicitly.\n // A7's intake refuses a job it cannot start with its own client-safe reasons (problems); pass them on, short and plain,\n // so the owner sees why. Nothing else of the answer is passed.\n const problems=!accepted&&json&&Array.isArray(b.problems)?b.problems.filter(p=>typeof p==='string'&&p.trim()).slice(0,10).map(p=>p.trim().slice(0,300)):[];\n return {http_status:200,accepted,error,problems,forwarded:accepted&&decision,\n  runId:accepted&&/^claude-a7-[A-Za-z0-9-]+$/.test(b.run_id||'')?b.run_id:null,\n  clientId:accepted?expectedClientId:null,\n  upstreamStatus:Number.isInteger(r.statusCode)?r.statusCode:null,\n  receiptKind:accepted?'accepted':json?'rejected':r.error?'transport_error':'invalid_response',\n  outcome:accepted?'received':'outcome_unknown',\n  message:accepted?'A7 received the request. Refresh the queue to see the recorded result.':'A7 did not confirm receipt. Do not send a new request; check the queue first.'};\n}\nlet expected;try{expected=JSON.parse($('Normalize owner upload').first().json.payload).clientRunId;}catch{try{expected=$('Validate owner decision').first().json.answer.id;}catch{}}return [{json:actionReceipt($input.first().json,expected)}];"
+   },
+   "id": "4a0fdba5-145d-4e04-8dca-da31446df9ea",
+   "name": "Safe action receipt",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    720,
+    608
+   ]
+  },
+  {
+   "parameters": {
+    "httpMethod": "POST",
+    "path": "a7/owner-decision",
+    "authentication": "headerAuth",
+    "responseMode": "responseNode",
+    "options": {}
+   },
+   "id": "facd9b2d-0023-44fc-9f61-46fa39069331",
+   "name": "Owner decision",
+   "webhookId": "fb83d3df-81fd-4d8f-9e79-5873f290e623",
+   "type": "n8n-nodes-base.webhook",
+   "typeVersion": 2.2,
+   "position": [
+    0,
+    800
+   ],
+   "credentials": {
+    "httpHeaderAuth": {
+     "id": "S6DlmKQiz2USSkNE",
+     "name": "A7 GPT bridge inbound"
+    }
+   }
+  },
+  {
+   "parameters": {
+    "jsCode": "const b=$input.first().json.body||{};if(!/^[A-Za-z0-9._-]{8,80}$/.test(b.id||'')||!/^claude-a7-[A-Za-z0-9-]+$/.test(b.run_id||'')||!Number.isSafeInteger(b.round)||b.round<0||!['go','change','stop','approve','repair','review_again','approve_unreviewed'].includes(b.decision)||typeof b.note!=='string'||b.note.length>1000)throw new Error('Invalid owner decision');return [{json:{answer:{id:b.id,run_id:b.run_id,round:b.round,decision:b.decision,note:b.note}}}];"
+   },
+   "id": "649b9b4c-c06c-4bbc-b43e-40a86edb3567",
+   "name": "Validate owner decision",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    240,
+    800
+   ]
+  },
+  {
+   "parameters": {
+    "method": "POST",
+    "url": "https://ibrahimnewaeon.app.n8n.cloud/webhook/claude-midas-a7-decision",
+    "authentication": "genericCredentialType",
+    "genericAuthType": "httpHeaderAuth",
+    "sendBody": true,
+    "specifyBody": "json",
+    "jsonBody": "={{ JSON.stringify($json.answer) }}",
+    "options": {
+     "redirect": {
+      "redirect": {
+       "followRedirects": false
+      }
+     },
+     "response": {
+      "response": {
+       "fullResponse": true,
+       "neverError": true
+      }
+     },
+     "timeout": 25000
+    }
+   },
+   "id": "f87a4201-34c5-4392-870f-e86dd28b1ff9",
+   "name": "Forward owner decision",
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.2,
+   "position": [
+    480,
+    800
+   ],
+   "onError": "continueRegularOutput",
+   "credentials": {
+    "httpHeaderAuth": {
+     "id": "4Tf3ryBWPtc1IkvG",
+     "name": "Claude · Midas owner header"
+    }
+   }
+  },
+  {
+   "parameters": {
+    "conditions": {
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "strict",
+      "version": 2
+     },
+     "conditions": [
+      {
+       "id": "fa05b965-e6e3-43c1-96e9-724c0baac4fe",
+       "leftValue": "={{ $json.transportProbe === true }}",
+       "rightValue": true,
+       "operator": {
+        "type": "boolean",
+        "operation": "true",
+        "singleValue": true
+       }
+      }
+     ],
+     "combinator": "and"
+    },
+    "options": {}
+   },
+   "id": "433a3e9b-6646-4c69-8013-e996a4d93fa8",
+   "name": "Transport check?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    384,
+    400
+   ]
+  },
+  {
+   "parameters": {
+    "jsCode": "// Edit phase 2.1 (19 Oct 2026): the scene images the owner approved in this run, with the Google Drive file id and checksum A7\n// recorded at approval, so the owner site can start an edit from one exact image. Nothing else of the run record is added.\n// 20 Oct 2026: also the white master of a finished white package (the owner's go 2 release of exactly that file), so a new job can\n// make its scenes from it.\nconst out=$input.first().json;\nif(out.http_status!==200)return [{json:out}];\nconst rows=$('Read owner run').all().map(i=>i.json).filter(x=>x.run_id===out.runId&&x.client_run_id===out.clientId).sort((a,b)=>String(b.updatedAt||'').localeCompare(String(a.updatedAt||''))||Number(b.id)-Number(a.id));\nlet done=null;try{done=JSON.parse(rows[0]?.scenes||'null')?.done;}catch(e){done=null;}\nlet pkg=null;try{pkg=JSON.parse(rows[0]?.package||'null');}catch(e){pkg=null;}\nconst results=[];\nconst m=pkg&&pkg.master,rel=pkg&&pkg.release;\nif(pkg&&pkg.outcome==='white_package_ready'&&m&&rel&&rel.run_id===out.runId&&rel.output_id==='white_master'&&['reviewed_owner_approved','owner_exception'].includes(rel.classification)&&/^[A-Za-z0-9_-]{10,200}$/.test(String(m.drive_file_id||''))&&/^[a-f0-9]{64}$/.test(String(m.sha256||''))&&rel.candidate_sha256===m.sha256)\n results.push({outputId:'white_master',kind:'white',driveFileId:m.drive_file_id,sha256:m.sha256,px:typeof m.px==='string'&&/^\\d{2,5}x\\d{2,5}$/.test(m.px)?m.px:null,fileName:String(m.file_name||'white_master').replace(/https?:\\/\\/\\S+/gi,'').slice(0,160),reviewed:rel.classification==='reviewed_owner_approved',approvedAt:typeof rel.at==='string'?rel.at:null});\nif(done&&typeof done==='object'&&!Array.isArray(done))for(const [outputId,d] of Object.entries(done)){\n const c=d&&d.candidate;\n if(results.length>=30||!d||d.by!=='owner'||!c||!/^[a-z0-9_]{1,60}$/.test(outputId)||!/^[A-Za-z0-9_-]{10,200}$/.test(String(c.drive_file_id||''))||!/^[a-f0-9]{64}$/.test(String(c.sha256||'')))continue;\n results.push({outputId,kind:'scene',driveFileId:c.drive_file_id,sha256:c.sha256,px:typeof c.px==='string'&&/^\\d{2,5}x\\d{2,5}$/.test(c.px)?c.px:null,fileName:String(c.file_name||outputId).replace(/https?:\\/\\/\\S+/gi,'').slice(0,160),reviewed:!d.without_review,approvedAt:typeof d.at==='string'?d.at:null});\n}\nreturn [{json:{...out,results}}];\n"
+   },
+   "id": "f06d11be-c350-4b95-ae1d-4d3ab5df6c84",
+   "name": "Approved results",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    848,
+    -160
+   ]
+  },
+  {
+   "parameters": {
+    "method": "POST",
+    "url": "https://ibrahimnewaeon.app.n8n.cloud/webhook/claude-midas-a7",
+    "authentication": "genericCredentialType",
+    "genericAuthType": "httpHeaderAuth",
+    "sendBody": true,
+    "contentType": "multipart-form-data",
+    "bodyParameters": {
+     "parameters": [
+      {
+       "name": "payload",
+       "value": "={{ $json.payload }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files0",
+       "inputDataFieldName": "={{ $json.uploadFields[0] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files1",
+       "inputDataFieldName": "={{ $json.uploadFields[1] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files2",
+       "inputDataFieldName": "={{ $json.uploadFields[2] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files3",
+       "inputDataFieldName": "={{ $json.uploadFields[3] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files4",
+       "inputDataFieldName": "={{ $json.uploadFields[4] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files5",
+       "inputDataFieldName": "={{ $json.uploadFields[5] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files6",
+       "inputDataFieldName": "={{ $json.uploadFields[6] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files7",
+       "inputDataFieldName": "={{ $json.uploadFields[7] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files8",
+       "inputDataFieldName": "={{ $json.uploadFields[8] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files9",
+       "inputDataFieldName": "={{ $json.uploadFields[9] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files10",
+       "inputDataFieldName": "={{ $json.uploadFields[10] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files11",
+       "inputDataFieldName": "={{ $json.uploadFields[11] || \"\" }}"
+      }
+     ]
+    },
+    "options": {
+     "redirect": {
+      "redirect": {
+       "followRedirects": false
+      }
+     },
+     "response": {
+      "response": {
+       "fullResponse": true,
+       "neverError": true,
+       "responseFormat": "text"
+      }
+     },
+     "timeout": 60000
+    }
+   },
+   "id": "a40536ac-f3a9-48f7-bd97-f271061f0f98",
+   "name": "Forward owner intake",
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.1,
+   "position": [
+    592,
+    416
+   ],
+   "retryOnFail": false,
+   "onError": "continueRegularOutput",
+   "credentials": {
+    "httpHeaderAuth": {
+     "id": "mbZqYVn5TGqhMf2C",
+     "name": "Claude · Midas client header"
+    }
+   }
+  }
+ ],
+ "connections": {
+  "Owner context": {
+   "main": [
+    [
+     {
+      "node": "Read owner run",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Read owner run": {
+   "main": [
+    [
+     {
+      "node": "Read owner tickets",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Read owner tickets": {
+   "main": [
+    [
+     {
+      "node": "Safe approval context",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Owner submit": {
+   "main": [
+    [
+     {
+      "node": "Normalize owner upload",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Normalize owner upload": {
+   "main": [
+    [
+     {
+      "node": "Transport check?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Safe action receipt": {
+   "main": [
+    [
+     {
+      "node": "Return owner response",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Owner decision": {
+   "main": [
+    [
+     {
+      "node": "Validate owner decision",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Validate owner decision": {
+   "main": [
+    [
+     {
+      "node": "Forward owner decision",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Forward owner decision": {
+   "main": [
+    [
+     {
+      "node": "Safe action receipt",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Transport check?": {
+   "main": [
+    [
+     {
+      "node": "Return owner response",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "Forward owner intake",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Safe approval context": {
+   "main": [
+    [
+     {
+      "node": "Approved results",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Approved results": {
+   "main": [
+    [
+     {
+      "node": "Return owner response",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Forward owner intake": {
+   "main": [
+    [
+     {
+      "node": "Safe action receipt",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ }
+}

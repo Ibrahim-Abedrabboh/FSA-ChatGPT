@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A7 Revision Feed</title>
+<style>
+@font-face{font-family:"Playfair Display";font-weight:400;font-style:normal;src:url(node_modules/@fontsource/playfair-display/files/playfair-display-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Playfair Display";font-weight:400;font-style:italic;src:url(node_modules/@fontsource/playfair-display/files/playfair-display-latin-400-italic.woff2) format("woff2")}
+@font-face{font-family:"Manrope";font-weight:400;src:url(node_modules/@fontsource/manrope/files/manrope-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Manrope";font-weight:600;src:url(node_modules/@fontsource/manrope/files/manrope-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Space Grotesk";font-weight:500;src:url(node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-500-normal.woff2) format("woff2")}
+:root{--ink:#121111;--off:#F6F6F6;--muted:#606060;--soft:#747474;--line:#E9E9E9;--line2:#D1D1D1;--red:#B22020;--gold:#F5CD6F;
+  --disp:"Playfair Display",Georgia,serif;--body:Manrope,system-ui,sans-serif;--label:"Space Grotesk",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--off);color:var(--ink);-webkit-font-smoothing:antialiased;font-family:var(--body)}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--off)}
+.abs{position:absolute}
+.kick{font-family:var(--label);font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--red);font-size:18px}
+.disp{font-family:var(--disp)}
+.it{font-style:italic}
+.pill{white-space:nowrap;font-family:var(--label);font-weight:500;font-size:18px;border:1.5px solid var(--ink);border-radius:30px;padding:7px 16px;display:inline-flex;gap:10px;align-items:center;background:#fff}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--gold)}
+.chip{white-space:nowrap;font-family:var(--label);font-weight:500;font-size:17px;border:1.5px solid var(--line2);border-radius:30px;padding:6px 14px;background:#fff;display:inline-flex;gap:8px;align-items:center}
+.card{position:absolute;left:720px;width:1104px;background:#fff;border:1.5px solid var(--line2);border-radius:14px;overflow:hidden}
+.card .in{padding:22px 32px 30px}
+.hdr{display:flex;align-items:center;gap:14px;height:34px}
+.step{font-family:var(--label);font-weight:500;font-size:16px;letter-spacing:.14em;color:var(--red);text-transform:uppercase;min-width:92px}
+.route{display:flex;align-items:center;gap:10px;font-family:var(--label);font-size:16px;color:var(--muted)}
+.route b{font-weight:500;color:var(--ink);border:1.5px solid var(--line2);border-radius:30px;padding:3px 12px;background:#fff}
+.short{margin-left:auto;font-family:var(--label);font-size:17px;color:var(--soft)}
+.ttl{font-family:var(--disp);font-size:46px;letter-spacing:-1px;line-height:1.1;margin-top:18px}
+.sub{font-size:22px;color:var(--muted);margin-top:8px}
+.body{margin-top:24px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;min-height:60px}
+.mini{font-family:var(--label);font-weight:500;font-size:18px;border:1.5px solid var(--ink);border-radius:10px;padding:10px 16px;background:#fff;white-space:nowrap;position:relative}
+.btn{font-family:var(--label);font-weight:500;font-size:18px;border-radius:30px;padding:10px 22px;white-space:nowrap}
+.thumb{width:150px;height:100px;border:1.5px solid var(--ink);border-radius:8px;background:var(--off);position:relative;overflow:hidden}
+.toast{display:inline-flex;align-items:center;gap:12px;border:1.5px solid var(--ink);border-radius:12px;padding:10px 16px;background:#fff;font-family:var(--label);font-size:18px}
+.toast .who{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+.sk{position:absolute;left:12px;top:50%;height:2.5px;background:var(--red);width:0}
+.rl{font-family:var(--label);font-size:18px;color:var(--soft);position:absolute;left:150px;white-space:nowrap}
+.small{font-size:18px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div id="root"><div id="html"></div></div>
+<script>
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const lerp=(a,b,p)=>a+(b-a)*p;
+const eOut=p=>1-Math.pow(1-p,4);
+const eIO=p=>p<.5?8*p*p*p*p:1-Math.pow(-2*p+2,4)/2;
+function spring(t,zeta=.7,w=12){if(t<=0)return 0;const wd=w*Math.sqrt(1-zeta*zeta);return 1-Math.exp(-zeta*w*t)*(Math.cos(wd*t)+(zeta*w/wd)*Math.sin(wd*t));}
+// motion "tokens" (single source for this piece)
+const TK={stagger:.08,enter:{zeta:.72,w:12},snappy:{zeta:.55,w:16},gentle:{zeta:.85,w:10},dist:{sm:12,md:24,lg:48,xl:140},press:.94};
+const sp=(t,k=TK.enter)=>spring(t,k.zeta,k.w);
+function H(html,cls,parent){const d=document.createElement('div');d.className='abs '+(cls||'');d.innerHTML=html;(parent||document.getElementById('html')).appendChild(d);return d;}
+function presence(el,t,tin,tout,dist=TK.dist.md,k=TK.enter){ // enter + exit, always paired
+  const pin=sp(t-tin,k),pout=eIO(seg(t,tout,tout+.4));
+  el.style.opacity=clamp(pin*1.5)*(1-pout);
+  el.style.transform=`translateY(${(1-clamp(pin,0,1.2))*dist - pout*dist}px)`;
+  return pin;
+}
+
+// ---------- timeline ----------
+const T_MAIN=3.9;
+const DUR=[3.7,3.9,3.9,3.0,4.3,4.2,4.4,4.0];
+const S0=[];{let s=T_MAIN+.5;for(const d of DUR){S0.push(s);s+=d;}}
+const T_OUT=S0[7]+DUR[7];
+const TOTAL=T_OUT+7.0;window.TOTAL=TOTAL;
+const curStep=t=>{let k=-1;for(let i=0;i<8;i++)if(t>=S0[i])k=i;return k;};
+
+// ---------- intro (page 1) ----------
+const intro=H(`<div class="kick">Pipeline A7 · Design, 14 Oct 2026</div>
+<div class="disp" data-l style="font-size:120px;letter-spacing:-3px;line-height:1.04;margin-top:24px">Refine or variation,</div>
+<div class="disp it" data-l style="font-size:120px;letter-spacing:-3px;line-height:1.04">as a new version.</div>
+<div data-l style="font-size:30px;color:#606060;margin-top:30px">One change on result X becomes brief v+1, checked and approved like any job.</div>
+<div data-l style="display:flex;gap:16px;align-items:center;margin-top:46px"><span class="chip" data-c>Client page</span><span class="small" data-c>→</span><span class="chip" data-c>Pipeline (A7)</span><span class="small" data-c>⇄</span><span class="chip" data-c>Owner</span></div>`,'');
+intro.style.left='160px';intro.style.top='230px';
+const introLines=[intro.firstElementChild,...intro.querySelectorAll('[data-l]')];
+const introChips=[...intro.querySelectorAll('[data-c]')];
+
+// ---------- left column (page 2) ----------
+const left=H('','');left.style.cssText+='left:0;top:0;width:680px;height:1080px';
+const head=H(`<div class="kick">Pipeline A7 · Design, 14 Oct 2026</div><div class="disp" style="font-size:44px;letter-spacing:-1px;line-height:1.1;margin-top:10px">Refine or variation,<br><span class="it">as a new version</span></div>`,'',left);
+head.style.left='96px';head.style.top='64px';
+const badge=H('<span class="dot"></span>Design · not built yet','pill');badge.style.left='1824px';badge.style.top='56px';badge.style.translate='-100% 0';
+const CH=[{n:'I',name:'Ask and plan',steps:[0,1,2,3]},{n:'II',name:'The owner’s go',steps:[4]},{n:'III',name:'Make and decide',steps:[5,6,7]}];
+CH.forEach(c=>{c.el=H(`<div class="kick" style="color:#747474">Chapter ${c.n}</div><div class="disp" style="font-size:58px;letter-spacing:-1.5px;margin-top:6px">${c.name}</div>`,'',left);c.el.style.left='96px';c.el.style.top='250px';});
+// vertical progress rail
+const RY0=420,RY1=820,RX=110;
+const railBase=H('','',left);railBase.style.cssText+=`left:${RX}px;top:${RY0}px;width:2px;height:${RY1-RY0}px;background:#D1D1D1`;
+const railFill=H('','',left);railFill.style.cssText+=`left:${RX}px;top:${RY0}px;width:2px;height:0;background:#121111`;
+const SHORT=['Request a change','New brief v+1','Plan preview','Confirm','Go 1 (plan)','Images and checks','Package for decision','Generated image'];
+const rails=SHORT.map((s,i)=>{const y=lerp(RY0,RY1,i/7);
+  const d=H('','',left);d.style.cssText+=`left:${RX-7}px;top:${y-7}px;width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid #D1D1D1`;
+  const l=H(`<span style="font-variant-numeric:lining-nums">${String(i+1).padStart(2,'0')}</span>&nbsp;&nbsp;${s}`,'rl',left);l.style.top=(y-12)+'px';
+  return{d,l,y};});
+// version panel: shared-element crossfade result X -> brief v+1
+const verLab=H('<div class="kick" style="color:#747474">Current version</div>','',left);verLab.style.left='96px';verLab.style.top='880px';
+const verA=H('result X','mini',left);verA.style.position='absolute';verA.style.left='96px';verA.style.top='918px';
+const verB=H('brief v+1<span style="color:#747474;font-size:15px;margin-left:12px">parent: result X</span>','mini',left);verB.style.left='96px';verB.style.top='918px';verB.style.position='absolute';verB.style.borderColor='#B22020';verB.style.color='#B22020';
+
+// ---------- step cards ----------
+const LOCK='<svg width="14" height="16" viewBox="0 0 16 18" fill="none" stroke="#121111" stroke-width="2"><rect x="2" y="8" width="12" height="9" rx="1.5"/><path d="M5 8V5a3 3 0 0 1 6 0v3"/></svg>';
+const CK='<svg width="24" height="24" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#121111"/><path d="M6 11.5l3.2 3L16 7.5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>';
+const STEPS=[
+ {from:'Client page',to:'Pipeline (A7)',arrow:'→',t:'Chip or message on result X',s:'One axis: light, view, accessories, room',
+  b:`<span class="chip" data-s>light</span><span class="chip" data-s>view</span><span class="chip" data-s>accessories</span><span class="chip" data-s>room</span><span class="small" data-s style="margin-left:10px">one axis per change</span>`},
+ {from:'Pipeline (A7)',to:'itself',arrow:'↻',t:'New brief v+1, linked to parent X',s:'Old plans and reviews voided',
+  b:`<span class="mini" data-s>result X</span><span data-s data-link style="display:inline-block;height:3px;width:90px;background:#F5CD6F"></span><span class="mini" data-s style="border-color:#B22020;color:#B22020">brief v+1</span><span style="width:40px"></span><span class="chip" data-s data-v>old plan<span class="sk"></span></span><span class="chip" data-s data-v>old review<span class="sk"></span></span>`},
+ {from:'Pipeline (A7)',to:'Client page',arrow:'→',t:'Plan preview and what stays locked',s:'Shown to the client before anything is made',
+  b:`<div data-s data-acc style="border:1.5px solid #121111;border-radius:12px;width:620px;overflow:hidden;background:#fff"><div style="padding:14px 18px;font-size:20px">Changes: <b>one axis</b></div><div data-accbody style="border-top:1px solid #E9E9E9;padding:14px 18px;font-size:20px;display:flex;gap:10px;align-items:center">${LOCK}Locked: the product as photographed</div></div>`},
+ {from:'Client page',to:'Pipeline (A7)',arrow:'→',t:'Confirm',s:'Nothing runs until the client confirms',
+  b:`<span class="btn" data-s data-btn style="background:#121111;color:#fff;display:inline-flex;gap:10px;align-items:center">Confirm</span><span data-s data-ok style="display:inline-flex">${CK}</span>`},
+ {from:'Pipeline (A7)',to:'Owner',arrow:'⇄',t:'Go 1 (plan)',s:'The owner replies before images are made',
+  b:`<span class="toast" data-s><span class="who">Pipeline</span>go 1 · plan</span><span class="small" data-s>→</span><span class="toast" data-s data-reply style="border-color:#B22020"><span class="who">Owner</span>go</span>`},
+ {from:'Pipeline (A7)',to:'itself',arrow:'↻',t:'Images, checks',s:'At most 2 repairs each, then hold',
+  b:[0,1,2].map(i=>`<div data-s style="display:flex;flex-direction:column;align-items:center;gap:8px"><div class="thumb"><div data-sh style="position:absolute;top:0;bottom:0;width:60%;background:linear-gradient(90deg,transparent,#fff,transparent)"></div><span data-ck style="position:absolute;right:8px;bottom:8px;display:inline-flex">${CK}</span></div><div style="display:flex;gap:6px"><span style="width:11px;height:11px;border-radius:50%;border:1.5px solid #B22020"></span><span style="width:11px;height:11px;border-radius:50%;border:1.5px solid #B22020"></span></div></div>`).join('')+`<span class="small" data-s style="margin-left:14px">two repair slots per image</span>`},
+ {from:'Pipeline (A7)',to:'Owner',arrow:'⇄',t:'Package for decision',s:'The owner replies: approve or hold',
+  b:`<span class="toast" data-s><span class="who">Pipeline</span>package</span><span class="small" data-s>→</span><span class="toast" data-s data-reply style="border-color:#B22020"><span class="who">Owner</span><span class="btn" style="border:1.5px solid #121111;padding:5px 14px;font-size:16px">approve</span><span style="color:#747474">or</span><span class="btn" style="border:1.5px solid #121111;padding:5px 14px;font-size:16px">hold</span></span>`},
+ {from:'Pipeline (A7)',to:'Client page',arrow:'→',t:'Generated image',s:'“Approved” only after the owner decision',
+  b:`<div data-s class="thumb" style="width:200px;height:130px;background:linear-gradient(160deg,#F6F6F6,#E9E9E9)"><svg width="200" height="130" viewBox="0 0 200 130" fill="none" stroke="#606060" stroke-width="2"><path d="M38 94h124M52 94V72h96v22M60 72V57h80v15"/></svg></div><div data-s style="display:flex;flex-direction:column;gap:10px"><span style="font-family:var(--label);font-size:19px">Generated image</span><span data-stamp style="font-family:var(--label);font-size:16px;letter-spacing:.05em;border:1.5px dashed #B22020;color:#B22020;border-radius:30px;padding:6px 14px;display:inline-block">“Approved” only after the owner decision</span></div>`},
+];
+const COLLAPSED=80, GAP=14, YA=430;
+STEPS.forEach((s,i)=>{
+  const c=document.createElement('div');c.className='card';
+  c.innerHTML=`<div class="in"><div class="hdr"><span class="step">Step ${String(i+1).padStart(2,'0')}</span><span class="route"><b>${s.from}</b>${s.arrow}<b>${s.to}</b></span><span class="short">${SHORT[i]}</span></div>
+  <div class="ttl">${s.t}</div><div class="sub">${s.s}</div><div class="body">${s.b}</div></div>`;
+  document.getElementById('html').appendChild(c);
+  s.el=c;s.items=[...c.querySelectorAll('[data-s]')];s.short=c.querySelector('.short');
+});
+
+// ---------- outro dialog ----------
+const overlay=H('','');overlay.style.cssText+='left:0;top:0;width:1920px;height:1080px;background:#121111';
+const dlg=H(`<div class="kick" data-o>Every change, a new version</div>
+<div data-o style="display:flex;align-items:center;gap:0;margin-top:34px"><span class="mini">result X</span><span data-ln1 style="display:inline-block;height:3px;width:0;background:#F5CD6F"></span><span class="mini" style="border-color:#B22020;color:#B22020" data-v1>brief v+1</span><span data-ln2 style="display:inline-block;height:0;width:0;border-top:3px dashed #D1D1D1"></span><span class="mini" style="border-style:dashed;border-color:#D1D1D1;color:#747474" data-v2>v+2 …</span></div>
+<div data-o class="small" style="margin-top:10px">result X stays as history</div>
+<div data-o class="disp" style="font-size:54px;letter-spacing:-1.5px;line-height:1.12;margin-top:40px">Every change is a new version <span class="it">linked to its parent.</span></div>
+<div data-o style="font-size:24px;color:#606060;margin-top:18px">Earlier results stay as history. “Approved” is shown to the client only after the owner’s recorded decision.</div>
+<div data-o style="margin-top:34px"><span class="pill"><span class="dot"></span>Design for pipeline A7 · 14 Oct 2026 · not built yet</span></div>`,'');
+dlg.style.cssText+='left:50%;top:50%;width:1180px;background:#fff;border-radius:18px;padding:56px 64px';
+const dlgItems=[...dlg.querySelectorAll('[data-o]')];
+
+window.ready=document.fonts.ready.then(()=>{STEPS.forEach(s=>{s.H=s.el.scrollHeight;});window.render(0);return true;});
+
+window.render=function(t){
+  // ---- intro: staggered lines, then exit up (mode "wait": main enters after) ----
+  const introOut=3.1;
+  introLines.forEach((l,i)=>presence(l,t,.2+i*TK.stagger,introOut+i*.04,TK.dist.lg));
+  introChips.forEach((c,i)=>{const p=sp(t-(1.2+i*TK.stagger),TK.snappy);c.style.opacity=clamp(p*1.5);c.style.transform=`scale(${.8+.2*clamp(p,0,1.1)})`;});
+  intro.style.visibility=t<introOut+.9?'visible':'hidden';
+  const mainOn=t>=introOut+.6;
+  // ---- left column ----
+  const lin=sp(t-(introOut+.6),TK.gentle),lout=eIO(seg(t,T_OUT,T_OUT+.6));
+  head.style.opacity=clamp(lin)*(1-lout);head.style.transform=`translateY(${(1-clamp(lin))*TK.dist.md}px)`;
+  badge.style.opacity=clamp(lin);
+  const cur=curStep(t);
+  // chapters: page transition, exit completes before enter
+  CH.forEach((c,ci)=>{const first=S0[c.steps[0]],last=S0[c.steps[c.steps.length-1]]+DUR[c.steps[c.steps.length-1]];
+    const tin=ci===0?introOut+.8:first+.05, tout=ci===2?T_OUT:last-.4;
+    presence(c.el,t,tin,tout,TK.dist.md);});
+  // rail
+  const ron=clamp(lin)*(1-lout);
+  [railBase,railFill,verLab].forEach(e=>e.style.opacity=ron);
+  let fillP=0;if(cur>=0){fillP=(cur+eIO(seg(t-S0[cur],DUR[cur]*.6,DUR[cur])))/7;}
+  railFill.style.height=(RY1-RY0)*clamp(Math.min(fillP,1))+'px';
+  rails.forEach((r,i)=>{const p=sp(t-(introOut+.9+i*TK.stagger),TK.gentle);
+    r.l.style.opacity=clamp(p)*(1-lout);r.d.style.opacity=clamp(p)*(1-lout);r.l.style.transform=`translateX(${(1-clamp(p))*-TK.dist.md}px)`;
+    const on=i<=cur,act=i===cur;
+    r.d.style.background=on?(act?'#B22020':'#121111'):'#fff';r.d.style.borderColor=on?(act?'#B22020':'#121111'):'#D1D1D1';
+    const pop=act?1+.25*Math.sin(Math.PI*seg(t-S0[i],0,.35)):1;r.d.style.transform=`scale(${pop})`;
+    r.l.style.color=act?'#121111':(on?'#606060':'#888888');r.l.style.fontWeight=act?'500':'400';});
+  // version: shared element crossfade at step 2
+  const sw=sp(t-(S0[1]+1.2),TK.gentle);
+  verA.style.opacity=ron*(1-clamp(sw));verA.style.transform=`scale(${1-.06*clamp(sw)})`;
+  verB.style.opacity=ron*clamp(sw);verB.style.transform=`scale(${.94+.06*clamp(sw)})`;
+
+  // ---- feed of cards ----
+  STEPS.forEach((s,i)=>{
+    const s0=S0[i],lt=t-s0;
+    const ENTER_DELAY=i===0?0:.38;const e=sp(lt-ENTER_DELAY,TK.enter);
+    const c=i<7?spring(t-S0[i+1],.92,15):0;          // collapse when next card arrives
+    let shift=0;for(let j=i+1;j<8;j++)shift+=clamp(sp(t-S0[j],TK.enter),0,1.08)*(COLLAPSED+GAP);
+    const top=YA+(1-clamp(e,0,1.1))*TK.dist.xl-shift;
+    const h=lerp(s.H,COLLAPSED,clamp(c));
+    let op=clamp(e*1.6)*clamp((top-40)/110)*(1-eIO(seg(t,T_OUT,T_OUT+.7)));
+    s.el.style.top=top+'px';s.el.style.zIndex=10+i;s.el.style.height=h+'px';s.el.style.opacity=t<s0?0:op;
+    s.el.style.borderColor=c>.5?'#D1D1D1':'#121111';
+    s.short.style.opacity=clamp(c*1.5);
+    // staggered body items (enter)
+    s.items.forEach((it,k)=>{const p=sp(lt-.75-k*TK.stagger,TK.snappy);it.style.opacity=clamp(p*1.6);it.style.transform=`translateY(${(1-clamp(p,0,1.1))*TK.dist.sm}px)`;});
+    // per-step micro-moments
+    if(i===0){const ch=s.items.slice(0,4);const sel=sp(lt-1.3,TK.snappy);
+      ch.forEach((x,k)=>{if(k===0){x.style.background=sel>.5?'#121111':'#fff';x.style.color=sel>.5?'#fff':'#121111';x.style.borderColor=sel>.5?'#121111':'#D1D1D1';x.style.transform+=` scale(${1+.08*Math.sin(Math.PI*seg(lt,1.3,1.6))})`;}
+        else x.style.opacity=parseFloat(x.style.opacity)*(1-.55*clamp(sel));});}
+    if(i===1){const ln=s.el.querySelector('[data-link]');ln.style.width=90*eIO(seg(lt,.7,1.2))+'px';
+      s.el.querySelectorAll('[data-v]').forEach((v,k)=>{const p=eIO(seg(lt,1.6+k*.2,2.0+k*.2));v.querySelector('.sk').style.width=`calc((100% - 24px) * ${p})`;v.style.opacity=parseFloat(v.style.opacity)*(1-.5*p);});}
+    if(i===2){const acc=s.el.querySelector('[data-accbody]');const p=sp(lt-1.4,TK.gentle);acc.style.marginTop=(-(1-clamp(p))*56)+'px';acc.style.opacity=clamp(p);}
+    if(i===3){const b=s.el.querySelector('[data-btn]');const press=seg(lt,1.1,1.25)-seg(lt,1.25,1.5);b.style.transform+=` scale(${1-(1-TK.press)*press})`;
+      const ok=s.el.querySelector('[data-ok]');const p=sp(lt-1.45,TK.snappy);ok.style.opacity=clamp(p*2);ok.style.transform=`scale(${clamp(p,0,1.25)})`;}
+    if(i===4||i===6){const r=s.el.querySelector('[data-reply]');const p=sp(lt-1.9,TK.snappy);r.style.opacity=clamp(p*1.6);r.style.transform=`translateX(${(1-clamp(p,0,1.1))*TK.dist.lg}px)`;}
+    if(i===5){s.el.querySelectorAll('.thumb').forEach((th,k)=>{const sh=th.querySelector('[data-sh]');sh.style.left=(-60+((lt*90+k*35)%160))+'%';sh.style.opacity=lt<1.9+k*.3?1:0;
+      const ck=th.querySelector('[data-ck]');const p=sp(lt-(1.9+k*.3),TK.snappy);ck.style.opacity=clamp(p*2);ck.style.transform=`scale(${clamp(p,0,1.25)})`;});}
+    if(i===7){const st=s.el.querySelector('[data-stamp]');const p=sp(lt-1.9,TK.snappy);st.style.opacity=clamp(p*2);st.style.transform=`scale(${.85+.15*clamp(p,0,1.15)}) rotate(${(1-clamp(p))*-6}deg)`;}
+  });
+
+  // ---- outro: dialog with overlay (enter + exit defined) ----
+  const ov=eOut(seg(t,T_OUT+.1,T_OUT+.8));overlay.style.opacity=.06*ov;overlay.style.visibility=ov>0?'visible':'hidden';
+  const dp=sp(t-(T_OUT+.4),TK.gentle);
+  dlg.style.opacity=clamp(dp*1.4);dlg.style.transform=`translate(-50%,-50%) translateY(${(1-clamp(dp))*TK.dist.md}px) scale(${TK.press+(1-TK.press)*clamp(dp)})`;
+  dlg.style.visibility=t>T_OUT?'visible':'hidden';
+  dlgItems.forEach((d,k)=>{const p=sp(t-(T_OUT+.7+k*TK.stagger),TK.enter);d.style.opacity=clamp(p*1.5);d.style.transform=`translateY(${(1-clamp(p,0,1.1))*TK.dist.sm}px)`;});
+  const l1=eIO(seg(t,T_OUT+1.4,T_OUT+2.0)),l2=eIO(seg(t,T_OUT+2.0,T_OUT+2.6));
+  dlg.querySelector('[data-ln1]').style.width=120*l1+'px';dlg.querySelector('[data-ln2]').style.width=120*l2+'px';
+  dlg.querySelector('[data-v1]').style.opacity=clamp(l1*3);dlg.querySelector('[data-v2]').style.opacity=clamp(l2*3);
+};
+</script>
+</body>
+</html>

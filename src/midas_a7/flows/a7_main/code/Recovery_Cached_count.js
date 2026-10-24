@@ -1,0 +1,1 @@
+const it=$('Job accepted').first();return [{json:{reused:true,total:it.json.cached_second.total},binary:it.binary}];

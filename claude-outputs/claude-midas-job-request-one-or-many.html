@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Midas Virtual Studio · Job request (one image or several)</title>
+  <style>
+    :root{font:16px/1.5 system-ui,sans-serif;color:#21302b;background:#f5f4ef}*{box-sizing:border-box}body{margin:0}main{max-width:900px;margin:auto;padding:32px 18px 70px}h1{font-size:2rem;margin:0 0 8px}p{color:#52625b}fieldset{border:1px solid #ccd4cd;border-radius:14px;background:white;margin:20px 0;padding:22px}legend{font-weight:700;padding:0 8px}label{display:block;font-weight:600;margin:12px 0 5px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 18px}input,select,textarea{width:100%;font:inherit;padding:10px;border:1px solid #89988e;border-radius:8px;background:white;color:inherit}input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #287c60;outline-offset:2px}.choices{display:flex;flex-wrap:wrap;gap:8px 20px}.choices label{display:flex;align-items:center;gap:7px;font-weight:400;margin:6px 0}.choices input{width:auto}.hint{font-size:.9rem;margin:5px 0 12px}button{font:inherit;border:0;border-radius:9px;padding:12px 18px;background:#17654a;color:white;cursor:pointer}button:disabled{opacity:.55;cursor:wait}pre{overflow:auto;white-space:pre-wrap;background:#e9eee9;border-radius:10px;padding:15px}output{display:block;margin-top:14px}.roles{display:grid;gap:8px;margin:10px 0 4px}.role-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,260px);gap:10px;align-items:center}.role-row label{margin:0;font-weight:400;overflow-wrap:anywhere}@media(max-width:600px){.role-row{grid-template-columns:1fr}}.error{color:#9a1e1e}.ok{color:#17654a}@media(max-width:600px){main{padding-top:20px}fieldset{padding:15px}}
+    #result{border:1px solid #ccd4cd;border-radius:14px;background:white;margin:20px 0;padding:22px}#result h2{margin:0 0 6px}#result h3{margin:22px 0 8px;font-size:1.05rem}#resultTitle:focus-visible{outline:3px solid #287c60;outline-offset:4px}#resultState{color:#21302b;font-weight:600;margin:0}#resultState.ok{color:#125c41}#resultState.hold{color:#8a4b00}#resultState.error{color:#a12a2a}#resultTimer{font-size:.9rem;margin:4px 0 0;font-variant-numeric:tabular-nums}#resultFigure{margin:18px 0 0}#resultImage{display:block;max-width:100%;height:auto;border:1px solid #ccd4cd;border-radius:10px;background:#e9eee9}#resultFigure figcaption{font-size:.9rem;color:#52625b;margin-top:8px}#resultFigure a{color:#17654a}.table-scroll{overflow-x:auto}#result table{border-collapse:collapse;width:100%;min-width:520px;font-size:.93rem}#result th,#result td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid #dfe5df}#result th{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:#52625b}.pill{display:inline-block;padding:1px 9px;border-radius:999px;font-size:.82rem;font-weight:600;background:#e9eee9;color:#21302b}.pill.pass{background:#dff0e6;color:#125c41}.pill.fail{background:#f8e0e0;color:#8f2222}.pill.partial,.pill.unknown{background:#fbeccf;color:#7a4500}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin-top:6px}.actions .count{min-width:150px}.actions .count label{margin-top:0}button.secondary{background:#fff;color:#17654a;border:2px solid #17654a;padding:10px 16px}details.connection{margin-top:18px;border-top:1px solid #dfe5df;padding-top:12px}details.connection summary{cursor:pointer;font-weight:600}.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:18px}.shot{border:1px solid #dfe5df;border-radius:12px;padding:12px;min-width:0}.shot h3{margin:0 0 8px;font-size:1rem;display:flex;flex-wrap:wrap;gap:8px;align-items:center}.shot img{display:block;max-width:100%;height:auto;border-radius:8px;border:1px solid #ccd4cd;background:#e9eee9}.shot p{margin:8px 0 0;font-size:.9rem}.shot a{color:#17654a}.shot details{margin-top:8px;font-size:.88rem}.shot summary{cursor:pointer}.shot ul{margin:6px 0 0;padding-left:18px}.shot li{margin:3px 0}.pill.passed{background:#dff0e6;color:#125c41}.pill.hold{background:#fbeccf;color:#7a4500}
+  </style>
+</head>
+<body>
+<main>
+  <h1>Create a studio job</h1>
+  <p>Choose the same setup options as the studio, then make one image or several different scenes of the same product. Review the exact payload before sending it.</p>
+  <form id="jobForm">
+    <fieldset><legend>01 · The Job</legend>
+      <div class="grid"><div><label for="job">Job</label><select id="job" required><option value="new_project">New Project</option><option value="edit">Edit</option><option value="single_item">Single item</option></select></div><div><label for="workOn">Work on</label><select id="workOn"><option value="one_by_one">One by one (same department)</option><option value="batch">Batch</option></select></div></div>
+    </fieldset>
+    <fieldset><legend>02 · The Item</legend>
+      <div class="grid"><div><label for="department">Department</label><input id="department" list="departments" placeholder="Automatic from references"><datalist id="departments"><option value="Home Furniture"><option value="Office Furniture"><option value="Accessories"><option value="Outdoor Furniture"></datalist></div><div><label for="category">Category</label><input id="category" placeholder="Automatic from references"></div><div><label for="subCategory">Sub-category</label><input id="subCategory" placeholder="Automatic from references"></div><div><label for="referenceType">Reference type</label><select id="referenceType"><option>Product / vendor reference</option><option>Room / target space</option><option>Inspiration / look</option><option>Previous result</option><option>Other views / pieces</option><option>Specifications / Excel</option></select></div></div>
+      <label for="files">Reference files</label><input id="files" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,.xls,.xlsx,.csv"><p class="hint">JPG, PNG, WebP, PDF, XLS/XLSX or CSV; 25 MB per file.</p><div id="fileRoles" class="roles" aria-live="polite"></div><p class="hint">Say what each file is. The workflow uses one product photo and, if you add one, one look image. Other files are listed on the run card as not used.</p>
+    </fieldset>
+    <fieldset><legend>03 · Scope</legend>
+      <label>Outcomes</label><div class="choices" id="outcomes"><label><input type="checkbox" value="White BK">White BK</label><label><input type="checkbox" value="Lifestyle" checked>Lifestyle</label><label><input type="checkbox" value="Website">Website</label><label><input type="checkbox" value="New Composition">New Composition</label><label><input type="checkbox" value="Variations">Variations</label><label><input type="checkbox" value="Create with this item">Create with this item</label><label><input type="checkbox" value="Others">Others</label></div>
+      <div class="grid"><div><label for="view">Views</label><select id="view"><option>Category template</option><option>Wide view</option><option>Close-up</option><option>Wide view + close-up</option></select></div><div><label for="aspect">Image proportions</label><select id="aspect"><option>Standard for category</option><option>Square 1:1</option><option>Portrait 4:5</option><option>Landscape 16:9</option></select></div><div><label for="resolution">Resolution</label><select id="resolution"><option>Standard for category</option><option>2K</option><option>4K</option></select></div><div><label for="imageSize">Image size</label><input id="imageSize" placeholder="Optional exact size, e.g. 2048x2560"></div></div>
+    </fieldset>
+    <fieldset><legend>04 · Preferences</legend>
+      <div class="grid"><div><label for="lighting">Lighting</label><select id="lighting"><option value="">Workflow default</option><option>Soft daylight</option><option>Golden afternoon</option><option>Warm evening</option></select></div><div><label for="wallPaint">Wall paint</label><select id="wallPaint"><option value="">Workflow default</option><option>White</option><option>Ivory</option><option>Sand</option><option>Greige</option><option>Taupe</option><option>Sage</option><option>Charcoal</option><option>Terracotta</option></select></div><div><label for="floor">Floor</label><select id="floor"><option value="">Workflow default</option><option>Light oak</option><option>Dark walnut</option><option>Limestone</option><option>Marble</option></select></div></div>
+      <div class="choices"><label><input id="useWorkflowDefaults" type="checkbox">Use workflow defaults</label></div>
+    </fieldset>
+    <fieldset><legend>05 · Suggestions</legend>
+      <div class="choices"><label><input id="plants" type="checkbox" checked>Plants</label><label><input id="human" type="checkbox">Human</label></div><label for="mood">Mood / Vibes</label><select id="mood"><option>Automatic</option><option>Calm &amp; natural</option><option>Warm &amp; inviting</option><option>Refined &amp; elegant</option><option>Bold &amp; expressive</option></select>
+    </fieldset>
+    <fieldset><legend>Workflow metadata</legend><p class="hint">Optional details used by 03 Contract, 06 Render ticket and the reviewer. Blank values stay blank; they are not inferred from images.</p>
+      <div class="grid"><div><label for="color">Product color</label><input id="color"></div><div><label for="material">Product material</label><input id="material"></div><div><label for="hero">Hero item / focus</label><input id="hero"></div></div>
+      <label for="locks">Locks</label><textarea id="locks" rows="2" placeholder="One constraint per line"></textarea><label for="mustNot">Must not</label><textarea id="mustNot" rows="2" placeholder="One exclusion per line"></textarea>
+    </fieldset>
+    <fieldset><legend>Submit</legend>
+      <p class="hint">One image uses the one-image workflow. Multiple images plans a different scene for each image, from the same product photo; every image is checked on its own. Each button starts a paid run.</p>
+      <div class="actions">
+        <button id="submitOne" type="submit" data-mode="one">One image</button>
+        <div class="count"><label for="imageCount">Number of images</label><select id="imageCount"><option>2</option><option selected>3</option><option>4</option></select></div>
+        <button id="submitMany" type="submit" data-mode="many" class="secondary">Multiple images</button>
+      </div>
+      <output id="status" role="status" aria-live="polite"></output>
+      <details class="connection"><summary>Connection settings</summary>
+        <label for="endpointOne">One image address</label><input id="endpointOne" type="url" required value="https://ibrahimnewaeon.app.n8n.cloud/webhook/claude-midas-job" autocomplete="url">
+        <p class="hint">The live address of "Claude · Midas job request pipeline".</p>
+        <label for="endpointMany">Multiple images address</label><input id="endpointMany" type="url" required value="https://ibrahimnewaeon.app.n8n.cloud/webhook/claude-midas-job-variations" autocomplete="url">
+        <p class="hint">The live address of "Claude · Midas job request pipeline variations". For a trial run that you start by hand in n8n, replace <code>webhook</code> with <code>webhook-test</code>; the test address cannot report results here.</p>
+        <label for="endpointStatus">Result address</label><input id="endpointStatus" type="url" required value="https://ibrahimnewaeon.app.n8n.cloud/webhook/claude-midas-job-variations-status" autocomplete="url">
+        <p class="hint">Where this page asks for the finished result. It belongs to the variations workflow. Both workflows write to the same run log, so it answers for both buttons.</p>
+        <p class="hint">Every job is sent as multipart/form-data: one JSON field named <code>payload</code>, plus repeated <code>files</code> parts.</p>
+      </details>
+    </fieldset>
+  </form>
+  <section id="result" hidden aria-labelledby="resultTitle">
+    <h2 id="resultTitle" tabindex="-1">Result</h2>
+    <p id="resultState" role="status"></p>
+    <p id="resultTimer" class="hint" aria-hidden="true"></p>
+    <div id="resultShots" class="shots" hidden></div>
+    <figure id="resultFigure" hidden><img id="resultImage" alt=""><figcaption><span id="resultCaption"></span> <a id="resultLink" target="_blank" rel="noopener">Open the full-size image in a new tab</a></figcaption></figure>
+    <div id="resultChecksWrap" hidden><h3>Automatic checks</h3><div class="table-scroll"><table><thead><tr><th scope="col">Check</th><th scope="col">Result</th><th scope="col">What the reviewer saw</th></tr></thead><tbody id="resultChecks"></tbody></table></div></div>
+    <div id="resultCardWrap" hidden><h3>Run card</h3><p class="hint">The first 1,500 characters. The full card is in n8n, in the step "12 Run card".</p><pre id="resultCard"></pre></div>
+  </section>
+  <h2>Payload preview</h2><pre id="preview" aria-live="polite"></pre>
+</main>
+<script>
+(() => {
+  'use strict';
+  const form = document.querySelector('#jobForm');
+  const field = id => document.getElementById(id);
+  const value = id => field(id).value.trim();
+  const lines = id => value(id).split(/\r?\n/).map(x => x.trim()).filter(Boolean);
+  let runId = crypto.randomUUID();
+  const selected = () => [...document.querySelectorAll('#outcomes input:checked')].map(x => x.value);
+  const roleOptions = [...field('referenceType').options].map(option => option.value);
+  const references = () => [...field('files').files].map((file, index) => {
+    const select = field('role' + index);
+    return { name: file.name, role: select ? select.value : value('referenceType') };
+  });
+  const renderRoles = () => {
+    const box = field('fileRoles');
+    box.textContent = '';
+    [...field('files').files].forEach((file, index) => {
+      const row = document.createElement('div');
+      row.className = 'role-row';
+      const label = document.createElement('label');
+      label.htmlFor = 'role' + index;
+      label.textContent = file.name;
+      const select = document.createElement('select');
+      select.id = 'role' + index;
+      roleOptions.forEach(text => { const option = document.createElement('option'); option.textContent = text; select.appendChild(option); });
+      select.value = value('referenceType');
+      select.addEventListener('change', () => { select.dataset.touched = 'yes'; });
+      row.append(label, select);
+      box.appendChild(row);
+    });
+  };
+  let mode = 'one';
+  const payload = () => {
+    const outcomes = selected();
+    const outcome = outcomes[0] || '';
+    const category = value('category') || value('department');
+    const view = value('view');
+    const lighting = value('lighting');
+    const aspect = value('aspect');
+    const resolution = value('resolution');
+    return {
+      job: outcome.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, ''),
+      jobMode: value('job'),
+      workOn: value('workOn'),
+      scope: { outcome, outcomes, view, aspect, resolution, imageCount: mode === 'many' ? Number(value('imageCount')) : 1 },
+      item: { department: value('department'), category: value('category'), subCategory: value('subCategory'), referenceType: value('referenceType') },
+      preferences: { lighting, wallPaint: value('wallPaint'), floor: value('floor'), useWorkflowDefaults: field('useWorkflowDefaults').checked },
+      styling: { plants: field('plants').checked, human: field('human').checked, mood: value('mood') },
+      metadata: {
+        product_category: category, color: value('color'), material: value('material'),
+        scene: outcome, light: lighting, camera: view, hero: value('hero'),
+        locks: lines('locks'), must_not: lines('mustNot'),
+        delivery: { image_size: value('imageSize'), aspect, resolution }
+      },
+      references: references(),
+      clientRunId: runId
+    };
+  };
+  const preview = () => { field('preview').textContent = JSON.stringify(payload(), null, 2); };
+  const POLL_EVERY_MS = 5000;
+  const POLL_LIMIT_ONE_MS = 8 * 60 * 1000;
+  const POLL_LIMIT_MANY_MS = 20 * 60 * 1000;
+  let watchToken = 0;
+  const statusAddress = id => {
+    const address = new URL(value('endpointStatus'));
+    address.search = '';
+    address.searchParams.set('id', id);
+    return address;
+  };
+  const safeImageAddress = text => {
+    try {
+      const address = new URL(String(text || ''));
+      const local = ['localhost', '127.0.0.1'].includes(address.hostname);
+      return address.protocol === 'https:' || (address.protocol === 'http:' && local) ? address.href : '';
+    } catch (error) { return ''; }
+  };
+  const resetResult = () => {
+    field('result').hidden = false;
+    field('resultState').className = '';
+    field('resultState').textContent = '';
+    field('resultTimer').textContent = '';
+    ['resultFigure', 'resultChecksWrap', 'resultCardWrap', 'resultShots'].forEach(id => { field(id).hidden = true; });
+    field('resultShots').textContent = '';
+    field('resultImage').removeAttribute('src');
+    field('resultChecks').textContent = '';
+    field('resultCard').textContent = '';
+  };
+  const setState = (kind, text) => { field('resultState').className = kind; field('resultState').textContent = text; };
+  const showShots = (shots, fileName) => {
+    const box = field('resultShots');
+    shots.forEach(shot => {
+      const ok = shot && shot.status === 'passed';
+      const card = document.createElement('article');
+      card.className = 'shot';
+      const title = document.createElement('h3');
+      const view = shot.view === 'close' ? ', close-up' : shot.view === 'wide' ? ', wide' : '';
+      title.append(`Image ${Number(shot.shot) || ''}${view}`);
+      const pill = document.createElement('span');
+      pill.className = 'pill ' + (ok ? 'passed' : 'hold');
+      pill.textContent = ok ? 'passed' : 'on hold';
+      title.appendChild(pill);
+      card.appendChild(title);
+      const image = safeImageAddress(shot.image_url);
+      if (image) {
+        const picture = document.createElement('img');
+        picture.alt = ok ? `Generated image ${shot.shot} for ${fileName}` : `Last image made for shot ${shot.shot} of ${fileName}. It did not pass the checks.`;
+        picture.loading = 'lazy';
+        const link = document.createElement('a');
+        link.href = image; link.target = '_blank'; link.rel = 'noopener';
+        link.textContent = 'Open full size in a new tab';
+        const line = document.createElement('p');
+        line.appendChild(link);
+        picture.onerror = () => { line.textContent = 'The image link did not load. It may have expired; the image is still in n8n.'; };
+        picture.src = image;
+        card.append(picture, line);
+      } else {
+        const none = document.createElement('p');
+        none.textContent = 'No image was saved for this shot.';
+        card.appendChild(none);
+      }
+      if (!ok && shot.problem) {
+        const problem = document.createElement('p');
+        problem.textContent = (image ? 'This image did not pass. ' : '') + String(shot.problem);
+        card.appendChild(problem);
+      }
+      const checks = Array.isArray(shot.checks) ? shot.checks : [];
+      if (checks.length) {
+        const more = document.createElement('details');
+        const summary = document.createElement('summary');
+        const notPassed = checks.filter(entry => String(entry[1]).toLowerCase() !== 'pass').length;
+        summary.textContent = notPassed ? `Checks: ${notPassed} of ${checks.length} not passed` : `Checks: all ${checks.length} passed`;
+        const list = document.createElement('ul');
+        checks.forEach(entry => {
+          const row = document.createElement('li');
+          row.textContent = `${String(entry[0] || '').replace(/_/g, ' ')}: ${String(entry[1] || 'unknown')}. ${String(entry[2] || '')}`;
+          list.appendChild(row);
+        });
+        more.append(summary, list);
+        card.appendChild(more);
+      }
+      box.appendChild(card);
+    });
+    box.hidden = false;
+  };
+  const showResult = (result, fileName) => {
+    const summary = String(result.summary || '');
+    const secondLine = summary.split('\n')[1] || '';
+    const shots = Array.isArray(result.images) ? result.images : [];
+    if (shots.length) {
+      const done = shots.filter(shot => shot && shot.status === 'passed').length;
+      const kind = done === shots.length ? 'ok' : 'hold';
+      setState(kind, done === shots.length
+        ? `Reviewed candidates. All ${shots.length} images passed the automatic checks. They are not approved until the owner approves them.`
+        : done > 0
+          ? `Partly done. ${done} of ${shots.length} images passed the automatic checks; the rest need a person. Nothing is approved until the owner approves it.`
+          : (secondLine || 'On hold. No image passed the automatic checks.'));
+      field('resultTimer').textContent = `Run ${result.run_id || ''} · images made, including repairs: ${Number(result.images_made) || 0}`;
+      showShots(shots, fileName);
+      field('resultCard').textContent = summary;
+      field('resultCardWrap').hidden = summary === '';
+      field('resultTitle').focus();
+      return;
+    }
+    const passed = result.status === 'reviewed_candidate';
+    setState(passed ? 'ok' : 'hold', passed
+      ? 'Reviewed candidate. It passed the automatic checks. It is not approved until the owner approves it.'
+      : (secondLine || 'On hold. Needs a person.'));
+    field('resultTimer').textContent = `Run ${result.run_id || ''} · images made: ${Number(result.images_made) || 0}`;
+    const image = safeImageAddress(result.image_url);
+    if (image) {
+      const picture = field('resultImage');
+      picture.alt = passed ? `Generated image for ${fileName}` : `Last image made for ${fileName}. It did not pass the checks.`;
+      picture.onerror = () => { field('resultCaption').textContent = 'The image link did not load. It may have expired; the image is still in n8n.'; };
+      picture.src = image;
+      field('resultCaption').textContent = passed ? '' : 'This is the last image made. It did not pass the checks.';
+      field('resultLink').href = image;
+      field('resultFigure').hidden = false;
+    } else if (Number(result.images_made) > 0) {
+      field('resultTimer').textContent += ' · this workflow version does not save an image link; open the step "12 Run card" in n8n to see the image';
+    }
+    const checks = Array.isArray(result.checks) ? result.checks : [];
+    checks.forEach(entry => {
+      const [name, outcome, evidence] = Array.isArray(entry) ? entry : [];
+      const row = document.createElement('tr');
+      const nameCell = document.createElement('td');
+      nameCell.textContent = String(name || '').replace(/_/g, ' ');
+      const outcomeCell = document.createElement('td');
+      const pill = document.createElement('span');
+      const word = String(outcome || 'unknown').toLowerCase();
+      pill.className = 'pill ' + (['pass', 'fail', 'partial', 'unknown'].includes(word) ? word : 'unknown');
+      pill.textContent = word;
+      outcomeCell.appendChild(pill);
+      const evidenceCell = document.createElement('td');
+      evidenceCell.textContent = String(evidence || '');
+      row.append(nameCell, outcomeCell, evidenceCell);
+      field('resultChecks').appendChild(row);
+    });
+    field('resultChecksWrap').hidden = checks.length === 0;
+    field('resultCard').textContent = summary;
+    field('resultCardWrap').hidden = summary === '';
+    field('resultTitle').focus();
+  };
+  const watch = (id, fileName, many) => {
+    const token = ++watchToken;
+    const started = Date.now();
+    let failures = 0;
+    resetResult();
+    setState('', 'Job sent. Waiting for the workflow to finish.');
+    field('result').scrollIntoView({ block: 'nearest' });
+    const tick = async () => {
+      if (token !== watchToken) return;
+      const elapsed = Date.now() - started;
+      try {
+        const response = await fetch(statusAddress(id), { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const result = await response.json();
+        failures = 0;
+        if (token !== watchToken) return;
+        if (result && result.found) { showResult(result, fileName); return; }
+      } catch (error) { failures += 1; }
+      if (failures >= 3) {
+        setState('error', 'The job was sent, but this page could not reach the result address. The variations workflow may not be published yet. In n8n, open the step "12 Run card" of the run to see the result.');
+        field('resultTimer').textContent = '';
+        return;
+      }
+      if (elapsed > (many ? POLL_LIMIT_MANY_MS : POLL_LIMIT_ONE_MS)) {
+        setState('error', `No result after ${many ? 20 : 8} minutes. The run may have stopped with an error. Check the executions list in n8n.`);
+        field('resultTimer').textContent = '';
+        return;
+      }
+      field('resultTimer').textContent = `Waiting ${Math.round(elapsed / 1000)} s. Recent runs took about a minute for one image; ${many ? 'several images are made one after another, and each repair adds another' : 'each repair adds about as long again'}.`;
+      setTimeout(tick, POLL_EVERY_MS);
+    };
+    setTimeout(tick, POLL_EVERY_MS);
+  };
+  field('imageCount').addEventListener('change', preview);
+  field('files').addEventListener('change', renderRoles);
+  field('referenceType').addEventListener('change', () => {
+    document.querySelectorAll('#fileRoles select').forEach(select => { if (!select.dataset.touched) select.value = value('referenceType'); });
+  });
+  form.addEventListener('input', preview);
+  form.addEventListener('change', preview);
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    mode = event.submitter && event.submitter.dataset.mode === 'many' ? 'many' : 'one';
+    const many = mode === 'many';
+    preview();
+    const status = field('status');
+    const outcomes = selected();
+    if (!outcomes.length) { status.className = 'error'; status.textContent = 'Select at least one outcome.'; return; }
+    const files = [...field('files').files];
+    if (!references().some(reference => reference.role === 'Product / vendor reference')) { status.className = 'error'; status.textContent = 'No file is marked Product / vendor reference. The workflow needs one product photo: add it, or change the type next to the file name.'; return; }
+    if (files.some(file => file.size > 25 * 1024 * 1024)) { status.className = 'error'; status.textContent = 'Each file must be 25 MB or smaller.'; return; }
+    const destination = new URL(value(many ? 'endpointMany' : 'endpointOne'));
+    if (!['https:', 'http:'].includes(destination.protocol)) { status.className = 'error'; status.textContent = 'Use an HTTP or HTTPS endpoint.'; return; }
+    const sentId = runId;
+    const productFile = (references().find(reference => reference.role === 'Product / vendor reference') || {}).name || 'the product';
+    const data = new FormData();
+    data.append('payload', JSON.stringify(payload()));
+    files.forEach(file => data.append('files', file, file.name));
+    field('submitOne').disabled = true;
+    field('submitMany').disabled = true;
+    status.className = '';
+    status.textContent = many ? `Sending a job for ${value('imageCount')} images…` : 'Sending a job for one image…';
+    try {
+      const response = await fetch(destination, { method: 'POST', body: data });
+      if (!response.ok) throw new Error(`Server returned HTTP ${response.status}.`);
+      runId = crypto.randomUUID();
+      preview();
+      if (destination.pathname.includes('/webhook-test/')) {
+        watchToken += 1;
+        field('result').hidden = true;
+        status.className = 'ok'; status.textContent = 'Job sent to n8n on the test address. The test address cannot report results to this page. In n8n, open the step "12 Run card" to see the image, or the reason the job was put on hold.';
+      } else {
+        status.className = 'ok'; status.textContent = many ? `Job for ${value('imageCount')} images sent to n8n. The results will appear below when the run finishes.` : 'Job for one image sent to n8n. The result will appear below when the run finishes.';
+        watch(sentId, productFile, many);
+      }
+    } catch (error) {
+      status.className = 'error';
+      const testAddress = destination.pathname.includes('/webhook-test/');
+      status.textContent = error.message === 'Failed to fetch' && testAddress
+        ? `The workflow is not listening. In n8n, open "${many ? 'Claude · Midas job request pipeline variations' : 'Claude · Midas job request pipeline'}", press Execute workflow, then submit again. The test address accepts one job each time you press it.`
+        : `Submission failed: ${error.message} Check the endpoint and its CORS settings.`;
+    } finally { field('submitOne').disabled = false; field('submitMany').disabled = false; }
+  });
+  preview();
+})();
+</script>
+</body>
+</html>

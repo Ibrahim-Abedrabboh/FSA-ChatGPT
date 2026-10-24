@@ -1,0 +1,15 @@
+%% Description: A7 stage hand-offs. Design, 14 Oct 2026.
+%% Shows the one record each stage passes to the next: observation, contract vN, scene plan, candidate with receipt,
+%% reviewed candidates, then the manifest or a hold for the owner.
+%% Dotted arrows are the two ways back: missing evidence returns to stage 01; a plan that breaks a lock returns to stage 02.
+%% ----
+flowchart TD
+  A["01 Intake & observe"] -- "Observation: typed facts, boxes, unknowns" --> B["02 Compile scope"]
+  B -- "Contract vN (stamped)" --> C["03 Retrieve & style"]
+  C -- "Shortlist + scene plan per output" --> D["04 Compile & dispatch"]
+  D -- "Candidate + receipt + hash" --> E["05 Critique & correct"]
+  E -- "defect: repair order" --> D
+  E -- "Reviewed candidates" --> F["06 Package & release"]
+  F -- "Manifest or hold" --> O(["Owner"])
+  E -. "missing evidence" .-> A
+  C -. "plan breaks a lock" .-> B

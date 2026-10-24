@@ -1,0 +1,1 @@
+const it=$input.first();let p=it.json.body?.payload;try{if(typeof p==='string')p=JSON.parse(p);}catch{p=null;}return [{json:{...it.json,__recoveryRequested:Boolean(p&&typeof p==='object'&&!Array.isArray(p)&&p.recovery)},binary:it.binary}];

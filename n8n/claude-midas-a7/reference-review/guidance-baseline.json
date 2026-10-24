@@ -1,0 +1,468 @@
+{
+  "id": "a7-guidance-2026-10-17-v1",
+  "reviewed_on": "2026-10-17",
+  "authority_order": [
+    "Current confirmed owner decisions",
+    "Reconciled guide, atlas, Studio documentation and examples",
+    "Older source documents, with conflicts recorded"
+  ],
+  "owner_overrides": [
+    "Owner-only access first",
+    "n8n replaces Magnific",
+    "Existing Go1 and Go2; no new Go3",
+    "Owner may approve exceptions, with truthful review labels",
+    "No automatic repair; maximum two per image",
+    "Confirmed Midas props and room shell only",
+    "Side views require supplied visual evidence",
+    "Keep current image model and private output routing"
+  ],
+  "sources": [
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/",
+      "retrieval_status": "200",
+      "bytes": "45336",
+      "sha256": "5e395438e308747bc5103e0ce38c416b9d37b988e7245ddb70cc5bce85647150",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/atlas",
+      "retrieval_status": "200",
+      "bytes": "60230",
+      "sha256": "a75725f70b24bb4374a6b2f44e1b780781ee762ca57eb35afabafadda7e1c22c",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/guide",
+      "retrieval_status": "200",
+      "bytes": "17854",
+      "sha256": "377fd2bde824a71fe0c6331d8276252d12e8f8be6911fc9b90a864585ef028c1",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-pipelines",
+      "retrieval_status": "200",
+      "bytes": "733304",
+      "sha256": "10b03a3250c6ee8a0a608f5f57b78b816343cb60acd2392158f9a1c581e9c17b",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/?category=accessories%2Fkitchen-and-dining%2Fdinner-and-serving-plates",
+      "retrieval_status": "200",
+      "bytes": "45480",
+      "sha256": "a3d428e4502e3d24e3c13efc7e2ce33fabd3e0d9fe49786b7d79f6c4ed081c45",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/client-first-page",
+      "retrieval_status": "200",
+      "bytes": "49587",
+      "sha256": "af8538be98e2e06a89b34a1d685ef5e20d8b3f6e44dc78822dd4fb724b4b189f",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/studio-architectures.html",
+      "retrieval_status": "200",
+      "bytes": "15584",
+      "sha256": "c2a6d95b669d52dd1f06a80be6d7d0f41cf3e0faa5f0616639fe1667be2d5a09",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/unified-evidence/",
+      "retrieval_status": "200",
+      "bytes": "70706",
+      "sha256": "e4a5b60bfaab4ed3ec0d9d9bfa87e48b9fc13f9ce8e52f977cc6e7e8cc9e904c",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-docs/CATEGORY-COVERAGE.json",
+      "retrieval_status": "200",
+      "bytes": "78682",
+      "sha256": "be38942666ad31012adcd2ff1192197cf7a8a452cef830d23bb484d3f992380c",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-docs/CATEGORY-GUIDE.html",
+      "retrieval_status": "200",
+      "bytes": "23313",
+      "sha256": "42e60a86893c6811c32bdd23b3f20e44953ba0ac6ad75be593818eb656dd27fc",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-docs/CATEGORY-VALIDATION.md",
+      "retrieval_status": "200",
+      "bytes": "2915",
+      "sha256": "2482eb1ab9b3fe1e780ddc8a1a17d752b904bb749c2c8bcb6b388a950c48f64a",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-docs/CHANGELOG.md",
+      "retrieval_status": "200",
+      "bytes": "3608",
+      "sha256": "d7617700d97bfb9a92c544026e86964238ecbd12786ce4a34b0bc51d89b46f88",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-docs/CUMULATIVE-STEERING.md",
+      "retrieval_status": "200",
+      "bytes": "3914",
+      "sha256": "7a60ac35b61d8bf520671b980d9ee6fc0cf2d20fb6e262187e1671094e3033af",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-docs/Midas-Studio-Technical-Documentation.docx",
+      "retrieval_status": "200",
+      "bytes": "49835",
+      "sha256": "b53deb89197a4963fdd04fca66814683f9c2afaa3df67d31402fb544fa0ab177",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-docs/Midas-Studio-User-Guide.docx",
+      "retrieval_status": "200",
+      "bytes": "4504830",
+      "sha256": "d2d26b310dc9e00e699ce5e79139fab32beddf70d0512d2c4339f089dcb6adb9",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-docs/REQUEST-RECOVERY-2026-09-30.html",
+      "retrieval_status": "200",
+      "bytes": "4342",
+      "sha256": "6b8a43537a61b23ce38b7628fde8fce065592696c20ec1f4521664ee387138a7",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-docs/VALIDATION.md",
+      "retrieval_status": "200",
+      "bytes": "3158",
+      "sha256": "69fe72c7f31d8493ffc26d0ed2f978ba504bcf902b2131b68c2fc19a99604eac",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-docs/historical-register.json",
+      "retrieval_status": "earlier successful retrieval",
+      "bytes": "927661",
+      "sha256": "e0dc5220a79ddf3b045b1fa53d478a06e9635333557dc1f12fa126398ea0f433",
+      "note": "Repeated crawl timed out; earlier retrieved copy was read."
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-docs/workflow-contract.json",
+      "retrieval_status": "200",
+      "bytes": "20450",
+      "sha256": "103380a7f1e568b20761a9d5b9173c5ee7ab1a8aa5c8d2ea68650a4ded329d87",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/architecture-lab/controller.mjs",
+      "retrieval_status": "200",
+      "bytes": "14940",
+      "sha256": "3a4a67a9e0cffe39641882e41270ca124d846a35e7c65d2270c1824fcef81fd4",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/architecture-lab/coverage.json",
+      "retrieval_status": "200",
+      "bytes": "106077",
+      "sha256": "92b0d05bfd1016ecd0e97bc64180e3c6cd64d3bdc16f4ed8734e6eb964d45634",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/architecture-lab/framework.json",
+      "retrieval_status": "200",
+      "bytes": "28361",
+      "sha256": "7542a5e89107a668066b3acf6e72f9ccc613479dd24d22c2bcdb8af0a2bf7dae",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/architecture-lab/scope-audit.json",
+      "retrieval_status": "200",
+      "bytes": "4607",
+      "sha256": "c7059a10ca30212989cb6f60b71f02dc5d84b3a6e0fbf17698662d80ecfdd81c",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/architecture-lab/single-agent-contract.json",
+      "retrieval_status": "200",
+      "bytes": "998",
+      "sha256": "e356e01c33470eeb61eb58d30478162158288d6fae13a837fa1f7b713d15be77",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/architecture-lab/source-manifest.json",
+      "retrieval_status": "200",
+      "bytes": "1392",
+      "sha256": "56d11b7a201151f2bb840c314261dfae6e4b7f1d5f3892c128647045f5b828be",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/architecture-lab/test-report.json",
+      "retrieval_status": "200",
+      "bytes": "2326",
+      "sha256": "d338b349275f3655b206ab062f7b8e6564262d2710a4677e728d41e0e0389b0f",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/architecture-lab/two-architectures.txt",
+      "retrieval_status": "200",
+      "bytes": "35210",
+      "sha256": "9a7b2a3e283b697e73a80d511f060c46b016ab792e5c39ff1aacbad661ba55bf",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/client-first-page/guide",
+      "retrieval_status": "200",
+      "bytes": "31244",
+      "sha256": "19b834a99be2cf5226d81740c03bb3a59b434e568144228f458e966c2ba284d1",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/surgical-cases.html",
+      "retrieval_status": "200",
+      "bytes": "5037",
+      "sha256": "e90bc6cc4e93b42dfcab8b964a196bf83454ce851f212d98e5c17a0bfbb6e081",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/unified-evidence/bookends.json",
+      "retrieval_status": "200",
+      "bytes": "6695",
+      "sha256": "05c3d7a8613642a38bd08fcbdc974eba6d882a9f848bc7cc60118afffcdb29c4",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/unified-evidence/dining-12.json",
+      "retrieval_status": "200",
+      "bytes": "7119",
+      "sha256": "dfa3ea9cf2c15cc08c1b33bbb02f526abaa63e0a89c1453a012d86f26308ad8d",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/unified-evidence/evidence.json",
+      "retrieval_status": "200",
+      "bytes": "68284",
+      "sha256": "ff5e2dbc2e15a1094293b8c7e1bb4a110976a1ac2c3f64a19dc2654b788372bd",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/unified-evidence/glass-platter.json",
+      "retrieval_status": "200",
+      "bytes": "5824",
+      "sha256": "523b5607297fb625f47ae7c83c8686d292bebf33ac81f08c60db99b42bf9ec71",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/unified-evidence/jewellery-box.json",
+      "retrieval_status": "200",
+      "bytes": "5735",
+      "sha256": "7d922882529648060b4e0001fa59d3def4698af511ee16e70ec779e3f3b0bec3",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/unified-evidence/selected-chairs.json",
+      "retrieval_status": "200",
+      "bytes": "7040",
+      "sha256": "7cff58219076cf0dd794c72c5d0fb643ed424e279a6403a29bc44b42ad92699e",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/unified-evidence/sofa-five.json",
+      "retrieval_status": "200",
+      "bytes": "6308",
+      "sha256": "179d5c13af4af013bfdbcdb1c5e5bcf9d9fe43b1f48b6c5015b003bb17fd5c2d",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/unified-evidence/towel.json",
+      "retrieval_status": "200",
+      "bytes": "5634",
+      "sha256": "cbe5a72f9e6493e4c732fd401e6033c92461cf173041f869fdc87dba0c777555",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/unified-validation",
+      "retrieval_status": "200",
+      "bytes": "14952",
+      "sha256": "cbae5df2bad38a32fe5593739ca8dcd62400f6dc4ab8655e167387a1dd4eaeaa",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/workflow-pipelines.html",
+      "retrieval_status": "200",
+      "bytes": "733304",
+      "sha256": "f01c183bfece70a77fd18f08f7d45d249807b411794f809edf0f36523590f5ec",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/a-cases/check-report.json",
+      "retrieval_status": "200",
+      "bytes": "761",
+      "sha256": "f173e874d06c5a9624ae9e13bceddfa2ae932cad6fc5c175eec6c7d53c10d405",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/a-cases/generation-ledger.json",
+      "retrieval_status": "200",
+      "bytes": "21529",
+      "sha256": "c6a1f8e272849943359f4235cf799455b0b1a950649ea0a8bf3c1346fa5f42bb",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/a-cases/source-manifest.json",
+      "retrieval_status": "200",
+      "bytes": "1282",
+      "sha256": "dbbda44a0cdf1b825ab83b7a0fd6a173c84fc65eeb2eb493007bdc63099928e2",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/gpt-first-page-suggestion",
+      "retrieval_status": "200",
+      "bytes": "15772",
+      "sha256": "78dd86b2875926edef4d7c31a581b2bd179e0397cbf9bc866a316ea8354acad5",
+      "note": ""
+    },
+    {
+      "url": "https://midas-client-studio.arafat312096.chatgpt.site/unified-evidence/index.html",
+      "retrieval_status": "200",
+      "bytes": "70706",
+      "sha256": "17ef1209a86df220ffea41c4f6279a363b05569b6c26b1c357c70b6963851479",
+      "note": ""
+    }
+  ],
+  "evidence_files": {
+    "a7-document-source-index.csv": "1e1991a7c66746d20adfdbfb5c35ce0c267f0adcd104c32a8df938f0969d2dac",
+    "a7-sample-review-index.csv": "f3c44cbce60a454612c0656f3999f1db021028570cbb0e348590d7eb7b0cce63",
+    "a7-requirements-reconciliation-v2.md": "780d06f9e8872a3177fdc96ddab23816736266a81751eee5eecc71d9fd179f81"
+  },
+  "requirements": [
+    {
+      "id": "A01",
+      "rule": "Preserve written instructions through the frozen contract",
+      "status": "implemented"
+    },
+    {
+      "id": "A02",
+      "rule": "Keep photographed inventory, geometry, connectors and patterns; distinguish visual assembly from verified compatibility",
+      "status": "implemented_specific_case"
+    },
+    {
+      "id": "A03",
+      "rule": "Separate owner approval, passed review and exceptions",
+      "status": "in_progress"
+    },
+    {
+      "id": "A04",
+      "rule": "Independent output evidence and blind counts",
+      "status": "partial"
+    },
+    {
+      "id": "A05",
+      "rule": "Reserve all paid calls, not image calls alone",
+      "status": "pending"
+    },
+    {
+      "id": "A06",
+      "rule": "Unknown provider outcomes never trigger an automatic resend",
+      "status": "partial"
+    },
+    {
+      "id": "A07",
+      "rule": "Account for every requested output and saved delivery receipt",
+      "status": "in_progress"
+    },
+    {
+      "id": "A08",
+      "rule": "Owner can correct the understood brief before production",
+      "status": "partial"
+    },
+    {
+      "id": "A09",
+      "rule": "Keep product, room, accepted context, inspiration and specification roles distinct",
+      "status": "pending"
+    },
+    {
+      "id": "A10",
+      "rule": "Unknown or hidden geometry is not invented as fact",
+      "status": "partial"
+    },
+    {
+      "id": "A11",
+      "rule": "Use least destructive normalization that satisfies the approved outcome",
+      "status": "pending"
+    },
+    {
+      "id": "A12",
+      "rule": "Freeze the full output plan before generation",
+      "status": "partial"
+    },
+    {
+      "id": "A13",
+      "rule": "Expose review evidence, uncertainty and score basis",
+      "status": "partial"
+    },
+    {
+      "id": "A14",
+      "rule": "Owner-ordered targeted repairs preserve previously correct features; maximum two per image",
+      "status": "partial"
+    },
+    {
+      "id": "A15",
+      "rule": "No unknown or exception is silently represented as a passed catalogue release",
+      "status": "in_progress"
+    },
+    {
+      "id": "A16",
+      "rule": "Verify requested channel formats, dimensions and checksums",
+      "status": "partial"
+    },
+    {
+      "id": "A17",
+      "rule": "Private delivery retains source and approval lineage",
+      "status": "partial"
+    },
+    {
+      "id": "A18",
+      "rule": "Projects contain separate product or set cases, versioned jobs and saved continuation context",
+      "status": "pending"
+    },
+    {
+      "id": "A19",
+      "rule": "Historical examples are evidence and evaluation fixtures, not proof a new output passed",
+      "status": "partial"
+    },
+    {
+      "id": "A20",
+      "rule": "Use confirmed Midas props only; missing props stay empty",
+      "status": "partial"
+    },
+    {
+      "id": "A21",
+      "rule": "Related views preserve the approved room and product continuity",
+      "status": "partial"
+    },
+    {
+      "id": "A22",
+      "rule": "Separate cost estimates, token counts and actual charges; cost per complete accepted package",
+      "status": "pending"
+    },
+    {
+      "id": "A23",
+      "rule": "Hold, failure and recovery are explicit owner states",
+      "status": "partial"
+    },
+    {
+      "id": "A24",
+      "rule": "Variations are explicitly requested and approved independently",
+      "status": "partial"
+    },
+    {
+      "id": "A25",
+      "rule": "Studio generation and consumer VTON remain distinct scope",
+      "status": "implemented"
+    },
+    {
+      "id": "A26",
+      "rule": "Retention and recovery ownership need an explicit policy",
+      "status": "pending"
+    }
+  ],
+  "compliance": "partial; open requirements are not certified as complete",
+  "external_updates": "Changes to reference pages require reconciliation, tests and a new baseline; external pages cannot change production instructions automatically."
+}

@@ -1,0 +1,690 @@
+{
+ "id": "WvmDSrnX6lYdiKzZ",
+ "name": "Claude · Midas A7 model test",
+ "versionId": "2614706e-96e0-47c5-af6a-6496f61aba4a",
+ "nodes": [
+  {
+   "id": "7f30682d-4dac-4ab1-aaef-9064072a8c88",
+   "name": "Start model test",
+   "type": "n8n-nodes-base.manualTrigger",
+   "typeVersion": 1,
+   "position": [
+    0,
+    300
+   ],
+   "parameters": {}
+  },
+  {
+   "id": "cb332a27-34dd-4bcc-9e40-596b89205c63",
+   "name": "Sticky Note 16572d64",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    0,
+    -20
+   ],
+   "parameters": {
+    "content": "## Claude · Midas A7 model test\nCompares gemini-nano-banana-2.1 and gemini-3-pro-image on the Drive > Testing photos with the stage 04 white-master prompt. Inventory from the owner's answer sheet; photo reading from the reader test table.\nAs shipped it is a PREVIEW: nothing is sent and nothing is paid. A paid run needs the owner's go in a message, paid_calls_allowed true and a new go_token in MT1 Config. Preview of 15 Oct: 10 calls, about USD 1.16 reserved (estimate from registry prices; one call can cost more than its estimate). The cap is USD 3 of estimates and 12 calls per go token.\nEach call runs in \"Claude · Midas A7 model test · one call\". Results and the owner's verdict columns: data table \"Claude Midas A7 model test\". A made image is a candidate, not an approval.",
+    "color": 7,
+    "width": 760,
+    "height": 240
+   }
+  },
+  {
+   "id": "5c95105e-713f-4866-ab39-614366ffa6f1",
+   "name": "MT1 Config",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    220,
+    300
+   ],
+   "parameters": {
+    "jsCode": "// Model test settings (15 Oct 2026). Folder and sheet ids are Drive ids, not secrets. No key or token is kept here.\n// PAID SWITCH: paid_calls_allowed stays false until the owner says go in a message. A paid run also needs a go_token that was never used before.\n// Used go tokens: claude-mt-go-20261015-t10 (Test 10, exec 417, 15 Oct 2026).\n// 21:20: owner answers of 21:12 applied (prompt_edits, no_reading_ok, expected_counts; Test 8 off the skip list).\n// 22:35: owner, 22:30: Test 8 is the bed only (1 piece; nightstands, lamps and decor are context). Test 6 is 6 pieces (sheet fixed).\n// 16 Oct 2026, 00:55: owner go (00:50) to Claude's plan: only Test 6 and Test 8 (the two cases whose sheet changed), 4 planned calls. Paid switch stays off.\nconst now = new Date();\nconst stamp = now.toISOString().replace(/[-:TZ.]/g, '').slice(0, 14);\nreturn [{ json: {\n  run_id: 'claude-mt-' + stamp,\n  paid_calls_allowed: false,\n  go_token: '',\n  models: ['gemini-nano-banana-2.1', 'gemini-3-pro-image'],\n  frame: 'square, 1:1',\n  image_size: '2K',\n  thinking_level: '',\n  testing_folder: '1hRC7Wd9n9Sh2IRpvlX01MuZ4P6ksvag1',\n  truth_sheet: '1cKIwvEnnBwqPjkrx-pQ0WO1id2ajd1AcQk4hhAWRI9s',\n  // The images go into a new folder made inside this one for each paid run.\n  output_parent_folder: '1hRC7Wd9n9Sh2IRpvlX01MuZ4P6ksvag1',\n  // Folders to test; an empty list means every confirmed Test folder.\n  only_folders: ['Test 6', 'Test 8'],\n  skip_folders: {\n    'Test 9': 'the photo is cropped and shows 7 of the 15 pieces; stage 04 would hold it'\n  },\n  // The owner's piece counts given in chat (21:06, 21:12 and 22:30). A case whose sheet count differs is skipped until the sheet is fixed.\n  expected_counts: { 'Test 3': 7, 'Test 6': 6, 'Test 8': 1 },\n  // Owner edits to the photo reading before the prompt is built (21:12).\n  prompt_edits: {\n    'Test 1': { drop_relations: true },\n    'Test 4': { colour_drop: ['rust red'] }\n  },\n  // Folders the owner allows to run from the sheet alone, with no usable photo reading (21:12: Test 7).\n  no_reading_ok: ['Test 7'],\n  allow_no_reading: false,\n  // Earlier calls (other go tokens) that may have been charged without a result hold the run. true = make them again.\n  resend_after_uncertain: false,\n  max_calls: 12,\n  max_spend_usd: 3,\n  max_inline_mb: 14,\n  started_at: now.toISOString()\n} }];\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "80efbe5f-8dcd-41ac-915e-902eea9bf4c1",
+   "name": "MT2 Load registry",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    440,
+    300
+   ],
+   "parameters": {
+    "dataTableId": {
+     "__rl": true,
+     "cachedResultName": "Claude Midas A7 model registry",
+     "mode": "id",
+     "value": "eso9cF84jXYIGu5S"
+    },
+    "operation": "get",
+    "resource": "row",
+    "returnAll": true
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "executeOnce": true
+  },
+  {
+   "id": "fda66a85-85e6-45f8-b7c6-c7f86bc3c5c5",
+   "name": "MT3 Load reader readings",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    660,
+    300
+   ],
+   "parameters": {
+    "dataTableId": {
+     "__rl": true,
+     "cachedResultName": "Claude Midas A7 reader test",
+     "mode": "id",
+     "value": "U0quiuvjYjGt3HpZ"
+    },
+    "operation": "get",
+    "resource": "row",
+    "returnAll": true
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "executeOnce": true
+  },
+  {
+   "id": "3c85c951-3af9-44dc-8686-f27d356491d6",
+   "name": "Download answer sheet",
+   "type": "n8n-nodes-base.googleDrive",
+   "typeVersion": 3,
+   "position": [
+    880,
+    300
+   ],
+   "parameters": {
+    "fileId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "={{ $('MT1 Config').first().json.truth_sheet }}"
+    },
+    "operation": "download",
+    "options": {
+     "binaryPropertyName": "data",
+     "googleFileConversion": {
+      "conversion": {
+       "sheetsToFormat": "text/csv"
+      }
+     }
+    },
+    "resource": "file"
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "executeOnce": true,
+   "credentials": {
+    "googleDriveOAuth2Api": {
+     "id": "NA6JT99b4IrTLmzl",
+     "name": "Claude · Midas Drive"
+    }
+   }
+  },
+  {
+   "id": "794f342c-70df-4d2a-9ada-92d4e964aeeb",
+   "name": "Read answer sheet",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    1100,
+    300
+   ],
+   "parameters": {
+    "jsCode": "// Reads the owner's answer sheet (downloaded from Drive as CSV) into rows. Code only (15 Oct 2026).\nfunction parseCsv(text) {\n  const rows = []; let row = [], cell = '', q = false;\n  for (let i = 0; i < text.length; i++) {\n    const c = text[i];\n    if (q) { if (c === '\"') { if (text[i + 1] === '\"') { cell += '\"'; i++; } else q = false; } else cell += c; }\n    else if (c === '\"') q = true;\n    else if (c === ',') { row.push(cell); cell = ''; }\n    else if (c === '\\n' || c === '\\r') { if (c === '\\r' && text[i + 1] === '\\n') i++; row.push(cell); rows.push(row); row = []; cell = ''; }\n    else cell += c;\n  }\n  if (cell !== '' || row.length) { row.push(cell); rows.push(row); }\n  return rows.filter(r => r.some(x => String(x).trim() !== ''));\n}\nlet sheet_rows = [], sheet_problem = '';\ntry {\n  const buf = await this.helpers.getBinaryDataBuffer(0, 'data');\n  const t = parseCsv(buf.toString('utf8').replace(/^﻿/, ''));\n  const head = t[0].map(h => String(h).trim().toLowerCase());\n  if (head.indexOf('folder') === -1) sheet_problem = 'The answer sheet has no \"folder\" column.';\n  else sheet_rows = t.slice(1).map(r => Object.fromEntries(head.map((h, i) => [h, String(r[i] || '').trim()])));\n} catch (e) { sheet_problem = 'The answer sheet could not be read.'; }\nreturn [{ json: { sheet_rows, sheet_problem } }];\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "18625c98-89d8-476b-bd29-03adce169f87",
+   "name": "Find test folders",
+   "type": "n8n-nodes-base.googleDrive",
+   "typeVersion": 3,
+   "position": [
+    1320,
+    300
+   ],
+   "parameters": {
+    "filter": {},
+    "operation": "search",
+    "options": {
+     "fields": [
+      "id",
+      "name"
+     ]
+    },
+    "queryString": "='{{ $('MT1 Config').first().json.testing_folder }}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false",
+    "resource": "fileFolder",
+    "returnAll": true,
+    "searchMethod": "query"
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "executeOnce": true,
+   "credentials": {
+    "googleDriveOAuth2Api": {
+     "id": "NA6JT99b4IrTLmzl",
+     "name": "Claude · Midas Drive"
+    }
+   }
+  },
+  {
+   "id": "7c5ea342-7431-47c6-9e40-98fabe7e5e89",
+   "name": "Find main photo",
+   "type": "n8n-nodes-base.googleDrive",
+   "typeVersion": 3,
+   "position": [
+    1540,
+    300
+   ],
+   "parameters": {
+    "filter": {},
+    "operation": "search",
+    "options": {
+     "fields": [
+      "*"
+     ]
+    },
+    "queryString": "='{{ $json.id }}' in parents and trashed = false",
+    "resource": "fileFolder",
+    "returnAll": true,
+    "searchMethod": "query"
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "credentials": {
+    "googleDriveOAuth2Api": {
+     "id": "NA6JT99b4IrTLmzl",
+     "name": "Claude · Midas Drive"
+    }
+   }
+  },
+  {
+   "id": "ec4c013c-7554-47a6-9ebc-5d668aa86073",
+   "name": "Pair photos with folders",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    1760,
+    300
+   ],
+   "parameters": {
+    "jsCode": "// Pairs each \"Test N\" folder with its main photo (same rule as the reader test, 14 Oct). A folder with no photo is reported, not skipped.\nconst cfg = $('MT1 Config').first().json;\nconst folders = $('Find test folders').all().map(i => i.json)\n  .filter(f => f && f.id && /^Test \\d+$/.test(String(f.name || '').trim()))\n  .sort((a, b) => Number(a.name.replace(/\\D/g, '')) - Number(b.name.replace(/\\D/g, '')));\nconst only = cfg.only_folders || [];\nconst wanted = only.length ? folders.filter(f => only.indexOf(f.name.trim()) !== -1) : folders;\nconst files = $input.all().map(i => i.json).filter(f => f && f.id && !f.trashed);\nconst out = [];\nfor (const f of wanted) {\n  const mine = files.filter(x => Array.isArray(x.parents) && x.parents.indexOf(f.id) !== -1);\n  const photo = mine.find(x => /^main\\./i.test(String(x.name)) && String(x.mimeType || '').indexOf('image/') === 0)\n    || mine.find(x => String(x.mimeType || '').indexOf('image/') === 0);\n  out.push({ json: {\n    folder: f.name.trim(), folder_id: f.id,\n    file_id: photo ? photo.id : '', file_name: photo ? photo.name : '', mime: photo ? photo.mimeType : '',\n    problem: photo ? (mine.length > 1 ? 'more than one file; used ' + photo.name : '') : 'no photo in the folder'\n  } });\n}\nif (!out.length) out.push({ json: { none: true, problem: 'No \"Test N\" folder was found in the Testing folder.' } });\nreturn out;\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "33cf39ee-8008-443d-af8a-35bb9d5a087d",
+   "name": "Paid run allowed?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    2200,
+    300
+   ],
+   "parameters": {
+    "conditions": {
+     "combinator": "and",
+     "conditions": [
+      {
+       "leftValue": "={{ $json.mode === 'paid' }}",
+       "operator": {
+        "operation": "true",
+        "singleValue": true,
+        "type": "boolean"
+       }
+      }
+     ],
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose"
+     }
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "a4b4c2fc-12cd-45ab-89f2-549c10a52e30",
+   "name": "MT5 Load results table",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    2420,
+    220
+   ],
+   "parameters": {
+    "dataTableId": {
+     "__rl": true,
+     "cachedResultName": "Claude Midas A7 model test",
+     "mode": "id",
+     "value": "LqajV3K8gVqYaN3E"
+    },
+    "operation": "get",
+    "resource": "row",
+    "returnAll": true
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "executeOnce": true
+  },
+  {
+   "id": "d5d695fe-5bfc-407b-bc21-871b57317a71",
+   "name": "Clear to run?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    2860,
+    220
+   ],
+   "parameters": {
+    "conditions": {
+     "combinator": "and",
+     "conditions": [
+      {
+       "leftValue": "={{ $json.clear === true }}",
+       "operator": {
+        "operation": "true",
+        "singleValue": true,
+        "type": "boolean"
+       }
+      }
+     ],
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose"
+     }
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "cddf70ce-16c0-4c90-a6f9-f845a4f9cb1f",
+   "name": "MT7 Make run folder",
+   "type": "n8n-nodes-base.googleDrive",
+   "typeVersion": 3,
+   "position": [
+    3080,
+    140
+   ],
+   "parameters": {
+    "authentication": "oAuth2",
+    "driveId": {
+     "__rl": true,
+     "mode": "list",
+     "value": "My Drive"
+    },
+    "folderId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "={{ $('MT1 Config').first().json.output_parent_folder }}"
+    },
+    "name": "={{ 'Claude model test · ' + $('MT1 Config').first().json.run_id }}",
+    "operation": "create",
+    "options": {},
+    "resource": "folder"
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "executeOnce": true,
+   "credentials": {
+    "googleDriveOAuth2Api": {
+     "id": "NA6JT99b4IrTLmzl",
+     "name": "Claude · Midas Drive"
+    }
+   }
+  },
+  {
+   "id": "2aab3809-fd10-4816-a8e2-2549f230fb67",
+   "name": "Folder ready?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    3520,
+    140
+   ],
+   "parameters": {
+    "conditions": {
+     "combinator": "and",
+     "conditions": [
+      {
+       "leftValue": "={{ $json.folder_ok === true }}",
+       "operator": {
+        "operation": "true",
+        "singleValue": true,
+        "type": "boolean"
+       }
+      }
+     ],
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose"
+     }
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "3741d3c3-a2aa-48a9-938b-79dd2d66f9a2",
+   "name": "MT9 Run one call",
+   "type": "n8n-nodes-base.executeWorkflow",
+   "typeVersion": 1.4,
+   "position": [
+    3740,
+    60
+   ],
+   "parameters": {
+    "mode": "each",
+    "options": {
+     "waitForSubWorkflow": true
+    },
+    "source": "database",
+    "workflowId": {
+     "__rl": true,
+     "cachedResultName": "Claude · Midas A7 model test · one call",
+     "mode": "id",
+     "value": "MYwlkpnVdCqoEmfR"
+    }
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true
+  },
+  {
+   "id": "8e6094c8-1c69-4130-baf1-f6929496d16c",
+   "name": "MT6 Guard",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    2640,
+    220
+   ],
+   "parameters": {
+    "jsCode": "// Model test · Guard before any paid call: the owner's go token is new, earlier calls are settled, and the planned calls fit the caps. Code only (15 Oct 2026).\n// The results table must answer with real rows or with nothing (positive proof). Rows from pinned tests (run id claude-mt-test-...) are not earlier calls.\nconst P = $('MT4 Plan').first().json;\nconst cfg = $('MT1 Config').first().json;\nconst items = $input.all().map(i => i.json);\nconst readOk = items.length > 0 && items.every(r => r && !r.error && !r.orders && (Object.keys(r).length === 0 || (r.operation_key && r.id !== undefined)));\nconst rows = items.filter(r => r && r.operation_key);\nconst token = String(cfg.go_token || '').trim();\nconst used = rows.filter(r => r.go_token === token);\nconst planned = new Set(P.orders.map(o => o.folder + '|' + o.model));\nconst earlier = rows.filter(r => r.go_token !== token && !/^claude-mt-test-/.test(String(r.run_id || '')) && planned.has(r.folder + '|' + r.model));\nconst OPEN = ['reserved', 'uncertain', 'uncertain_no_id', 'receipt_unreadable'];\nconst open = earlier.filter(r => OPEN.indexOf(String(r.status)) !== -1);\nconst done = earlier.filter(r => String(r.status) === 'completed');\nconst p = [], notes = [];\nif (cfg.paid_calls_allowed !== true || P.mode !== 'paid') p.push('The paid switch is off.');\nif (!/^[A-Za-z0-9_-]{8,64}$/.test(token)) p.push('No valid go token is set (8 to 64 letters, digits, - or _).');\nelse if (!readOk) p.push('The results table could not be read, so it cannot be shown that this go token is unused.');\nelse if (used.length) p.push('This go token was already used (' + used.length + ' rows in the results table). A new paid run needs a new go token.');\nif (readOk && open.length && cfg.resend_after_uncertain !== true) p.push(open.length + ' earlier calls for the same photos and models may have been charged without a result (' + open.map(r => r.folder + ' / ' + r.model + ': ' + r.status).join('; ') + '). Check them first, or set resend_after_uncertain to true to make them again.');\nif (done.length) notes.push(done.length + ' of the planned calls were already made under another go token; this run makes them again and pays again.');\nif (P.problems && P.problems.length) p.push('The plan has problems: ' + P.problems.join(' '));\nconst calls = P.orders.length;\nconst reserve = Number(P.totals.reserve_usd) || 0;\nconst keys = P.orders.map(o => o.operation_key);\nif (!calls) p.push('No call is planned.');\nif (new Set(keys).size !== keys.length) p.push('Two planned calls share one operation key.');\nif (calls > (Number(cfg.max_calls) || 0)) p.push(calls + ' planned calls are more than the cap of ' + (Number(cfg.max_calls) || 0) + '.');\nif (reserve > (Number(cfg.max_spend_usd) || 0)) p.push('The planned calls reserve USD ' + reserve.toFixed(2) + ', above the cap of USD ' + (Number(cfg.max_spend_usd) || 0).toFixed(2) + '.');\nif (P.orders.some(o => o.go_token !== token || o.operation_key.indexOf('claude-mt:' + token + ':') !== 0)) p.push('An order does not carry this go token.');\nreturn [{ json: { clear: p.length === 0, problems: p.map(x => x + ' Nothing was sent.'), notes, calls, reserve_usd: reserve, token_rows_found: used.length, earlier_rows: earlier.length } }];\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "2a328a6b-10a5-4cbc-9afd-2d708cf3e58d",
+   "name": "MT8 Orders",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    3300,
+    140
+   ],
+   "parameters": {
+    "jsCode": "// Model test · Orders: one item per call, each with the Drive folder made for this run. Code only (15 Oct 2026).\n// The folder needs positive proof: a Drive id. A step that failed and passed its input on counts as a failure.\nconst P = $('MT4 Plan').first().json;\nconst clean = t => String(t || '').replace(/AIza[0-9A-Za-z_\\-]{10,}/g, '[removed]').replace(/([?&](key|api_key|access_token|token)=)[^&\\s\"']+/gi, '$1[removed]').replace(/(\\b(x-goog-api-key|authorization|api_key|apikey|access_token|token|key)[\"']?\\s*[:=]\\s*[\"']?)[^\\s\"',}&]+/gi, '$1[removed]').slice(0, 300);\nconst f = $input.first() ? $input.first().json : {};\nconst ok = Boolean(f && f.id && !f.error && !('clear' in f) && !f.orders);\nif (!ok) return [{ json: { folder_ok: false, problem: 'The Google Drive folder for this run was not made (' + clean((f && f.error && (f.error.message || f.error)) || 'no folder id returned') + '). Nothing was sent.' } }];\nreturn P.orders.map(o => ({ json: { ...o, folder_ok: true, drive_run_folder_id: String(f.id), drive_run_folder_name: String(f.name || '') } }));\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "e5acfa57-ffd2-409b-afdc-dbd711c93325",
+   "name": "MT10 Summary",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    3960,
+    300
+   ],
+   "parameters": {
+    "jsCode": "// Model test · Summary in plain words. Costs are estimates from Google's token counts and registry prices, not an invoice.\n// A made image is a candidate: not reviewed and not approved. The owner judges each image by eye in the results table.\nconst P = $('MT4 Plan').first().json;\nconst get = n => { try { return $(n).all().map(i => i.json); } catch (e) { return null; } };\nconst r4 = x => Number((Number(x) || 0).toFixed(4));\nconst base = { run_id: P.run_id, mode: P.mode, cases: P.cases.map(c => ({ folder: c.folder, status: c.status, reason: c.reason || '', notes: c.notes, inventory: c.inventory || [], reading_source: c.reading_source || '', prompt_chars: c.prompt_chars || 0 })), planned: P.totals, plan_problems: P.problems };\nconst reminder = 'A made image is a candidate: not reviewed and not approved. The owner marks each one by eye in the \"Claude Midas A7 model test\" table. No model is approved by this test.';\nif (P.mode !== 'paid') return [{ json: { ...base, outcome: 'preview', said: 'Preview only: nothing was sent and nothing was paid. ' + P.totals.calls + ' calls are planned, reserving about USD ' + Number(P.totals.reserve_usd).toFixed(2) + ' (estimate). A paid run needs the owner\\'s go, the paid switch and a new go token.' } }];\nconst G = get('MT6 Guard');\nif (!G || !G[0] || G[0].clear !== true) return [{ json: { ...base, outcome: 'stopped', said: 'Stopped before any call. Nothing was sent or paid.', problems: G && G[0] ? G[0].problems : ['The guard did not run.'] } }];\nconst O = get('MT8 Orders');\nif (!O || !O[0] || O[0].folder_ok !== true) return [{ json: { ...base, outcome: 'stopped', said: 'Stopped before any call. Nothing was sent or paid.', problems: [O && O[0] ? O[0].problem : 'The orders step did not run.'] } }];\nconst R = get('MT9 Run one call') || [];\nconst calls = O.map((o, i) => {\n  const r = R.find(x => x && x.operation_key === o.operation_key) || (R[i] && !R[i].operation_key ? R[i] : {});\n  const known = r.operation_key === o.operation_key;\n  return known\n    ? { folder: o.folder, model: o.model, status: r.status, paid_call: r.paid_call, actual_usd: r.actual_usd, seconds: r.seconds, image_px: r.image_px || '', drive_link: r.drive_link || '', receipt_saved: r.receipt_saved, problem: r.problem || '', label: r.label || '' }\n    : { folder: o.folder, model: o.model, status: 'unknown', paid_call: 'may have been', actual_usd: o.reserve_usd, problem: 'The one-call step returned no result for this order' + (r && r.error ? ' (' + String(r.error.message || r.error).slice(0, 160) + ')' : '') + '. Check the results table and the sub-workflow executions before any new try.' };\n});\nconst byModel = {};\nfor (const c of calls) {\n  const b = byModel[c.model] || (byModel[c.model] = { calls: 0, images_stored: 0, held: 0, not_sent: 0, spend_usd: 0 });\n  b.calls++;\n  if (c.status === 'completed') b.images_stored++; else if (c.status === 'not_sent') b.not_sent++; else b.held++;\n  if (c.paid_call !== 'no') b.spend_usd = r4(b.spend_usd + (Number(c.actual_usd) || 0));\n}\nconst spend = r4(calls.reduce((t, c) => t + (c.paid_call !== 'no' ? Number(c.actual_usd) || 0 : 0), 0));\nconst unsure = calls.filter(c => ['completed', 'not_sent', 'failed_not_started'].indexOf(c.status) === -1).length;\nconst notSaved = calls.filter(c => c.receipt_saved === false).length;\nconst extra = (unsure ? ' ' + unsure + ' calls may have been charged without a stored image (see each call\\'s cost basis).' : '') + (notSaved ? ' ' + notSaved + ' results rows were not updated; check those executions.' : '');\nreturn [{ json: { ...base, outcome: 'ran', said: calls.filter(c => c.status === 'completed').length + ' of ' + calls.length + ' images were made and stored. Spend about USD ' + spend.toFixed(2) + ' (estimate from token counts, not an invoice).' + extra + ' ' + reminder, guard_notes: G[0].notes || [], folder: O[0].drive_run_folder_name, by_model: byModel, spend_usd: spend, may_be_charged_without_image: unsure, rows_not_updated: notSaved, calls } }];\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "e1e5ecb8-80db-49e4-b55c-124ca3e8945f",
+   "name": "MT4 Plan",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    1980,
+    300
+   ],
+   "parameters": {
+    "jsCode": "// Model test · Plan: one call per confirmed test case and model, with the same white-master prompt as stage 04. Code only (15 Oct 2026).\n// The inventory comes from the owner's answer sheet. The photo reading comes from the latest first-reader answer in the reader test table.\n// The prompt lines are copied unchanged from \"13 Compile\" (stage 04). Nothing is sent from here.\n// 15 Oct 2026, 23:30: the framing line added to the white-master prompt, as in \"13 Compile\" (owner: about 12% margin, about 76% span).\n// 15 Oct 2026, 21:20: owner answers applied to the reading before the prompt is built (the prompt function is unchanged):\n//   prompt_edits per folder (drop the reader's relation lines; drop words from the colour line),\n//   (replaced 16 Oct 2026, 01:40, see below) a context entry that names a piece of the confirmed inventory is not told to be left out,\n//   no_reading_ok lets a listed folder run from the sheet alone, expected_counts skips a case whose sheet count differs from the owner's answer.\n// 16 Oct 2026, 01:40 (owner answer \"Align to hold and ask\"): the same HOLD AND ASK rule as A7 \"13 Compile\" (16 Oct, 00:50). When the\n//   inventory lists something the first reader marked as room context (and the reader's product pieces do not already cover it),\n//   A7 makes nothing and asks the owner, so this test does not plan a call for that case either. Every room-context entry is now told\n//   to be left out of the white master, as in A7. The head-word matching (a7Head, SYN) is copied unchanged from \"13 Compile\".\nconst crypto = require('crypto');\nconst cfg = $('MT1 Config').first().json;\nconst nl = String.fromCharCode(10);\nconst arr = x => (Array.isArray(x) ? x : []);\nconst dot = v => { const t = String(v || '').trim(); if (!t) return ''; return /[.!?]$/.test(t) ? t : t + '.'; };\nconst uniq = a => a.filter((x, i) => x && a.findIndex(y => String(y).toLowerCase() === String(x).toLowerCase()) === i);\nconst sha = t => crypto.createHash('sha256').update(String(t)).digest('hex');\nconst str = x => (typeof x === 'string' ? x : (x && (x.label || x.name || x.text || x.what)) ? String(x.label || x.name || x.text || x.what) : JSON.stringify(x));\nconst ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/interactions';\nconst WHITE_PLAN = { light: 'Soft, even, neutral professional studio light that shows the real colour of the product.', camera: 'The camera angle and perspective of the vendor photo. The product is not turned to show sides the vendor photo does not show. The whole product in frame with white space on every side.', presentation: 'The complete product as arranged in the vendor photo; every piece the vendor photo shows stays countable.' };\nconst RATIO_NAMES = { '1:1': 'square, 1:1', '4:5': 'portrait, 4:5, taller than wide', '5:4': 'landscape, 5:4, wider than tall', '16:9': 'landscape, 16:9, wider than tall', '9:16': 'portrait, 9:16, taller than wide', '3:2': 'landscape, 3:2, wider than tall', '2:3': 'portrait, 2:3, taller than wide', '4:3': 'landscape, 4:3, wider than tall', '3:4': 'portrait, 3:4, taller than wide' };\nfunction ratioOf(frame) { const m = String(frame || '').match(/(\\d+)\\s*:\\s*(\\d+)/); return m ? m[1] + ':' + m[2] : '1:1'; }\n\nfunction buildPrompt(s, inv, total, frame) {\n  const list = [{ key: 'vendor' }];\nfunction whitePrompt(o, shot, list, repair) {\n  const obs = s.observation || {};\n  const brief = s.brief || {};\n  const plan = WHITE_PLAN;\n  const L = [];\n  L.push(list.length === 1 ? 'One image is attached: the vendor photo. It is the only authority for the product.' : list.length + ' images are attached. Image 1 is the vendor photo. It is the only authority for the product.');\n  list.forEach((r, i) => { if (i > 0) L.push('Image ' + (i + 1) + ' is another photo of the same product from the vendor. Use it only to understand the product; image 1 decides wherever the two differ.'); });\n  L.push('Use the vendor photo as the primary product reference.');\n  L.push('Create a premium, photorealistic e-commerce catalog image of the exact product shown in the reference. Preserve its original design, silhouette, dimensions, proportions, material, upholstery or wood grain, color, texture, construction details, stitching, seams, handles, hardware, legs, trims, cushions, and all visible features.');\n  L.push('Do not redesign, replace, simplify, stylize, or modify the product. The final product must match the reference image exactly.');\n  const product = brief.product_type || obs.category_seen || '';\n  if (product) L.push('Product: ' + product + '.');\n  L.push('Exact inventory to show:');\n  for (const x of inv) L.push('- ' + x.count + ' x ' + x.item);\n  L.push('Total product pieces: ' + total + '. No more and no fewer.');\n  if (obs.colour_observed) L.push('Product colour as read from image 1: ' + obs.colour_observed + '. Image 1 decides the exact shade; keep it.');\n  if (brief.colour) L.push('The client calls this colour: ' + brief.colour + '. The vendor photo decides the exact shade.');\n  if (obs.material_appearance) L.push('Material appearance as read from image 1: ' + obs.material_appearance + '.');\n  if (brief.material) L.push('The client names the material: ' + brief.material + '. The vendor photo decides how it looks.');\n  const locks = arr(obs.design_locks).map(String).filter(Boolean);\n  if (locks.length) L.push('Identifying details read from image 1; keep each exactly as in the vendor photo, in the same place on the product: ' + locks.join('; ') + '.');\n  const shown = uniq(arr(obs.shown_with).map(String).concat(arr(obs.pieces_seen).filter(p => p && p.role === 'context').map(p => String(p.label || p.kind || ''))));\n  if (shown.length) L.push('In the vendor photo the product is shown with: ' + shown.join('; ') + '. None of these things is a product piece. This photograph shows the product alone: leave each of them out, unless leaving it out would expose a part of the product that the vendor photo does not show; then keep it, plain and close to the vendor photo. Something that rests on the product and covers part of it, such as a mattress and bedding on a bed, stays. Never draw a part of the product that the vendor photo does not show.');\n  L.push('Where the presentation hides part of the product, leave it hidden. Do not invent details that the vendor photo does not show, and never remove something to reveal a part of the product that the vendor photo does not show.');\n  const sided = arr(obs.sided_parts).map(String).filter(Boolean);\n  if (sided.length) L.push('Handedness, fixed. These parts sit on one side of the product, given as seen by a person standing in front of it: ' + sided.join('; ') + '. Never mirror the product and never swap its ends.');\n  else L.push('Never mirror the product.');\n  const rel = arr(obs.relations).map(String).filter(Boolean);\n  if (rel.length) L.push('Keep how the pieces stand to each other: ' + rel.join('; ') + '.');\n  if (s.profile && s.profile.source_rules) L.push('Rules for this kind of product: ' + dot(s.profile.source_rules));\n  const unk = arr(s.unknowns).map(u => String((u && u.what) || u || '')).filter(Boolean);\n  if (unk.length) L.push('Not confirmed from the photos or the brief: ' + unk.join('; ') + '. Do not invent these. Where the vendor photo hides them, keep them hidden.');\n  const extra = arr(o.locks).map(String).filter(l => !/^(product identity|piece count|shape, pattern|sided part:|must not appear:|pure white background)/i.test(l) && locks.indexOf(l) === -1);\n  if (extra.length) L.push('Also fixed for this image: ' + extra.join('; ') + '.');\n  const excl = arr(s.exclusions).map(x => String((x && x.item) || x || '')).filter(Boolean);\n  const base = ['the vendor sheet layout', 'inset views', 'colour swatches', 'printed labels', 'text', 'logos', 'watermarks', 'collage panels', 'extra copies of any product piece', 'people', 'props', 'other objects', 'harsh shadows', 'dramatic reflections'];\n  L.push('Do not show: ' + excl.concat(base).join('; ') + '.');\n  L.push('Place the product alone, whole in the frame as the vendor photo shows it, centered, on a pure white seamless studio background (#FFFFFF). Use a clean white floor with a natural, subtle contact shadow directly beneath the product. Use soft, even professional studio lighting that accurately shows the real color, material, texture, and details of the product.');\n  L.push('No props, no other objects, no room, no floor line, no horizon and no text. The white is the same pure white at every edge of the frame, with no grey tone and no gradient; the only tone on it is the subtle contact shadow directly beneath the product.');\n  L.push('This is the catalogue master.');\n  const ratio = ratioOf(shot.frame);\n  L.push('Frame: ' + (RATIO_NAMES[ratio] || shot.frame || ratio) + '. The plain white background fills the whole frame from edge to edge: no borders, bars, frames or split panels.');\n  L.push('Framing: the product is centred with a white margin of about 12% of the frame on every side, so its widest or tallest extent fills about 76% of the frame. Never crop the product to fill the frame.');\n  if (plan.light) L.push('Light: ' + dot(plan.light));\n  if (plan.camera) L.push('Camera: ' + dot(plan.camera));\n  if (plan.presentation) L.push('Presentation of the product: ' + dot(plan.presentation));\n  L.push('Realistic scale and perspective. The product stands upright and level on the white floor, grounded by the subtle contact shadow directly beneath it. It never floats.');\n  L.push('High-end product photography, premium retail catalog style, sharp focus, realistic materials, accurate proportions, clean edges, balanced exposure, high resolution, e-commerce ready, no background distractions.');\n  L.push('Negative prompt:');\n  L.push('Do not change the product design, shape, size, proportions, color, fabric, wood finish, texture, stitching, seams, cushions, handles, hardware, trims, feet, legs, or any original detail.');\n  L.push('Apart from the product itself and what the lines above keep on it: no people, hands, pets, mannequins, models, rooms, walls, windows, curtains, plants, artwork, mirrors, lamps, rugs, tables, accessories, decor, props, packaging, price tags, labels, text, logos, watermarks, brand marks, or borders.');\n  L.push('No additional product pieces. No duplicate pieces. No missing parts that the vendor photo shows. No extra cushions. No altered upholstery. No distorted geometry. No warped lines. No floating product. No cropped legs or cropped product. No incorrect shadows. No harsh shadows. No dramatic reflections. No colored background. No grey background. No gradients. No lifestyle scene.');\n  L.push('No illustration, CGI look, cartoon style, sketch, painting, low resolution, blur, noise, over-sharpening, oversaturation, unrealistic fabric, plastic-looking wood, incorrect grain, inaccurate material texture, fisheye lens, wide-angle distortion, extreme perspective, or unnatural camera angle.');\n  if (repair && arr(repair.corrections).length) {\n    L.push('Corrections required after the review of a rejected image. The rejected image is not a reference; work again from the attached photo:');\n    for (const c of arr(repair.corrections)) L.push('- ' + String(c));\n    if (arr(repair.preserve).length) L.push('Keep exactly as in the vendor photo, and do not change while correcting: ' + arr(repair.preserve).map(String).join('; ') + '.');\n  }\n  return L.join(nl);\n}\n  return whitePrompt({ locks: [] }, { frame }, list, null);\n}\n\n// Owner-answer helpers (21:20; the context matching was replaced on 16 Oct 2026 by the A7 hold-and-ask check below).\nconst sing = w => { const t = String(w || '').toLowerCase(); if (/(ches|shes|xes)$/.test(t)) return t.slice(0, -2); if (/[^s]s$/.test(t)) return t.slice(0, -1); return t; };\nconst SYN = { 'bedside table': 'nightstand', 'night stand': 'nightstand', 'side table': 'table', lamp: 'light', chandelier: 'light', pendant: 'light', sconce: 'light', lantern: 'light' };\nfunction a7Head(v) {\n  const x = String(v || '').toLowerCase().split(':')[0].split(/\\s+(?:on|in|at|with|featuring|placed|under|beside|near|of|for|from)\\s+/)[0].replace(/[^a-z\\s-]/g, ' ').replace(/\\s+/g, ' ').trim();\n  const words = x.split(' ').filter(Boolean).map(sing);\n  const y = words.join(' ');\n  for (const k of Object.keys(SYN)) if (y === k || y.endsWith(' ' + k)) return SYN[k];\n  const h = words.length ? words[words.length - 1] : '';\n  return SYN[h] || h;\n}\nfunction contextHold(inv, pieces) {\n  const invCount = {}, prodCount = {}, ctxCount = {};\n  for (const x of inv) { const h = a7Head(x.item); if (h) invCount[h] = (invCount[h] || 0) + (Number(x.count) || 0); }\n  for (const p of pieces) { const h = a7Head(p.kind || p.label); const r = String(p.role || 'product').toLowerCase(); if (r === 'product') prodCount[h] = (prodCount[h] || 0) + 1; else if (r === 'context') ctxCount[h] = (ctxCount[h] || 0) + 1; }\n  for (const h of Object.keys(invCount)) { const missing = Math.max(0, invCount[h] - (prodCount[h] || 0)); const c = ctxCount[h] || 0; if (missing && c) return 'the sheet lists ' + invCount[h] + ' x ' + h + ', but the first reader marked ' + c + ' such thing' + (c === 1 ? '' : 's') + ' as room context; A7 holds and asks the owner here (rule of 16 Oct 2026), so no call is planned'; }\n  return '';\n}\nfunction dropColour(text, drop) { const d = arr(drop).map(x => String(x).toLowerCase()); if (!d.length || !text) return text; const parts = String(text).split(/\\s*,\\s*(?:and\\s+)?|\\s+and\\s+/).filter(Boolean); const kept = parts.filter(x => !d.some(k => x.toLowerCase().indexOf(k) !== -1)); if (!kept.length) return ''; return kept.length === 1 ? kept[0] : kept.slice(0, -1).join(', ') + ' and ' + kept[kept.length - 1]; }\n\nconst problems = [];\n// The model registry: a failed read stops every call.\nconst regItems = $('MT2 Load registry').all().map(i => i.json);\nconst regOk = regItems.length > 0 && regItems.every(r => r && !r.error && r.model_id);\nif (!regOk) problems.push('The model registry could not be read, so no call is planned.');\nconst registry = regOk ? regItems : [];\n// The owner's answer sheet.\nconst sheet = $('Read answer sheet').first().json;\nif (sheet.sheet_problem) problems.push(sheet.sheet_problem);\nconst rowOf = f => arr(sheet.sheet_rows).find(r => String(r.folder || '').trim() === f) || null;\nconst col = (r, start) => { const k = Object.keys(r || {}).find(h => h.indexOf(start) === 0); return k ? String(r[k] || '').trim() : ''; };\n// The latest usable first-reader answer for each folder (reader test table).\nconst readAll = $('MT3 Load reader readings').all().map(i => i.json);\nconst readOk = readAll.length > 0 && readAll.every(r => r && !r.error && !r.model_id && (Object.keys(r).length === 0 || r.folder));\nif (!readOk) problems.push('The reader test table could not be read, so no photo reading is known. No call is planned.');\nconst readItems = readOk ? readAll.filter(r => r && r.folder) : [];\nfunction parseEye(t) { const s1 = String(t || ''); const a = s1.indexOf('{'), b = s1.lastIndexOf('}'); if (a < 0 || b < a) return null; try { return JSON.parse(s1.slice(a, b + 1)); } catch (e) { return null; } }\nfunction readingOf(f) {\n  const rows = readItems.filter(r => String(r.folder).trim() === f).sort((a, b) => (Number(b.id) || 0) - (Number(a.id) || 0));\n  for (const r of rows) { const eye = parseEye(r.eye_raw); if (eye) return { row: r, eye }; }\n  return null;\n}\nfunction inventoryFrom(text, n) {\n  const parts = String(text || '').split(/\\s*;\\s*|\\s+\\+\\s+/).map(x => x.trim()).filter(Boolean);\n  const items = parts.map(p => { const m = p.match(/^(\\d+)\\s+(.+)$/); const item = (m ? m[2] : p).replace(/\\s*\\([^)]*\\)/g, '').trim(); return { count: m ? Number(m[1]) : 1, item }; });\n  const sum = items.reduce((t, x) => t + x.count, 0);\n  if (items.length && sum === n && items.every(x => x.item)) return { inv: items, how: 'piece by piece from the sheet' };\n  return { inv: [{ count: n, item: 'product pieces, as the owner lists them: ' + String(text || '').trim() }], how: 'one line: the sheet text does not add up to ' + n + ' piece by piece' };\n}\nfunction modelCheck(id) {\n  const m = registry.find(r => r.model_id === id);\n  const num = k => Number(m && m[k]) || 0;\n  const size = String(cfg.image_size || '').toUpperCase();\n  const ratio = ratioOf(cfg.frame);\n  const notes = [];\n  if (!m) return { ok: false, why: id + ' is not in the model registry.' };\n  if (!/^[a-z0-9][a-z0-9.\\-]*$/.test(String(m.model_id))) return { ok: false, why: 'The registry model id \"' + String(m.model_id).slice(0, 60) + '\" is not a plain model id.' };\n  if (String(m.endpoint || '') !== ENDPOINT) return { ok: false, why: 'The registry row for ' + id + ' names another address; only ' + ENDPOINT + ' is built.' };\n  if (['trial', 'approved'].indexOf(String(m.status || '').toLowerCase()) === -1) return { ok: false, why: id + ' has registry status \"' + (m.status || 'none') + '\"; only trial or approved models are tested.' };\n  const sizes = String(m.sizes || '').split('|').map(x => x.trim().toUpperCase()).filter(Boolean);\n  if (sizes.indexOf(size) === -1) return { ok: false, why: id + ' does not list the size ' + size + '.' };\n  const ratios = String(m.ratios || '').split('|').map(x => x.trim()).filter(Boolean);\n  if (ratios.length && ratios.indexOf(ratio) === -1) return { ok: false, why: id + ' does not list the frame ' + ratio + '.' };\n  if (!ratios.length) notes.push('the registry does not list frames for ' + id + '; this test checks ' + ratio);\n  if (num('max_refs') < 1) notes.push('the registry does not confirm that ' + id + ' takes a reference photo; this test checks it');\n  if (!(num('input_usd_per_m') > 0 && num('text_out_usd_per_m') > 0 && num('image_out_usd_per_m') > 0 && num('input_image_tokens') > 0 && num('image_tokens_' + size.toLowerCase()) > 0 && m.price_date))\n    return { ok: false, why: 'The registry row for ' + id + ' has no complete, dated price for ' + size + ', so no cost can be reserved.' };\n  return { ok: true, m, num, size, ratio, notes };\n}\nconst token = String(cfg.go_token || '').trim();\nconst models = arr(cfg.models).map(String);\nconst checks = Object.fromEntries(models.map(id => [id, modelCheck(id)]));\nconst pairs = $input.all().map(i => i.json).filter(p => p && !p.none);\nif (!pairs.length) problems.push(($input.first() && $input.first().json.problem) || 'No test folder was found.');\nconst skip = cfg.skip_folders || {};\nconst expected = cfg.expected_counts || {};\nconst cases = [], orders = [];\nfor (const p of pairs) {\n  const c = { folder: p.folder, status: 'skipped', reason: '', notes: [] };\n  cases.push(c);\n  if (skip[p.folder]) { c.reason = 'on the skip list: ' + skip[p.folder]; continue; }\n  if (!p.file_id) { c.reason = p.problem || 'no photo in the folder'; continue; }\n  const r = rowOf(p.folder);\n  if (!r) { c.reason = 'the folder is not on the answer sheet'; continue; }\n  const answer = col(r, 'answer'), countText = col(r, 'true piece count'), confirmedCol = col(r, 'confirmed by owner').toLowerCase();\n  const n = /^\\d+$/.test(countText) ? Number(countText) : 0;\n  const yes = /^yes\\b/i.test(answer) || confirmedCol === 'yes';\n  const yesN = answer.match(/^yes\\s+(\\d+)\\b/i);\n  if (!n) { c.reason = 'the sheet gives no plain piece count (\"' + countText.slice(0, 60) + '\")'; continue; }\n  if (!yes) { c.reason = 'the owner has not confirmed this case (answer: \"' + (answer || 'blank') + '\")'; continue; }\n  if (yesN && Number(yesN[1]) !== n) { c.reason = 'the owner answered ' + yesN[1] + ' but the count column says ' + n; continue; }\n  if (expected[p.folder] !== undefined && Number(expected[p.folder]) !== n) { c.reason = 'the owner answered ' + expected[p.folder] + ' pieces in chat, but the sheet count says ' + n + '; fix the sheet first'; continue; }\n  const rd = readingOf(p.folder);\n  const eye = rd ? rd.eye : {};\n  const okNoReading = cfg.allow_no_reading === true || arr(cfg.no_reading_ok).indexOf(p.folder) !== -1;\n  if (rd) {\n    const seen = Math.max(Number(rd.row.eye_count) || 0, Number(rd.row.second_count) || 0);\n    if (rd.row.cropped === true || eye.cropped === true) { c.reason = 'the reading says the photo is cropped; stage 04 holds such a photo'; continue; }\n    // As in A7 \"13 Compile\": the hold-and-ask check comes before the count check.\n    const heldFirst = contextHold(inventoryFrom(col(r, 'pieces that belong'), n).inv, arr(eye.pieces).filter(x => x && typeof x === 'object'));\n    if (heldFirst) { c.reason = heldFirst; continue; }\n    if (seen && n > seen) { c.reason = 'the photo shows ' + seen + ' pieces and the sheet holds ' + n + '; stage 04 holds this'; continue; }\n  } else if (!okNoReading) { c.reason = 'no usable first-reader answer for this photo; stage 04 never sends without one (no_reading_ok in MT1 Config tests it from the sheet alone)'; continue; }\n  else c.notes.push('no usable first-reader answer: the prompt uses the sheet only (no colour, details or context from the photo)');\n  const iv = inventoryFrom(col(r, 'pieces that belong'), n);\n  const piecesText = col(r, 'pieces that belong');\n  const sheetSided = piecesText.split(/\\s*;\\s*|\\s+\\+\\s+/).filter(x => /\\b(LEFT|RIGHT)\\b/.test(x)).map(x => x.trim());\n  const excl = col(r, 'excluded pieces');\n  const ed = (cfg.prompt_edits || {})[p.folder] || {};\n  const shownRaw = arr(eye.shown_with).map(str);\n  const ctxRaw = arr(eye.pieces).filter(x => x && typeof x === 'object');\n  const shownKept = shownRaw;\n  const ctxKept = ctxRaw;\n  const colourRaw = str(eye.colour_observed || '');\n  const colour = dropColour(colourRaw, ed.colour_drop);\n  if (colour !== colourRaw) c.notes.push('owner edit: colour line without \"' + arr(ed.colour_drop).join('\", \"') + '\"');\n  if (ed.drop_relations && arr(eye.relations).length) c.notes.push('owner edit: the reader\\'s relation lines are left out');\n  const s = {\n    brief: { product_type: col(r, 'product type').replace(/\\s*\\([^)]*\\)/g, '').trim(), colour: rd ? '' : col(r, 'true colour') },\n    observation: {\n      category_seen: eye.category || '', colour_observed: colour, material_appearance: str(eye.material_appearance || ''),\n      design_locks: arr(eye.design_locks).map(str), shown_with: shownKept,\n      pieces_seen: ctxKept, relations: ed.drop_relations ? [] : arr(eye.relations).map(str),\n      sided_parts: sheetSided.length ? sheetSided : arr(eye.sided_parts).map(str)\n    },\n    exclusions: /^(none|no|)$/i.test(excl) ? [] : excl.split(/\\s*;\\s*/).filter(Boolean).map(x => ({ item: x })),\n    unknowns: arr(eye.unknowns).map(str)\n  };\n  const total = iv.inv.reduce((t, x) => t + x.count, 0);\n  const prompt = buildPrompt(s, iv.inv, total, cfg.frame);\n  c.status = 'planned';\n  c.sheet_count = n;\n  c.inventory = iv.inv.map(x => x.count + ' x ' + x.item);\n  c.inventory_how = iv.how;\n  c.handedness_from = sheetSided.length ? 'the answer sheet' : (arr(eye.sided_parts).length ? 'the first reader' : 'none listed');\n  c.reading_source = rd ? 'reader test ' + rd.row.run_id + ', row ' + rd.row.id : 'none';\n  c.case_note = col(r, 'what this case tests');\n  c.prompt_chars = prompt.length;\n  c.prompt_sha256 = sha(prompt);\n  for (const id of models) {\n    const k = checks[id];\n    if (!k.ok) { c.notes.push(id + ' not planned: ' + k.why); continue; }\n    const inTok = Math.ceil(prompt.length / 4) + 1 * k.num('input_image_tokens');\n    const imgTok = k.num('image_tokens_' + k.size.toLowerCase());\n    const thoughtTok = 2000;\n    const prices = { input: k.num('input_usd_per_m'), text_out: k.num('text_out_usd_per_m'), image_out: k.num('image_out_usd_per_m') };\n    const reserve = Number(((inTok * prices.input + imgTok * prices.image_out + thoughtTok * prices.text_out) / 1e6).toFixed(4));\n    orders.push({\n      operation_key: 'claude-mt:' + token + ':' + p.folder + ':' + id,\n      run_id: cfg.run_id, go_token: token, paid_calls_allowed: cfg.paid_calls_allowed === true,\n      folder: p.folder, file_id: p.file_id, file_name: p.file_name, drive_mime: p.mime,\n      model: id, model_label: k.m.label || '', registry_status: k.m.status, price_date: k.m.price_date, prices, image_tokens: imgTok,\n      reserve_usd: reserve, reserve_basis: 'estimate: about ' + inTok + ' input tokens, ' + imgTok + ' image tokens and a ' + thoughtTok + '-token thinking margin, at registry prices dated ' + k.m.price_date,\n      ratio: k.ratio, size: k.size, thinking_level: String(cfg.thinking_level || '').trim().toLowerCase(),\n      prompt, prompt_sha256: c.prompt_sha256, case_note: c.case_note, sheet_count: n, reading_source: c.reading_source,\n      model_notes: k.notes, max_inline_mb: Number(cfg.max_inline_mb) || 14, max_calls: Number(cfg.max_calls) || 0, max_spend_usd: Number(cfg.max_spend_usd) || 0\n    });\n  }\n}\nconst byModel = {};\nfor (const o of orders) { const b = byModel[o.model] || (byModel[o.model] = { calls: 0, reserve_usd: 0 }); b.calls++; b.reserve_usd = Number((b.reserve_usd + o.reserve_usd).toFixed(4)); }\nconst reserve_usd = Number(orders.reduce((t, o) => t + o.reserve_usd, 0).toFixed(4));\nif (regOk) for (const id of models) if (!checks[id].ok) problems.push(checks[id].why);\nreturn [{ json: {\n  run_id: cfg.run_id, mode: cfg.paid_calls_allowed === true ? 'paid' : 'preview', go_token_set: Boolean(token),\n  caps: { max_calls: Number(cfg.max_calls) || 0, max_spend_usd: Number(cfg.max_spend_usd) || 0 },\n  totals: { calls: orders.length, reserve_usd, by_model: byModel, basis: 'estimates from registry prices; not an invoice' },\n  cases, orders, problems\n} }];\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  }
+ ],
+ "connections": {
+  "Start model test": {
+   "main": [
+    [
+     {
+      "node": "MT1 Config",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "MT1 Config": {
+   "main": [
+    [
+     {
+      "node": "MT2 Load registry",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "MT2 Load registry": {
+   "main": [
+    [
+     {
+      "node": "MT3 Load reader readings",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "MT3 Load reader readings": {
+   "main": [
+    [
+     {
+      "node": "Download answer sheet",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Download answer sheet": {
+   "main": [
+    [
+     {
+      "node": "Read answer sheet",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Read answer sheet": {
+   "main": [
+    [
+     {
+      "node": "Find test folders",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Find test folders": {
+   "main": [
+    [
+     {
+      "node": "Find main photo",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Find main photo": {
+   "main": [
+    [
+     {
+      "node": "Pair photos with folders",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Pair photos with folders": {
+   "main": [
+    [
+     {
+      "node": "MT4 Plan",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "MT4 Plan": {
+   "main": [
+    [
+     {
+      "node": "Paid run allowed?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Paid run allowed?": {
+   "main": [
+    [
+     {
+      "node": "MT5 Load results table",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "MT10 Summary",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "MT6 Guard": {
+   "main": [
+    [
+     {
+      "node": "Clear to run?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Clear to run?": {
+   "main": [
+    [
+     {
+      "node": "MT7 Make run folder",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "MT10 Summary",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "MT7 Make run folder": {
+   "main": [
+    [
+     {
+      "node": "MT8 Orders",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "MT8 Orders": {
+   "main": [
+    [
+     {
+      "node": "Folder ready?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Folder ready?": {
+   "main": [
+    [
+     {
+      "node": "MT9 Run one call",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "MT10 Summary",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "MT9 Run one call": {
+   "main": [
+    [
+     {
+      "node": "MT10 Summary",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "MT5 Load results table": {
+   "main": [
+    [
+     {
+      "node": "MT6 Guard",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1",
+  "availableInMCP": true
+ }
+}

@@ -1,0 +1,3 @@
+try{
+const it=$input.first();let p=it.json.body?.payload;if(typeof p==='string')p=JSON.parse(p);if(!p?.recovery||!/^owner-[a-f0-9-]{36}$/.test(p.clientRunId||'')||!/^claude-a7-[A-Za-z0-9-]+$/.test(p.recovery.runId||'')||Object.keys(it.binary||{}).length!==1)throw Error('invalid_recovery');const key=Object.keys(it.binary)[0];const bytes=await this.helpers.getBinaryDataBuffer(0,key);const sourceSha256=require('crypto').createHash('sha256').update(bytes).digest('hex');return [{json:{...p,verifiedSourceSha256:sourceSha256},binary:it.binary}];
+}catch(error){const code=String(error.message||'');return [{json:{recovery_error:/^(?:recovery_[a-z_]+|invalid_recovery|ambiguous_recovery_run)$/.test(code)?code:'recovery_input_unavailable',failed_node:"Recovery · Request"}}];}

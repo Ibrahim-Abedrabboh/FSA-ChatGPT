@@ -1,0 +1,368 @@
+[
+ {
+  "phase": "1 Intake",
+  "steps": 7,
+  "model_steps": [],
+  "paid_calls": [],
+  "names": [
+   "Job request webhook",
+   "Send job received",
+   "Job from batch",
+   "01 Job intake",
+   "01b Job id check",
+   "Log received",
+   "Job usable?"
+  ]
+ },
+ {
+  "phase": "2 Read the photo",
+  "steps": 3,
+  "model_steps": [
+   "02 Eye reads the product photo"
+  ],
+  "paid_calls": [],
+  "names": [
+   "02 Eye reads the product photo",
+   "03 Contract",
+   "Evidence readable?"
+  ]
+ },
+ {
+  "phase": "3 Contract and conflict check",
+  "steps": 5,
+  "model_steps": [
+   "03f Conflict check"
+  ],
+  "paid_calls": [],
+  "names": [
+   "03d Contract ticket",
+   "03e Find earlier brief",
+   "03f Conflict check",
+   "03g Contract ledger",
+   "Contract clear?"
+  ]
+ },
+ {
+  "phase": "4 Look image (only if sent)",
+  "steps": 3,
+  "model_steps": [
+   "03m Look reader"
+  ],
+  "paid_calls": [],
+  "names": [
+   "Look image sent?",
+   "03m Look reader",
+   "03n Look brief"
+  ]
+ },
+ {
+  "phase": "5 Category and catalogue brief",
+  "steps": 5,
+  "model_steps": [],
+  "paid_calls": [],
+  "names": [
+   "03a Load handling profiles",
+   "03L Load lessons",
+   "03t Load gallery templates",
+   "03b Load catalogue",
+   "03c Category and catalogue brief"
+  ]
+ },
+ {
+  "phase": "6 Scene planning",
+  "steps": 6,
+  "model_steps": [
+   "04 Stylist plans the scenes"
+  ],
+  "paid_calls": [],
+  "names": [
+   "04 Stylist plans the scenes",
+   "05 Scene check",
+   "05d Catalogue image requests",
+   "Catalogue images needed?",
+   "05e Fetch catalogue image",
+   "05f Catalogue pack"
+  ]
+ },
+ {
+  "phase": "7 Plan check",
+  "steps": 5,
+  "model_steps": [
+   "05b Plan critic"
+  ],
+  "paid_calls": [],
+  "names": [
+   "05a Plan critic ticket",
+   "05b Plan critic",
+   "05c Plan verdict",
+   "Plan again?",
+   "Anything to render?"
+  ]
+ },
+ {
+  "phase": "8 First go (before paying)",
+  "steps": 11,
+  "model_steps": [],
+  "paid_calls": [],
+  "names": [
+   "05i0 Load model registry",
+   "05i Lock contract",
+   "Contract leaves images?",
+   "05g Go ticket",
+   "05g2 Go preview contract",
+   "Ask before paying?",
+   "Log plan",
+   "Wait for go",
+   "05h Go verdict",
+   "Go given?",
+   "Owner changed a plan?"
+  ]
+ },
+ {
+  "phase": "9 Image making",
+  "steps": 9,
+  "model_steps": [],
+  "paid_calls": [
+   "08 Render image"
+  ],
+  "names": [
+   "06 Render ticket",
+   "07 Image requests",
+   "07a0 Today's operations",
+   "07a Find earlier operations",
+   "07b Operation keys",
+   "07c Reserve operations",
+   "07d Dispatch guard",
+   "08 Render image",
+   "08b Fetch rendered image"
+  ]
+ },
+ {
+  "phase": "10 Review and repair",
+  "steps": 9,
+  "model_steps": [
+   "10 Reviewer compares two images"
+  ],
+  "paid_calls": [],
+  "names": [
+   "09 Review tickets",
+   "09b Operation receipts",
+   "09c Save receipts",
+   "09d Review tickets again",
+   "Any render to review?",
+   "10 Reviewer compares two images",
+   "11 Verdict",
+   "11b Repair plan",
+   "Repair again?"
+  ]
+ },
+ {
+  "phase": "11 Second go (after the white image)",
+  "steps": 5,
+  "model_steps": [],
+  "paid_calls": [],
+  "names": [
+   "11c Master stop",
+   "Master stop?",
+   "Log master",
+   "Wait for master go",
+   "11m Master verdict"
+  ]
+ },
+ {
+  "phase": "12 Audit",
+  "steps": 4,
+  "model_steps": [
+   "14 Auditor compares two images"
+  ],
+  "paid_calls": [],
+  "names": [
+   "13 Audit tickets",
+   "Audit needed?",
+   "14 Auditor compares two images",
+   "15 Audit verdict"
+  ]
+ },
+ {
+  "phase": "13 Final inspection",
+  "steps": 4,
+  "model_steps": [
+   "17 Final inspector"
+  ],
+  "paid_calls": [],
+  "names": [
+   "16 Final inspection tickets",
+   "Final inspection needed?",
+   "17 Final inspector",
+   "18 Final verdict"
+  ]
+ },
+ {
+  "phase": "14 White clean-up (White BK only)",
+  "steps": 6,
+  "model_steps": [],
+  "paid_calls": [
+   "18c White clean-up"
+  ],
+  "names": [
+   "White BK job?",
+   "18b Clean-up requests",
+   "Anything to clean?",
+   "18c White clean-up",
+   "18d Fetch cleaned image",
+   "18e Clean-up verdict"
+  ]
+ },
+ {
+  "phase": "15 Delivery file",
+  "steps": 11,
+  "model_steps": [],
+  "paid_calls": [],
+  "names": [
+   "19 Export tickets",
+   "Anything to export?",
+   "E1 Measure master",
+   "E2 Fit plan",
+   "E3 Resize to fit",
+   "E4 White canvas",
+   "E5 Place on canvas",
+   "E6 Measure delivery file",
+   "E7 Export check",
+   "Export for a download?",
+   "20 Export verdict"
+  ]
+ },
+ {
+  "phase": "16 Run card and description",
+  "steps": 8,
+  "model_steps": [
+   "21b Description writer",
+   "21d Description check"
+  ],
+  "paid_calls": [],
+  "names": [
+   "12 Run card",
+   "Describe?",
+   "21a Description ticket",
+   "21b Description writer",
+   "21c Description",
+   "Text written?",
+   "21d Description check",
+   "21e Description verdict"
+  ]
+ },
+ {
+  "phase": "17 Package and record",
+  "steps": 11,
+  "model_steps": [],
+  "paid_calls": [
+   "12c Start photo upload"
+  ],
+  "names": [
+   "12m Package manifest",
+   "12b Re-generate pack",
+   "Photo to store?",
+   "12c Start photo upload",
+   "12d Photo ticket",
+   "Photo address ready?",
+   "12e Store product photo",
+   "12f Re-generate record",
+   "Log result",
+   "V1 Vault events",
+   "V2 Save to Vault"
+  ]
+ },
+ {
+  "phase": "A Status address",
+  "steps": 4,
+  "model_steps": [],
+  "paid_calls": [],
+  "names": [
+   "Job status webhook",
+   "Find newest run row",
+   "Status reply",
+   "Send status"
+  ]
+ },
+ {
+  "phase": "B Decision address (go / stop / accept)",
+  "steps": 12,
+  "model_steps": [],
+  "paid_calls": [],
+  "names": [
+   "Owner decision webhook",
+   "Find run for decision",
+   "Decision check",
+   "Decision release gate",
+   "Decision valid?",
+   "Go or stop?",
+   "Resume the waiting run",
+   "Gate result",
+   "Mark plan answered",
+   "Gate reply",
+   "Record decision",
+   "Send decision reply"
+  ]
+ },
+ {
+  "phase": "C Batch address",
+  "steps": 6,
+  "model_steps": [],
+  "paid_calls": [],
+  "names": [
+   "Batch request webhook",
+   "B1 Split batch",
+   "Batch usable?",
+   "B2 Start one run per photo",
+   "B3 Batch reply",
+   "Send batch reply"
+  ]
+ },
+ {
+  "phase": "D File address",
+  "steps": 10,
+  "model_steps": [],
+  "paid_calls": [],
+  "names": [
+   "File webhook",
+   "Find run for file",
+   "File ticket",
+   "File found?",
+   "Fetch master file",
+   "File to export",
+   "Master fetched?",
+   "Delivery file ready?",
+   "Send delivery file",
+   "Send file problem"
+  ]
+ },
+ {
+  "phase": "E Re-generate address (switched off)",
+  "steps": 9,
+  "model_steps": [],
+  "paid_calls": [],
+  "names": [
+   "Re-generate webhook",
+   "Find run to re-generate",
+   "R1 Re-generate ticket",
+   "Send re-generate reply",
+   "Re-generate possible?",
+   "R2 Fetch requests",
+   "R3 Fetch file",
+   "R4 Re-generate state",
+   "Photo loaded?"
+  ]
+ },
+ {
+  "phase": "F Failure log",
+  "steps": 4,
+  "model_steps": [],
+  "paid_calls": [],
+  "names": [
+   "On run failure",
+   "Find failed run",
+   "Failed run known?",
+   "Log failed run"
+  ]
+ }
+]

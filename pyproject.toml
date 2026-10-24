@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "midas-a7"
+version = "0.1.0"
+description = "Midas A7 studio pipeline as one Python service (replaces the n8n workflows)."
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi==0.115.6",
+  "uvicorn[standard]==0.34.0",
+  "httpx==0.28.1",
+  "python-multipart==0.0.20",
+  "SQLAlchemy==2.0.36",
+  "psycopg[binary]==3.2.3",
+  "Pillow==11.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==8.3.4", "pytest-asyncio==0.24.0", "respx==0.22.0", "ruff==0.8.4"]
+
+[project.scripts]
+midas-a7 = "midas_a7.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+midas_a7 = ["flows/*/code/*.js", "flows/manifest.json", "engine/js/*.mjs", "engine/js/package*.json", "data/*.json", "data/seeds/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/py"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+line-length = 130
+target-version = "py312"
+extend-exclude = ["src/midas_a7/flows"]

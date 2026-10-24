@@ -1,0 +1,14 @@
+{
+ "what": "Scratch n8n runs of A7's exact step 20 code and settings: 20c Check scene master (code), 20d and 20e Edit Image (parameters copied from A7 version de4de69a), 20f Check scene files (code), on code-made one-bit PNGs (tests/claude-midas-a7-scene-files/scratch_make_scene.js)",
+ "workflow": "Claude · scratch · A7 scene files test (KWeP7dIqnUyvbGlL), archived after the runs",
+ "date": "2026-10-16T00:48Z (16 Oct 2026, 03:48 Amman)",
+ "runs": [
+  {"execution": "435", "status": "success", "master_px": "2048x1152", "planned_shape": "16:9", "target": "2000x1125",
+   "files": [{"format": "jpg", "mime": "image/jpeg", "px": "2000x1125", "bytes": 12119, "sha256": "0e6240e521cf7feed72aa489c9c6d480aab4f61286d3dd75f6f92ef442e12a86"},
+             {"format": "webp", "mime": "image/webp", "px": "2000x1125", "bytes": 4296, "sha256": "526ce522e75218c57d6e399b8afdfd902d046dfbd39e8fd3726199218ccf50b6"}], "files_ok": true},
+  {"execution": "436", "status": "success", "master_px": "1638x2048", "planned_shape": "4:5", "target": "1125x1407",
+   "files": [{"format": "jpg", "mime": "image/jpeg", "px": "1125x1407", "bytes": 8935, "sha256": "42530bafad3391bfa8f6a2c5a8f10cbaec831671b6d68ce507067c947aaffbd5"},
+             {"format": "webp", "mime": "image/webp", "px": "1125x1407", "bytes": 3130, "sha256": "c5cce4f085d7c19fc59d16ad26b7f221f396bf0a2eca044d69141b46529385cb"}], "files_ok": true}
+ ],
+ "limits": "Test images are flat one-bit shapes, not product scenes. Colour profile, metadata and visual quality of a real scene were not checked. No Drive node, no credentials, no AI, no paid call."
+}

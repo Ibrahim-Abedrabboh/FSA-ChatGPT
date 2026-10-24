@@ -1,0 +1,33 @@
+One image is attached: the vendor photo. It is the only authority for the product.
+Use the vendor photo as the primary product reference.
+Create a premium, photorealistic e-commerce catalog image of the exact product shown in the reference. Preserve its original design, silhouette, dimensions, proportions, material, upholstery or wood grain, color, texture, construction details, stitching, seams, handles, hardware, legs, trims, cushions, and all visible features.
+Do not redesign, replace, simplify, stylize, or modify the product. The final product must match the reference image exactly.
+Product: Sectional sofa.
+Exact inventory to show:
+- 1 x left-arm piece
+- 4 x armless piece
+- 1 x corner piece
+- 1 x right-arm piece
+Total product pieces: 7. No more and no fewer.
+Product colour as read from image 1: warm grey. Image 1 decides the exact shade; keep it.
+Identifying details read from image 1; keep each exactly as in the vendor photo, in the same place on the product: boucle grey upholstery.
+Where the presentation hides part of the product, leave it hidden. Do not invent details that the vendor photo does not show, and never remove something to reveal a part of the product that the vendor photo does not show.
+Handedness, fixed. These parts sit on one side of the product, given as seen by a person standing in front of it: left-arm piece; right-arm piece. Never mirror the product and never swap its ends.
+Not confirmed from the photos or the brief: back of the sofa; dimensions; material composition. Do not invent these. Where the vendor photo hides them, keep them hidden.
+Do not show: the vendor sheet layout; inset views; colour swatches; printed labels; text; logos; watermarks; collage panels; extra copies of any product piece; people; props; other objects; harsh shadows; dramatic reflections.
+Place the product alone, whole in the frame as the vendor photo shows it, centered, on a pure white seamless studio background (#FFFFFF). Use a clean white floor with a natural, subtle contact shadow directly beneath the product. Use soft, even professional studio lighting that accurately shows the real color, material, texture, and details of the product.
+No props, no other objects, no room, no floor line, no horizon and no text. The white is the same pure white at every edge of the frame, with no grey tone and no gradient; the only tone on it is the subtle contact shadow directly beneath the product.
+This is the catalogue master.
+Frame: square, 1:1. The plain white background fills the whole frame from edge to edge: no borders, bars, frames or split panels.
+Framing: the product is centred. Its longest side spans about 76% of the frame side in the same direction (the width for a wide product, the height for a tall one), with about 12% white margin at each end of that side. Never crop the product to fill the frame.
+Light: Soft, even, neutral professional studio light that shows the real colour of the product.
+Camera: The camera angle and perspective of the vendor photo. The product is not turned to show sides the vendor photo does not show. The whole product in frame with white space on every side.
+Presentation of the product: The complete product as arranged in the vendor photo; every piece the vendor photo shows stays countable.
+Realistic scale and perspective. The product stands upright and level on the white floor, grounded by the subtle contact shadow directly beneath it. It never floats.
+High-end product photography, premium retail catalog style, sharp focus, realistic materials, accurate proportions, clean edges, balanced exposure, high resolution, e-commerce ready, no background distractions.
+Negative prompt:
+Do not change the product design, shape, size, proportions, color, fabric, wood finish, texture, stitching, seams, cushions, handles, hardware, trims, feet, legs, or any original detail.
+Apart from the product itself and what the lines above keep on it: no people, hands, pets, mannequins, models, rooms, walls, windows, curtains, plants, artwork, mirrors, lamps, rugs, tables, accessories, decor, props, packaging, price tags, labels, text, logos, watermarks, brand marks, or borders.
+No additional product pieces. No duplicate pieces. No missing parts that the vendor photo shows. No extra cushions. No altered upholstery. No distorted geometry. No warped lines. No floating product. No cropped legs or cropped product. No incorrect shadows. No harsh shadows. No dramatic reflections. No colored background. No grey background. No gradients. No lifestyle scene.
+No illustration, CGI look, cartoon style, sketch, painting, low resolution, blur, noise, over-sharpening, oversaturation, unrealistic fabric, plastic-looking wood, incorrect grain, inaccurate material texture, fisheye lens, wide-angle distortion, extreme perspective, or unnatural camera angle.
+Before returning the image, check it against image 1: exactly 7 product pieces, each identifying detail in its place, the handedness, the whole product inside the frame, and pure white at every edge. Correct anything that differs.

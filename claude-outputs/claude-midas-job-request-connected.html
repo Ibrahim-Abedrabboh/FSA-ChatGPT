@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Midas Virtual Studio · Job request (connected to n8n)</title>
+  <style>
+    :root{font:16px/1.5 system-ui,sans-serif;color:#21302b;background:#f5f4ef}*{box-sizing:border-box}body{margin:0}main{max-width:900px;margin:auto;padding:32px 18px 70px}h1{font-size:2rem;margin:0 0 8px}p{color:#52625b}fieldset{border:1px solid #ccd4cd;border-radius:14px;background:white;margin:20px 0;padding:22px}legend{font-weight:700;padding:0 8px}label{display:block;font-weight:600;margin:12px 0 5px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 18px}input,select,textarea{width:100%;font:inherit;padding:10px;border:1px solid #89988e;border-radius:8px;background:white;color:inherit}input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #287c60;outline-offset:2px}.choices{display:flex;flex-wrap:wrap;gap:8px 20px}.choices label{display:flex;align-items:center;gap:7px;font-weight:400;margin:6px 0}.choices input{width:auto}.hint{font-size:.9rem;margin:5px 0 12px}button{font:inherit;border:0;border-radius:9px;padding:12px 18px;background:#17654a;color:white;cursor:pointer}button:disabled{opacity:.55;cursor:wait}pre{overflow:auto;white-space:pre-wrap;background:#e9eee9;border-radius:10px;padding:15px}output{display:block;margin-top:14px}.roles{display:grid;gap:8px;margin:10px 0 4px}.role-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,260px);gap:10px;align-items:center}.role-row label{margin:0;font-weight:400;overflow-wrap:anywhere}@media(max-width:600px){.role-row{grid-template-columns:1fr}}.error{color:#9a1e1e}.ok{color:#17654a}@media(max-width:600px){main{padding-top:20px}fieldset{padding:15px}}
+    #result{border:1px solid #ccd4cd;border-radius:14px;background:white;margin:20px 0;padding:22px}#result h2{margin:0 0 6px}#result h3{margin:22px 0 8px;font-size:1.05rem}#resultTitle:focus-visible{outline:3px solid #287c60;outline-offset:4px}#resultState{color:#21302b;font-weight:600;margin:0}#resultState.ok{color:#125c41}#resultState.hold{color:#8a4b00}#resultState.error{color:#a12a2a}#resultTimer{font-size:.9rem;margin:4px 0 0;font-variant-numeric:tabular-nums}#resultFigure{margin:18px 0 0}#resultImage{display:block;max-width:100%;height:auto;border:1px solid #ccd4cd;border-radius:10px;background:#e9eee9}#resultFigure figcaption{font-size:.9rem;color:#52625b;margin-top:8px}#resultFigure a{color:#17654a}.table-scroll{overflow-x:auto}#result table{border-collapse:collapse;width:100%;min-width:520px;font-size:.93rem}#result th,#result td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid #dfe5df}#result th{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:#52625b}.pill{display:inline-block;padding:1px 9px;border-radius:999px;font-size:.82rem;font-weight:600;background:#e9eee9;color:#21302b}.pill.pass{background:#dff0e6;color:#125c41}.pill.fail{background:#f8e0e0;color:#8f2222}.pill.partial,.pill.unknown{background:#fbeccf;color:#7a4500}
+  </style>
+</head>
+<body>
+<main>
+  <h1>Create a studio job</h1>
+  <p>Choose the same setup options as the studio. Review the exact payload before sending it.</p>
+  <form id="jobForm">
+    <fieldset><legend>01 · The Job</legend>
+      <div class="grid"><div><label for="job">Job</label><select id="job" required><option value="new_project">New Project</option><option value="edit">Edit</option><option value="single_item">Single item</option></select></div><div><label for="workOn">Work on</label><select id="workOn"><option value="one_by_one">One by one (same department)</option><option value="batch">Batch</option></select></div></div>
+    </fieldset>
+    <fieldset><legend>02 · The Item</legend>
+      <div class="grid"><div><label for="department">Department</label><input id="department" list="departments" placeholder="Automatic from references"><datalist id="departments"><option value="Home Furniture"><option value="Office Furniture"><option value="Accessories"><option value="Outdoor Furniture"></datalist></div><div><label for="category">Category</label><input id="category" placeholder="Automatic from references"></div><div><label for="subCategory">Sub-category</label><input id="subCategory" placeholder="Automatic from references"></div><div><label for="referenceType">Reference type</label><select id="referenceType"><option>Product / vendor reference</option><option>Room / target space</option><option>Inspiration / look</option><option>Previous result</option><option>Other views / pieces</option><option>Specifications / Excel</option></select></div></div>
+      <label for="files">Reference files</label><input id="files" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,.xls,.xlsx,.csv"><p class="hint">JPG, PNG, WebP, PDF, XLS/XLSX or CSV; 25 MB per file.</p><div id="fileRoles" class="roles" aria-live="polite"></div><p class="hint">Say what each file is. The workflow uses one product photo and, if you add one, one look image. Other files are listed on the run card as not used.</p>
+    </fieldset>
+    <fieldset><legend>03 · Scope</legend>
+      <label>Outcomes</label><div class="choices" id="outcomes"><label><input type="checkbox" value="White BK">White BK</label><label><input type="checkbox" value="Lifestyle" checked>Lifestyle</label><label><input type="checkbox" value="Website">Website</label><label><input type="checkbox" value="New Composition">New Composition</label><label><input type="checkbox" value="Variations">Variations</label><label><input type="checkbox" value="Create with this item">Create with this item</label><label><input type="checkbox" value="Others">Others</label></div>
+      <div class="grid"><div><label for="view">Views</label><select id="view"><option>Category template</option><option>Wide view</option><option>Close-up</option><option>Wide view + close-up</option></select></div><div><label for="aspect">Image proportions</label><select id="aspect"><option>Standard for category</option><option>Square 1:1</option><option>Portrait 4:5</option><option>Landscape 16:9</option></select></div><div><label for="resolution">Resolution</label><select id="resolution"><option>Standard for category</option><option>2K</option><option>4K</option></select></div><div><label for="imageSize">Image size</label><input id="imageSize" placeholder="Optional exact size, e.g. 2048x2560"></div></div>
+    </fieldset>
+    <fieldset><legend>04 · Preferences</legend>
+      <div class="grid"><div><label for="lighting">Lighting</label><select id="lighting"><option value="">Workflow default</option><option>Soft daylight</option><option>Golden afternoon</option><option>Warm evening</option></select></div><div><label for="wallPaint">Wall paint</label><select id="wallPaint"><option value="">Workflow default</option><option>White</option><option>Ivory</option><option>Sand</option><option>Greige</option><option>Taupe</option><option>Sage</option><option>Charcoal</option><option>Terracotta</option></select></div><div><label for="floor">Floor</label><select id="floor"><option value="">Workflow default</option><option>Light oak</option><option>Dark walnut</option><option>Limestone</option><option>Marble</option></select></div></div>
+      <div class="choices"><label><input id="useWorkflowDefaults" type="checkbox">Use workflow defaults</label></div>
+    </fieldset>
+    <fieldset><legend>05 · Suggestions</legend>
+      <div class="choices"><label><input id="plants" type="checkbox" checked>Plants</label><label><input id="human" type="checkbox">Human</label></div><label for="mood">Mood / Vibes</label><select id="mood"><option>Automatic</option><option>Calm &amp; natural</option><option>Warm &amp; inviting</option><option>Refined &amp; elegant</option><option>Bold &amp; expressive</option></select>
+    </fieldset>
+    <fieldset><legend>Workflow metadata</legend><p class="hint">Optional details used by 03 Contract, 06 Render ticket and the reviewer. Blank values stay blank; they are not inferred from images.</p>
+      <div class="grid"><div><label for="color">Product color</label><input id="color"></div><div><label for="material">Product material</label><input id="material"></div><div><label for="hero">Hero item / focus</label><input id="hero"></div></div>
+      <label for="locks">Locks</label><textarea id="locks" rows="2" placeholder="One constraint per line"></textarea><label for="mustNot">Must not</label><textarea id="mustNot" rows="2" placeholder="One exclusion per line"></textarea>
+    </fieldset>
+    <fieldset><legend>Submit</legend><label for="endpoint">POST endpoint</label><input id="endpoint" type="url" required value="https://ibrahimnewaeon.app.n8n.cloud/webhook/claude-midas-job" placeholder="https://your-server.example/jobs" autocomplete="url"><p class="hint">Uses multipart/form-data: one JSON field named <code>payload</code>, plus repeated <code>files</code> parts. This is the live address of the n8n workflow "Claude · Midas job request pipeline". Every submission starts a paid run straight away. After sending, this page asks the workflow for the result at the same address with <code>-status</code> added, and shows it below. For a trial run, replace <code>webhook</code> with <code>webhook-test</code> and press Execute workflow in n8n first; the test address cannot report results here.</p><button id="submit" type="submit">Review choices and submit</button><output id="status" role="status" aria-live="polite"></output></fieldset>
+  </form>
+  <section id="result" hidden aria-labelledby="resultTitle">
+    <h2 id="resultTitle" tabindex="-1">Result</h2>
+    <p id="resultState" role="status"></p>
+    <p id="resultTimer" class="hint" aria-hidden="true"></p>
+    <figure id="resultFigure" hidden><img id="resultImage" alt=""><figcaption><span id="resultCaption"></span> <a id="resultLink" target="_blank" rel="noopener">Open the full-size image in a new tab</a></figcaption></figure>
+    <div id="resultChecksWrap" hidden><h3>Automatic checks</h3><div class="table-scroll"><table><thead><tr><th scope="col">Check</th><th scope="col">Result</th><th scope="col">What the reviewer saw</th></tr></thead><tbody id="resultChecks"></tbody></table></div></div>
+    <div id="resultCardWrap" hidden><h3>Run card</h3><p class="hint">The first 1,500 characters. The full card is in n8n, in the step "12 Run card".</p><pre id="resultCard"></pre></div>
+  </section>
+  <h2>Payload preview</h2><pre id="preview" aria-live="polite"></pre>
+</main>
+<script>
+(() => {
+  'use strict';
+  const form = document.querySelector('#jobForm');
+  const field = id => document.getElementById(id);
+  const value = id => field(id).value.trim();
+  const lines = id => value(id).split(/\r?\n/).map(x => x.trim()).filter(Boolean);
+  let runId = crypto.randomUUID();
+  const selected = () => [...document.querySelectorAll('#outcomes input:checked')].map(x => x.value);
+  const roleOptions = [...field('referenceType').options].map(option => option.value);
+  const references = () => [...field('files').files].map((file, index) => {
+    const select = field('role' + index);
+    return { name: file.name, role: select ? select.value : value('referenceType') };
+  });
+  const renderRoles = () => {
+    const box = field('fileRoles');
+    box.textContent = '';
+    [...field('files').files].forEach((file, index) => {
+      const row = document.createElement('div');
+      row.className = 'role-row';
+      const label = document.createElement('label');
+      label.htmlFor = 'role' + index;
+      label.textContent = file.name;
+      const select = document.createElement('select');
+      select.id = 'role' + index;
+      roleOptions.forEach(text => { const option = document.createElement('option'); option.textContent = text; select.appendChild(option); });
+      select.value = value('referenceType');
+      select.addEventListener('change', () => { select.dataset.touched = 'yes'; });
+      row.append(label, select);
+      box.appendChild(row);
+    });
+  };
+  const payload = () => {
+    const outcomes = selected();
+    const outcome = outcomes[0] || '';
+    const category = value('category') || value('department');
+    const view = value('view');
+    const lighting = value('lighting');
+    const aspect = value('aspect');
+    const resolution = value('resolution');
+    return {
+      job: outcome.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, ''),
+      jobMode: value('job'),
+      workOn: value('workOn'),
+      scope: { outcome, outcomes, view, aspect, resolution },
+      item: { department: value('department'), category: value('category'), subCategory: value('subCategory'), referenceType: value('referenceType') },
+      preferences: { lighting, wallPaint: value('wallPaint'), floor: value('floor'), useWorkflowDefaults: field('useWorkflowDefaults').checked },
+      styling: { plants: field('plants').checked, human: field('human').checked, mood: value('mood') },
+      metadata: {
+        product_category: category, color: value('color'), material: value('material'),
+        scene: outcome, light: lighting, camera: view, hero: value('hero'),
+        locks: lines('locks'), must_not: lines('mustNot'),
+        delivery: { image_size: value('imageSize'), aspect, resolution }
+      },
+      references: references(),
+      clientRunId: runId
+    };
+  };
+  const preview = () => { field('preview').textContent = JSON.stringify(payload(), null, 2); };
+  const POLL_EVERY_MS = 5000;
+  const POLL_LIMIT_MS = 8 * 60 * 1000;
+  let watchToken = 0;
+  const statusAddress = (destination, id) => {
+    const address = new URL(destination);
+    address.pathname = address.pathname.replace(/\/+$/, '') + '-status';
+    address.search = '';
+    address.searchParams.set('id', id);
+    return address;
+  };
+  const safeImageAddress = text => {
+    try {
+      const address = new URL(String(text || ''));
+      const local = ['localhost', '127.0.0.1'].includes(address.hostname);
+      return address.protocol === 'https:' || (address.protocol === 'http:' && local) ? address.href : '';
+    } catch (error) { return ''; }
+  };
+  const resetResult = () => {
+    field('result').hidden = false;
+    field('resultState').className = '';
+    field('resultState').textContent = '';
+    field('resultTimer').textContent = '';
+    ['resultFigure', 'resultChecksWrap', 'resultCardWrap'].forEach(id => { field(id).hidden = true; });
+    field('resultImage').removeAttribute('src');
+    field('resultChecks').textContent = '';
+    field('resultCard').textContent = '';
+  };
+  const setState = (kind, text) => { field('resultState').className = kind; field('resultState').textContent = text; };
+  const showResult = (result, fileName) => {
+    const passed = result.status === 'reviewed_candidate';
+    const summary = String(result.summary || '');
+    const secondLine = summary.split('\n')[1] || '';
+    setState(passed ? 'ok' : 'hold', passed
+      ? 'Reviewed candidate. It passed the automatic checks. It is not approved until the owner approves it.'
+      : (secondLine || 'On hold. Needs a person.'));
+    field('resultTimer').textContent = `Run ${result.run_id || ''} · images made: ${Number(result.images_made) || 0}`;
+    const image = safeImageAddress(result.image_url);
+    if (image) {
+      const picture = field('resultImage');
+      picture.alt = passed ? `Generated image for ${fileName}` : `Last image made for ${fileName}. It did not pass the checks.`;
+      picture.onerror = () => { field('resultCaption').textContent = 'The image link did not load. It may have expired; the image is still in n8n.'; };
+      picture.src = image;
+      field('resultCaption').textContent = passed ? '' : 'This is the last image made. It did not pass the checks.';
+      field('resultLink').href = image;
+      field('resultFigure').hidden = false;
+    } else if (Number(result.images_made) > 0) {
+      field('resultTimer').textContent += ' · no image link was saved; open the step "12 Run card" in n8n to see the image';
+    }
+    const checks = Array.isArray(result.checks) ? result.checks : [];
+    checks.forEach(entry => {
+      const [name, outcome, evidence] = Array.isArray(entry) ? entry : [];
+      const row = document.createElement('tr');
+      const nameCell = document.createElement('td');
+      nameCell.textContent = String(name || '').replace(/_/g, ' ');
+      const outcomeCell = document.createElement('td');
+      const pill = document.createElement('span');
+      const word = String(outcome || 'unknown').toLowerCase();
+      pill.className = 'pill ' + (['pass', 'fail', 'partial', 'unknown'].includes(word) ? word : 'unknown');
+      pill.textContent = word;
+      outcomeCell.appendChild(pill);
+      const evidenceCell = document.createElement('td');
+      evidenceCell.textContent = String(evidence || '');
+      row.append(nameCell, outcomeCell, evidenceCell);
+      field('resultChecks').appendChild(row);
+    });
+    field('resultChecksWrap').hidden = checks.length === 0;
+    field('resultCard').textContent = summary;
+    field('resultCardWrap').hidden = summary === '';
+    field('resultTitle').focus();
+  };
+  const watch = (destination, id, fileName) => {
+    const token = ++watchToken;
+    const started = Date.now();
+    let failures = 0;
+    resetResult();
+    setState('', 'Job sent. Waiting for the workflow to finish.');
+    field('result').scrollIntoView({ block: 'nearest' });
+    const tick = async () => {
+      if (token !== watchToken) return;
+      const elapsed = Date.now() - started;
+      try {
+        const response = await fetch(statusAddress(destination, id), { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const result = await response.json();
+        failures = 0;
+        if (token !== watchToken) return;
+        if (result && result.found) { showResult(result, fileName); return; }
+      } catch (error) { failures += 1; }
+      if (failures >= 3) {
+        setState('error', 'The job was sent, but this page could not reach the result address. The published workflow may not include it yet. In n8n, open the step "12 Run card" to see the result.');
+        field('resultTimer').textContent = '';
+        return;
+      }
+      if (elapsed > POLL_LIMIT_MS) {
+        setState('error', 'No result after 8 minutes. The run may have stopped with an error. Check the executions list in n8n.');
+        field('resultTimer').textContent = '';
+        return;
+      }
+      field('resultTimer').textContent = `Waiting ${Math.round(elapsed / 1000)} s. Recent runs took about a minute for one image; each repair adds about as long again.`;
+      setTimeout(tick, POLL_EVERY_MS);
+    };
+    setTimeout(tick, POLL_EVERY_MS);
+  };
+  field('files').addEventListener('change', renderRoles);
+  field('referenceType').addEventListener('change', () => {
+    document.querySelectorAll('#fileRoles select').forEach(select => { if (!select.dataset.touched) select.value = value('referenceType'); });
+  });
+  form.addEventListener('input', preview);
+  form.addEventListener('change', preview);
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    const status = field('status');
+    const outcomes = selected();
+    if (!outcomes.length) { status.className = 'error'; status.textContent = 'Select at least one outcome.'; return; }
+    const files = [...field('files').files];
+    if (!references().some(reference => reference.role === 'Product / vendor reference')) { status.className = 'error'; status.textContent = 'No file is marked Product / vendor reference. The workflow needs one product photo: add it, or change the type next to the file name.'; return; }
+    if (files.some(file => file.size > 25 * 1024 * 1024)) { status.className = 'error'; status.textContent = 'Each file must be 25 MB or smaller.'; return; }
+    const destination = new URL(value('endpoint'));
+    if (!['https:', 'http:'].includes(destination.protocol)) { status.className = 'error'; status.textContent = 'Use an HTTP or HTTPS endpoint.'; return; }
+    const sentId = runId;
+    const productFile = (references().find(reference => reference.role === 'Product / vendor reference') || {}).name || 'the product';
+    const data = new FormData();
+    data.append('payload', JSON.stringify(payload()));
+    files.forEach(file => data.append('files', file, file.name));
+    field('submit').disabled = true;
+    status.className = '';
+    status.textContent = 'Submitting…';
+    try {
+      const response = await fetch(destination, { method: 'POST', body: data });
+      if (!response.ok) throw new Error(`Server returned HTTP ${response.status}.`);
+      runId = crypto.randomUUID();
+      preview();
+      if (destination.pathname.includes('/webhook-test/')) {
+        watchToken += 1;
+        field('result').hidden = true;
+        status.className = 'ok'; status.textContent = 'Job sent to n8n on the test address. The test address cannot report results to this page. In n8n, open the step "12 Run card" to see the image, or the reason the job was put on hold.';
+      } else {
+        status.className = 'ok'; status.textContent = 'Job sent to n8n. The result will appear below when the run finishes.';
+        watch(destination, sentId, productFile);
+      }
+    } catch (error) {
+      status.className = 'error';
+      const testAddress = destination.pathname.includes('/webhook-test/');
+      status.textContent = error.message === 'Failed to fetch' && testAddress
+        ? 'The workflow is not listening. In n8n, open "Claude · Midas job request pipeline", press Execute workflow, then submit again. The test address accepts one job each time you press it.'
+        : `Submission failed: ${error.message} Check the endpoint and its CORS settings.`;
+    } finally { field('submit').disabled = false; }
+  });
+  preview();
+})();
+</script>
+</body>
+</html>

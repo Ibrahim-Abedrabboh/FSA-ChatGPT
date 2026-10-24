@@ -1,0 +1,48 @@
+%% Description: A7 full workflow (Architecture A, surgical replacement). Design, 14 Oct 2026; not built in n8n.
+%% Shows all 21 steps grouped into the 6 stages, in the order code runs them.
+%% Red hexagons are holds and reconciliation; gold rounded boxes are the owner's decisions (Go 1, Go 2, final decision).
+%% Return arrows show the loops: a critical unknown returns to step 1 as brief v+1; a failed plan re-plans (max 2);
+%% a defect goes back to step 13 for a repair (max 2), then holds; a missing receipt is reconciled by request id.
+%% Step 19 (Vault) records every step; step 18 (benchmark) runs offline and updates the model registry.
+%% ----
+flowchart TD
+  IN(["Client request + files"]) --> s1
+  subgraph S1["01 · Intake & observe"]
+    s1["1 Intent & scope"] --> s2["2 Ingest files"] --> s3["3 Recognize pieces"] --> s4["4 Read signs"] --> s5["5 Unknowns + 2nd source count"] --> s6["6 Scene, sides, room"]
+  end
+  s5 -- "critical unknown" --> H1{{"Hold: ask the client one question"}}
+  H1 -- "answer = brief v+1" --> s1
+  subgraph S2["02 · Compile scope"]
+    s7["7 Route"] --> s8["8 Locks & freedoms"] --> s9["9 Contract vN + conflicts"]
+  end
+  s6 --> s7
+  s9 -- "critical conflict" --> H1
+  subgraph S3["03 · Retrieve & style"]
+    s10["10 Midas SKUs"] --> s11["11 Plan + plan check"] --> s12["12 Who leads the scene"]
+  end
+  s9 --> s10
+  s11 -- "plan fails, max 2" --> s11
+  s12 --> G1(["Owner go 1"])
+  subgraph S4["04 · Compile & dispatch"]
+    s13["13 Compile request"] --> s14["14 Model registry"] --> s15["15 Paid call, receipt, copy"]
+  end
+  G1 --> s13
+  s15 -- "no receipt" --> R1{{"Reconcile same request id"}}
+  R1 -- "receipt found" --> s16
+  subgraph S5["05 · Critique & correct"]
+    s16["16 Review + 2 blind counts + audit"] --> s17["17 Repair one defect"]
+  end
+  s15 --> s16
+  s17 -- "repair ≤ 2" --> s13
+  s17 -- "2 used" --> H2{{"Hold output with reason"}}
+  s16 -- "white master passes" --> G2(["Owner go 2"]) --> s13
+  subgraph S6["06 · Package & release"]
+    s20["20 Manifest + description"] --> OD(["Owner decision"]) --> s21["21 Cost per accepted package"]
+  end
+  s16 -- "all outputs pass" --> s20
+  V[("19 Vault: every step writes here")]
+  B["18 Benchmark (offline)"] -. "updates registry" .-> s14
+  classDef hold fill:#FFF1F1,stroke:#B22020,color:#121111
+  classDef owner fill:#FFF8E6,stroke:#C9962A,color:#121111
+  class H1,H2,R1 hold
+  class G1,G2,OD owner

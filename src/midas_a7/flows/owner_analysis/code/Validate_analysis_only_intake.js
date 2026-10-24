@@ -1,0 +1,7 @@
+const item=$input.first();let p=item.json.body?.payload;try{if(typeof p==='string')p=JSON.parse(p)}catch{p=null}
+const b=item.binary||{},keys=Object.keys(b);
+const sha=v=>typeof v==='string'&&/^[a-f0-9]{64}$/.test(v);
+const uuid=v=>typeof v==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(v);
+if(!p||p.purpose!=='source_analysis_only'||!uuid(p.draftId)||p.clientRunId!=='owner-'+p.draftId||p.runId!=='claude-a7-'+p.draftId||!uuid(p.requestId)||!sha(p.sourceSha256)||!sha(p.referenceFingerprint)||!sha(p.quoteFingerprint)||!sha(p.intentFingerprint)||!Number.isFinite(p.maxCostUsd)||p.maxCostUsd<.25||p.maxCostUsd>5||!Number.isFinite(p.budgetLimitUsd)||p.budgetLimitUsd<p.maxCostUsd||p.budgetLimitUsd>10||keys.length<1||keys.length>12)throw Error('invalid_analysis_intake');
+let size=0;for(const key of keys){const f=b[key],name=f.fileName||'',mime=f.mimeType||'';if(!/^(product|room|other_view|look)-[a-f0-9-]{36}$/.test(name)||!['image/png','image/jpeg','image/webp'].includes(mime))throw Error('invalid_analysis_file');const bytes=await this.helpers.getBinaryDataBuffer(0,key);size+=bytes.length;if(!bytes.length||bytes.length>3145728||size>37748736)throw Error('invalid_analysis_file');}
+return [{json:{payload:JSON.stringify(p),uploadFields:keys},binary:b}];

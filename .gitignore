@@ -1,0 +1,13 @@
+node_modules/
+.DS_Store
+*.log
+__pycache__/
+*.pyc
+.netlify/
+*.db
+*.egg-info/
+.venv/
+# Local secrets (A7 service settings): never committed
+.env
+.env.*
+!.env.example

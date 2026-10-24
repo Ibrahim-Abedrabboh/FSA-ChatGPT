@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0D1B2A">
+  <!-- Owner studio (Claude-final-midas-a7): Draft 3, connected to this site only. connect-src is 'self': the page can reach only
+       this site's own /api/owner/* endpoints, which check the owner session on the server. No other host is asked for anything.
+       Fonts are hosted with the page (fonts/, SIL OFL 1.1). ?mock=1 opens draft 3's mock mode, where nothing is sent. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; form-action 'none'; base-uri 'none'">
+  <title>Midas Virtual Studio</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="taxonomy.js" defer></script>
+  <script src="owner-link.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Every visible string is filled in by app.js from STRINGS (data-t attributes), so the page can be translated.
+       Structure (draft 3): a closed screen (sign-in), then a three-leaf folding screen:
+       I The piece, II The setting, III The plan (which becomes the result). -->
+  <noscript><p class="noscript">Midas Virtual Studio needs JavaScript to run. Turn it on in your browser and reload this page.</p></noscript>
+  <a class="skip" href="#main" data-t="a11y.skip"></a>
+
+  <header class="rail" id="rail">
+    <a class="rail__brand" href="#main" data-t-aria-label="rail.brandLabel">
+      <span class="rail__mark" data-t="brand.mark"></span>
+      <span class="rail__sub" data-t="brand.sub"></span>
+    </a>
+    <div class="rail__end">
+      <button class="rail__btn" type="button" id="open-notes" aria-haspopup="dialog" data-t="rail.notes"></button>
+      <span class="rail__user" data-auth="in"><span class="rail__name" data-bind="clientName"></span><span class="rail__usage" data-bind="usage"></span></span>
+      <a class="rail__btn" href="/owner/desk/" id="open-desk" data-auth="in" data-t="rail.desk" hidden></a>
+      <button class="rail__btn" type="button" data-auth="in" data-action="new" data-t="rail.new"></button>
+      <button class="rail__btn rail__btn--quiet" type="button" data-auth="in" data-action="signout" data-t="auth.signOut"></button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <h1 class="sr-only" id="page-title" tabindex="-1" data-t="ws.title"></h1>
+
+    <!-- ===================== The closed screen: sign-in ===================== -->
+    <section class="threshold" id="view-signin" aria-labelledby="signin-title">
+      <div class="threshold__leaves" aria-hidden="true">
+        <span class="threshold__leaf"></span><span class="threshold__leaf"></span><span class="threshold__leaf"></span>
+      </div>
+      <div class="threshold__plate">
+        <p class="threshold__kicker" data-t="signin.kicker"></p>
+        <h2 class="threshold__title" id="signin-title" tabindex="-1" data-t="signin.title"></h2>
+        <p class="threshold__lead" data-t="signin.lead"></p>
+        <form class="threshold__form" id="signin-form" novalidate>
+          <p class="notice" id="signin-notice" hidden></p>
+          <div class="field field--light" id="signin-code-field">
+            <label for="access-code" data-t="signin.label"></label>
+            <input id="access-code" name="access_code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="signin-error signin-hint">
+            <p class="field__error" id="signin-error" hidden></p>
+          </div>
+          <label class="check" id="signin-show-field"><input type="checkbox" id="show-code"><span data-t="signin.show"></span></label>
+          <button class="btn btn--gold" type="button" id="signin-submit" data-t="signin.submit"></button>
+          <p class="hint" id="signin-hint" data-t="signin.hint"></p>
+        </form>
+        <button class="btn btn--gold" type="button" id="mock-open" hidden data-t="signin.openMock"></button>
+      </div>
+    </section>
+
+    <!-- ===================== The open screen: three leaves ===================== -->
+    <div class="screen" id="view-app" hidden>
+      <form class="screen__form" id="brief-form" novalidate aria-labelledby="page-title">
+
+        <!-- Leaf I: the piece -->
+        <section class="leaf" id="leaf-piece" aria-labelledby="leaf-piece-title">
+          <h2 class="leaf__head">
+            <button class="leaf__fold" type="button" id="fold-piece" aria-expanded="true" aria-controls="leaf-piece-body">
+              <span class="leaf__num" aria-hidden="true">I</span>
+              <span class="leaf__title" id="leaf-piece-title" data-t="leaf.piece"></span>
+              <span class="leaf__sum" id="sum-piece"></span>
+              <span class="leaf__chev" aria-hidden="true"></span>
+            </button>
+          </h2>
+          <div class="leaf__body" id="leaf-piece-body">
+
+            <div class="group" id="card-photo" role="group" aria-labelledby="h-photo">
+              <div class="group__head"><h3 class="group__title" id="h-photo" data-t="ws.sections.photo"></h3><span class="group__value" id="val-photo"></span></div>
+              <div class="tray">
+                <div class="slot slot--main">
+                  <div class="drop" id="drop">
+                    <input class="drop__input" id="photo" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" aria-labelledby="h-photo" aria-describedby="photo-help photo-error">
+                    <label class="drop__label" for="photo">
+                      <span class="drop__mark" aria-hidden="true"></span>
+                      <strong data-t="item.dropTitle"></strong>
+                      <span data-t="item.dropHint"></span>
+                    </label>
+                  </div>
+                  <div class="photo" id="photo-preview" hidden>
+                    <img class="photo__thumb" id="photo-thumb" alt="">
+                    <div class="photo__meta">
+                      <strong class="photo__name" id="photo-name"></strong>
+                      <span class="photo__size" id="photo-size"></span>
+                      <span class="photo__actions">
+                        <button class="btn btn--text" type="button" id="photo-replace" data-t="item.replace"></button>
+                        <button class="btn btn--text" type="button" id="photo-remove" data-t="item.remove"></button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <!-- F4 not chosen (17 Oct 2026): room photo and photos of other sides stay "Coming later". Shown, no input, never sent. -->
+                <ul class="slots-later" id="refs-later" role="list">
+                  <li class="slot slot--later" id="later-room"><strong data-t="refs.room"></strong><small data-t="refs.roomNote"></small><span class="tag tag--later" data-t="labels.later"></span></li>
+                  <li class="slot slot--later" id="later-sides"><strong data-t="refs.sides"></strong><small data-t="refs.sidesNote"></small><span class="tag tag--later" data-t="labels.later"></span></li>
+                </ul>
+              </div>
+              <p class="hint" id="photo-help" data-t="item.photoHelp"></p>
+              <p class="field__error" id="photo-error" hidden></p>
+            </div>
+
+            <div class="group" role="group" aria-labelledby="h-item">
+              <div class="group__head"><h3 class="group__title" id="h-item" data-t="ws.sections.item"></h3><span class="group__value" id="val-item"></span></div>
+              <div class="field"><label for="department" data-t="item.department"></label><select id="department"></select></div>
+              <div class="field"><label for="category" data-t="item.category"></label><select id="category" disabled></select></div>
+              <div class="field"><label for="sub-category" data-t="item.subCategory"></label><select id="sub-category" disabled></select></div>
+              <p class="hint" data-t="item.taxonomyNote"></p>
+              <div class="pair">
+                <div class="field"><label for="sku" data-t="item.sku"></label><input id="sku" type="text" autocomplete="off" maxlength="40" aria-describedby="sku-hint" dir="ltr"><p class="hint" id="sku-hint" data-t="item.skuHint"></p></div>
+                <div class="field"><label for="dimensions" data-t="item.dimensions"></label><input id="dimensions" type="text" autocomplete="off" maxlength="120" aria-describedby="dimensions-hint"><p class="hint" id="dimensions-hint" data-t="item.dimensionsHint"></p></div>
+              </div>
+            </div>
+
+            <div class="group" role="group" aria-labelledby="h-pieces" aria-describedby="pieces-hint">
+              <div class="group__head"><h3 class="group__title" id="h-pieces" data-t="ws.sections.pieces"></h3><span class="group__value" id="val-pieces"></span></div>
+              <p class="hint" id="pieces-hint" data-t="pieces.hint"></p>
+              <ol class="pieces" id="pieces-list"></ol>
+              <button class="btn btn--line btn--sm" type="button" id="pieces-add" data-t="pieces.add"></button>
+              <p class="field__error" id="pieces-error" hidden></p>
+            </div>
+
+            <div class="group" role="group" aria-labelledby="h-faithful">
+              <div class="group__head"><h3 class="group__title" id="h-faithful" data-t="ws.sections.faithful"></h3><span class="group__value" id="val-faithful"></span></div>
+              <p class="hint" data-t="sug.faithfulNote"></p>
+              <div class="pair">
+                <div class="field"><label for="color" data-t="sug.color"></label><input id="color" type="text" autocomplete="off" maxlength="60"></div>
+                <div class="field"><label for="material" data-t="sug.material"></label><input id="material" type="text" autocomplete="off" maxlength="80"></div>
+              </div>
+              <div class="field"><label for="locks" data-t="sug.locks"></label><textarea id="locks" rows="3" aria-describedby="locks-hint" maxlength="600"></textarea><p class="hint" id="locks-hint" data-t="sug.locksHint"></p></div>
+              <div class="field"><label for="must-not" data-t="sug.mustNot"></label><textarea id="must-not" rows="3" aria-describedby="must-not-hint" maxlength="1200"></textarea><p class="hint" id="must-not-hint" data-t="sug.mustNotHint"></p></div>
+              <div class="field"><label for="about" data-t="item.about"></label><textarea id="about" rows="3" aria-describedby="about-hint" maxlength="1200"></textarea><p class="hint" id="about-hint" data-t="item.aboutHint"></p></div>
+              <!-- A7's 01 lists metadata.hero as "not used": shown as Coming later, never sent (P5.2). -->
+              <ul class="later" role="list"><li class="later__item" id="later-hero"><span class="later__text"><strong data-t="sug.hero"></strong><small data-t="sug.heroNote"></small></span><span class="tag tag--later" data-t="labels.later"></span></li></ul>
+            </div>
+          </div>
+        </section>
+
+        <span class="seam" aria-hidden="true"><i></i><i></i><i></i></span>
+
+        <!-- Leaf II: the setting -->
+        <section class="leaf" id="leaf-setting" aria-labelledby="leaf-setting-title">
+          <h2 class="leaf__head">
+            <button class="leaf__fold" type="button" id="fold-setting" aria-expanded="true" aria-controls="leaf-setting-body">
+              <span class="leaf__num" aria-hidden="true">II</span>
+              <span class="leaf__title" id="leaf-setting-title" data-t="leaf.setting"></span>
+              <span class="leaf__sum" id="sum-setting"></span>
+              <span class="leaf__chev" aria-hidden="true"></span>
+            </button>
+          </h2>
+          <div class="leaf__body" id="leaf-setting-body">
+
+            <div class="group" role="radiogroup" aria-labelledby="h-outcome">
+              <div class="group__head"><h3 class="group__title" id="h-outcome" data-t="ws.sections.outcome"></h3><span class="group__value" id="val-outcome"></span></div>
+              <div class="outcomes" id="outcome-tabs"></div>
+              <p class="hint" id="outcome-desc"></p>
+              <p class="hint" data-t="ws.laterOutcomesNote"></p>
+            </div>
+
+            <div class="group" id="card-view" role="radiogroup" aria-labelledby="h-view">
+              <div class="group__head"><h3 class="group__title" id="h-view" data-t="ws.sections.view"></h3><span class="group__value" id="val-view"></span></div>
+              <div class="chips" id="view-choices"></div>
+              <p class="hint" id="view-note" data-t="scope.viewWhiteNote" hidden></p>
+            </div>
+            <p class="group group--note" id="website-note" data-t="scope.websiteNote" hidden></p>
+
+            <div class="group" id="card-series" role="radiogroup" aria-labelledby="h-series" aria-describedby="series-desc series-later-note">
+              <div class="group__head"><h3 class="group__title" id="h-series" data-t="ws.sections.series"></h3><span class="group__value" id="val-series"></span></div>
+              <div class="chips" id="series-choices"></div>
+              <p class="hint" id="series-desc"></p>
+              <p class="hint" id="series-later-note" data-t="scope.seriesLaterNote"></p>
+              <p class="hint" id="series-note-white" data-t="scope.cameraWhiteNote" hidden></p>
+            </div>
+
+            <div class="group" id="card-camera" role="radiogroup" aria-labelledby="h-camera" aria-describedby="camera-later-note">
+              <div class="group__head"><h3 class="group__title" id="h-camera" data-t="ws.sections.camera"></h3><span class="group__value" id="val-camera"></span></div>
+              <div class="chips" id="camera-choices"></div>
+              <p class="hint" id="camera-later-note" data-t="scope.cameraLaterNote"></p>
+              <p class="hint" id="camera-note-white" data-t="scope.cameraWhiteNote" hidden></p>
+            </div>
+
+            <div class="pair pair--groups">
+              <div class="group" id="card-aspect" role="group" aria-labelledby="h-aspect">
+                <div class="group__head"><h3 class="group__title" id="h-aspect" data-t="ws.sections.aspect"></h3></div>
+                <div class="field"><label for="aspect" class="sr-only" data-t="ws.aspectLabel"></label><select id="aspect"></select></div>
+                <p class="hint" id="val-aspect"></p>
+              </div>
+              <div class="group" role="radiogroup" aria-labelledby="h-resolution">
+                <div class="group__head"><h3 class="group__title" id="h-resolution" data-t="ws.sections.resolution"></h3></div>
+                <div class="chips chips--tight" id="resolution-choices"></div>
+                <p class="hint" id="val-resolution"></p>
+              </div>
+            </div>
+
+            <div class="group" id="card-atmosphere" role="group" aria-labelledby="h-atmosphere">
+              <div class="group__head"><h3 class="group__title" id="h-atmosphere" data-t="ws.sections.atmosphere"></h3><span class="group__value" id="val-atmosphere"></span></div>
+              <label class="switch"><input type="checkbox" id="studio-choice" role="switch"><span class="switch__track" aria-hidden="true"></span><span class="switch__text"><strong data-t="prefs.studioChoice"></strong><small data-t="prefs.studioChoiceNote"></small></span></label>
+            </div>
+
+            <div class="group" id="card-lighting" role="radiogroup" aria-labelledby="h-lighting">
+              <div class="group__head"><h3 class="group__title" id="h-lighting" data-t="ws.sections.lighting"></h3><span class="group__value" id="val-lighting"></span></div>
+              <div class="chips" id="lighting-choices"></div>
+            </div>
+
+            <div class="group" id="card-wall" role="radiogroup" aria-labelledby="h-wall">
+              <div class="group__head"><h3 class="group__title" id="h-wall" data-t="ws.sections.wall"></h3><span class="group__value" id="val-wall"></span></div>
+              <div class="chips chips--swatches" id="wall-choices"></div>
+            </div>
+
+            <div class="group" id="card-floor" role="radiogroup" aria-labelledby="h-floor">
+              <div class="group__head"><h3 class="group__title" id="h-floor" data-t="ws.sections.floor"></h3><span class="group__value" id="val-floor"></span></div>
+              <div class="chips chips--swatches" id="floor-choices"></div>
+            </div>
+            <p class="group group--note" id="white-note" data-t="prefs.whiteNote" hidden></p>
+
+            <div class="group" role="group" aria-labelledby="h-touches">
+              <div class="group__head"><h3 class="group__title" id="h-touches" data-t="ws.sections.touches"></h3><span class="group__value" id="val-touches"></span></div>
+              <div id="touches-fields">
+                <label class="switch"><input type="checkbox" id="human" role="switch" aria-describedby="human-note human-web-note"><span class="switch__track" aria-hidden="true"></span><span class="switch__text"><strong data-t="sug.human"></strong><small id="human-note" data-t="sug.humanNote"></small></span></label>
+                <p class="hint" id="human-web-note" data-t="sug.humanWebNote" hidden></p>
+                <!-- Coming later (owner, 16 Oct 2026): shown, not interactive, never read and never sent. -->
+                <ul class="later" id="touches-later" role="list">
+                  <li class="later__item" id="later-plants"><span class="later__text"><strong data-t="sug.plants"></strong><small data-t="sug.plantsNote"></small></span><span class="tag tag--later" data-t="labels.later"></span></li>
+                  <li class="later__item" id="later-mood"><span class="later__text"><strong data-t="sug.mood"></strong><small data-t="sug.moodNote"></small></span><span class="tag tag--later" data-t="labels.later"></span></li>
+                  <li class="later__item" id="later-catalogue"><span class="later__text"><strong data-t="sug.catalogue"></strong><small data-t="sug.catalogueNote"></small></span><span class="tag tag--later" data-t="labels.later"></span></li>
+                </ul>
+              </div>
+              <p class="hint" id="touches-white" data-t="sug.whiteNote" hidden></p>
+            </div>
+
+            <div class="group" role="group" aria-labelledby="h-instructions">
+              <div class="group__head"><h3 class="group__title" id="h-instructions" data-t="ws.sections.instructions"></h3><span class="group__value" id="val-instructions"></span></div>
+              <div class="field"><label for="instructions" class="sr-only" data-t="ws.sections.instructions"></label><textarea id="instructions" rows="4" maxlength="500" aria-describedby="instructions-hint"></textarea><p class="hint" id="instructions-hint" data-t="sug.instructionsHint"></p></div>
+            </div>
+          </div>
+        </section>
+
+        <span class="seam" aria-hidden="true"><i></i><i></i><i></i></span>
+
+        <!-- Leaf III: the plan, which becomes the result -->
+        <section class="leaf leaf--plan" id="leaf-plan" aria-labelledby="plan-title">
+          <div class="plan__head">
+            <span class="leaf__num leaf__num--ink" aria-hidden="true">III</span>
+            <h2 class="plan__title" id="plan-title" tabindex="-1"></h2>
+            <span class="tag tag--ink" id="result-tag"></span>
+          </div>
+          <div class="plan__body" id="plan-body">
+
+            <!-- The plan: one frame for each image asked for, drawn at its proportions. -->
+            <div id="view-plan">
+              <p class="plan__lead" id="plan-lead"></p>
+              <p class="plan__sample" id="plan-sample"></p>
+              <div class="rail-frames" id="count-list" role="list" data-t-aria-label="plan.framesLabel"></div>
+              <p class="notice" id="count-made" hidden></p>
+              <dl class="facts" id="plan-facts"></dl>
+              <div class="plan__send">
+                <div class="errors" id="brief-errors" role="alert" tabindex="-1" hidden></div>
+                <div class="notice notice--error" id="submit-message" tabindex="-1" hidden></div>
+                <p class="plan__hint" id="brief-hint"></p>
+                <button class="btn btn--gold btn--wide" type="button" id="submit-btn"><span id="submit-label" data-t="ws.submit"></span> <span class="btn__count" id="submit-count"></span></button>
+                <p class="hint" id="brief-usage" hidden></p>
+                <p class="hint" id="draft-note"></p>
+              </div>
+            </div>
+
+            <!-- In production -->
+            <div id="view-progress" hidden>
+              <h3 class="plan__state" id="progress-title" tabindex="-1"></h3>
+              <ol class="timeline" id="timeline" role="list">
+                <li class="timeline__item" id="tl-received"><span class="timeline__state" data-role="state"></span><strong data-t="progress.received"></strong><span class="timeline__meta" id="tl-received-time"></span></li>
+                <li class="timeline__item" id="tl-production"><span class="timeline__state" data-role="state"></span><strong data-t="progress.production"></strong><span class="timeline__meta" id="tl-elapsed"></span><p class="timeline__note" data-t="progress.productionNote"></p></li>
+                <li class="timeline__item" id="tl-ready"><span class="timeline__state" data-role="state"></span><strong data-t="progress.ready"></strong></li>
+              </ol>
+              <div class="rail-frames" id="progress-frames" role="list" data-t-aria-label="plan.framesLabel"></div>
+              <p class="hint" id="progress-sofar" hidden></p>
+              <!-- Owner studio: the plan or image decision, read from the open ticket. Hidden in mock mode. -->
+              <section class="owner-panel" id="owner-panel" aria-live="polite" hidden></section>
+              <div class="notice notice--error" id="progress-message" tabindex="-1" hidden>
+                <p id="progress-message-text"></p>
+                <button class="btn btn--line btn--sm" type="button" id="progress-retry" data-t="progress.checkAgain" hidden></button>
+                <button class="btn btn--line btn--sm" type="button" id="progress-back" data-action="request-change" data-t="progress.back" hidden></button>
+              </div>
+              <p class="ref"><span data-t="labels.reference"></span> <code data-bind="reference" dir="ltr"></code> <button class="btn btn--text" type="button" data-action="copy-ref" data-t="labels.copy"></button></p>
+            </div>
+
+            <!-- Results -->
+            <div id="view-results" hidden>
+              <h3 class="plan__state" id="results-title" tabindex="-1"></h3>
+              <p class="plan__lead" id="results-lead"></p>
+              <p class="pillrow" id="results-package"></p>
+              <div class="comparebar" id="compare-bar">
+                <span class="comparebar__label" id="compare-label" data-t="results.viewLabel"></span>
+                <div class="seg" role="group" aria-labelledby="compare-label">
+                  <button type="button" class="seg__btn" id="compare-single" aria-pressed="true" data-t="results.single"></button>
+                  <button type="button" class="seg__btn" id="compare-side" aria-pressed="false" data-t="results.side"></button>
+                </div>
+              </div>
+              <p class="hint" id="compare-missing" data-t="results.noOriginal" hidden></p>
+              <div class="shots" id="results-grid"></div>
+              <details class="details" id="results-details">
+                <summary data-t="results.details"></summary>
+                <div id="results-details-body"></div>
+              </details>
+              <div class="plan__foot">
+                <p class="ref"><span data-t="labels.reference"></span> <code data-bind="reference" dir="ltr"></code> <button class="btn btn--text" type="button" data-action="copy-ref" data-t="labels.copy"></button></p>
+                <div class="actions">
+                  <button class="btn btn--line" type="button" data-action="new-item" data-t="results.newItem"></button>
+                  <button class="btn btn--ink" type="button" data-action="request-change" data-t="results.change"></button>
+                </div>
+              </div>
+            </div>
+
+            <details class="recent" id="recent">
+              <summary><span data-t="ws.recentTitle"></span> <span class="recent__count" id="recent-count"></span></summary>
+              <div id="recent-list"></div>
+              <p class="hint" id="recent-empty" data-t="ws.recentEmpty" hidden></p>
+              <p class="hint" id="recent-note" data-t="ws.recentNote" hidden></p>
+            </details>
+            <p class="hint owner-desk" id="desk-note" hidden><span data-t="owner.deskNote"></span> <a href="/owner/desk/" data-t="owner.openDesk"></a></p>
+          </div>
+        </section>
+      </form>
+
+      <!-- Phones: the count and a way to the plan stay in reach. -->
+      <div class="dock" id="dock">
+        <span class="dock__count" id="dock-count"></span>
+        <a class="btn btn--gold btn--sm" href="#leaf-plan" id="dock-go" data-t="dock.go"></a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Studio notes: how it works, what each label means, questions. -->
+  <dialog class="dialog dialog--notes" id="notes" aria-labelledby="notes-title">
+    <div class="dialog__head">
+      <h2 class="dialog__title" id="notes-title" data-t="notes.title"></h2>
+      <button class="btn btn--text" type="button" id="notes-close" data-t="notes.close"></button>
+    </div>
+    <h3 class="notes__h" data-t="notes.stepsTitle"></h3>
+    <ol class="notes__steps" id="notes-steps"></ol>
+    <h3 class="notes__h" data-t="notes.outcomesTitle"></h3>
+    <dl class="notes__defs" id="notes-outcomes"></dl>
+    <h3 class="notes__h" data-t="notes.labelsTitle"></h3>
+    <p class="hint" data-t="notes.labelsLead"></p>
+    <dl class="notes__defs" id="notes-labels"></dl>
+    <h3 class="notes__h" data-t="notes.faqTitle"></h3>
+    <div id="notes-faq"></div>
+  </dialog>
+
+  <dialog class="dialog" id="confirm-new" aria-labelledby="confirm-new-title">
+      <button class="dialog__close" type="button" id="confirm-new-close" aria-label="Close">×</button>
+    <h2 class="dialog__title" id="confirm-new-title" data-t="ws.confirmNewTitle"></h2>
+    <p data-t="ws.confirmNewBody"></p>
+    <div class="actions">
+      <button class="btn btn--line" type="button" id="confirm-new-keep" data-t="ws.confirmNewKeep"></button>
+      <button class="btn btn--gold" type="button" id="confirm-new-go" data-t="ws.confirmNewGo"></button>
+    </div>
+  </dialog>
+
+  <!-- Owner studio: the backend's own cost estimate, confirmed by the owner before anything paid starts. -->
+  <dialog class="dialog" id="owner-cost" aria-labelledby="owner-cost-title">
+      <button class="dialog__close" type="button" id="owner-cost-close" aria-label="Close">×</button>
+    <h2 class="dialog__title" id="owner-cost-title" data-t="owner.costTitle"></h2>
+    <p data-t="owner.costLead"></p>
+    <p class="pillrow"><span class="pill" id="owner-cost-state"></span></p>
+    <dl class="facts" id="owner-cost-facts"></dl>
+    <details class="details"><summary data-t="owner.costBasis"></summary><div id="owner-cost-more"></div></details>
+    <p class="notice" id="owner-cost-blocked" hidden></p>
+    <label class="check" id="owner-cost-check"><input type="checkbox" id="owner-cost-confirm"><span data-t="owner.costConfirm"></span></label>
+    <div class="actions">
+      <button class="btn btn--line" type="button" id="owner-cost-cancel" data-t="owner.costCancel"></button>
+      <button class="btn btn--gold" type="button" id="owner-cost-go" data-t="owner.costGo" disabled></button>
+    </div>
+  </dialog>
+
+  <p class="sr-only" id="live" role="status" aria-live="polite"></p>
+
+  <!-- Shown only in mock mode. No request leaves the browser in mock mode. -->
+  <aside class="mockbar" id="mockbar" hidden data-t-aria-label="mock.title">
+    <strong data-t="mock.title"></strong>
+    <label><span data-t="mock.signin"></span><select id="mock-signin"></select></label>
+    <label><span data-t="mock.submit"></span><select id="mock-submit"></select></label>
+    <label><span data-t="mock.result"></span><select id="mock-result"></select></label>
+    <label><span data-t="mock.dir"></span><select id="mock-dir"></select></label>
+  </aside>
+</body>
+</html>

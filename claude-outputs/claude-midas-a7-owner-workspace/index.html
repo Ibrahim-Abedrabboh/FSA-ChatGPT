@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#20231f">
+  <title>Midas Studio — A7 Owner Workspace Preview</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <div class="shell">
+    <aside class="sidebar" id="workspaceNavigation" aria-label="Workspace navigation">
+      <div class="brand"><span class="brand-dot"></span><span>MIDAS <em>STUDIO</em></span></div>
+      <button class="new-case" id="newCase" type="button"><span>＋</span> New case <kbd>N</kbd></button>
+      <p class="eyebrow nav-label">WORKSPACE</p>
+      <nav aria-label="Main">
+        <button class="nav-link active" id="navStudio" type="button">✦ <span>Studio</span></button>
+        <button class="nav-link" id="navJobs" type="button">▤ <span>All jobs</span><span class="count" id="jobCount">—</span></button>
+        <button class="nav-link" id="navNeeds" type="button">◷ <span>Needs attention</span><span class="count alert" id="attentionCount">—</span></button>
+      </nav>
+      <div class="recent-head"><p class="eyebrow">RECENT JOBS</p><span>LIVE</span></div>
+      <div id="recentJobs" class="recent-jobs"></div>
+      <div class="sidebar-foot">
+        <div class="owner-lock">♙ <div><strong>Owner workspace</strong><small>Private owner access</small></div></div>
+        <button class="preferences" id="preferences" type="button">☷ <span>Preferences</span></button>
+      </div>
+    </aside>
+
+    <main id="main" class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" type="button" aria-controls="workspaceNavigation" aria-label="Open navigation" aria-expanded="false">☰</button>
+        <div><span class="live-dot"></span><span id="crumb">Owner workspace</span></div>
+        <div class="topbar-right"><span class="demo-pill">OWNER WORKSPACE</span><span class="connection">Checking A7…</span></div>
+      </header>
+
+      <div class="data-toolbar"><p id="dataStatus" role="status" aria-live="polite">Loading A7 jobs…</p><button id="refreshJobs" type="button">Refresh jobs</button></div>
+      <div class="entry-link"><span>Starting with a product image?</span><a href="./start/">Open the new upload-first page <span aria-hidden="true">↗</span></a></div>
+      <section id="studioView" class="view">
+        <div class="intro">
+          <div class="intro-copy">
+            <p class="eyebrow accent">MIDAS CONVERSATION</p>
+            <h1>What should we <em>make next?</em></h1>
+            <p>Describe the image you need. Add product details, then review and send the request to A7.</p>
+            <div class="quick-actions">
+              <button type="button" data-prompt="Create a white-background catalogue image for this product. Preserve every confirmed piece and material.">01 <span>White background</span></button>
+              <button type="button" data-prompt="Place this product in a suitable lifestyle room. Show the proposed plan and required approvals first.">02 <span>Place in a space</span></button>
+              <button type="button" data-prompt="Review the jobs that need my decision and explain what is holding each one.">03 <span>Review holds</span></button>
+            </div>
+          </div>
+          <div class="reference-card">
+            <div class="reference-art" role="img" aria-label="Illustrative furniture silhouette"></div>
+            <div class="reference-caption"><span>OWNER VIEW</span><strong>Plan → approve → create → review</strong></div>
+          </div>
+        </div>
+        <div class="composer-wrap">
+<section class="panel" aria-label="Reference previews"><h2>Your reference images</h2><div id="referencePreviews"></div><p id="referenceReadingStatus" role="status">Not analysed yet. Saving a draft does not start an image reader.</p></section>
+          <div id="newThread" class="new-thread" aria-live="polite"></div>
+          <label for="promptInput">Project or amendment instructions</label>
+          <div class="composer">
+            <textarea id="promptInput" rows="3" placeholder="Describe how the product should appear…"></textarea>
+            <div class="composer-actions"><span>This draft is not submitted to A7.</span><button id="reviewPlan" type="button">Review request note ↗</button></div>
+          </div>
+          <form id="submissionForm" class="owner-form">
+<h2>Project, Collection or Edit</h2><p role="status">Drafts and versions can be saved without paid processing. Review shows whether the selected scope is ready for paid submission.</p>
+<p>Save a draft without paid processing. Each product or coherent furniture set is a separate case. Amendments create a new version and require fresh approvals.</p>
+<div class="form-grid"><label>Work type<select id="workMode"><option value="project">New project</option><option value="collection">Collection · new product case</option><option value="edit">Edit / amendment</option></select></label>
+<label>Project starting point<select name="startType"><option value="product_collection">Product or collection</option><option value="existing_room">Existing room</option><option value="new_space">New styled space</option><option value="saved_project">Saved project</option></select></label>
+<label>Edit starting point<select name="editSource"><option value="saved">Choose from saving</option><option value="new">New item</option></select></label>
+<label>Project title<input id="projectTitle" maxlength="120" required></label><label>Product / set case title<input id="caseTitle" maxlength="120" required></label></div>
+<label>Saved project / version<select id="savedVersion"><option value="">Start a new project</option></select></label>
+<button id="reloadProjects" type="button">Refresh saved projects</button><button id="openSavedVersion" type="button">Open selected version</button>
+<p id="projectStatus" role="status" aria-live="polite"></p><p>Upload one complete product photo. Review the request before sending it to A7. Readers and planning can incur AI costs before Go 1.</p>
+<div class="form-grid"><label>Product type<input name="product" required maxlength="80" placeholder="e.g. Dining set"></label><label>SKU (optional)<input name="sku" maxlength="40"></label>
+<label>Outcome<select name="outcome"><option>White background</option><option>Lifestyle</option></select></label><label>Scene view<select name="view"><option>Category template</option><option>Wide view</option><option>Close-up</option><option>Wide view + close-up</option></select></label>
+<label>Image shape<select name="aspect"><option>1:1</option><option>4:5</option><option>5:4</option><option>3:4</option><option>4:3</option><option>2:3</option><option>3:2</option><option>16:9</option><option>9:16</option></select></label><label>Resolution<select name="resolution"><option>2K</option></select></label>
+<label>Lighting<select name="lighting"><option>Daylight</option><option>Golden afternoon</option><option>Warm evening</option></select></label><label>Dimensions (optional)<input name="dimensions" maxlength="120" placeholder="Include units"></label></div>
+<label>Edit action<select name="editOperation"><option value="change">Change selected details</option><option value="add">Add a product to the existing image</option><option value="remove">Remove a product from the existing image</option><option value="replace">Replace a product in the existing image</option></select></label>
+<label>Product / instance to edit<textarea name="editTarget" maxlength="240" rows="2" placeholder="e.g. The left side table, not the matching table on the right"></textarea></label>
+<label>Placement for added / replacement product<textarea name="editPlacement" maxlength="240" rows="2" placeholder="Where it belongs; what must remain visible"></textarea></label>
+<p id="editOperationStatus" role="status">Edit instructions can be saved as new versions. Add/remove/replace rendering is deferred and cannot be submitted.</p>
+<label>Requested changes (for Edit)<textarea name="allowedChanges" maxlength="600" rows="2" placeholder="Change only the cover colour…"></textarea></label>
+<label>Details to preserve<textarea name="protectedDetails" maxlength="600" rows="2" placeholder="Retain the room, camera, furniture and other fabrics…"></textarea></label>
+<label>Pieces and quantities<textarea name="inventory" required maxlength="1000" rows="3" placeholder="1 dining table&#10;8 side chairs&#10;2 armchairs"></textarea></label>
+<label>Product photo · PNG, JPEG, WebP · up to 3 MB<input name="file" type="file" accept="image/png,image/jpeg,image/webp"></label>
+<label>Room reference (for an existing room) · up to 3 MB<input name="roomFile" type="file" accept="image/png,image/jpeg,image/webp"></label>
+<label>Other product views / pieces · up to 4 images<input name="viewFiles" type="file" multiple accept="image/png,image/jpeg,image/webp"></label>
+<label>Style inspiration · up to 2 images<input name="lookFiles" type="file" multiple accept="image/png,image/jpeg,image/webp"></label>
+<p class="mock-note">Up to 12 references per version, 3 MB each. Several views of one product remain references for that product, not extra physical items. Inspiration is style guidance, not product truth. Saved versions retain their original references. Reopening a version does not carry an approval to the new candidate. Source photos are stored privately on Netlify. Generated files remain in A7’s Google Drive output folder. No person is added. The white master stays square.</p>
+<label>Maximum paid processing for this job · USD, up to 10.00<input name="budgetUsd" type="number" min="0.25" max="10" step="0.01" value="4.74" required></label>
+<button id="saveProjectDraft" type="button">Save draft · no paid processing</button>
+<button type="submit">Review paid job request</button><p id="submissionStatus" role="status" aria-live="polite"></p></form>
+        </div>
+      </section>
+
+      <section id="jobsView" class="view hidden" aria-labelledby="jobsTitle">
+        <div class="section-head"><p class="eyebrow accent">A7 OPERATIONS</p><h1 id="jobsTitle">All jobs</h1><p>One place to see progress, decisions, and delivery.</p></div>
+        <div class="stats">
+          <div><small>Recorded runs</small><strong id="statTotal">—</strong></div><div><small>Need attention · loaded</small><strong id="statAttention">—</strong></div><div><small>In progress · loaded</small><strong id="statProgress">—</strong></div><div><small>Completed · loaded</small><strong id="statDone">—</strong></div>
+        </div>
+        <div class="table-head"><h2>Job queue</h2><div class="filters" role="group" aria-label="Filter jobs"><button type="button" class="selected" data-filter="all">All</button><button type="button" data-filter="attention">Needs attention</button><button type="button" data-filter="progress">In progress</button><button type="button" data-filter="done">Completed</button></div></div>
+        <div id="jobList" class="job-list"></div><button id="loadMore" class="load-more hidden" type="button">Load more jobs</button>
+      </section>
+
+      <section id="detailView" class="view hidden" aria-labelledby="detailTitle">
+        <button class="back" id="backToJobs" type="button">← All jobs</button>
+        <div class="detail-hero"><div><p class="eyebrow accent">A7 RUN · OWNER</p><h1 id="detailTitle"></h1><p id="detailSubtitle"></p></div><span id="detailStatus" class="status"></span></div>
+        <div class="detail-grid">
+          <div>
+            <section class="panel"><div class="panel-head"><h2>What A7 read from the image</h2></div><div id="observationCard"></div></section>
+            <section class="panel"><div class="panel-head"><h2>Recorded history</h2><span>Asia/Amman</span></div><div id="messages" class="messages"></div><p class="mock-note">History records A7 events. Approval decisions appear here after A7 records them.</p></section>
+          </div>
+          <div class="right-rail">
+            <section class="panel"><div class="panel-head"><h2>Current status</h2></div><div id="decisionCard"></div></section>
+            <section class="panel"><div class="panel-head"><h2>Run details</h2></div><div id="stageCard"></div></section>
+            <section class="panel"><div class="panel-head"><h2>Recorded approvals</h2></div><div id="usageCard"></div></section>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <dialog id="previewDialog" aria-labelledby="dialogTitle"><form method="dialog"><h2 id="dialogTitle">Preview only</h2><p id="dialogBody"></p><button value="close">Close</button></form></dialog>
+<dialog id="actionDialog" aria-labelledby="actionTitle"><button type="button" id="closeAction" class="dialog-x" aria-label="Close">×</button><form id="actionForm"><h2 id="actionTitle">Confirm owner action</h2><div id="actionSummary"></div><label><input id="actionConfirmed" type="checkbox" required> I have reviewed this request and its cost implications.</label><p id="actionStatus" role="status"></p><div class="action-buttons"><button type="button" id="cancelAction">Back</button><button id="confirmAction" type="submit">Confirm and send</button></div></form></dialog>
+<script src="projects.js" defer></script>
+<script src="owner-actions.js" defer></script></body>
+</html>

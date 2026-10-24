@@ -1,0 +1,248 @@
+{
+ "id": "AOTL7OVYtXLLs1L1",
+ "name": "A7 · Owner source analysis bridge",
+ "versionId": "f2d2a5cc-363d-4f57-a145-e8e2a896bc63",
+ "activeVersionId": "f2d2a5cc-363d-4f57-a145-e8e2a896bc63",
+ "active": true,
+ "settings": {
+  "executionOrder": "v1",
+  "availableInMCP": true,
+  "saveManualExecutions": false,
+  "saveDataErrorExecution": "none",
+  "saveDataSuccessExecution": "none",
+  "executionTimeout": 300
+ },
+ "nodes": [
+  {
+   "id": "e2e6aff0-565a-4093-8fbd-dacdcc89b33f",
+   "name": "Owner source analysis",
+   "webhookId": "7d2bfb0b-aca0-4df3-8e44-5babb67aedef",
+   "type": "n8n-nodes-base.webhook",
+   "typeVersion": 2.2,
+   "position": [
+    0,
+    0
+   ],
+   "parameters": {
+    "httpMethod": "POST",
+    "path": "a7/owner-analyze",
+    "authentication": "headerAuth",
+    "responseMode": "responseNode",
+    "options": {}
+   },
+   "credentials": {
+    "httpHeaderAuth": {
+     "id": "S6DlmKQiz2USSkNE",
+     "name": "A7 GPT bridge inbound"
+    }
+   }
+  },
+  {
+   "id": "00c0117f-5e53-43de-adca-e0daf0316011",
+   "name": "Validate analysis-only intake",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    240,
+    0
+   ],
+   "parameters": {
+    "mode": "runOnceForAllItems",
+    "jsCode": "const item=$input.first();let p=item.json.body?.payload;try{if(typeof p==='string')p=JSON.parse(p)}catch{p=null}\nconst b=item.binary||{},keys=Object.keys(b);\nconst sha=v=>typeof v==='string'&&/^[a-f0-9]{64}$/.test(v);\nconst uuid=v=>typeof v==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(v);\nif(!p||p.purpose!=='source_analysis_only'||!uuid(p.draftId)||p.clientRunId!=='owner-'+p.draftId||p.runId!=='claude-a7-'+p.draftId||!uuid(p.requestId)||!sha(p.sourceSha256)||!sha(p.referenceFingerprint)||!sha(p.quoteFingerprint)||!sha(p.intentFingerprint)||!Number.isFinite(p.maxCostUsd)||p.maxCostUsd<.25||p.maxCostUsd>5||!Number.isFinite(p.budgetLimitUsd)||p.budgetLimitUsd<p.maxCostUsd||p.budgetLimitUsd>10||keys.length<1||keys.length>12)throw Error('invalid_analysis_intake');\nlet size=0;for(const key of keys){const f=b[key],name=f.fileName||'',mime=f.mimeType||'';if(!/^(product|room|other_view|look)-[a-f0-9-]{36}$/.test(name)||!['image/png','image/jpeg','image/webp'].includes(mime))throw Error('invalid_analysis_file');const bytes=await this.helpers.getBinaryDataBuffer(0,key);size+=bytes.length;if(!bytes.length||bytes.length>3145728||size>37748736)throw Error('invalid_analysis_file');}\nreturn [{json:{payload:JSON.stringify(p),uploadFields:keys},binary:b}];"
+   }
+  },
+  {
+   "id": "d8dc27f7-08ed-4fb8-abaf-f2acb42f0776",
+   "name": "Forward analysis only",
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.1,
+   "onError": "continueRegularOutput",
+   "position": [
+    480,
+    0
+   ],
+   "parameters": {
+    "method": "POST",
+    "url": "https://ibrahimnewaeon.app.n8n.cloud/webhook/claude-midas-a7-analysis",
+    "authentication": "genericCredentialType",
+    "genericAuthType": "httpHeaderAuth",
+    "sendBody": true,
+    "contentType": "multipart-form-data",
+    "bodyParameters": {
+     "parameters": [
+      {
+       "parameterType": "formData",
+       "name": "payload",
+       "value": "={{ $json.payload }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files0",
+       "inputDataFieldName": "={{ $json.uploadFields[0] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files1",
+       "inputDataFieldName": "={{ $json.uploadFields[1] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files2",
+       "inputDataFieldName": "={{ $json.uploadFields[2] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files3",
+       "inputDataFieldName": "={{ $json.uploadFields[3] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files4",
+       "inputDataFieldName": "={{ $json.uploadFields[4] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files5",
+       "inputDataFieldName": "={{ $json.uploadFields[5] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files6",
+       "inputDataFieldName": "={{ $json.uploadFields[6] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files7",
+       "inputDataFieldName": "={{ $json.uploadFields[7] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files8",
+       "inputDataFieldName": "={{ $json.uploadFields[8] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files9",
+       "inputDataFieldName": "={{ $json.uploadFields[9] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files10",
+       "inputDataFieldName": "={{ $json.uploadFields[10] || \"\" }}"
+      },
+      {
+       "parameterType": "formBinaryData",
+       "name": "files11",
+       "inputDataFieldName": "={{ $json.uploadFields[11] || \"\" }}"
+      }
+     ]
+    },
+    "options": {
+     "timeout": 295000,
+     "redirect": {
+      "redirect": {
+       "followRedirects": false
+      }
+     },
+     "response": {
+      "response": {
+       "fullResponse": true,
+       "neverError": true
+      }
+     }
+    }
+   },
+   "credentials": {
+    "httpHeaderAuth": {
+     "id": "mbZqYVn5TGqhMf2C",
+     "name": "Claude · Midas client header"
+    }
+   }
+  },
+  {
+   "id": "42bd36a2-4040-4799-a70e-bca190ad55f1",
+   "name": "Bounded source receipt",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    720,
+    0
+   ],
+   "parameters": {
+    "mode": "runOnceForAllItems",
+    "jsCode": "const r=$input.first().json;let body=r.body??r.data;try{if(typeof body==='string')body=JSON.parse(body)}catch{body=null}\nconst p=JSON.parse($('Validate analysis-only intake').first().json.payload);\nconst ok=r.statusCode>=200&&r.statusCode<300&&body?.status==='analysis_complete'&&body?.draftId===p.draftId&&body?.clientRunId===p.clientRunId&&body?.runId===p.runId&&body?.sourceSha256===p.sourceSha256&&body?.referenceFingerprint===p.referenceFingerprint&&Array.isArray(body?.readers)&&body.readers.length>=3&&body.readers.length<=4;\nif(!ok)return [{json:{http_status:409,error:'analysis_outcome_uncertain',accepted:false}}];\nreturn [{json:{http_status:200,accepted:true,receiptId:body.receiptId,draftId:body.draftId,clientRunId:body.clientRunId,runId:body.runId,sourceSha256:body.sourceSha256,referenceFingerprint:body.referenceFingerprint,roomSha256:body.roomSha256??null,intentFingerprint:p.intentFingerprint,readers:body.readers}}];"
+   }
+  },
+  {
+   "id": "428ef5c7-58f5-4009-9318-34785171ea94",
+   "name": "Return analysis receipt",
+   "type": "n8n-nodes-base.respondToWebhook",
+   "typeVersion": 1.5,
+   "position": [
+    960,
+    0
+   ],
+   "parameters": {
+    "respondWith": "json",
+    "responseBody": "={{ JSON.stringify($json) }}",
+    "options": {
+     "responseCode": "={{ $(\"Bounded source receipt\").first().json.http_status || 409 }}",
+     "responseHeaders": {
+      "entries": [
+       {
+        "name": "Cache-Control",
+        "value": "no-store"
+       }
+      ]
+     }
+    }
+   }
+  }
+ ],
+ "connections": {
+  "Owner source analysis": {
+   "main": [
+    [
+     {
+      "node": "Validate analysis-only intake",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Validate analysis-only intake": {
+   "main": [
+    [
+     {
+      "node": "Forward analysis only",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Forward analysis only": {
+   "main": [
+    [
+     {
+      "node": "Bounded source receipt",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Bounded source receipt": {
+   "main": [
+    [
+     {
+      "node": "Return analysis receipt",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ }
+}

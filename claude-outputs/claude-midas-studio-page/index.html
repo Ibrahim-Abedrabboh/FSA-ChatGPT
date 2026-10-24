@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FFFFFF">
+  <!-- Content Security Policy: scripts and styles from this folder only, fonts from Google Fonts,
+       images over https, and network calls only to the studio's address. If you change the
+       addresses in STUDIO_CONFIG (app.js), change connect-src here to match. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https: data: blob:; connect-src https://ibrahimnewaeon.app.n8n.cloud; form-action 'none'; base-uri 'none'">
+  <title>Midas Virtual Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&amp;family=Manrope:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script src="taxonomy.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Every visible string is filled in by app.js from its STRINGS object (data-t attributes).
+       The page has two views: the landing page, and the studio workspace at #studio. -->
+  <noscript><p class="noscript">Midas Virtual Studio needs JavaScript to run. Turn it on in your browser and reload this page.</p></noscript>
+  <a class="skip" href="#main" data-t="a11y.skip"></a>
+
+  <div class="navwrap">
+    <header class="nav" id="nav">
+      <a class="nav__brand" href="#top" data-t-aria-label="nav.brandLabel">
+        <span class="nav__mark" data-t="brand.mark"></span>
+        <span class="nav__rule" aria-hidden="true"></span>
+        <span class="nav__sub" data-t="brand.sub"></span>
+      </a>
+      <nav class="nav__links" data-t-aria-label="nav.primary">
+        <a class="nav__link" href="#studio" data-t="nav.studio"></a>
+        <a class="nav__link" href="#how" data-t="nav.how"></a>
+        <a class="nav__link" href="#outcomes" data-t="nav.outcomes"></a>
+        <a class="nav__link" href="#questions" data-t="nav.questions"></a>
+      </nav>
+      <div class="nav__user" data-auth="in">
+        <span class="nav__name" data-bind="clientName"></span>
+        <span class="nav__usage" data-bind="usage"></span>
+      </div>
+      <button class="btn btn--ghost btn--sm nav__signout" type="button" data-auth="in" data-action="signout" data-t="auth.signOut"></button>
+      <a class="btn btn--primary btn--sm nav__cta" href="#studio" data-auth="out" data-action="create" data-t="cta.create"></a>
+      <button class="nav__burger" type="button" id="burger" aria-expanded="false" aria-controls="menu"><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+    </header>
+  </div>
+
+  <div class="menu" id="menu" hidden>
+    <a class="menu__link" href="#studio" data-t="nav.studio"></a>
+    <a class="menu__link" href="#how" data-t="nav.how"></a>
+    <a class="menu__link" href="#outcomes" data-t="nav.outcomes"></a>
+    <a class="menu__link" href="#questions" data-t="nav.questions"></a>
+    <p class="menu__user" data-auth="in"><span data-bind="clientName"></span><span data-bind="usage"></span></p>
+    <button class="btn btn--ghost btn--sm" type="button" data-auth="in" data-action="signout" data-t="auth.signOut"></button>
+    <a class="btn btn--primary btn--sm" href="#studio" data-auth="out" data-action="create" data-t="cta.create"></a>
+  </div>
+
+  <main id="main" tabindex="-1">
+
+    <!-- ===================== Landing page ===================== -->
+    <section class="hero public" id="top">
+      <img class="hero__img" src="atelier-hero.webp" width="1672" height="941" alt="" data-t-alt="hero.alt" fetchpriority="high">
+      <div class="hero__scrim" aria-hidden="true"></div>
+      <div class="hero__copy">
+        <p class="eyebrow eyebrow--plain eyebrow--hero" data-t="hero.eyebrow"></p>
+        <h1 class="hero__title">
+          <span class="hero__line" data-t="hero.line1"></span>
+          <span class="hero__line"><em data-t="hero.line2"></em></span>
+        </h1>
+        <p class="hero__sub" data-t="hero.sub"></p>
+        <div class="actions">
+          <a class="btn btn--primary" href="#studio" data-action="create" data-t="cta.create"></a>
+          <a class="btn btn--ghost" href="#studio" id="hero-continue" data-action="continue" data-t="cta.continue" hidden></a>
+          <a class="btn btn--ghost" href="#how" id="hero-how" data-t="cta.how"></a>
+        </div>
+      </div>
+      <span class="tag tag--float" data-t="hero.tag"></span>
+    </section>
+
+    <section class="section section--glow-end public" id="how">
+      <div class="wrap split split--top">
+        <div class="split__text">
+          <p class="eyebrow" data-t="how.eyebrow"></p>
+          <h2 class="headline"><span data-t="how.titleA"></span> <em data-t="how.titleB"></em></h2>
+          <p class="lead" data-t="how.lead"></p>
+          <a class="btn btn--link" href="#studio" data-action="continue" data-t="how.cta"></a>
+        </div>
+        <ol class="steplist" id="how-steps" role="list"></ol>
+      </div>
+    </section>
+
+    <section class="section public" id="outcomes">
+      <div class="wrap">
+        <p class="eyebrow" data-t="outcomes.eyebrow"></p>
+        <h2 class="headline headline--narrow"><span data-t="outcomes.titleA"></span> <em data-t="outcomes.titleB"></em></h2>
+        <div class="cards" id="outcome-cards"></div>
+        <p class="aside"><strong data-t="outcomes.laterLabel"></strong> <span data-t="outcomes.laterText"></span></p>
+      </div>
+    </section>
+
+    <section class="section public" id="statuses">
+      <div class="wrap split">
+        <div class="split__text">
+          <p class="eyebrow eyebrow--muted" data-t="statuses.eyebrow"></p>
+          <h2 class="headline"><span data-t="statuses.titleA"></span> <em data-t="statuses.titleB"></em></h2>
+          <p class="lead" data-t="statuses.lead"></p>
+        </div>
+        <div class="rows" id="status-rows"></div>
+      </div>
+    </section>
+
+    <section class="section section--content public" id="questions">
+      <div class="wrap wrap--faq">
+        <p class="eyebrow" data-t="faq.eyebrow"></p>
+        <h2 class="headline headline--content"><span data-t="faq.titleA"></span> <em data-t="faq.titleB"></em></h2>
+        <div id="faq-list"></div>
+        <div class="actions actions--after">
+          <a class="btn btn--primary" href="#studio" data-action="create" data-t="cta.create"></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Studio workspace ===================== -->
+    <section class="ws" id="studio" aria-labelledby="studio-title">
+      <h1 class="sr-only" id="studio-title" tabindex="-1" data-t="ws.title"></h1>
+
+      <!-- Sign-in. Every call to the studio carries the access code, so the live page needs it.
+           In mock mode the sign-in can be skipped from the mock bar to look at the inner screens. -->
+      <div class="ws__signin" id="view-signin">
+        <div class="split">
+          <div class="split__text">
+            <p class="eyebrow" data-t="signin.eyebrow"></p>
+            <h2 class="headline headline--band" id="signin-title" tabindex="-1"><span data-t="signin.titleA"></span> <em data-t="signin.titleB"></em></h2>
+            <p class="lead" data-t="signin.lead"></p>
+          </div>
+          <form class="panel panel--form" id="signin-form" novalidate>
+            <p class="notice" id="signin-notice" hidden></p>
+            <div class="field">
+              <label for="access-code" data-t="signin.label"></label>
+              <input id="access-code" name="access_code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="signin-error signin-hint">
+              <p class="field__error" id="signin-error" hidden></p>
+            </div>
+            <label class="check"><input type="checkbox" id="show-code"><span data-t="signin.show"></span></label>
+            <button class="btn btn--primary" type="button" id="signin-submit" data-t="signin.submit"></button>
+            <p class="hint" id="signin-hint" data-t="signin.hint"></p>
+          </form>
+        </div>
+      </div>
+
+      <div class="ws__app" id="view-app" hidden>
+
+        <div class="ws__tabs">
+          <div class="ws__tablist" id="outcome-tabs" role="radiogroup" data-t-aria-label="ws.tabsLabel"></div>
+          <p class="ws__draft" id="draft-note"></p>
+        </div>
+
+        <div class="ws__main">
+
+          <!-- Left: the brief, one panel -->
+          <form class="ws__brief" id="brief-form" novalidate aria-labelledby="brief-title">
+            <div class="ws__head">
+              <h2 class="ws__title" id="brief-title" tabindex="-1" data-t="ws.briefTitle"></h2>
+              <span class="ws__sub" id="brief-sub"></span>
+            </div>
+
+            <div class="ws__scroll" id="brief-scroll">
+
+              <div class="card" id="card-photo" role="group" aria-labelledby="h-photo">
+                <div class="card__head"><h3 class="card__title" id="h-photo" data-t="ws.sections.photo"></h3><span class="card__value" id="val-photo"></span></div>
+                <div class="drop" id="drop">
+                  <input class="drop__input" id="photo" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" aria-labelledby="h-photo" aria-describedby="photo-help photo-error">
+                  <label class="drop__label" for="photo">
+                    <span class="drop__icon" aria-hidden="true"></span>
+                    <span class="drop__text"><strong data-t="item.dropTitle"></strong><span data-t="item.dropHint"></span></span>
+                  </label>
+                </div>
+                <div class="photo" id="photo-preview" hidden>
+                  <img class="photo__thumb" id="photo-thumb" alt="">
+                  <div class="photo__meta">
+                    <span class="tag" data-t="labels.original"></span>
+                    <strong class="photo__name" id="photo-name"></strong>
+                    <span class="photo__size" id="photo-size"></span>
+                  </div>
+                  <div class="photo__actions">
+                    <button class="btn btn--text" type="button" id="photo-replace" data-t="item.replace"></button>
+                    <button class="btn btn--text" type="button" id="photo-remove" data-t="item.remove"></button>
+                  </div>
+                </div>
+                <p class="hint" id="photo-help" data-t="item.photoHelp"></p>
+                <p class="field__error" id="photo-error" hidden></p>
+              </div>
+
+              <div class="card" role="group" aria-labelledby="h-item">
+                <div class="card__head"><h3 class="card__title" id="h-item" data-t="ws.sections.item"></h3><span class="card__value" id="val-item"></span></div>
+                <div class="field"><label for="department" data-t="item.department"></label><select id="department"></select></div>
+                <div class="field"><label for="category" data-t="item.category"></label><select id="category" disabled></select></div>
+                <div class="field"><label for="sub-category" data-t="item.subCategory"></label><select id="sub-category" disabled></select></div>
+                <p class="hint" data-t="item.taxonomyNote"></p>
+              </div>
+
+              <div class="card" id="card-count" role="radiogroup" aria-labelledby="h-count">
+                <div class="card__head"><h3 class="card__title" id="h-count" data-t="ws.sections.count"></h3><span class="card__value" id="val-count"></span></div>
+                <div class="tiles" id="count-choices"></div>
+                <p class="hint" data-t="scope.countHint"></p>
+              </div>
+
+              <div class="card" id="card-view" role="radiogroup" aria-labelledby="h-view">
+                <div class="card__head"><h3 class="card__title" id="h-view" data-t="ws.sections.view"></h3><span class="card__value" id="val-view"></span></div>
+                <div class="chips" id="view-choices"></div>
+              </div>
+
+              <p class="card card--note" id="website-note" data-t="scope.websiteNote" hidden></p>
+
+              <div class="card" role="radiogroup" aria-labelledby="h-aspect">
+                <div class="card__head"><h3 class="card__title" id="h-aspect" data-t="ws.sections.aspect"></h3><span class="card__value" id="val-aspect"></span></div>
+                <div class="tiles" id="aspect-choices"></div>
+              </div>
+
+              <div class="card" role="radiogroup" aria-labelledby="h-resolution">
+                <div class="card__head"><h3 class="card__title" id="h-resolution" data-t="ws.sections.resolution"></h3><span class="card__value" id="val-resolution"></span></div>
+                <div class="tiles tiles--3" id="resolution-choices"></div>
+              </div>
+
+              <div class="card" role="group" aria-labelledby="h-atmosphere">
+                <div class="card__head"><h3 class="card__title" id="h-atmosphere" data-t="ws.sections.atmosphere"></h3><span class="card__value" id="val-atmosphere"></span></div>
+                <label class="switch"><input type="checkbox" id="studio-choice" role="switch"><span class="switch__track" aria-hidden="true"></span><span class="switch__text"><strong data-t="prefs.studioChoice"></strong><small data-t="prefs.studioChoiceNote"></small></span></label>
+              </div>
+
+              <div class="card" role="radiogroup" aria-labelledby="h-lighting">
+                <div class="card__head"><h3 class="card__title" id="h-lighting" data-t="ws.sections.lighting"></h3><span class="card__value" id="val-lighting"></span></div>
+                <div class="chips" id="lighting-choices"></div>
+              </div>
+
+              <div class="card" id="card-wall" role="radiogroup" aria-labelledby="h-wall">
+                <div class="card__head"><h3 class="card__title" id="h-wall" data-t="ws.sections.wall"></h3><span class="card__value" id="val-wall"></span></div>
+                <div class="chips" id="wall-choices"></div>
+              </div>
+
+              <div class="card" id="card-floor" role="radiogroup" aria-labelledby="h-floor">
+                <div class="card__head"><h3 class="card__title" id="h-floor" data-t="ws.sections.floor"></h3><span class="card__value" id="val-floor"></span></div>
+                <div class="chips" id="floor-choices"></div>
+              </div>
+
+              <p class="card card--note" id="white-note" data-t="prefs.whiteNote" hidden></p>
+
+              <div class="card" role="group" aria-labelledby="h-touches">
+                <div class="card__head"><h3 class="card__title" id="h-touches" data-t="ws.sections.touches"></h3><span class="card__value" id="val-touches"></span></div>
+                <div id="touches-fields">
+                  <label class="switch"><input type="checkbox" id="plants" role="switch"><span class="switch__track" aria-hidden="true"></span><span class="switch__text"><strong data-t="sug.plants"></strong><small data-t="sug.plantsNote"></small></span></label>
+                  <label class="switch"><input type="checkbox" id="human" role="switch"><span class="switch__track" aria-hidden="true"></span><span class="switch__text"><strong data-t="sug.human"></strong><small data-t="sug.humanNote"></small></span></label>
+                  <label class="switch"><input type="checkbox" id="catalogue" role="switch"><span class="switch__track" aria-hidden="true"></span><span class="switch__text"><strong data-t="sug.catalogue"></strong><small data-t="sug.catalogueNote"></small></span></label>
+                  <div class="card__sub" role="radiogroup" aria-labelledby="h-mood">
+                    <h4 class="card__title" id="h-mood" data-t="sug.mood"></h4>
+                    <div class="chips" id="mood-choices"></div>
+                  </div>
+                </div>
+                <p class="hint" id="touches-white" data-t="sug.whiteNote" hidden></p>
+              </div>
+
+              <div class="card" role="group" aria-labelledby="h-faithful">
+                <div class="card__head"><h3 class="card__title" id="h-faithful" data-t="ws.sections.faithful"></h3><span class="card__value" id="val-faithful"></span></div>
+                <p class="hint" data-t="sug.faithfulNote"></p>
+                <div class="field"><label for="color" data-t="sug.color"></label><input id="color" type="text" autocomplete="off" maxlength="120"></div>
+                <div class="field"><label for="material" data-t="sug.material"></label><input id="material" type="text" autocomplete="off" maxlength="120"></div>
+                <div class="field"><label for="hero-item" data-t="sug.hero"></label><input id="hero-item" type="text" autocomplete="off" maxlength="120"></div>
+                <div class="field"><label for="locks" data-t="sug.locks"></label><textarea id="locks" rows="3" aria-describedby="locks-hint" maxlength="1200"></textarea><p class="hint" id="locks-hint" data-t="sug.locksHint"></p></div>
+                <div class="field"><label for="must-not" data-t="sug.mustNot"></label><textarea id="must-not" rows="3" aria-describedby="must-not-hint" maxlength="1200"></textarea><p class="hint" id="must-not-hint" data-t="sug.mustNotHint"></p></div>
+              </div>
+
+            </div>
+
+            <div class="ws__foot">
+              <div class="errors" id="brief-errors" role="alert" tabindex="-1" hidden></div>
+              <div class="notice notice--error" id="submit-message" tabindex="-1" hidden></div>
+              <p class="ws__hint" id="brief-hint"></p>
+              <button class="btn btn--primary ws__submit" type="button" id="submit-btn"><span id="submit-label" data-t="ws.submit"></span><span class="ws__count" id="submit-count"></span></button>
+              <p class="hint ws__usage" id="brief-usage" hidden></p>
+            </div>
+          </form>
+
+          <!-- Right: the result stage, then recent requests -->
+          <div class="ws__right" id="ws-right" role="region" tabindex="0" data-t-aria-label="ws.rightLabel">
+
+            <section class="ws__panel ws__result" aria-labelledby="result-title">
+              <div class="ws__panelhead">
+                <h2 class="ws__title" id="result-title" tabindex="-1" data-t="ws.resultTitle"></h2>
+                <span class="tag" id="result-tag"></span>
+              </div>
+
+              <div class="ws__body">
+
+                <div class="ws__stage" id="stage-empty">
+                  <span class="ws__stageicon" aria-hidden="true"></span>
+                  <h3 class="ws__stagetitle"><span id="stage-a"></span> <em id="stage-b"></em></h3>
+                  <p id="stage-lead"></p>
+                  <ol class="ws__steps" id="stage-steps" role="list" data-t-aria-label="ws.stepsLabel"></ol>
+                </div>
+
+                <div class="ws__progress" id="view-progress" hidden>
+                  <h3 class="ws__stagetitle ws__stagetitle--start" id="progress-title" tabindex="-1"></h3>
+                  <ol class="timeline" id="timeline" role="list">
+                    <li class="timeline__item" id="tl-received">
+                      <span class="timeline__state" data-role="state"></span>
+                      <strong data-t="progress.received"></strong>
+                      <span class="timeline__meta" id="tl-received-time"></span>
+                    </li>
+                    <li class="timeline__item" id="tl-production">
+                      <span class="timeline__state" data-role="state"></span>
+                      <strong data-t="progress.production"></strong>
+                      <span class="timeline__meta" id="tl-elapsed"></span>
+                      <p class="timeline__note" data-t="progress.productionNote"></p>
+                    </li>
+                    <li class="timeline__item" id="tl-ready">
+                      <span class="timeline__state" data-role="state"></span>
+                      <strong data-t="progress.ready"></strong>
+                    </li>
+                  </ol>
+                  <div class="notice notice--error" id="progress-message" tabindex="-1" hidden>
+                    <p id="progress-message-text"></p>
+                    <button class="btn btn--ghost btn--sm" type="button" id="progress-retry" data-t="progress.checkAgain" hidden></button>
+                  </div>
+                  <p class="ref"><span data-t="labels.reference"></span> <code data-bind="reference"></code> <button class="btn btn--text" type="button" data-action="copy-ref" data-t="labels.copy"></button></p>
+                </div>
+
+                <div id="view-results" hidden>
+                  <h3 class="ws__stagetitle ws__stagetitle--start" id="results-title" tabindex="-1"></h3>
+                  <p class="lead lead--wide" id="results-lead"></p>
+                  <p class="pillrow" id="results-package" hidden></p>
+                  <div class="decision" id="results-decision" hidden></div>
+                  <div class="comparebar" id="compare-bar">
+                    <span class="comparebar__label" id="compare-label" data-t="results.viewLabel"></span>
+                    <div class="seg seg--buttons" role="group" aria-labelledby="compare-label">
+                      <button type="button" class="seg__btn" id="compare-single" aria-pressed="true" data-t="results.single"></button>
+                      <button type="button" class="seg__btn" id="compare-side" aria-pressed="false" data-t="results.side"></button>
+                    </div>
+                  </div>
+                  <p class="hint" id="compare-missing" data-t="results.noOriginal" hidden></p>
+                  <div class="shots" id="results-grid"></div>
+                  <details class="details" id="results-details">
+                    <summary data-t="results.details"></summary>
+                    <div id="results-details-body"></div>
+                  </details>
+                  <div class="ws__resultfoot">
+                    <p class="ref"><span data-t="labels.reference"></span> <code data-bind="reference"></code> <button class="btn btn--text" type="button" data-action="copy-ref" data-t="labels.copy"></button></p>
+                    <div class="actions">
+                      <button class="btn btn--ghost" type="button" data-action="new-item" data-t="results.newItem"></button>
+                      <button class="btn btn--ink" type="button" data-action="request-change" data-t="results.change"></button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+            <section class="ws__panel ws__recent" id="recent" aria-labelledby="recent-title">
+              <div class="ws__panelhead ws__panelhead--line">
+                <h2 class="ws__title ws__title--sm" id="recent-title" data-t="ws.recentTitle"></h2>
+                <span class="ws__badge" id="recent-count"></span>
+              </div>
+              <div id="recent-list"></div>
+              <div class="ws__emptylist" id="recent-empty" hidden>
+                <strong data-t="ws.recentEmptyTitle"></strong>
+                <span data-t="ws.recentEmpty"></span>
+              </div>
+              <p class="hint ws__recentnote" id="recent-note" data-t="ws.recentNote" hidden></p>
+            </section>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="wrap wrap--footer">
+      <div class="footer__grid">
+        <div class="footer__brandcol">
+          <span class="footer__brand" data-t="footer.brand"></span>
+          <p class="footer__tagline" data-t="footer.tagline"></p>
+        </div>
+        <nav class="footer__col" data-t-aria-label="footer.studioTitle">
+          <span class="footer__title" data-t="footer.studioTitle"></span>
+          <a class="footer__link" href="#how" data-t="nav.how"></a>
+          <a class="footer__link" href="#outcomes" data-t="nav.outcomes"></a>
+          <a class="footer__link" href="#statuses" data-t="nav.statuses"></a>
+          <a class="footer__link" href="#questions" data-t="nav.questions"></a>
+        </nav>
+        <nav class="footer__col" data-t-aria-label="footer.requestTitle">
+          <span class="footer__title" data-t="footer.requestTitle"></span>
+          <a class="footer__link" href="#studio" data-action="create" data-t="cta.create"></a>
+          <a class="footer__link" href="#studio" data-action="continue" data-t="nav.studio"></a>
+        </nav>
+        <div class="footer__col">
+          <span class="footer__title" data-t="footer.midasTitle"></span>
+          <a class="footer__link" href="https://midasfurniture.com/en/" rel="noopener" data-t="footer.storeLink"></a>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <span data-t="footer.copyright"></span>
+        <span data-t="footer.imageNote"></span>
+      </div>
+    </div>
+  </footer>
+
+  <p class="sr-only" id="live" role="status" aria-live="polite"></p>
+
+  <!-- Shown only in mock mode (STUDIO_CONFIG.mock or ?mock=1). No request leaves the browser in mock mode. -->
+  <dialog class="dialog" id="confirm-new" aria-labelledby="confirm-new-title">
+    <h2 class="dialog__title" id="confirm-new-title" data-t="ws.confirmNewTitle"></h2>
+    <p data-t="ws.confirmNewBody"></p>
+    <div class="actions">
+      <button class="btn btn--ghost" type="button" id="confirm-new-keep" data-t="ws.confirmNewKeep"></button>
+      <button class="btn btn--primary" type="button" id="confirm-new-go" data-t="ws.confirmNewGo"></button>
+    </div>
+  </dialog>
+
+  <aside class="mockbar" id="mockbar" hidden>
+    <strong data-t="mock.title"></strong>
+    <label><span data-t="mock.signin"></span><select id="mock-signin"></select></label>
+    <label><span data-t="mock.submit"></span><select id="mock-submit"></select></label>
+    <label><span data-t="mock.result"></span><select id="mock-result"></select></label>
+  </aside>
+</body>
+</html>

@@ -1,0 +1,1079 @@
+{
+ "id": "MYwlkpnVdCqoEmfR",
+ "name": "Claude · Midas A7 model test · one call",
+ "versionId": "e66075ec-568b-4212-989c-689200762e37",
+ "nodes": [
+  {
+   "id": "2d97e306-bbda-41cf-b7e9-7da248edb3ab",
+   "name": "From model test",
+   "type": "n8n-nodes-base.executeWorkflowTrigger",
+   "typeVersion": 1.3,
+   "position": [
+    0,
+    300
+   ],
+   "parameters": {
+    "inputSource": "passthrough"
+   }
+  },
+  {
+   "id": "b03f1822-2a85-4a68-99ba-97cbe999cf86",
+   "name": "Sticky Note c9f71264",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    0,
+    0
+   ],
+   "parameters": {
+    "content": "## Claude · Midas A7 model test · one call\nCalled only by \"Claude · Midas A7 model test\". Makes at most ONE paid image call per run (Google Interactions, synchronous, not stored at Google). Refuses any order without the paid switch, a go token and a matching key. Writes its row in the data table \"Claude Midas A7 model test\". Draft; not published.",
+    "color": 7,
+    "width": 720,
+    "height": 200
+   }
+  },
+  {
+   "id": "4a8f7f04-727c-494b-b0a5-173eede94307",
+   "name": "C1 Check order",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    220,
+    300
+   ],
+   "parameters": {
+    "jsCode": "// Model test · one call · Check the order. Code only (15 Oct 2026).\n// This sub-workflow makes at most one paid call per run. It refuses an order without the paid switch, a go token and a matching key.\nconst crypto = require('crypto');\nconst sha = t => crypto.createHash('sha256').update(String(t)).digest('hex');\nconst all = $input.all();\nconst o = all[0] ? all[0].json : {};\nconst p = [];\nif (all.length !== 1) p.push('one order per run is allowed; ' + all.length + ' arrived');\nif (o.paid_calls_allowed !== true) p.push('the paid switch is off');\nif (!/^[A-Za-z0-9_-]{8,64}$/.test(String(o.go_token || ''))) p.push('no valid go token');\nif (!/^Test \\d+$/.test(String(o.folder || ''))) p.push('the folder name is not \"Test N\"');\nif (!/^[a-z0-9][a-z0-9.\\-]*$/.test(String(o.model || ''))) p.push('the model id is not a plain model id');\nif (o.operation_key !== 'claude-mt:' + o.go_token + ':' + o.folder + ':' + o.model) p.push('the operation key does not match the order');\nif (!o.file_id) p.push('no vendor photo id');\nif (!o.drive_run_folder_id) p.push('no Drive folder for the image');\nif (!o.prompt || sha(o.prompt) !== o.prompt_sha256) p.push('the prompt does not match its checksum');\nif (!/^\\d+:\\d+$/.test(String(o.ratio || '')) || ['1K', '2K', '4K'].indexOf(String(o.size)) === -1) p.push('the frame or size is not valid');\nif (!(Number(o.reserve_usd) > 0) || !o.prices || !(Number(o.prices.input) > 0) || !(Number(o.prices.image_out) > 0) || !(Number(o.prices.text_out) > 0)) p.push('no reserved cost or prices');\nif (!(Number(o.max_spend_usd) > 0) || !(Number(o.max_calls) > 0)) p.push('no spend or call cap');\nreturn [{ json: { ok: p.length === 0, problem: p.length ? 'Order refused: ' + p.join('; ') + '. Nothing was sent.' : '', order: o } }];\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "cab9e162-db87-4ce1-8d90-d81d688023d6",
+   "name": "Order valid?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    440,
+    300
+   ],
+   "parameters": {
+    "conditions": {
+     "combinator": "and",
+     "conditions": [
+      {
+       "leftValue": "={{ $json.ok === true }}",
+       "operator": {
+        "operation": "true",
+        "singleValue": true,
+        "type": "boolean"
+       }
+      }
+     ],
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose"
+     }
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "824d2e59-787e-4bff-8150-38774e680a7f",
+   "name": "C2 Find this go token",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    660,
+    220
+   ],
+   "parameters": {
+    "dataTableId": {
+     "__rl": true,
+     "cachedResultName": "Claude Midas A7 model test",
+     "mode": "id",
+     "value": "LqajV3K8gVqYaN3E"
+    },
+    "filters": {
+     "conditions": [
+      {
+       "condition": "eq",
+       "keyName": "go_token",
+       "keyValue": "={{ $('C1 Check order').first().json.order.go_token }}"
+      }
+     ]
+    },
+    "matchType": "allConditions",
+    "operation": "get",
+    "resource": "row",
+    "returnAll": true
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "executeOnce": true
+  },
+  {
+   "id": "507c091b-f5c6-43e5-9261-9880828f668e",
+   "name": "C3 Budget check",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    880,
+    220
+   ],
+   "parameters": {
+    "jsCode": "// Model test · one call · Check this go token's calls so far: this key is new, and the call and spend caps still hold. Code only (15 Oct 2026).\n// Positive proof: the results table must answer with real rows or with nothing.\nconst o = $('C1 Check order').first().json.order;\nconst items = $input.all().map(i => i.json);\nconst readOk = items.length > 0 && items.every(r => r && !r.error && !r.order && (Object.keys(r).length === 0 || (r.operation_key && r.id !== undefined)));\nconst rows = items.filter(r => r && r.operation_key);\nconst p = [];\nconst dup = rows.find(r => r.operation_key === o.operation_key);\nconst sent = rows.filter(r => ['not_sent', 'failed_not_started'].indexOf(String(r.status)) === -1);\nconst cost = r => (r.actual_usd !== null && r.actual_usd !== undefined && r.actual_usd !== '' ? Number(r.actual_usd) || 0 : Number(r.reserved_usd) || 0);\nconst spent = Number(sent.reduce((t, r) => t + cost(r), 0).toFixed(4));\nif (!readOk) p.push('the results table could not be read, so this key and the caps cannot be checked');\nelse {\n  if (dup) p.push('this call already has a row (status \"' + dup.status + '\"); a call is never sent twice');\n  if (sent.length >= Number(o.max_calls)) p.push('the cap of ' + o.max_calls + ' calls for this go token is reached');\n  if (spent + Number(o.reserve_usd) > Number(o.max_spend_usd) + 1e-9) p.push('spend so far (about USD ' + spent.toFixed(2) + ') plus this call (USD ' + Number(o.reserve_usd).toFixed(2) + ') would pass the cap of USD ' + Number(o.max_spend_usd).toFixed(2));\n}\nreturn [{ json: { ok: p.length === 0, problem: p.length ? 'Not sent: ' + p.join('; ') + '.' : '', calls_before: sent.length, spent_before_usd: spent } }];\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "7abdcf05-95da-4904-bf25-24c21ebb3f96",
+   "name": "Clear to send?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    1100,
+    220
+   ],
+   "parameters": {
+    "conditions": {
+     "combinator": "and",
+     "conditions": [
+      {
+       "leftValue": "={{ $json.ok === true }}",
+       "operator": {
+        "operation": "true",
+        "singleValue": true,
+        "type": "boolean"
+       }
+      }
+     ],
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose"
+     }
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "6eef4304-d0b1-471c-a111-2cf7e5f666c1",
+   "name": "Download photo",
+   "type": "n8n-nodes-base.googleDrive",
+   "typeVersion": 3,
+   "position": [
+    1320,
+    140
+   ],
+   "parameters": {
+    "fileId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "={{ $('C1 Check order').first().json.order.file_id }}"
+    },
+    "operation": "download",
+    "options": {
+     "binaryPropertyName": "data"
+    },
+    "resource": "file"
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "executeOnce": true,
+   "credentials": {
+    "googleDriveOAuth2Api": {
+     "id": "NA6JT99b4IrTLmzl",
+     "name": "Claude · Midas Drive"
+    }
+   }
+  },
+  {
+   "id": "ade40095-a97e-4a68-94c3-e1dc0d49fc7b",
+   "name": "C6 Ready check",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    1980,
+    140
+   ],
+   "parameters": {
+    "jsCode": "// Model test · one call · Ready check: the reserved row must be saved, and read back as the first row with this key, before anything is sent. Code only (15 Oct 2026).\n// Two runs started at the same moment could both reserve the same call; only the run that holds the lowest row id sends.\nconst B = $('C4 Build request').first().json;\nlet ins = {};\ntry { ins = $('C5 Reserve').first().json || {}; } catch (e) { ins = {}; }\nconst saved = Boolean(ins && !ins.error && !ins.row && ins.operation_key === B.row.operation_key && Number(ins.id) > 0);\nconst items = $input.all().map(i => i.json);\nconst readOk = items.length > 0 && items.every(r => r && !r.error && !r.row && r.operation_key === B.row.operation_key && Number(r.id) > 0);\nconst first = readOk ? Math.min.apply(null, items.map(r => Number(r.id))) : 0;\nconst firstHere = saved && readOk && first === Number(ins.id);\nconst send = B.send === true && saved && String(ins.status) === 'reserved' && firstHere;\nlet problem = B.problem || '';\nif (B.send === true && !saved) problem = 'The reserved row was not saved in the results table, so nothing was sent (a call is never made without its row).';\nelse if (B.send === true && !readOk) problem = 'The reserved row could not be read back from the results table, so nothing was sent.';\nelse if (B.send === true && !firstHere) problem = 'Another run reserved this same call first (row ' + first + '), so this run did not send it.';\nreturn [{ json: { send, problem, row_saved: saved, sent_at: new Date().toISOString() } }];\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "f083651d-8ca7-41a6-af9c-657474debb70",
+   "name": "Send?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    2200,
+    140
+   ],
+   "parameters": {
+    "conditions": {
+     "combinator": "and",
+     "conditions": [
+      {
+       "leftValue": "={{ $json.send === true }}",
+       "operator": {
+        "operation": "true",
+        "singleValue": true,
+        "type": "boolean"
+       }
+      }
+     ],
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose"
+     }
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "634d53d5-3207-4259-b3f3-87cd8505ce97",
+   "name": "C7 Send to Google",
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.2,
+   "position": [
+    2420,
+    60
+   ],
+   "parameters": {
+    "authentication": "predefinedCredentialType",
+    "jsonBody": "={{ $('C4 Build request').first().json.body }}",
+    "method": "POST",
+    "nodeCredentialType": "googlePalmApi",
+    "options": {
+     "response": {
+      "response": {
+       "fullResponse": true,
+       "neverError": true,
+       "responseFormat": "json"
+      }
+     },
+     "timeout": 300000
+    },
+    "sendBody": true,
+    "specifyBody": "json",
+    "url": "https://generativelanguage.googleapis.com/v1beta/interactions"
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "executeOnce": true,
+   "credentials": {
+    "googlePalmApi": {
+     "id": "g0WJ658hQMZWuEHU",
+     "name": "Google Gemini(PaLM) Api account"
+    }
+   }
+  },
+  {
+   "id": "f0c1f0f1-11fd-4366-8997-a21c9f555e2d",
+   "name": "Image to store?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    2860,
+    60
+   ],
+   "parameters": {
+    "conditions": {
+     "combinator": "and",
+     "conditions": [
+      {
+       "leftValue": "={{ $json.store_image === true }}",
+       "operator": {
+        "operation": "true",
+        "singleValue": true,
+        "type": "boolean"
+       }
+      }
+     ],
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose"
+     }
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "a2482454-dfab-44a3-8133-31e15d8b78b9",
+   "name": "C9 Drive upload",
+   "type": "n8n-nodes-base.googleDrive",
+   "typeVersion": 3,
+   "position": [
+    3080,
+    -20
+   ],
+   "parameters": {
+    "authentication": "oAuth2",
+    "driveId": {
+     "__rl": true,
+     "mode": "list",
+     "value": "My Drive"
+    },
+    "folderId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "={{ $('C1 Check order').first().json.order.drive_run_folder_id }}"
+    },
+    "inputDataFieldName": "image",
+    "name": "={{ $json.image_meta.file_name }}",
+    "operation": "upload",
+    "options": {
+     "simplifyOutput": false
+    },
+    "resource": "file"
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "credentials": {
+    "googleDriveOAuth2Api": {
+     "id": "NA6JT99b4IrTLmzl",
+     "name": "Claude · Midas Drive"
+    }
+   }
+  },
+  {
+   "id": "9e168ff8-88d7-47f4-81d3-744dd6ebeca5",
+   "name": "C4 Build request",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    1540,
+    140
+   ],
+   "parameters": {
+    "jsCode": "// Model test · one call · Build the request: the stage 04 prompt and the vendor photo as image 1. Code only (15 Oct 2026).\n// The photo type is read from its bytes. No key is in this body. The request is not stored at Google (store: false).\nconst crypto = require('crypto');\nconst o = $('C1 Check order').first().json.order;\nconst sha = b => crypto.createHash('sha256').update(b).digest('hex');\nconst clean = t => String(t || '').replace(/AIza[0-9A-Za-z_\\-]{10,}/g, '[removed]').replace(/([?&](key|api_key|access_token|token)=)[^&\\s\"']+/gi, '$1[removed]').replace(/(\\b(x-goog-api-key|authorization|api_key|apikey|access_token|token|key)[\"']?\\s*[:=]\\s*[\"']?)[^\\s\"',}&]+/gi, '$1[removed]').slice(0, 300);\nconst now = new Date().toISOString();\nconst inp = $input.first() ? $input.first().json : {};\nlet buf = null;\ntry { buf = await this.helpers.getBinaryDataBuffer(0, 'data'); } catch (e) { buf = null; }\nconst kindOf = b => (!b || b.length < 32 ? '' : (b.readUInt32BE(0) === 0x89504e47 ? 'image/png' : (b[0] === 0xff && b[1] === 0xd8 ? 'image/jpeg' : (b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 8, 12) === 'WEBP' ? 'image/webp' : ''))));\nlet send = false, problem = '', note = '', body = '', photo = null;\nif (!buf || !buf.length) problem = 'The vendor photo could not be downloaded from Drive (' + clean((inp && inp.error && (inp.error.message || inp.error)) || 'no file data') + '). Nothing was sent.';\nelse {\n  const kind = kindOf(buf);\n  const cap = (Number(o.max_inline_mb) || 14) * 1048576;\n  photo = { sha256: sha(buf), bytes: buf.length, mime: kind };\n  if (kind && o.drive_mime && kind !== String(o.drive_mime).toLowerCase()) note = 'Drive calls the photo ' + o.drive_mime + '; its bytes are ' + kind + ', which was sent.';\n  if (!kind) problem = 'The vendor photo is not PNG, JPEG or WebP by its bytes (Drive calls it ' + (o.drive_mime || 'unknown') + '). Converting is not built. Nothing was sent.';\n  else if (buf.length > cap) problem = 'The vendor photo is ' + (buf.length / 1048576).toFixed(1) + ' MB, above the ' + (cap / 1048576) + ' MB set for one request. Resizing is not built. Nothing was sent.';\n  else if (sha(o.prompt) !== o.prompt_sha256) problem = 'The prompt differs from the one planned. Nothing was sent.';\n  else {\n    const b = { model: o.model, input: [{ type: 'text', text: o.prompt }, { type: 'image', mime_type: kind, data: buf.toString('base64') }],\n      response_format: { type: 'image', aspect_ratio: o.ratio, image_size: o.size }, store: false };\n    if (['minimal', 'medium', 'high'].indexOf(o.thinking_level) !== -1) b.generation_config = { thinking_level: o.thinking_level };\n    body = JSON.stringify(b); send = true;\n  }\n}\nconst row = { run_id: o.run_id, go_token: o.go_token, operation_key: o.operation_key, folder: o.folder, model: o.model,\n  status: send ? 'reserved' : 'not_sent', case_note: String(o.case_note || '').slice(0, 500), sheet_count: Number(o.sheet_count) || 0,\n  reserved_usd: Number(o.reserve_usd), cost_basis: o.reserve_basis, price_date: o.price_date, reading_source: o.reading_source,\n  photo_sha256: photo ? photo.sha256 : '', prompt_sha256: o.prompt_sha256, prompt: o.prompt, problem: [problem, note].filter(Boolean).join(' '), at: now, updated_at: now };\nreturn [{ json: { send, problem, note, photo, row, body } }];\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "5d85e527-ce88-48b9-9718-1a874d125fe9",
+   "name": "C5 Reserve",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    1760,
+    140
+   ],
+   "parameters": {
+    "columns": {
+     "mappingMode": "defineBelow",
+     "schema": [
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "run_id",
+       "id": "run_id",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "go_token",
+       "id": "go_token",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "operation_key",
+       "id": "operation_key",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "folder",
+       "id": "folder",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "model",
+       "id": "model",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "status",
+       "id": "status",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "case_note",
+       "id": "case_note",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "sheet_count",
+       "id": "sheet_count",
+       "required": false,
+       "type": "number"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "reserved_usd",
+       "id": "reserved_usd",
+       "required": false,
+       "type": "number"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "cost_basis",
+       "id": "cost_basis",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "price_date",
+       "id": "price_date",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "reading_source",
+       "id": "reading_source",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "photo_sha256",
+       "id": "photo_sha256",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "prompt_sha256",
+       "id": "prompt_sha256",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "prompt",
+       "id": "prompt",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "problem",
+       "id": "problem",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "at",
+       "id": "at",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "updated_at",
+       "id": "updated_at",
+       "required": false,
+       "type": "string"
+      }
+     ],
+     "value": {
+      "at": "={{ $json.row.at }}",
+      "case_note": "={{ $json.row.case_note }}",
+      "cost_basis": "={{ $json.row.cost_basis }}",
+      "folder": "={{ $json.row.folder }}",
+      "go_token": "={{ $json.row.go_token }}",
+      "model": "={{ $json.row.model }}",
+      "operation_key": "={{ $json.row.operation_key }}",
+      "photo_sha256": "={{ $json.row.photo_sha256 }}",
+      "price_date": "={{ $json.row.price_date }}",
+      "problem": "={{ $json.row.problem }}",
+      "prompt": "={{ $json.row.prompt }}",
+      "prompt_sha256": "={{ $json.row.prompt_sha256 }}",
+      "reading_source": "={{ $json.row.reading_source }}",
+      "reserved_usd": "={{ $json.row.reserved_usd }}",
+      "run_id": "={{ $json.row.run_id }}",
+      "sheet_count": "={{ $json.row.sheet_count }}",
+      "status": "={{ $json.row.status }}",
+      "updated_at": "={{ $json.row.updated_at }}"
+     }
+    },
+    "dataTableId": {
+     "__rl": true,
+     "cachedResultName": "Claude Midas A7 model test",
+     "mode": "id",
+     "value": "LqajV3K8gVqYaN3E"
+    },
+    "operation": "insert",
+    "options": {},
+    "resource": "row"
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "executeOnce": true
+  },
+  {
+   "id": "0977efb4-d409-4229-b69f-b1f8d5cbe40b",
+   "name": "C10 Final",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    3300,
+    60
+   ],
+   "parameters": {
+    "jsCode": "// Model test · one call · Final receipt: adds the Drive copy (or why there is none) before the results row is updated. Code only (15 Oct 2026).\n// If an image was due for upload but the input is still the read step's output, the upload failed and passed its input on.\nconst D = $('C8 Read result').first().json;\nconst clean = t => String(t || '').replace(/AIza[0-9A-Za-z_\\-]{10,}/g, '[removed]').replace(/([?&](key|api_key|access_token|token)=)[^&\\s\"']+/gi, '$1[removed]').replace(/(\\b(x-goog-api-key|authorization|api_key|apikey|access_token|token|key)[\"']?\\s*[:=]\\s*[\"']?)[^\\s\"',}&]+/gi, '$1[removed]').slice(0, 300);\nconst inp = $input.first() ? $input.first().json : {};\nconst u = JSON.parse(JSON.stringify(D.op_update));\nif (D.store_image === true) {\n  const up = inp && inp.op_update ? { error: 'the upload step failed and returned no file' } : (inp || {});\n  const ok = Boolean(up.id && !up.error);\n  if (ok) {\n    u.drive_file_id = String(up.id); u.drive_link = String(up.webViewLink || '');\n    const m = up.sha256Checksum ? String(up.sha256Checksum).toLowerCase() === u.image_sha256 : null;\n    if (m === false) u.problem = (u.problem + ' Google Drive saved the file, but its checksum differs from the image received. Check the Drive file before judging it.').trim();\n  } else {\n    u.status = 'completed_not_stored';\n    u.problem = (u.problem + ' The image was made and is charged, but Google Drive did not save it (' + clean((up.error && (up.error.message || up.error)) || 'no file id returned') + '). It exists only in this n8n execution. It is not made again.').trim();\n  }\n}\nu.updated_at = new Date().toISOString();\nreturn [{ json: { operation_key: D.operation_key, op_update: u } }];\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "1de91f92-e6a6-47aa-8534-34d84d6c76b3",
+   "name": "C11 Save receipt",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    3520,
+    60
+   ],
+   "parameters": {
+    "columns": {
+     "mappingMode": "defineBelow",
+     "schema": [
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "status",
+       "id": "status",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "provider_request_id",
+       "id": "provider_request_id",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "http",
+       "id": "http",
+       "required": false,
+       "type": "number"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "seconds",
+       "id": "seconds",
+       "required": false,
+       "type": "number"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "usage",
+       "id": "usage",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "actual_usd",
+       "id": "actual_usd",
+       "required": false,
+       "type": "number"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "cost_basis",
+       "id": "cost_basis",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "image_sha256",
+       "id": "image_sha256",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "image_bytes",
+       "id": "image_bytes",
+       "required": false,
+       "type": "number"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "image_px",
+       "id": "image_px",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "drive_file_id",
+       "id": "drive_file_id",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "drive_link",
+       "id": "drive_link",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "problem",
+       "id": "problem",
+       "required": false,
+       "type": "string"
+      },
+      {
+       "canBeUsedToMatch": true,
+       "defaultMatch": false,
+       "display": true,
+       "displayName": "updated_at",
+       "id": "updated_at",
+       "required": false,
+       "type": "string"
+      }
+     ],
+     "value": {
+      "actual_usd": "={{ $json.op_update.actual_usd }}",
+      "cost_basis": "={{ $json.op_update.cost_basis }}",
+      "drive_file_id": "={{ $json.op_update.drive_file_id }}",
+      "drive_link": "={{ $json.op_update.drive_link }}",
+      "http": "={{ $json.op_update.http }}",
+      "image_bytes": "={{ $json.op_update.image_bytes }}",
+      "image_px": "={{ $json.op_update.image_px }}",
+      "image_sha256": "={{ $json.op_update.image_sha256 }}",
+      "problem": "={{ $json.op_update.problem }}",
+      "provider_request_id": "={{ $json.op_update.provider_request_id }}",
+      "seconds": "={{ $json.op_update.seconds }}",
+      "status": "={{ $json.op_update.status }}",
+      "updated_at": "={{ $json.op_update.updated_at }}",
+      "usage": "={{ $json.op_update.usage }}"
+     }
+    },
+    "dataTableId": {
+     "__rl": true,
+     "cachedResultName": "Claude Midas A7 model test",
+     "mode": "id",
+     "value": "LqajV3K8gVqYaN3E"
+    },
+    "filters": {
+     "conditions": [
+      {
+       "condition": "eq",
+       "keyName": "operation_key",
+       "keyValue": "={{ $json.operation_key }}"
+      }
+     ]
+    },
+    "matchType": "allConditions",
+    "operation": "update",
+    "options": {},
+    "resource": "row"
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true
+  },
+  {
+   "id": "d7a9fad0-e0aa-44ea-ad08-f93581c0f62a",
+   "name": "C12 Return",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    3740,
+    300
+   ],
+   "parameters": {
+    "jsCode": "// Model test · one call · Return a short result to the model test: no image data, no key. Code only (15 Oct 2026).\n// A made image is a candidate: not reviewed and not approved.\nconst get = n => { try { return $(n).first().json; } catch (e) { return null; } };\nconst C = get('C1 Check order');\nconst o = (C && C.order) || {};\nconst fin = get('C10 Final'), ready = get('C6 Ready check'), budget = get('C3 Budget check');\nlet status = 'not_sent', problem = '', u = null, receipt_saved = null;\nif (fin) {\n  u = fin.op_update; status = u.status; problem = u.problem || '';\n  const inp = $input.first() ? $input.first().json : {};\n  receipt_saved = Boolean(inp && !inp.error && !inp.op_update && inp.operation_key === fin.operation_key && Number(inp.id) > 0 && inp.status === u.status);\n  if (!receipt_saved) problem = (problem + ' The results row was not updated; it may still say \"reserved\". The details are in this execution.').trim();\n} else if (ready) problem = ready.problem || 'Not sent.';\nelse if (budget) problem = budget.problem || 'Not sent.';\nelse if (C) problem = C.problem || 'Not sent.';\nelse problem = 'Stopped before the order was read. Nothing was sent.';\nconst paid_call = !u ? 'no' : (status === 'failed_not_started' ? 'refused before start; no charge expected (not confirmed)' : 'yes, or may have been');\nreturn [{ json: { operation_key: o.operation_key || '', folder: o.folder || '', model: o.model || '', status, paid_call,\n  actual_usd: u ? u.actual_usd : 0, cost_basis: u ? u.cost_basis : 'nothing sent', seconds: u ? u.seconds : 0, image_px: u ? u.image_px : '',\n  drive_link: u ? u.drive_link : '', receipt_saved, problem,\n  label: status === 'completed' ? 'Generated image. Candidate: not reviewed and not approved.' : '' } }];\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "a3bf468f-5fd2-4e0e-9332-7753d463fac0",
+   "name": "C8 Read result",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    2640,
+    60
+   ],
+   "parameters": {
+    "jsCode": "// Model test · one call · Read Google's answer: the image, its checksum and pixel size, and the cost from Google's token counts. Code only (15 Oct 2026).\n// One synchronous call, not stored at Google. A refusal before start is not charged (not confirmed). Anything else may be charged and is never sent again.\nconst crypto = require('crypto');\nconst o = $('C1 Check order').first().json.order;\nconst R = $('C6 Ready check').first().json;\nconst nowD = new Date(); const now = nowD.toISOString();\nconst arr = x => (Array.isArray(x) ? x : []);\nconst clean = t => String(t || '').replace(/AIza[0-9A-Za-z_\\-]{10,}/g, '[removed]').replace(/([?&](key|api_key|access_token|token)=)[^&\\s\"']+/gi, '$1[removed]').replace(/(\\b(x-goog-api-key|authorization|api_key|apikey|access_token|token|key)[\"']?\\s*[:=]\\s*[\"']?)[^\\s\"',}&]+/gi, '$1[removed]').slice(0, 300);\nconst r = $input.first() ? $input.first().json : {};\nconst code = Number(r && r.statusCode) || 0;\nconst body = r && r.body && typeof r.body === 'object' ? r.body : {};\nconst seconds = Math.max(0, Math.round((nowD - new Date(R.sent_at)) / 1000));\nconst gErr = body.error ? (body.error.status ? body.error.status + ': ' : '') + (body.error.message || '') : '';\nconst rawId = String(body.id || '').replace(/^interactions\\//, '');\nconst rid = /^[A-Za-z0-9_.\\-]{1,200}$/.test(rawId) ? rawId : clean(rawId).slice(0, 120);\nconst TERMINAL = ['completed', 'failed', 'cancelled', 'incomplete', 'requires_action'];\nfunction findImage(x) {\n  const steps = arr(x && x.steps);\n  for (let i = steps.length - 1; i >= 0; i--) {\n    const st = steps[i];\n    if (!st || st.type !== 'model_output') continue; // thoughts and other steps are skipped\n    const blocks = arr(st.content);\n    for (let j = blocks.length - 1; j >= 0; j--) { const b = blocks[j]; if (b && b.type === 'image' && (b.data || b.uri)) return b; }\n  }\n  if (x && x.output_image && (x.output_image.data || x.output_image.uri)) return x.output_image;\n  return null;\n}\nfunction pixels(b) {\n  try {\n    if (b.length > 24 && b.readUInt32BE(0) === 0x89504e47) return b.readUInt32BE(16) + 'x' + b.readUInt32BE(20);\n    if (b.length > 4 && b[0] === 0xff && b[1] === 0xd8) {\n      let p = 2;\n      while (p + 9 < b.length) {\n        if (b[p] !== 0xff) { p++; continue; }\n        const mk = b[p + 1];\n        if (mk >= 0xc0 && mk <= 0xcf && [0xc4, 0xc8, 0xcc].indexOf(mk) === -1) return b.readUInt16BE(p + 7) + 'x' + b.readUInt16BE(p + 5);\n        p += 2 + b.readUInt16BE(p + 2);\n      }\n    }\n    if (b.length > 30 && b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 8, 12) === 'WEBP') {\n      const f = b.toString('ascii', 12, 16);\n      if (f === 'VP8X') return (1 + b.readUIntLE(24, 3)) + 'x' + (1 + b.readUIntLE(27, 3));\n      if (f === 'VP8 ') return (b.readUInt16LE(26) & 0x3fff) + 'x' + (b.readUInt16LE(28) & 0x3fff);\n      if (f === 'VP8L') { const v = b.readUInt32LE(21); return (1 + (v & 0x3fff)) + 'x' + (1 + ((v >> 14) & 0x3fff)); }\n    }\n  } catch (e) { /* not read */ }\n  return 'not read';\n}\nfunction cost(u) {\n  const p = o.prices;\n  const byMod = (a, mod) => arr(a).filter(x => x && String(x.modality).toLowerCase() === mod).reduce((t, x) => t + (Number(x.tokens) || 0), 0);\n  const inTok = Number(u && u.total_input_tokens) || 0;\n  const outTok = Number(u && u.total_output_tokens) || 0;\n  if (!inTok && !outTok) return { usd: Number(o.reserve_usd), basis: 'Google reported no token counts; the reserved estimate is kept (USD ' + o.reserve_usd + '; estimate, not an invoice).' };\n  const img = byMod(u.output_tokens_by_modality, 'image');\n  const thought = Number(u.total_thought_tokens) || 0;\n  const text = Math.max(0, outTok - img);\n  const usd = (inTok * p.input + img * p.image_out + (text + thought) * p.text_out) / 1e6;\n  return { usd: Number(usd.toFixed(4)), basis: 'computed from Google\\'s token counts (input ' + inTok + ', image ' + img + ', text ' + text + ', thinking ' + thought + ') x registry prices dated ' + o.price_date + '; not an invoice' };\n}\nlet status = '', problem = '', it = null, c = null, img = null, imgBuf = null, imgMime = '';\nif (code >= 200 && code < 300) {\n  const ps = String(body.status || '');\n  if (TERMINAL.indexOf(ps) !== -1) it = body;\n  else if (!ps && findImage(body)) { it = Object.assign({}, body, { status: 'completed' }); problem = 'Google\\'s answer had no status field but held an image. '; }\n  else if (ps) { status = 'uncertain'; problem = 'Google answered with status \"' + ps + '\" and no final result. The call may be charged. It is not sent again; the request was not stored at Google, so it cannot be fetched later.'; }\n  else { status = 'receipt_unreadable'; problem = 'Google answered (HTTP ' + code + ') with no status and no image. The call may be charged. It is not sent again.'; }\n} else if (code >= 400 && code < 500 && [408, 409, 499].indexOf(code) === -1) { status = 'failed_not_started'; problem = 'Google refused the request before starting (HTTP ' + code + (gErr ? ', ' + clean(gErr) : '') + '). No charge is expected (not confirmed). It is not sent again by itself.'; }\nelse if (code >= 400) { status = 'uncertain'; problem = 'Google returned an error that does not prove the request never started (HTTP ' + code + (gErr ? ', ' + clean(gErr) : '') + '). The call may be charged. It is not sent again.'; }\nelse { status = 'uncertain'; problem = 'No answer from Google (a time-out or a connection error)' + (r && r.error ? ' (' + clean(r.error.message || r.error) + ')' : '') + '. The call may be charged. It is not sent again.'; }\nif (it) {\n  try {\n    c = cost(it.usage);\n    const ps = String(it.status);\n    if (ps === 'completed') {\n      const b = findImage(it);\n      const buf = b && b.data ? Buffer.from(String(b.data), 'base64') : null;\n      const kind = !buf || buf.length < 32 ? '' : (buf.readUInt32BE(0) === 0x89504e47 ? 'image/png' : (buf[0] === 0xff && buf[1] === 0xd8 ? 'image/jpeg' : (buf.toString('ascii', 0, 4) === 'RIFF' && buf.toString('ascii', 8, 12) === 'WEBP' ? 'image/webp' : '')));\n      if (buf && (!kind || pixels(buf) === 'not read')) { status = 'completed_bad_image'; problem += 'Google finished, but what it returned is not a readable PNG, JPEG or WebP image (' + buf.length + ' bytes). The call is charged. It is not sent again.'; }\n      else if (buf) {\n        const ext = kind === 'image/png' ? 'png' : (kind === 'image/webp' ? 'webp' : 'jpg');\n        img = { sha256: crypto.createHash('sha256').update(buf).digest('hex'), bytes: buf.length, px: pixels(buf), mime: kind,\n          file_name: o.folder.replace(/\\s+/g, '-') + '_' + o.model + '.' + ext };\n        status = 'completed'; imgBuf = buf; imgMime = kind;\n        const m = String(img.px).match(/^(\\d+)x(\\d+)$/), want = { '1K': 1024, '2K': 2048, '4K': 4096 }[o.size], rr = String(o.ratio).split(':').map(Number), chk = [];\n        if (m && rr[0] && rr[1] && Math.abs(Number(m[1]) / Number(m[2]) - rr[0] / rr[1]) > 0.02) chk.push('the frame is ' + img.px + ', not the ' + o.ratio + ' asked for');\n        if (m && want && (Math.max(Number(m[1]), Number(m[2])) < want * 0.75 || Math.max(Number(m[1]), Number(m[2])) > want * 1.25)) chk.push('the long side is ' + Math.max(Number(m[1]), Number(m[2])) + ' px, not about ' + want + ' px for ' + o.size);\n        if (chk.length) problem += 'Check: ' + chk.join('; ') + '. Google may have ignored the frame or size setting. ';\n      } else if (b && b.uri) { status = 'completed_not_stored'; problem += 'Google finished but returned the image as a link only; downloading it is not built. The call is charged.'; }\n      else { status = 'completed_no_image'; problem += 'Google finished but returned no image. The call may be charged (see the token counts). It is not sent again.'; }\n    } else {\n      status = 'failed';\n      const errs = clean(arr(it.errors).map(e => String((e && (e.message || e.code)) || '')).filter(Boolean).join('; ')).slice(0, 200);\n      problem += 'Google ended the request as \"' + ps + '\"' + (errs ? ' (' + errs + ')' : '') + '. A confirmed failure keeps its charge. It is not sent again.';\n    }\n  } catch (e) { status = 'receipt_unreadable'; img = null; imgBuf = null; problem = 'Google\\'s answer could not be read (' + clean(e && e.message) + '). A paid call may have been made; it is not sent again.'; }\n}\nconst actual = c ? c.usd : (status === 'failed_not_started' ? 0 : Number(o.reserve_usd));\nconst basis = c ? c.basis : (status === 'failed_not_started' ? 'refused before start; no charge expected (not confirmed)' : 'no token counts; reserved estimate kept (estimate, not an invoice)');\nconst op_update = { status, provider_request_id: rid, http: code, seconds, usage: it && it.usage ? JSON.stringify(it.usage).slice(0, 2000) : '',\n  actual_usd: actual, cost_basis: basis, image_sha256: img ? img.sha256 : '', image_bytes: img ? img.bytes : 0, image_px: img ? img.px : '',\n  drive_file_id: '', drive_link: '', problem: problem.trim(), updated_at: now };\nconst out = { json: { operation_key: o.operation_key, store_image: Boolean(imgBuf), image_meta: img, op_update } };\nif (imgBuf) out.binary = { image: await this.helpers.prepareBinaryData(imgBuf, img.file_name, imgMime) };\nreturn [out];\n",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+   }
+  },
+  {
+   "id": "c64c5468-b79b-4928-a8db-1d6793c3b3f2",
+   "name": "C5b Read back this key",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    1870,
+    300
+   ],
+   "parameters": {
+    "dataTableId": {
+     "__rl": true,
+     "cachedResultName": "Claude Midas A7 model test",
+     "mode": "id",
+     "value": "LqajV3K8gVqYaN3E"
+    },
+    "filters": {
+     "conditions": [
+      {
+       "condition": "eq",
+       "keyName": "operation_key",
+       "keyValue": "={{ $('C4 Build request').first().json.row.operation_key }}"
+      }
+     ]
+    },
+    "matchType": "allConditions",
+    "operation": "get",
+    "resource": "row",
+    "returnAll": true
+   },
+   "onError": "continueRegularOutput",
+   "alwaysOutputData": true,
+   "executeOnce": true
+  }
+ ],
+ "connections": {
+  "From model test": {
+   "main": [
+    [
+     {
+      "node": "C1 Check order",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "C1 Check order": {
+   "main": [
+    [
+     {
+      "node": "Order valid?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Order valid?": {
+   "main": [
+    [
+     {
+      "node": "C2 Find this go token",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "C12 Return",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "C2 Find this go token": {
+   "main": [
+    [
+     {
+      "node": "C3 Budget check",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "C3 Budget check": {
+   "main": [
+    [
+     {
+      "node": "Clear to send?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Clear to send?": {
+   "main": [
+    [
+     {
+      "node": "Download photo",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "C12 Return",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Download photo": {
+   "main": [
+    [
+     {
+      "node": "C4 Build request",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "C4 Build request": {
+   "main": [
+    [
+     {
+      "node": "C5 Reserve",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "C6 Ready check": {
+   "main": [
+    [
+     {
+      "node": "Send?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Send?": {
+   "main": [
+    [
+     {
+      "node": "C7 Send to Google",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "C12 Return",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "C7 Send to Google": {
+   "main": [
+    [
+     {
+      "node": "C8 Read result",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "C8 Read result": {
+   "main": [
+    [
+     {
+      "node": "Image to store?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Image to store?": {
+   "main": [
+    [
+     {
+      "node": "C9 Drive upload",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "C10 Final",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "C9 Drive upload": {
+   "main": [
+    [
+     {
+      "node": "C10 Final",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "C10 Final": {
+   "main": [
+    [
+     {
+      "node": "C11 Save receipt",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "C11 Save receipt": {
+   "main": [
+    [
+     {
+      "node": "C12 Return",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "C5 Reserve": {
+   "main": [
+    [
+     {
+      "node": "C5b Read back this key",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "C5b Read back this key": {
+   "main": [
+    [
+     {
+      "node": "C6 Ready check",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1",
+  "availableInMCP": true,
+  "callerPolicy": "workflowsFromAList",
+  "callerIds": "WvmDSrnX6lYdiKzZ"
+ },
+ "nodeGroups": [
+  {
+   "id": "f037bbbb-896b-429e-a116-f84903748646",
+   "name": "Receipt and Drive copy",
+   "nodeNames": [
+    "C8 Read result",
+    "Image to store?",
+    "C9 Drive upload",
+    "C10 Final",
+    "C11 Save receipt"
+   ],
+   "description": "Status, cost from token counts (not an invoice), image checksum, Drive copy, results row."
+  }
+ ]
+}

@@ -1,0 +1,357 @@
+{
+  "title": "Claude · Midas facet snapshot: owner approval and usage rules",
+  "made": "2026-10-17",
+  "made_by": "Claude, from the owner's decision of 17 Oct 2026, 00:36 Amman",
+  "approval": {
+    "decision": "Approved as a raw snapshot, exactly as read. The stored values are never edited.",
+    "approved_by": "owner (chat, 17 Oct 2026, 00:36 Amman)",
+    "read_window": "17 Oct 2026, 00:12 to 00:19 Amman (16 Oct 2026, 21:12:38 to 21:18:57 UTC)",
+    "source": "https://midasfurniture.com/en/ (category pages; filter lists as shown on page 1; no filter link was opened)"
+  },
+  "snapshot": {
+    "file": "data/claude-midas-facets-site-2026-10-17.json",
+    "sha256": "06b6faed11cf2d642b9f36be8af53e2c9f9b62faca8f3a9c3f8d620f12d2ece1",
+    "raw_reads": [
+      {
+        "file": "data/claude-midas-site-reads-2026-10-17/category-pages-a.json",
+        "sha256": "c7ae277e275e7d52e74814e3ffa80da795415f5bff4db03e8cd638c61fa4ebfb"
+      },
+      {
+        "file": "data/claude-midas-site-reads-2026-10-17/category-pages-b.json",
+        "sha256": "c77fdaac5bfef0f58d3a56c57ee08d1e4413410f5eb493bb6c701ca47e4488b8"
+      }
+    ],
+    "note": "The snapshot file is kept byte for byte; this record sits beside it so its hash does not change."
+  },
+  "category_urls": [
+    {
+      "url": "https://midasfurniture.com/en/home-furniture.html",
+      "read_utc": "2026-10-16T21:12:38.353Z",
+      "filters_seen": [
+        "Category",
+        "Price",
+        "Concept",
+        "Family Color",
+        "Shape",
+        "Size",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+      "read_utc": "2026-10-16T21:12:50.249Z",
+      "filters_seen": [
+        "Category",
+        "Price",
+        "Concept",
+        "Family Color",
+        "Features",
+        "Shape",
+        "Fabric Type",
+        "Size",
+        "Table Frame Material",
+        "Material",
+        "Back Cushions",
+        "Seat Cushions",
+        "Chairs Upholstery",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+      "read_utc": "2026-10-16T21:13:01.617Z",
+      "filters_seen": [
+        "Category",
+        "Price",
+        "Concept",
+        "Family Color",
+        "Features",
+        "No. of Pieces",
+        "Size",
+        "Handles Materials",
+        "Headboard",
+        "Storage Space",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+      "read_utc": "2026-10-16T21:13:13.882Z",
+      "filters_seen": [
+        "Category",
+        "Price",
+        "Set includes",
+        "Concept",
+        "Family Color",
+        "Features",
+        "Shape",
+        "Fabric Type",
+        "Size",
+        "Chairs Upholstery",
+        "Chair Arms",
+        "Table Capacity",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+      "read_utc": "2026-10-16T21:13:25.517Z",
+      "filters_seen": [
+        "Price",
+        "Concept",
+        "Family Color",
+        "Features",
+        "Shape",
+        "Fabric Type",
+        "Chairs Upholstery",
+        "Chair Arms",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+      "read_utc": "2026-10-16T21:13:37.836Z",
+      "filters_seen": [
+        "Price",
+        "Concept",
+        "Family Color",
+        "Features",
+        "No. of Pieces",
+        "Shape",
+        "Fabric Type",
+        "Table Top Material",
+        "Table Capacity",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+      "read_utc": "2026-10-16T21:13:51.694Z",
+      "filters_seen": [
+        "Price",
+        "Concept",
+        "Family Color",
+        "Features",
+        "Shape",
+        "Fabric Type",
+        "Size",
+        "Material",
+        "Back Cushions",
+        "Seat Cushions",
+        "Chairs Upholstery",
+        "Upholstery",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+      "read_utc": "2026-10-16T21:14:03.522Z",
+      "filters_seen": [
+        "Price",
+        "Concept",
+        "Family Color",
+        "Shape",
+        "Table Frame Material",
+        "Table Top Material",
+        "Material",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/living-rooms/cabinets.html",
+      "read_utc": "2026-10-16T21:14:15.327Z",
+      "filters_seen": [
+        "Price",
+        "Concept",
+        "Family Color",
+        "Shape",
+        "Table Frame Material",
+        "Table Top Material",
+        "Material",
+        "Handles Materials",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/bedroom-sets/night-stands.html",
+      "read_utc": "2026-10-16T21:14:28.048Z",
+      "filters_seen": [
+        "Price",
+        "Concept",
+        "Family Color",
+        "Features",
+        "Handles Materials",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/bedroom-sets/beds.html",
+      "read_utc": "2026-10-16T21:14:41.368Z",
+      "filters_seen": [
+        "Price",
+        "Concept",
+        "Family Color",
+        "Features",
+        "Size",
+        "Handles Materials",
+        "Headboard",
+        "Storage Space",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+      "read_utc": "2026-10-16T21:14:55.195Z",
+      "filters_seen": [
+        "Price",
+        "Concept",
+        "Family Color",
+        "Shape",
+        "Fabric Type",
+        "Size",
+        "Table Top Material",
+        "Material",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/accessories.html",
+      "read_utc": "2026-10-16T21:15:07.326Z",
+      "filters_seen": [
+        "Category",
+        "Price",
+        "Shape",
+        "Concept",
+        "Family Color",
+        "No. of Pieces",
+        "Shape",
+        "Size",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+      "read_utc": "2026-10-16T21:15:21.775Z",
+      "filters_seen": [
+        "Inner Material",
+        "Price",
+        "Shape",
+        "Concept",
+        "Family Color",
+        "No. of Pieces",
+        "Size",
+        "Material",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/office-furniture.html",
+      "read_utc": "2026-10-16T21:15:33.293Z",
+      "filters_seen": [
+        "Category",
+        "Price",
+        "Concept",
+        "Family Color",
+        "Shape",
+        "Size",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+      "read_utc": "2026-10-16T21:18:35.381Z",
+      "filters_seen": [
+        "Price",
+        "Concept",
+        "Family Color",
+        "Shape",
+        "Size",
+        "Table Top Material",
+        "Material",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+      "read_utc": "2026-10-16T21:18:46.532Z",
+      "filters_seen": [
+        "Category",
+        "Price",
+        "Concept",
+        "Family Color",
+        "Number of Seaters",
+        "Features",
+        "Size",
+        "Brand",
+        "Discount Filter"
+      ]
+    },
+    {
+      "url": "https://midasfurniture.com/en/home-furniture/bedroom-sets/wardrobes.html",
+      "read_utc": "2026-10-16T21:18:57.762Z",
+      "filters_seen": [
+        "Price",
+        "Concept",
+        "Family Color",
+        "Features",
+        "Wardrobe No. of Doors",
+        "Discount Filter"
+      ]
+    }
+  ],
+  "also_read_not_counted": [
+    {
+      "url": "https://midasfurniture.com/en/outdoor-furniture.html",
+      "status": 200,
+      "read_utc": "2026-10-16T21:15:45.298Z",
+      "why": "category page with no filter lists on page 1"
+    },
+    {
+      "url": "https://midasfurniture.com/en/sanova-end-table-living-rooms-midas.html",
+      "status": 404,
+      "read_utc": "2026-10-16T21:15:57.310Z",
+      "why": "SANOVA 161283 product page (404), read for the inactive check, not a category page"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "rule": "Matching is case-insensitive. 'Faux leather' and 'Faux Leather' match the same products. Both spellings stay in the snapshot as read."
+    },
+    {
+      "id": "R2",
+      "rule": "'Stainless Steel' and 'Exposed' under Fabric Type stay in the snapshot but are not offered as fabric choices until the owner confirms what they mean.",
+      "held": {
+        "fabric": [
+          "Stainless Steel",
+          "Exposed"
+        ]
+      }
+    },
+    {
+      "id": "R3",
+      "rule": "The lists are not complete (18 category pages, page 1 only). A product value not on a list is kept as read and logged 'not in snapshot'. It is never rejected and never replaced by the nearest value."
+    },
+    {
+      "id": "R4",
+      "rule": "Stored values are never edited, merged or renamed. Matching only compares; it never changes the product's value."
+    }
+  ],
+  "code": "lib/claude-midas-facet-rules.js (tests: tests/claude-midas-facet-rules/run_tests_facet_rules.js)"
+}

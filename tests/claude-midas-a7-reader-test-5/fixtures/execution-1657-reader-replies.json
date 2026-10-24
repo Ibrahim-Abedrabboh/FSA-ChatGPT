@@ -1,0 +1,282 @@
+[
+ {
+  "output": [
+   {
+    "type": "message",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"upload_type\": \"W4\",\n  \"upload_type_reason\": \"Two product views combined on a white background.\",\n  \"category\": \"sofa\",\n  \"pieces\": [\n    {\n      \"label\": \"Light upholstered sofa\",\n      \"kind\": \"three seater sofa\",\n      \"seats\": 3,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Geometric decorative pillows\",\n      \"kind\": \"throw pillow\",\n      \"seats\": null,\n      \"seen_whole\": true,\n      \"role\": \"context\"\n    }\n  ],\n  \"count_by_kind\": [\n    {\n      \"kind\": \"three seater sofa\",\n      \"count\": 1\n    }\n  ],\n  \"views_not_pieces\": [\n    {\n      \"what\": \"Upper sofa image appears to show an alternate angle\",\n      \"reference_role\": \"view\"\n    }\n  ],\n  \"signs\": [],\n  \"printed_counts\": [],\n  \"colour_observed\": [\n    \"Light warm grey upholstery\",\n    \"Tan outer side panels\",\n    \"Black feet\"\n  ],\n  \"swatch_colours\": [],\n  \"material_appearance\": [\n    \"Soft textured fabric upholstery\",\n    \"Smooth tan side-panel finish\",\n    \"Dark solid-looking feet\"\n  ],\n  \"design_locks\": [\n    \"Low, elongated sofa silhouette\",\n    \"Three light grey back cushions in the lower view\",\n    \"Three light grey seat sections in the lower view\",\n    \"Broad upholstered arm visible at image right in the lower view\",\n    \"Tan exterior side panels\",\n    \"Short black angular feet\",\n    \"Light grey upholstered front base\",\n    \"Small pale rectangular badge on the tan panel in the upper view\"\n  ],\n  \"sided_parts\": [],\n  \"relations\": [],\n  \"shown_with\": [\n    \"Geometric patterned throw pillows in cream, brown and dark tones\"\n  ],\n  \"conditions\": {\n    \"low_resolution\": true,\n    \"blur\": false,\n    \"colour_cast\": false,\n    \"tilt\": false,\n    \"lens_distortion\": false,\n    \"reflection_or_transparency\": false\n  },\n  \"category_profile\": [\n    \"Preserve sofa proportions\",\n    \"Preserve visible cushion divisions\",\n    \"Preserve arm profile\",\n    \"Preserve tan side panels\",\n    \"Preserve short black feet\"\n  ],\n  \"supplier_dimensions\": [],\n  \"unclear_membership\": [],\n  \"unknowns\": [\n    \"Exact upholstery composition\",\n    \"Exact side-panel material\",\n    \"Dimensions\",\n    \"Whether the upper image shows a different configuration\"\n  ],\n  \"conflicts\": [],\n  \"cropped\": false,\n  \"occluded\": true,\n  \"blocking_question\": null\n}"
+     }
+    ]
+   }
+  ],
+  "usage": {
+   "input_tokens": 1857,
+   "input_tokens_details": {
+    "cache_write_tokens": 1854,
+    "cached_tokens": 0
+   },
+   "output_tokens": 1037,
+   "output_tokens_details": {
+    "reasoning_tokens": 452
+   },
+   "total_tokens": 2894
+  },
+  "error": null
+ },
+ {
+  "output": [
+   {
+    "type": "message",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"upload_type\": \"W4\",\n  \"upload_type_reason\": \"Two isolated seating references combined vertically.\",\n  \"category\": \"sofa and chaise seating group\",\n  \"pieces\": [\n    {\n      \"label\": \"Upper chaise\",\n      \"kind\": \"chaise lounge\",\n      \"seats\": 1,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Lower sofa\",\n      \"kind\": \"three seater sofa\",\n      \"seats\": 3,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Patterned throw pillows\",\n      \"kind\": \"throw pillow\",\n      \"seats\": null,\n      \"seen_whole\": true,\n      \"role\": \"context\"\n    }\n  ],\n  \"count_by_kind\": [\n    {\n      \"kind\": \"chaise lounge\",\n      \"count\": 1\n    },\n    {\n      \"kind\": \"three seater sofa\",\n      \"count\": 1\n    }\n  ],\n  \"views_not_pieces\": [],\n  \"signs\": [],\n  \"printed_counts\": [],\n  \"colour_observed\": \"Light warm grey to ivory upholstery, dark feet, and a tan panel on the upper piece.\",\n  \"swatch_colours\": [],\n  \"material_appearance\": [\n    \"Soft, lightly textured fabric upholstery.\",\n    \"Dark solid-looking feet.\",\n    \"Smooth tan exposed panel on the upper piece.\"\n  ],\n  \"design_locks\": [\n    \"Upper piece has an elongated ivory seat extending to the image right.\",\n    \"Upper piece has two loose-looking ivory back cushions.\",\n    \"Upper piece has a narrow upright end at image left.\",\n    \"Upper piece shows a tan lower panel near its left end.\",\n    \"Lower sofa has three ivory seat cushions.\",\n    \"Lower sofa has three ivory back cushions.\",\n    \"Lower sofa has a broad rectangular arm at image left.\",\n    \"Lower sofa has no visible arm at image right.\",\n    \"Both pieces have low ivory upholstered bases and short dark feet.\"\n  ],\n  \"sided_parts\": [\n    {\n      \"piece\": \"Upper chaise\",\n      \"hand\": \"left-arm facing\",\n      \"image_position\": \"Upper image; arm at left\"\n    },\n    {\n      \"piece\": \"Lower sofa\",\n      \"hand\": \"left-arm facing\",\n      \"image_position\": \"Lower image; arm at left\"\n    }\n  ],\n  \"relations\": [\n    \"The two seating pieces are shown separately, not visibly connected.\"\n  ],\n  \"shown_with\": [\n    \"One geometric-patterned throw pillow on each seating piece.\"\n  ],\n  \"conditions\": {\n    \"low_resolution\": true,\n    \"blur\": false,\n    \"colour_cast\": false,\n    \"tilt\": false,\n    \"lens_distortion\": false,\n    \"reflection_or_transparency\": false\n  },\n  \"category_profile\": [\n    \"Preserve distinct seating silhouettes.\",\n    \"Preserve visible cushion divisions.\",\n    \"Preserve left-facing arm positions.\",\n    \"Preserve armless right ends.\",\n    \"Preserve low bases and dark feet.\",\n    \"Keep decorative pillows separate from upholstery.\"\n  ],\n  \"supplier_dimensions\": [],\n  \"unclear_membership\": [],\n  \"unknowns\": [\n    \"Whether the two references show separate pieces or alternate configurations.\",\n    \"Exact upholstery composition.\",\n    \"Function of the upper piece's tan panel.\",\n    \"Hidden rear construction.\"\n  ],\n  \"conflicts\": [],\n  \"cropped\": false,\n  \"occluded\": true,\n  \"blocking_question\": \"Are these two separate seating pieces or two configurations of one product?\"\n}"
+     }
+    ]
+   }
+  ],
+  "usage": {
+   "input_tokens": 1910,
+   "input_tokens_details": {
+    "cache_write_tokens": 1907,
+    "cached_tokens": 0
+   },
+   "output_tokens": 1289,
+   "output_tokens_details": {
+    "reasoning_tokens": 516
+   },
+   "total_tokens": 3199
+  },
+  "error": null
+ },
+ {
+  "output": [
+   {
+    "type": "message",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"upload_type\": \"W4\",\n  \"upload_type_reason\": \"Room view beside an isolated matching seat reference.\",\n  \"category\": \"modular sectional sofa\",\n  \"pieces\": [\n    {\n      \"label\": \"Far-left module\",\n      \"kind\": \"sectional module\",\n      \"seats\": 1,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Middle-left module\",\n      \"kind\": \"sectional module\",\n      \"seats\": 1,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Middle-right module\",\n      \"kind\": \"sectional module\",\n      \"seats\": 1,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Rear corner module\",\n      \"kind\": \"sectional module\",\n      \"seats\": 1,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Right-return middle module\",\n      \"kind\": \"sectional module\",\n      \"seats\": 1,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Right-return end module\",\n      \"kind\": \"sectional module\",\n      \"seats\": 1,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Coffee table\",\n      \"kind\": \"coffee table\",\n      \"seats\": null,\n      \"seen_whole\": true,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"Area rug\",\n      \"kind\": \"rug\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"Decorative pillows\",\n      \"kind\": \"throw pillow\",\n      \"seats\": null,\n      \"seen_whole\": true,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"Horse pictures\",\n      \"kind\": \"wall art\",\n      \"seats\": null,\n      \"seen_whole\": true,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"Table accessories\",\n      \"kind\": \"decor and tableware\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    }\n  ],\n  \"count_by_kind\": [\n    {\n      \"kind\": \"sectional module\",\n      \"count\": 6\n    }\n  ],\n  \"views_not_pieces\": [\n    {\n      \"what\": \"Isolated matching single-seat unit on white\",\n      \"reference_role\": \"view\"\n    }\n  ],\n  \"signs\": [],\n  \"printed_counts\": [],\n  \"colour_observed\": [\n    \"Warm ivory upholstery\",\n    \"Dark recessed base\"\n  ],\n  \"swatch_colours\": [],\n  \"material_appearance\": [\n    \"Soft, lightly textured woven upholstery\",\n    \"Padded seats and backs\",\n    \"Dark smooth base\"\n  ],\n  \"design_locks\": [\n    \"Low ivory L-shaped seating arrangement\",\n    \"Broad rectangular seat sections\",\n    \"Softly rounded upholstered edges\",\n    \"Low padded backs with vertical divisions\",\n    \"Visible seams between seat modules\",\n    \"Recessed dark plinth beneath ivory upholstery\",\n    \"Low upholstered end panel on the foreground return\"\n  ],\n  \"sided_parts\": [\n    {\n      \"piece\": \"Rear corner module\",\n      \"hand\": \"Not established\",\n      \"image_position\": \"Rear right\"\n    },\n    {\n      \"piece\": \"Right-return end module\",\n      \"hand\": \"Not established\",\n      \"image_position\": \"Foreground right\"\n    }\n  ],\n  \"relations\": [\n    \"Three modules sit side by side across the rear-left run.\",\n    \"The corner module turns the arrangement toward the foreground.\",\n    \"Two modules continue along the right return.\"\n  ],\n  \"shown_with\": [\n    \"Ivory decorative pillows on the seating\"\n  ],\n  \"conditions\": {\n    \"low_resolution\": true,\n    \"blur\": false,\n    \"colour_cast\": false,\n    \"tilt\": false,\n    \"lens_distortion\": false,\n    \"reflection_or_transparency\": true\n  },\n  \"category_profile\": [\n    \"Module count and arrangement\",\n    \"Corner orientation\",\n    \"Low back proportions\",\n    \"Seat seam positions\",\n    \"Ivory upholstery appearance\",\n    \"Dark recessed base\"\n  ],\n  \"supplier_dimensions\": [],\n  \"unclear_membership\": [],\n  \"unknowns\": [\n    \"Module connections are not visible.\",\n    \"Some module boundaries are partly obscured.\",\n    \"Exact upholstery composition is unknown.\",\n    \"The isolated view's corresponding module is not established.\",\n    \"Outer edges of the right return are cropped.\"\n  ],\n  \"conflicts\": [],\n  \"cropped\": true,\n  \"occluded\": true,\n  \"blocking_question\": null\n}"
+     }
+    ]
+   }
+  ],
+  "usage": {
+   "input_tokens": 2009,
+   "input_tokens_details": {
+    "cache_write_tokens": 2006,
+    "cached_tokens": 0
+   },
+   "output_tokens": 1742,
+   "output_tokens_details": {
+    "reasoning_tokens": 672
+   },
+   "total_tokens": 3751
+  },
+  "error": null
+ },
+ {
+  "output": [
+   {
+    "type": "message",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"upload_type\": \"W4\",\n  \"upload_type_reason\": \"Furniture selection with four fabric swatch references.\",\n  \"category\": \"sofa set\",\n  \"pieces\": [\n    {\n      \"label\": \"Left curved sofa\",\n      \"kind\": \"loveseat\",\n      \"seats\": 2,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Left central armchair\",\n      \"kind\": \"armchair\",\n      \"seats\": 1,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Right central armchair\",\n      \"kind\": \"armchair\",\n      \"seats\": 1,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Right curved sofa\",\n      \"kind\": \"loveseat\",\n      \"seats\": 2,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Decorative pillows\",\n      \"kind\": \"throw pillow\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    }\n  ],\n  \"count_by_kind\": [\n    {\n      \"kind\": \"loveseat\",\n      \"count\": 2\n    },\n    {\n      \"kind\": \"armchair\",\n      \"count\": 2\n    }\n  ],\n  \"views_not_pieces\": [\n    {\n      \"what\": \"Grey and cream patterned fabric sample\",\n      \"reference_role\": \"swatch\"\n    },\n    {\n      \"what\": \"Multicoloured textured fabric sample\",\n      \"reference_role\": \"swatch\"\n    },\n    {\n      \"what\": \"Rust-red textured fabric sample\",\n      \"reference_role\": \"swatch\"\n    },\n    {\n      \"what\": \"Dark grey-brown fabric sample\",\n      \"reference_role\": \"swatch\"\n    }\n  ],\n  \"signs\": [],\n  \"printed_counts\": [],\n  \"colour_observed\": [\n    \"Sofas: light grey to off-white.\",\n    \"Armchairs: muted dusty mauve with very dark side accents.\"\n  ],\n  \"swatch_colours\": [\n    \"Grey and cream\",\n    \"Cream, rust, brown and dark grey\",\n    \"Rust red\",\n    \"Dark grey-brown\"\n  ],\n  \"material_appearance\": [\n    \"Sofas have textured woven-looking upholstery.\",\n    \"Armchairs have softly textured upholstery.\",\n    \"Armchair side accents appear smooth and dark.\"\n  ],\n  \"design_locks\": [\n    \"Light sofas have curved silhouettes and rounded upright arms.\",\n    \"Light sofas have continuous bench-style seats.\",\n    \"Light sofas have low upholstered backs with visible panel divisions.\",\n    \"Sofa bases sit close to the floor with small dark supports.\",\n    \"Mauve armchairs have rounded wraparound backs and arms.\",\n    \"Mauve armchairs have thick rounded seat cushions.\",\n    \"Dark inset accents separate armchair arms from their lower bodies.\"\n  ],\n  \"sided_parts\": [],\n  \"relations\": [\n    \"Two mauve armchairs sit between the two light sofas.\",\n    \"Both sofas face forward with slight inward angling.\"\n  ],\n  \"shown_with\": [\n    \"Rust-red, dark and patterned throw pillows on both sofas.\"\n  ],\n  \"conditions\": {\n    \"low_resolution\": true,\n    \"blur\": false,\n    \"colour_cast\": false,\n    \"tilt\": false,\n    \"lens_distortion\": false,\n    \"reflection_or_transparency\": false\n  },\n  \"category_profile\": [\n    \"Four separate seating pieces\",\n    \"Two curved light sofas\",\n    \"Two rounded mauve armchairs\",\n    \"Contrasting dark armchair accents\",\n    \"Low rounded upholstered silhouettes\"\n  ],\n  \"supplier_dimensions\": [],\n  \"unclear_membership\": [\n    \"Both central armchairs are included as grouped seating despite their different shape and colour.\"\n  ],\n  \"unknowns\": [\n    \"Exact sofa seating capacities are not confirmed.\",\n    \"Fabric composition is not established.\",\n    \"Swatch-to-product assignments are not labelled.\",\n    \"Rear construction and underside details are not visible.\"\n  ],\n  \"conflicts\": [],\n  \"cropped\": false,\n  \"occluded\": true,\n  \"blocking_question\": null\n}"
+     }
+    ]
+   }
+  ],
+  "usage": {
+   "input_tokens": 1976,
+   "input_tokens_details": {
+    "cache_write_tokens": 1973,
+    "cached_tokens": 0
+   },
+   "output_tokens": 1135,
+   "output_tokens_details": {
+    "reasoning_tokens": 212
+   },
+   "total_tokens": 3111
+  },
+  "error": null
+ },
+ {
+  "output": [
+   {
+    "type": "message",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"upload_type\": \"W4\",\n  \"upload_type_reason\": \"Seating group with three detail insets.\",\n  \"category\": \"sofa set\",\n  \"pieces\": [\n    {\n      \"label\": \"Central sofa\",\n      \"kind\": \"three seater sofa\",\n      \"seats\": 3,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Front left armchair\",\n      \"kind\": \"armchair\",\n      \"seats\": 1,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Rear left armchair\",\n      \"kind\": \"armchair\",\n      \"seats\": 1,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Right armchair\",\n      \"kind\": \"armchair\",\n      \"seats\": 1,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Decorative pillows\",\n      \"kind\": \"throw pillow\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    }\n  ],\n  \"count_by_kind\": [\n    {\n      \"kind\": \"three seater sofa\",\n      \"count\": 1\n    },\n    {\n      \"kind\": \"armchair\",\n      \"count\": 3\n    }\n  ],\n  \"views_not_pieces\": [\n    {\n      \"what\": \"Pale button-tufted upholstery close-up\",\n      \"reference_role\": \"detail\"\n    },\n    {\n      \"what\": \"Beige ornamental fabric close-up\",\n      \"reference_role\": \"detail\"\n    },\n    {\n      \"what\": \"Pale intersecting-line fabric close-up\",\n      \"reference_role\": \"detail\"\n    }\n  ],\n  \"signs\": [],\n  \"printed_counts\": [],\n  \"colour_observed\": \"Cream and beige upholstery with muted gold-beige frames.\",\n  \"swatch_colours\": [],\n  \"material_appearance\": [\n    \"Soft woven-looking upholstery.\",\n    \"Ornamental patterned fabric panels.\",\n    \"Carved-looking frames with a muted metallic sheen.\"\n  ],\n  \"design_locks\": [\n    \"Long cream sofa with three apparent seating positions.\",\n    \"Muted gold-beige exposed frames around seats and backs.\",\n    \"Ornate carved-looking crests and apron details.\",\n    \"Curved legs with decorative feet.\",\n    \"Shaped upholstered backs with raised central crests.\",\n    \"Rounded upholstered arms within curved frames.\",\n    \"Cream and beige patterned upholstery.\"\n  ],\n  \"sided_parts\": [],\n  \"relations\": [\n    \"Two armchairs stand to the left of the sofa.\",\n    \"One armchair stands to the right of the sofa.\",\n    \"The front left armchair partly obscures the rear left armchair.\"\n  ],\n  \"shown_with\": [\n    \"Decorative pillows on the seating.\"\n  ],\n  \"conditions\": {\n    \"low_resolution\": true,\n    \"blur\": true,\n    \"colour_cast\": false,\n    \"tilt\": false,\n    \"lens_distortion\": false,\n    \"reflection_or_transparency\": false\n  },\n  \"category_profile\": [\n    \"Visible seating-piece count.\",\n    \"Sofa and armchair proportions.\",\n    \"Ornate exposed frame silhouettes.\",\n    \"Curved arms and legs.\",\n    \"Cream and beige upholstery.\",\n    \"Patterned upholstery placement.\"\n  ],\n  \"supplier_dimensions\": [],\n  \"unclear_membership\": [\n    \"All three armchairs are included as members of the seating group.\"\n  ],\n  \"unknowns\": [\n    \"Exact upholstery composition and frame material.\",\n    \"Fine carving and fabric details.\",\n    \"Exact sofa cushion divisions.\",\n    \"Which upholstery areas correspond to each detail inset.\"\n  ],\n  \"conflicts\": [],\n  \"cropped\": false,\n  \"occluded\": true,\n  \"blocking_question\": null\n}"
+     }
+    ]
+   }
+  ],
+  "usage": {
+   "input_tokens": 1918,
+   "input_tokens_details": {
+    "cache_write_tokens": 1915,
+    "cached_tokens": 0
+   },
+   "output_tokens": 1010,
+   "output_tokens_details": {
+    "reasoning_tokens": 164
+   },
+   "total_tokens": 2928
+  },
+  "error": null
+ },
+ {
+  "output": [
+   {
+    "type": "message",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"upload_type\": \"W3\",\n  \"upload_type_reason\": \"Bedroom furniture selection with two crossed-out pieces.\",\n  \"category\": \"bedroom set\",\n  \"pieces\": [\n    {\"label\": \"Bed\", \"kind\": \"bed\", \"seats\": null, \"seen_whole\": true, \"role\": \"product\"},\n    {\"label\": \"Left nightstand\", \"kind\": \"nightstand\", \"seats\": null, \"seen_whole\": true, \"role\": \"product\"},\n    {\"label\": \"Right nightstand\", \"kind\": \"nightstand\", \"seats\": null, \"seen_whole\": false, \"role\": \"product\"},\n    {\"label\": \"Dresser\", \"kind\": \"dresser\", \"seats\": null, \"seen_whole\": false, \"role\": \"product\"},\n    {\"label\": \"Dresser mirror\", \"kind\": \"wall mirror\", \"seats\": null, \"seen_whole\": true, \"role\": \"product\"},\n    {\"label\": \"Dresser stool\", \"kind\": \"stool\", \"seats\": null, \"seen_whole\": true, \"role\": \"product\"},\n    {\"label\": \"Crossed-out chest\", \"kind\": \"chest of drawers\", \"seats\": null, \"seen_whole\": true, \"role\": \"excluded\"},\n    {\"label\": \"Crossed-out wardrobe\", \"kind\": \"wardrobe\", \"seats\": null, \"seen_whole\": true, \"role\": \"excluded\"},\n    {\"label\": \"Bedding and pillows\", \"kind\": \"bedding\", \"seats\": null, \"seen_whole\": false, \"role\": \"context\"},\n    {\"label\": \"Bedside lamps\", \"kind\": \"table lamp\", \"seats\": null, \"seen_whole\": true, \"role\": \"context\"},\n    {\"label\": \"Floor rug\", \"kind\": \"rug\", \"seats\": null, \"seen_whole\": false, \"role\": \"context\"},\n    {\"label\": \"Window curtains\", \"kind\": \"curtains\", \"seats\": null, \"seen_whole\": false, \"role\": \"context\"},\n    {\"label\": \"Flowers and tabletop decor\", \"kind\": \"decorative objects\", \"seats\": null, \"seen_whole\": false, \"role\": \"context\"},\n    {\"label\": \"Items on rug\", \"kind\": \"floor accessories\", \"seats\": null, \"seen_whole\": true, \"role\": \"context\"}\n  ],\n  \"count_by_kind\": [\n    {\"kind\": \"bed\", \"count\": 1},\n    {\"kind\": \"nightstand\", \"count\": 2},\n    {\"kind\": \"dresser\", \"count\": 1},\n    {\"kind\": \"wall mirror\", \"count\": 1},\n    {\"kind\": \"stool\", \"count\": 1}\n  ],\n  \"views_not_pieces\": [],\n  \"signs\": [\n    {\"sign\": \"Black cross\", \"text\": \"X\", \"meaning\": \"Chest of drawers excluded.\"},\n    {\"sign\": \"Black cross\", \"text\": \"X\", \"meaning\": \"Wardrobe excluded.\"}\n  ],\n  \"printed_counts\": [],\n  \"colour_observed\": [\"Ivory white\", \"Pale gold accents\"],\n  \"swatch_colours\": [],\n  \"material_appearance\": [\n    \"Soft textured ivory bed upholstery\",\n    \"Smooth ivory cabinet surfaces\",\n    \"Gold-toned ribbed accents\",\n    \"Reflective mirror glass\"\n  ],\n  \"design_locks\": [\n    \"Tall ivory headboard with rounded upper corners\",\n    \"Fine vertical texture on ivory headboard\",\n    \"Low ivory upholstered bed base\",\n    \"Ivory nightstands with gold-toned front accents\",\n    \"Wide ivory dresser with horizontal drawer divisions\",\n    \"Gold-toned vertical ribbed dresser accents\",\n    \"Rounded rectangular ivory-framed mirror\",\n    \"Compact ivory block-shaped stool\"\n  ],\n  \"sided_parts\": [],\n  \"relations\": [\n    \"A nightstand stands on each side of the bed.\",\n    \"Mirror sits above the dresser.\",\n    \"Stool stands in front of the dresser.\"\n  ],\n  \"shown_with\": [\n    \"Pillows and layered bedding on bed\",\n    \"Lamps on nightstands\",\n    \"Plant and small decor on dresser\"\n  ],\n  \"conditions\": {\n    \"low_resolution\": true,\n    \"blur\": false,\n    \"colour_cast\": false,\n    \"tilt\": false,\n    \"lens_distortion\": false,\n    \"reflection_or_transparency\": true\n  },\n  \"category_profile\": [\n    \"Preserve individual furniture counts\",\n    \"Keep crossed-out pieces excluded\",\n    \"Preserve rounded headboard silhouette\",\n    \"Preserve ivory and gold detailing\",\n    \"Keep mirror paired with dresser\",\n    \"Do not treat bedding as furniture\"\n  ],\n  \"supplier_dimensions\": [],\n  \"unclear_membership\": [],\n  \"unknowns\": [\n    \"Exact materials and dimensions\",\n    \"Right nightstand's hidden construction\",\n    \"Dresser details behind stool\",\n    \"Mirror mounting method\"\n  ],\n  \"conflicts\": [],\n  \"cropped\": false,\n  \"occluded\": true,\n  \"blocking_question\": null\n}"
+     }
+    ]
+   }
+  ],
+  "usage": {
+   "input_tokens": 1905,
+   "input_tokens_details": {
+    "cache_write_tokens": 1902,
+    "cached_tokens": 0
+   },
+   "output_tokens": 1321,
+   "output_tokens_details": {
+    "reasoning_tokens": 211
+   },
+   "total_tokens": 3226
+  },
+  "error": null
+ },
+ {
+  "output": [
+   {
+    "type": "message",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"upload_type\": \"W3\",\n  \"upload_type_reason\": \"Two separate decorative pieces shown together.\",\n  \"category\": \"decorative sculpture set\",\n  \"pieces\": [\n    {\n      \"label\": \"Left curved sculpture\",\n      \"kind\": \"decorative sculpture\",\n      \"seats\": null,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Right U-shaped sculpture\",\n      \"kind\": \"decorative sculpture\",\n      \"seats\": null,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    }\n  ],\n  \"count_by_kind\": [\n    {\n      \"kind\": \"decorative sculpture\",\n      \"count\": 2\n    }\n  ],\n  \"views_not_pieces\": [],\n  \"signs\": [],\n  \"printed_counts\": [],\n  \"colour_observed\": \"Warm off-white with scattered tan and brown flecks.\",\n  \"swatch_colours\": [],\n  \"material_appearance\": [\n    \"Rough, porous, matte, stone-like surfaces.\"\n  ],\n  \"design_locks\": [\n    \"Left piece has a broad curved body with an opening facing right.\",\n    \"Right piece has a broad U-shaped body with an upward opening.\",\n    \"Both pieces have repeated curved grooves across their off-white faces.\",\n    \"Both pieces have thick profiles and flattened resting edges.\",\n    \"Tan and brown flecks interrupt the pale textured surfaces.\"\n  ],\n  \"sided_parts\": [],\n  \"relations\": [\n    \"Smaller curved piece stands to the left of the larger U-shaped piece.\",\n    \"The two pieces are separated by a visible gap.\"\n  ],\n  \"shown_with\": [],\n  \"conditions\": {\n    \"low_resolution\": false,\n    \"blur\": false,\n    \"colour_cast\": false,\n    \"tilt\": false,\n    \"lens_distortion\": false,\n    \"reflection_or_transparency\": false\n  },\n  \"category_profile\": [\n    \"Two separate sculptural forms\",\n    \"Distinct curved openings\",\n    \"Repeated curved surface grooves\",\n    \"Thick profiles\",\n    \"Rough pale surface with tan flecks\"\n  ],\n  \"supplier_dimensions\": [],\n  \"unclear_membership\": [],\n  \"unknowns\": [\n    \"Exact material composition.\",\n    \"Dimensions.\",\n    \"Whether the pieces are sold together or separately.\"\n  ],\n  \"conflicts\": [],\n  \"cropped\": false,\n  \"occluded\": false,\n  \"blocking_question\": null\n}"
+     }
+    ]
+   }
+  ],
+  "usage": {
+   "input_tokens": 3761,
+   "input_tokens_details": {
+    "cache_write_tokens": 3758,
+    "cached_tokens": 0
+   },
+   "output_tokens": 581,
+   "output_tokens_details": {
+    "reasoning_tokens": 53
+   },
+   "total_tokens": 4342
+  },
+  "error": null
+ },
+ {
+  "output": [
+   {
+    "type": "message",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"upload_type\": \"W3\",\n  \"upload_type_reason\": \"Bed with two coordinating bedside furniture pieces.\",\n  \"category\": \"bedroom set\",\n  \"pieces\": [\n    {\n      \"label\": \"Upholstered wood-frame bed\",\n      \"kind\": \"bed\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Left nightstand\",\n      \"kind\": \"nightstand\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Right nightstand\",\n      \"kind\": \"nightstand\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Bedside lamps\",\n      \"kind\": \"table lamp\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"White bed linens and sleeping pillows\",\n      \"kind\": \"bedding\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"Decorative pillows\",\n      \"kind\": \"throw pillow\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"Rust-coloured bed throw\",\n      \"kind\": \"throw\",\n      \"seats\": null,\n      \"seen_whole\": true,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"Cream floor rug\",\n      \"kind\": \"rug\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"Books\",\n      \"kind\": \"book\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"Small bedside bowl\",\n      \"kind\": \"bowl\",\n      \"seats\": null,\n      \"seen_whole\": true,\n      \"role\": \"context\"\n    }\n  ],\n  \"count_by_kind\": [\n    {\n      \"kind\": \"bed\",\n      \"count\": 1\n    },\n    {\n      \"kind\": \"nightstand\",\n      \"count\": 2\n    }\n  ],\n  \"views_not_pieces\": [],\n  \"signs\": [],\n  \"printed_counts\": [],\n  \"colour_observed\": [\n    \"Light warm grey bed upholstery.\",\n    \"Medium warm brown bed frame and nightstands.\"\n  ],\n  \"swatch_colours\": [],\n  \"material_appearance\": [\n    \"Fine textured woven-looking bed upholstery.\",\n    \"Smooth wood-grain frame and nightstand surfaces.\"\n  ],\n  \"design_locks\": [\n    \"Tall rectangular light grey upholstered headboard.\",\n    \"Brown cylindrical headboard posts extend above the panel.\",\n    \"Brown horizontal rail visible beside the headboard panel.\",\n    \"Low rectangular light grey upholstered footboard.\",\n    \"Rounded brown footboard posts and lower cross rail.\",\n    \"Light grey upholstered side rail visible on the left.\",\n    \"Brown bed legs extend below the upholstered frame.\",\n    \"Left brown nightstand has a flat drawer front above an open shelf.\",\n    \"Right brown nightstand has a flat top and visible drawer front.\"\n  ],\n  \"sided_parts\": [],\n  \"relations\": [\n    \"One nightstand stands on each side of the bed.\",\n    \"The bed partly hides the right nightstand.\"\n  ],\n  \"shown_with\": [\n    \"White bedding and sleeping pillows on the bed.\",\n    \"Taupe, muted rust and mustard decorative pillows on the bed.\",\n    \"Rust-coloured throw across the bed.\",\n    \"Lamps on the nightstands.\",\n    \"Small bowl on the right nightstand.\",\n    \"Books in the left nightstand shelf.\"\n  ],\n  \"conditions\": {\n    \"low_resolution\": false,\n    \"blur\": false,\n    \"colour_cast\": false,\n    \"tilt\": false,\n    \"lens_distortion\": false,\n    \"reflection_or_transparency\": false\n  },\n  \"category_profile\": [\n    \"Bed counts as one piece.\",\n    \"Preserve upholstered headboard and footboard proportions.\",\n    \"Preserve exposed rounded brown frame.\",\n    \"Keep two visible nightstands.\",\n    \"Keep bedding separate from furniture identity.\"\n  ],\n  \"supplier_dimensions\": [],\n  \"unclear_membership\": [],\n  \"unknowns\": [\n    \"Exact upholstery composition and wood species.\",\n    \"Bed dimensions.\",\n    \"Hidden bed-frame details.\",\n    \"Full right nightstand construction.\"\n  ],\n  \"conflicts\": [],\n  \"cropped\": true,\n  \"occluded\": true,\n  \"blocking_question\": null\n}"
+     }
+    ]
+   }
+  ],
+  "usage": {
+   "input_tokens": 4765,
+   "input_tokens_details": {
+    "cache_write_tokens": 4762,
+    "cached_tokens": 0
+   },
+   "output_tokens": 1106,
+   "output_tokens_details": {
+    "reasoning_tokens": 80
+   },
+   "total_tokens": 5871
+  },
+  "error": null
+ },
+ {
+  "output": [
+   {
+    "type": "message",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"upload_type\": \"W3\",\n  \"upload_type_reason\": \"Dining table and several chairs shown as a set.\",\n  \"category\": \"dining set\",\n  \"pieces\": [\n    {\n      \"label\": \"Dining table\",\n      \"kind\": \"dining table\",\n      \"seats\": null,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Far-side left chair\",\n      \"kind\": \"dining chair\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Far-side middle-left chair\",\n      \"kind\": \"dining chair\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Far-side middle-right chair\",\n      \"kind\": \"dining chair\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Far-side right chair\",\n      \"kind\": \"dining chair\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Left-end armchair\",\n      \"kind\": \"armchair\",\n      \"seats\": 1,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Right-end armchair\",\n      \"kind\": \"armchair\",\n      \"seats\": 1,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Left background cabinet\",\n      \"kind\": \"cabinet\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"Partial wall mirror\",\n      \"kind\": \"wall mirror\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"Right background seating\",\n      \"kind\": \"sofa\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    },\n    {\n      \"label\": \"Background curtains\",\n      \"kind\": \"curtain\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"context\"\n    }\n  ],\n  \"count_by_kind\": [\n    {\n      \"kind\": \"dining table\",\n      \"count\": 1\n    },\n    {\n      \"kind\": \"dining chair\",\n      \"count\": 4\n    },\n    {\n      \"kind\": \"armchair\",\n      \"count\": 2\n    }\n  ],\n  \"views_not_pieces\": [],\n  \"signs\": [\n    {\n      \"sign\": \"Printed label\",\n      \"text\": \"TABLE+12CHAIRS + 2 ARMCHAIRS\",\n      \"meaning\": \"Advertises a table with twelve chairs and two armchairs.\"\n    }\n  ],\n  \"printed_counts\": [\n    {\n      \"text\": \"12CHAIRS\",\n      \"item\": \"dining chair\",\n      \"count\": 12\n    },\n    {\n      \"text\": \"2 ARMCHAIRS\",\n      \"item\": \"armchair\",\n      \"count\": 2\n    }\n  ],\n  \"colour_observed\": [\n    \"Table and chair frames: champagne gold.\",\n    \"Chair upholstery: pale ivory.\"\n  ],\n  \"swatch_colours\": [],\n  \"material_appearance\": [\n    \"Smooth, slightly reflective gold-toned furniture finish.\",\n    \"Pale upholstery with a subtle tonal pattern.\",\n    \"Carved-looking decorative frames and pedestal details.\"\n  ],\n  \"design_locks\": [\n    \"Long gold-toned tabletop with rounded corners.\",\n    \"Gold-toned tabletop has a raised-looking layered edge.\",\n    \"Deep scalloped gold-toned apron.\",\n    \"Two bulbous, vertically fluted gold-toned pedestals.\",\n    \"Gold-toned pedestals stand on stepped rectangular feet.\",\n    \"Long gold-toned stretcher joins the pedestal bases.\",\n    \"Ivory upholstered chair backs have curved gold-toned borders.\",\n    \"Gold-toned decorative crests top the chair backs.\",\n    \"Visible chair legs are slender, curved and gold-toned.\",\n    \"End armchairs have curved gold-toned arms.\"\n  ],\n  \"sided_parts\": [],\n  \"relations\": [\n    \"Four side chairs stand along the far side of the table.\",\n    \"An armchair stands at each end of the table.\",\n    \"The tabletop obscures portions of the chairs.\"\n  ],\n  \"shown_with\": [],\n  \"conditions\": {\n    \"low_resolution\": true,\n    \"blur\": true,\n    \"colour_cast\": false,\n    \"tilt\": false,\n    \"lens_distortion\": false,\n    \"reflection_or_transparency\": false\n  },\n  \"category_profile\": [\n    \"Visible chair count\",\n    \"Side chairs versus end armchairs\",\n    \"Long tabletop proportions\",\n    \"Scalloped apron\",\n    \"Twin pedestal and stretcher base\",\n    \"Gold frames with ivory upholstery\"\n  ],\n  \"supplier_dimensions\": [],\n  \"unclear_membership\": [\n    \"Partial gold-toned cabinet may match; treated as context.\"\n  ],\n  \"unknowns\": [\n    \"Exact materials and upholstery composition.\",\n    \"Dimensions.\",\n    \"Details hidden by the tabletop.\",\n    \"Seat count of the cropped background seating.\"\n  ],\n  \"conflicts\": [\n    \"Label states twelve chairs plus two armchairs; only four side chairs and two armchairs are visibly identifiable.\"\n  ],\n  \"cropped\": true,\n  \"occluded\": true,\n  \"blocking_question\": \"Should images show the visible pieces or the full printed set?\"\n}"
+     }
+    ]
+   }
+  ],
+  "usage": {
+   "input_tokens": 1889,
+   "input_tokens_details": {
+    "cache_write_tokens": 1886,
+    "cached_tokens": 0
+   },
+   "output_tokens": 1758,
+   "output_tokens_details": {
+    "reasoning_tokens": 516
+   },
+   "total_tokens": 3647
+  },
+  "error": null
+ },
+ {
+  "output": [
+   {
+    "type": "message",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"upload_type\": \"W3\",\n  \"upload_type_reason\": \"One dining table and six matching chairs shown together.\",\n  \"category\": \"dining set\",\n  \"pieces\": [\n    {\n      \"label\": \"Dining table\",\n      \"kind\": \"dining table\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Left foreground chair\",\n      \"kind\": \"dining chair\",\n      \"seats\": null,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Rear left chair\",\n      \"kind\": \"dining chair\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Rear middle chair\",\n      \"kind\": \"dining chair\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Rear right chair\",\n      \"kind\": \"dining chair\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Front middle chair\",\n      \"kind\": \"dining chair\",\n      \"seats\": null,\n      \"seen_whole\": true,\n      \"role\": \"product\"\n    },\n    {\n      \"label\": \"Right foreground chair\",\n      \"kind\": \"dining chair\",\n      \"seats\": null,\n      \"seen_whole\": false,\n      \"role\": \"product\"\n    }\n  ],\n  \"count_by_kind\": [\n    {\n      \"kind\": \"dining table\",\n      \"count\": 1\n    },\n    {\n      \"kind\": \"dining chair\",\n      \"count\": 6\n    }\n  ],\n  \"views_not_pieces\": [],\n  \"signs\": [\n    {\n      \"sign\": \"Brand logo\",\n      \"text\": \"Ashley FURNITURE HOMESTORE\",\n      \"meaning\": \"Vendor branding.\"\n    }\n  ],\n  \"printed_counts\": [],\n  \"colour_observed\": [\n    \"Medium brown table and chair frames.\",\n    \"Muted yellow-green chair upholstery.\"\n  ],\n  \"swatch_colours\": [],\n  \"material_appearance\": [\n    \"Wood-grain surfaces on the table and chair frames.\",\n    \"Textured woven-looking upholstery on chair seats and backs.\"\n  ],\n  \"design_locks\": [\n    \"Brown elongated rectangular tabletop with softly rounded corners.\",\n    \"Visible brown wood grain across the tabletop.\",\n    \"Broad brown table supports with elongated rounded cutouts.\",\n    \"Green upholstered chair backs with rounded corners.\",\n    \"Green padded seats with softly rounded edges.\",\n    \"Brown exposed chair frames and straight legs.\",\n    \"Brown rear chair uprights with narrow vertical slots.\"\n  ],\n  \"sided_parts\": [],\n  \"relations\": [\n    \"Six matching chairs surround the table.\",\n    \"Three chairs sit along the far side of the table.\",\n    \"Two chairs sit along the near side.\",\n    \"One chair stands at the left end.\"\n  ],\n  \"shown_with\": [],\n  \"conditions\": {\n    \"low_resolution\": false,\n    \"blur\": false,\n    \"colour_cast\": false,\n    \"tilt\": false,\n    \"lens_distortion\": false,\n    \"reflection_or_transparency\": false\n  },\n  \"category_profile\": [\n    \"One table and six separate chairs.\",\n    \"Preserve the tabletop outline.\",\n    \"Preserve cutout table supports.\",\n    \"Preserve green seat and back upholstery.\",\n    \"Preserve brown wood-grain frames.\",\n    \"Preserve slotted chair back uprights.\"\n  ],\n  \"supplier_dimensions\": [],\n  \"unclear_membership\": [],\n  \"unknowns\": [\n    \"Exact dimensions.\",\n    \"Material composition.\",\n    \"Hidden portions of rear chairs and table supports.\"\n  ],\n  \"conflicts\": [],\n  \"cropped\": false,\n  \"occluded\": true,\n  \"blocking_question\": null\n}"
+     }
+    ]
+   }
+  ],
+  "usage": {
+   "input_tokens": 2993,
+   "input_tokens_details": {
+    "cache_write_tokens": 2990,
+    "cached_tokens": 0
+   },
+   "output_tokens": 977,
+   "output_tokens_details": {
+    "reasoning_tokens": 114
+   },
+   "total_tokens": 3970
+  },
+  "error": null
+ }
+]

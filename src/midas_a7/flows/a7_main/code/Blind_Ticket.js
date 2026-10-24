@@ -1,0 +1,5 @@
+function countedBlindRequest(response,sha){
+ if(response?.statusCode!==200||!Number.isSafeInteger(response.body?.input_tokens)||response.body.input_tokens<1||response.body.input_tokens+450>20000||!/^[a-f0-9]{64}$/.test(sha||''))throw Error('blind_count_unavailable');
+ return {inputTokens:response.body.input_tokens+450,inputBasis:'provider_counted_exact_request',countedRequestSha256:sha};
+}
+const t=$('Blind · Build request').first().json;const bounds=countedBlindRequest($input.first().json,t.requestSha256);return [{json:{clientId:"owner-c999d3d0-348b-4bf2-b9f2-0bf8383ac4e6",runId:"claude-a7-20261017230527-1i4fxz",node:'16xb Blind count fallback (OpenAI)',model:'gpt-6.1-sol',outputId:'white_master',operationKey:"a7:blind-replacement:4095b033057f6437798097c2448f833ad3e4b309ae72d0a7ccf57f62a481d24b",blindRecoveryId:"owner-blind-replacement-20261018-1",imageSha256:"c497535b8aead663c003f016c01e81e3f574428169b1e70894d8943df4b83020",reviewSha256:"7a01272fdbc7a6de54f940dbfff818bcfd476dd59c9951af3aeabc1934944845",outputTokens:1000,requestSha256:t.requestSha256,...bounds}}];

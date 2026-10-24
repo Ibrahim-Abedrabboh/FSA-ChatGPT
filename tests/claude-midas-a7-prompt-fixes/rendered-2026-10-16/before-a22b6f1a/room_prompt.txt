@@ -1,0 +1,12 @@
+No image is attached. Create a photograph of an empty room that a piece of furniture will be placed into later.
+Build only the room shell: walls, floor, ceiling, skirting, windows with plain sheer curtains or blinds, doors and fixed architectural details. No furniture, no rugs, no lamps, no plants, no art, no mirrors, no textiles, no decor, no products, no people, no text.
+The room, from the checked plan (use only what concerns the room itself; any furniture or object it names is left out): A calm Kuwaiti living room with warm plaster walls, a large window and a sofa vignette with a centre table.
+Room size: about 5 x 4 m.
+Palette of the room surfaces: warm white walls; grey upholstery; brass.
+Leave the floor area clear and fully visible where the product will stand: the sofa against the long wall, all 7 modules visible.
+Product to be placed later (for scale only, not to be drawn): Sectional sofa, size not confirmed. Size the room so it fits with realistic clearance.
+Camera: eye height about 110-120 cm (living room preset). Camera level: 0 degrees pitch, roll and yaw; one-point perspective; vertical lines stay vertical. Framing guide: the rug touches the bottom edge of the frame. From the plan: front view, slightly off centre.
+Light: about 4000 K colour temperature (day preset). From the plan: soft afternoon light.
+Frame: landscape, 16:9, wider than tall. The photograph fills the whole frame: no borders, bars, frames or split panels.
+Photorealistic interior photography, premium retail catalogue style, natural materials, accurate proportions, sharp focus, balanced exposure.
+No illustration, CGI look, cartoon style, painting, fisheye lens, wide-angle distortion, tilted verticals, extreme perspective, oversaturation, blur or noise.

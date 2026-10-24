@@ -1,0 +1,1047 @@
+{
+ "id": "mGgKxO0638I77meF",
+ "name": "Claude · Midas catalogue refresh",
+ "versionId": "040930df-bf70-42eb-a404-49cd92b04b6a",
+ "nodes": [
+  {
+   "id": "71fe59f9-2d82-43f3-9c1e-b16ce14e9ace",
+   "name": "Start refresh",
+   "type": "n8n-nodes-base.manualTrigger",
+   "typeVersion": 1,
+   "position": [
+    0,
+    0
+   ],
+   "parameters": {}
+  },
+  {
+   "id": "7923c8ef-fc72-420d-b14b-012be0b09859",
+   "name": "R1 Categories",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    220,
+    0
+   ],
+   "parameters": {
+    "jsCode": "// Catalogue refresh · R1 Categories (16 Oct 2026). Code only.\n// The scene-relevant Accessories categories of the public Midas Kuwait site, with the \"kind\" written to the A7 catalogue\n// (A7 step 10 compares kinds by their last word). robots.txt (read 16 Oct 2026): Crawl-delay 10 s, and query strings with \"=\"\n// are disallowed, so only page 1 of each category is read (the site's default order) and \"R2 Read listing\" waits 10 s between pages.\nconst BASE = 'https://midasfurniture.com/en/accessories/';\nconst CATEGORIES = [\n  ['lighting/table-lamps', 'table lamp'], ['lighting/floor-lamps', 'floor lamp'], ['lighting/hanging-and-ceiling-lamps', 'ceiling lamp'],\n  ['lighting/wall-lamp', 'wall lamp'], ['soft-furnishings/cushions', 'cushion'], ['soft-furnishings/throws', 'throw'],\n  ['soft-furnishings/rugs', 'rug'], ['soft-furnishings/bedding-set', 'bedding set'], ['wall-decor/wall-arts', 'wall art'],\n  ['wall-decor/mirrors', 'mirror'], ['wall-decor/wall-clock', 'wall clock'], ['decor-accessories/vases-and-pots', 'vase'],\n  ['decor-accessories/flowers', 'artificial plant'], ['decor-accessories/candle-holders', 'candle holder'],\n  ['decor-accessories/photo-frames', 'photo frame'], ['table-accessories/deco-figurines-and-objects', 'decor object'],\n  ['table-accessories/table-runners', 'table runner'], ['table-accessories/clocks', 'table clock'], ['kitchen-and-dining/trays', 'tray']\n];\nreturn CATEGORIES.map(([path, kind]) => ({ json: { path, kind, url: BASE + path + '.html' } }));\n"
+   }
+  },
+  {
+   "id": "bac8a0f5-503f-4f04-9d73-f280d4399522",
+   "name": "R2 Read listing",
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.5,
+   "position": [
+    440,
+    0
+   ],
+   "parameters": {
+    "method": "GET",
+    "url": "={{ $json.url }}",
+    "options": {
+     "batching": {
+      "batch": {
+       "batchSize": 1,
+       "batchInterval": 10000
+      }
+     },
+     "response": {
+      "response": {
+       "fullResponse": true,
+       "neverError": true,
+       "responseFormat": "text"
+      }
+     },
+     "timeout": 60000
+    }
+   },
+   "onError": "continueRegularOutput"
+  },
+  {
+   "id": "6fbcaa3f-c30b-49e4-a2ac-c25067cdafab",
+   "name": "R3 Load catalogue",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    660,
+    0
+   ],
+   "parameters": {
+    "resource": "row",
+    "operation": "get",
+    "dataTableId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "lwJbRv4TVqlFTILl",
+     "cachedResultName": "Claude Midas A7 catalogue"
+    },
+    "returnAll": true
+   },
+   "executeOnce": true,
+   "alwaysOutputData": true,
+   "onError": "continueRegularOutput"
+  },
+  {
+   "id": "a47873e1-7073-4de1-aacb-d5e03b7e8d5f",
+   "name": "R4 Plan rows",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    880,
+    0
+   ],
+   "parameters": {
+    "jsCode": "// Catalogue refresh · R4 Plan rows (16 Oct 2026; hand-stock rule 17 Oct 2026 00:08; stock_checked and pre-order rules 17 Oct 2026 00:36). Code only, no model.\n// Reads what each listing page states and nothing else: SKU, name, product link, catalogue photo, price in KWD, the in-stock flag\n// and the category. Dimensions and finish are not on the listing, so a new row says \"not confirmed\".\n// Writes: a SKU not yet in the A7 catalogue is inserted; a row this refresh made earlier (notes start \"Imported\") is updated with\n// today's availability, photo and price; a row someone wrote by hand (other notes) is never changed. A SKU missing from today's\n// pages is left as it is (page 1 shows only part of a category, so absence proves nothing).\n// 17 Oct 2026 (owner, 00:08): hand rows stay unchanged, except the stock field (availability) of the hand rows listed below.\n// Only availability changes on them; name, link, photo, size, finish, date read and notes stay as written by hand.\n// Cause of the 16 Oct gap (execution 429): the SKUs matched, but the rule above kept every hand row unchanged on purpose.\nconst HAND_STOCK_SKUS = ['174770', '174788'];\n// MODE 'hand-stock-only' (this draft): the run writes only the hand-stock changes above; no insert and no imported-row update.\n// MODE 'full': the 16 Oct behaviour plus the hand-stock rule. Changing the mode needs the owner's go.\nconst MODE = 'hand-stock-only';\n// 17 Oct 2026 (owner, 00:36): every stock write also fills stock_checked: when and by which run the stock was read, and what the\n// listing said. The \"date read\" (retrieved) of a hand row is never changed, because its other fields were not read again.\nconst RUN = (typeof $execution !== 'undefined' && $execution && $execution.id) ? String($execution.id) : 'unknown';\nconst MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];\nconst amman = d => { const a = new Date(d.getTime() + 3 * 3600 * 1000); const p = n => String(n).padStart(2, '0'); // Jordan: UTC+3 all year\n  return a.getUTCDate() + ' ' + MON[a.getUTCMonth()] + ' ' + a.getUTCFullYear() + ', ' + p(a.getUTCHours()) + ':' + p(a.getUTCMinutes()) + ' Amman'; };\nconst CHECKED = amman(new Date()) + ', refresh run ' + RUN;\nconst checked = said => CHECKED + '; listing said ' + said;\n// 17 Oct 2026 (owner, 00:36), hand rows marked \"Pre-Order\": listing In stock -> write In stock; listing out of stock -> keep\n// \"Pre-Order\", do not write \"Out of stock\", flag the row with the date (written in stock_checked only). A page that is gone is\n// handled by \"R12 Pre-order verdict\" (404 and not in the Kuwait sitemap -> inactive).\nconst isPre = v => /^\\s*pre[-\\s]?order\\s*$/i.test(String(v || ''));\nconst cats = $('R1 Categories').all().map(i => i.json);\nconst pages = $('R2 Read listing').all();\nconst today = new Date().toISOString().slice(0, 10);\nconst unesc = t => String(t || '').replace(/&#x([0-9a-f]+);/gi, (m, h) => String.fromCharCode(parseInt(h, 16))).replace(/&#(\\d+);/g, (m, d) => String.fromCharCode(Number(d)))\n  .replace(/&quot;/g, '\"').replace(/&#039;|&apos;/g, \"'\").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');\nfunction parse(page, cat) {\n  const rows = [];\n  const re = /<li class=\"item product product-item[^\"]*\">([\\s\\S]*?)<\\/li>/g;\n  let m;\n  while ((m = re.exec(page))) {\n    const b = m[1];\n    const link = b.match(/class=\"product-item-link\" href=\"([^\"]+)\">\\s*([^<]+?)\\s*<\\/a>/);\n    const sku = b.match(/data-product-sku=\"([^\"]+)\"/) || b.match(/\"Product Id\":\"([^\"]+)\"/);\n    const img = b.match(/data-src=\"(https:\\/\\/midasfurniture\\.com\\/media\\/catalog\\/product\\/[^\"?]+)/);\n    const stock = b.match(/data-in-stock=\"(\\d)\"/);\n    const price = b.match(/data-price-type=\"finalPrice\"[^>]*>\\s*<span class=\"price\">([0-9.,]+)\\s*KWD/) || b.match(/data-price-amount=\"([0-9.]+)\" data-price-type=\"finalPrice\"/);\n    if (!link || !sku) continue;\n    rows.push({\n      sku: unesc(sku[1]).trim(), name: unesc(link[2]).trim(), kind: cat.kind, url: link[1], image_url: img ? img[1] : '',\n      dimensions: 'not confirmed', finish: 'not confirmed',\n      availability: stock ? (stock[1] === '1' ? 'In stock' : 'Out of stock') : 'not confirmed',\n      retrieved: today,\n      notes: 'Imported ' + today + ' from the public listing page ' + cat.url + ' (page 1 only; robots.txt allows no page 2). Price on that day: ' + (price ? price[1].replace(/,/g, '') + ' KWD' : 'not read') + '. Dimensions and finish are not on the listing: not confirmed.',\n      active: true, tags_basis: ''\n    });\n  }\n  return rows;\n}\nconst log = [], read = [];\npages.forEach((it, i) => {\n  const cat = cats[i] || { path: '?', kind: '', url: '' };\n  const j = it.json || {};\n  const status = Number(j.statusCode) || (j.error ? 0 : 200);\n  const body = typeof j.body === 'string' ? j.body : (typeof j.data === 'string' ? j.data : '');\n  if (status !== 200 || !body) { log.push({ category: cat.path, status, rows: 0, problem: j.error ? String(j.error.message || j.error).slice(0, 200) : 'no page text (status ' + status + ')' }); return; }\n  const tot = (body.match(/toolbar-number\">(\\d+)/g) || []).map(x => Number(x.replace(/\\D/g, '')));\n  const rows = parse(body, cat);\n  read.push(...rows);\n  log.push({ category: cat.path, status, rows: rows.length, on_site: tot.length >= 3 ? tot[2] : (tot[0] || null), problem: rows.length ? '' : 'page read but no product found (the page layout may have changed)' });\n});\nconst seen = new Set(), uniq = [];\nfor (const r of read) { if (seen.has(r.sku)) continue; seen.add(r.sku); uniq.push(r); }\nconst loaded = $('R3 Load catalogue').all().map(i => i.json || {});\nconst existing = loaded.filter(r => r && r.sku);\nconst bySku = new Map(existing.map(r => [String(r.sku), r]));\nconst out = [], kept = [];\nfor (const r of uniq) {\n  const e = bySku.get(r.sku);\n  if (!e) out.push({ json: { action: 'insert', row: Object.assign({}, r, { stock_checked: checked(r.availability) }) } });\n  else if (/^Imported /.test(String(e.notes || ''))) out.push({ json: { action: 'update', row_id: e.id, row: { name: r.name, url: r.url, image_url: r.image_url, availability: r.availability, retrieved: r.retrieved, notes: r.notes, stock_checked: checked(r.availability) } } });\n  else if (e.active !== false && isPre(e.availability) && r.availability === 'In stock') {\n    out.push({ json: { action: 'hand_stock', row_id: e.id, sku: r.sku, row: { availability: 'In stock', stock_checked: checked('In stock') }, before: String(e.availability || ''), source: r.url, rule: 'pre-order row; listing In stock' } });\n  }\n  else if (e.active !== false && isPre(e.availability) && r.availability === 'Out of stock') {\n    const note = checked('Out of stock') + '; kept \"Pre-Order\" (owner rule, 17 Oct 2026); FLAG for the owner';\n    out.push({ json: { action: 'hand_note', row_id: e.id, sku: r.sku, row: { stock_checked: note }, before: String(e.availability || ''), source: r.url, flag: note } });\n  }\n  else if (HAND_STOCK_SKUS.indexOf(r.sku) !== -1 && r.availability !== 'not confirmed' && r.availability !== String(e.availability || '')) {\n    out.push({ json: { action: 'hand_stock', row_id: e.id, sku: r.sku, row: { availability: r.availability, stock_checked: checked(r.availability) }, before: String(e.availability || ''), source: r.url, rule: 'owner stock list' } });\n  }\n  else kept.push({ sku: r.sku, why: HAND_STOCK_SKUS.indexOf(r.sku) !== -1 ? 'hand row on the owner\\'s stock list; stock already matches the listing (or the listing gives none)' : 'written earlier by hand; not changed', catalogue_availability: e.availability || '', listing_availability: r.availability });\n}\n// In 'hand-stock-only' mode every other write is held back and only counted.\nconst handAct = a => a === 'hand_stock' || a === 'hand_note';\nconst held = MODE === 'hand-stock-only' ? out.filter(x => !handAct(x.json.action)) : [];\nif (held.length) { const keep = out.filter(x => handAct(x.json.action)); out.length = 0; keep.forEach(x => out.push(x)); }\nconst summary = { at: new Date().toISOString(), pages: log, pages_ok: log.filter(x => x.status === 200 && x.rows).length, pages_total: cats.length, rows_read: read.length, rows_unique: uniq.length,\n  mode: MODE, insert: out.filter(x => x.json.action === 'insert').length, update: out.filter(x => x.json.action === 'update').length,\n  hand_stock: out.filter(x => x.json.action === 'hand_stock').map(x => ({ sku: x.json.sku, row_id: x.json.row_id, before: x.json.before, after: x.json.row.availability, rule: x.json.rule })),\n  flags: out.filter(x => x.json.action === 'hand_note').map(x => ({ sku: x.json.sku, row_id: x.json.row_id, flag: x.json.flag })), stock_checked: CHECKED,\n  held_by_mode: { insert: held.filter(x => x.json.action === 'insert').length, update: held.filter(x => x.json.action === 'update').length }, kept_hand_rows: kept,\n  catalogue_rows_before: existing.length, catalogue_read_ok: !loaded.some(r => r.error) };\nif (!summary.catalogue_read_ok) return [{ json: { action: 'none', summary, problem: 'The A7 catalogue could not be read, so nothing is written (a SKU could be written twice).' } }];\nif (!out.length) return [{ json: { action: 'none', summary } }];\nout[0].json.summary = summary;\nreturn out;\n"
+   }
+  },
+  {
+   "id": "197932cc-0d03-43e2-a11c-50c66ca637dd",
+   "name": "R5 Insert or update?",
+   "type": "n8n-nodes-base.switch",
+   "typeVersion": 3.2,
+   "position": [
+    1100,
+    0
+   ],
+   "parameters": {
+    "rules": {
+     "values": [
+      {
+       "outputKey": "insert",
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict"
+        },
+        "conditions": [
+         {
+          "leftValue": "={{ $json.action }}",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          },
+          "rightValue": "insert"
+         }
+        ],
+        "combinator": "and"
+       }
+      },
+      {
+       "outputKey": "update",
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict"
+        },
+        "conditions": [
+         {
+          "leftValue": "={{ $json.action }}",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          },
+          "rightValue": "update"
+         }
+        ],
+        "combinator": "and"
+       }
+      },
+      {
+       "outputKey": "hand_stock",
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict"
+        },
+        "conditions": [
+         {
+          "leftValue": "={{ $json.action }}",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          },
+          "rightValue": "hand_stock"
+         }
+        ],
+        "combinator": "and"
+       }
+      },
+      {
+       "outputKey": "hand_note",
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict"
+        },
+        "conditions": [
+         {
+          "leftValue": "={{ $json.action }}",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          },
+          "rightValue": "hand_note"
+         }
+        ],
+        "combinator": "and"
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "e3668341-ff71-496c-89d0-3efe6c596343",
+   "name": "R6 Insert row",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    1320,
+    -100
+   ],
+   "parameters": {
+    "resource": "row",
+    "operation": "insert",
+    "dataTableId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "lwJbRv4TVqlFTILl",
+     "cachedResultName": "Claude Midas A7 catalogue"
+    },
+    "columns": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "sku": "={{ $json.row.sku }}",
+      "name": "={{ $json.row.name }}",
+      "kind": "={{ $json.row.kind }}",
+      "url": "={{ $json.row.url }}",
+      "image_url": "={{ $json.row.image_url }}",
+      "dimensions": "={{ $json.row.dimensions }}",
+      "finish": "={{ $json.row.finish }}",
+      "availability": "={{ $json.row.availability }}",
+      "retrieved": "={{ $json.row.retrieved }}",
+      "notes": "={{ $json.row.notes }}",
+      "active": "={{ $json.row.active }}",
+      "tags_basis": "={{ $json.row.tags_basis }}",
+      "stock_checked": "={{ $json.row.stock_checked }}"
+     },
+     "schema": [
+      {
+       "id": "sku",
+       "displayName": "sku",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "name",
+       "displayName": "name",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "kind",
+       "displayName": "kind",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "url",
+       "displayName": "url",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "image_url",
+       "displayName": "image_url",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "dimensions",
+       "displayName": "dimensions",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "finish",
+       "displayName": "finish",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "availability",
+       "displayName": "availability",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "retrieved",
+       "displayName": "retrieved",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "notes",
+       "displayName": "notes",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "active",
+       "displayName": "active",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "boolean",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "tags_basis",
+       "displayName": "tags_basis",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "stock_checked",
+       "displayName": "stock_checked",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      }
+     ]
+    },
+    "options": {
+     "optimizeBulk": true
+    }
+   }
+  },
+  {
+   "id": "bbac87e4-7787-498e-b12b-93bd159a58ff",
+   "name": "R7 Update row",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    1320,
+    100
+   ],
+   "parameters": {
+    "resource": "row",
+    "operation": "update",
+    "dataTableId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "lwJbRv4TVqlFTILl",
+     "cachedResultName": "Claude Midas A7 catalogue"
+    },
+    "matchType": "allConditions",
+    "filters": {
+     "conditions": [
+      {
+       "keyName": "id",
+       "condition": "eq",
+       "keyValue": "={{ $json.row_id }}"
+      }
+     ]
+    },
+    "columns": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "name": "={{ $json.row.name }}",
+      "url": "={{ $json.row.url }}",
+      "image_url": "={{ $json.row.image_url }}",
+      "availability": "={{ $json.row.availability }}",
+      "retrieved": "={{ $json.row.retrieved }}",
+      "notes": "={{ $json.row.notes }}",
+      "stock_checked": "={{ $json.row.stock_checked }}"
+     },
+     "schema": [
+      {
+       "id": "name",
+       "displayName": "name",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "url",
+       "displayName": "url",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "image_url",
+       "displayName": "image_url",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "availability",
+       "displayName": "availability",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "retrieved",
+       "displayName": "retrieved",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "notes",
+       "displayName": "notes",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "stock_checked",
+       "displayName": "stock_checked",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      }
+     ]
+    }
+   }
+  },
+  {
+   "name": "R8 Update hand stock",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    1320,
+    300
+   ],
+   "parameters": {
+    "resource": "row",
+    "operation": "update",
+    "dataTableId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "lwJbRv4TVqlFTILl",
+     "cachedResultName": "Claude Midas A7 catalogue"
+    },
+    "matchType": "allConditions",
+    "filters": {
+     "conditions": [
+      {
+       "keyName": "id",
+       "condition": "eq",
+       "keyValue": "={{ $json.row_id }}"
+      },
+      {
+       "keyName": "sku",
+       "condition": "eq",
+       "keyValue": "={{ $json.sku }}"
+      }
+     ]
+    },
+    "columns": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "availability": "={{ $json.row.availability }}",
+      "stock_checked": "={{ $json.row.stock_checked }}"
+     },
+     "schema": [
+      {
+       "id": "availability",
+       "displayName": "availability",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "stock_checked",
+       "displayName": "stock_checked",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      }
+     ]
+    }
+   },
+   "notes": "17 Oct 2026: writes only availability, only on hand rows the owner listed in R4 (174770, 174788), matched by row id and SKU.",
+   "id": "83fb7abf-a9f8-441c-80ab-357f7fe5ce44"
+  },
+  {
+   "name": "R9 Pre-order hand rows",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    880,
+    300
+   ],
+   "parameters": {
+    "jsCode": "// Catalogue refresh · R9 Pre-order hand rows (17 Oct 2026, owner decision 00:36). Code only.\n// Lists the active hand rows (notes do not start \"Imported\") marked \"Pre-Order\" whose page is on the Midas Kuwait English site,\n// so \"R10 Read product page\" can read each one's own page (one page every 10 s, robots.txt).\n// A row \"R4 Plan rows\" already decided from the listing is still read: the product page is recorded as evidence only.\nconst rows = $('R3 Load catalogue').all().map(i => i.json || {}).filter(r => r && r.sku);\nconst isPre = v => /^\\s*pre[-\\s]?order\\s*$/i.test(String(v || ''));\nconst out = rows\n  .filter(r => !/^Imported /.test(String(r.notes || '')) && r.active !== false && isPre(r.availability))\n  .filter(r => /^https:\\/\\/(www\\.)?midasfurniture\\.com\\/en\\/[^?#]+\\.html$/i.test(String(r.url || '')))\n  .map(r => ({ json: { row_id: r.id, sku: String(r.sku), name: r.name || '', url: r.url, availability: r.availability } }));\nreturn out;\n"
+   },
+   "id": "c84b3c7c-5795-498e-bdf2-8726217d8907"
+  },
+  {
+   "name": "R9b Wait 11 s",
+   "type": "n8n-nodes-base.wait",
+   "typeVersion": 1.1,
+   "position": [
+    1100,
+    300
+   ],
+   "parameters": {
+    "resume": "timeInterval",
+    "amount": 11,
+    "unit": "seconds"
+   },
+   "notes": "robots.txt: 10 s between Midas pages (after the last listing page).",
+   "id": "1ea0d17f-6453-4dad-812c-195db4bd0da0"
+  },
+  {
+   "name": "R10 Read product page",
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.5,
+   "position": [
+    1320,
+    300
+   ],
+   "parameters": {
+    "method": "GET",
+    "url": "={{ $json.url }}",
+    "options": {
+     "batching": {
+      "batch": {
+       "batchSize": 1,
+       "batchInterval": 10000
+      }
+     },
+     "response": {
+      "response": {
+       "fullResponse": true,
+       "neverError": true,
+       "responseFormat": "text"
+      }
+     },
+     "timeout": 60000
+    }
+   },
+   "onError": "continueRegularOutput",
+   "id": "27879b6f-9e57-4ea4-bfcc-f1dfca268232"
+  },
+  {
+   "name": "R10b Wait 11 s",
+   "type": "n8n-nodes-base.wait",
+   "typeVersion": 1.1,
+   "position": [
+    1540,
+    300
+   ],
+   "parameters": {
+    "resume": "timeInterval",
+    "amount": 11,
+    "unit": "seconds"
+   },
+   "id": "88354fc2-0aeb-4b4f-a720-b5a22c01b518"
+  },
+  {
+   "name": "R11 Read Kuwait sitemap",
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.5,
+   "position": [
+    1760,
+    300
+   ],
+   "parameters": {
+    "method": "GET",
+    "url": "https://midasfurniture.com/sitemap/kw_en/kw_en_sitemap.xml",
+    "options": {
+     "batching": {
+      "batch": {
+       "batchSize": 1,
+       "batchInterval": 10000
+      }
+     },
+     "response": {
+      "response": {
+       "fullResponse": true,
+       "neverError": true,
+       "responseFormat": "text"
+      }
+     },
+     "timeout": 180000
+    }
+   },
+   "executeOnce": true,
+   "onError": "continueRegularOutput",
+   "id": "ab371380-1fc4-4824-bbf9-12736d057452"
+  },
+  {
+   "name": "R12 Pre-order verdict",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    1980,
+    300
+   ],
+   "parameters": {
+    "jsCode": "// Catalogue refresh · R12 Pre-order verdict (17 Oct 2026, owner decision 00:36). Code only, no model.\n// For each active hand row marked \"Pre-Order\" (from R9), using its own product page (R10) and the Kuwait English sitemap (R11):\n//   - page 404 AND the address and SKU are not in the Kuwait sitemap -> inactive (the rule used for SANOVA 161283). A flag only:\n//     nothing is deleted, and the row can be switched back;\n//   - page 404 but in the sitemap, or the sitemap could not be read -> no change; flagged for the owner;\n//   - page shows a pre-order label or button -> no change; the label is recorded as the evidence;\n//   - page says in stock -> no change here (the listing is the stock source); flagged for the owner;\n//   - page says out of stock with no pre-order -> keep \"Pre-Order\", never write \"Out of stock\"; flagged for the owner;\n//   - anything else (refused, no stock signal, another SKU on the page) -> no change; flagged.\n// Every verdict writes stock_checked only (when, which run, what the page said). \"Date read\" (retrieved) is never changed.\n// A row \"R4 Plan rows\" already updated from the listing in this run gets no second write.\nconst arr = x => (Array.isArray(x) ? x : []);\nconst one = n => { try { return $(n).all(); } catch (e) { return []; } };\nconst asked = one('R9 Pre-order hand rows').map(i => i.json);\nconst pages = one('R10 Read product page').map(i => i.json || {});\nconst sm = (one('R11 Read Kuwait sitemap')[0] || { json: {} }).json || {};\nconst smBody = typeof sm.body === 'string' ? sm.body : (typeof sm.data === 'string' ? sm.data : '');\nconst smOk = (Number(sm.statusCode) || 0) === 200 && /<urlset|<loc>/i.test(smBody);\nconst RUN = (typeof $execution !== 'undefined' && $execution && $execution.id) ? String($execution.id) : 'unknown';\nconst MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];\nconst amman = d => { const a = new Date(d.getTime() + 3 * 3600 * 1000); const p = n => String(n).padStart(2, '0');\n  return a.getUTCDate() + ' ' + MON[a.getUTCMonth()] + ' ' + a.getUTCFullYear() + ', ' + p(a.getUTCHours()) + ':' + p(a.getUTCMinutes()) + ' Amman'; };\nconst STAMP = amman(new Date()) + ', refresh run ' + RUN;\n// Rows R4 already wrote in this run (listing decision wins; no second write).\nconst doneByListing = new Set(one('R4 Plan rows').map(i => i.json || {}).filter(j => j.action === 'hand_stock' || j.action === 'hand_note').map(j => String(j.sku)));\nconst NAMED = { nbsp: ' ', amp: '&', quot: '\"', apos: \"'\", lt: '<', gt: '>' };\nconst text = h => String(h || '').replace(/<script[\\s\\S]*?<\\/script>/gi, ' ').replace(/<style[\\s\\S]*?<\\/style>/gi, ' ').replace(/<[^>]+>/g, ' ')\n  .replace(/&([a-z]+);/gi, (m, n) => NAMED[n.toLowerCase()] || ' ').replace(/\\s+/g, ' ');\nfunction read(h) {\n  const t = text(h);\n  const s = [];\n  if (/class=\"[^\"]*\\bstock\\b[^\"]*\\bavailable\\b/i.test(h)) s.push('in_stock');\n  if (/class=\"[^\"]*\\bstock\\b[^\"]*\\bunavailable\\b/i.test(h)) s.push('out_of_stock');\n  const ld = h.match(/\"availability\"\\s*:\\s*\"[^\"]*schema\\.org\\/(InStock|OutOfStock|PreOrder|SoldOut|Discontinued)\"/i);\n  if (ld) s.push(/instock/i.test(ld[1]) ? 'in_stock' : (/preorder/i.test(ld[1]) ? 'pre_order' : 'out_of_stock'));\n  // Pre-order label or button on the page: the words themselves are kept as evidence.\n  // A label counts only with a buying control on the page (as in A7 step 19c), so a menu link alone is not evidence.\n  const label = /add to cart|pre[-\\s]?order now/i.test(t) ? t.match(/\\b(pre[-\\s]?order(?:\\s+now)?)\\b/i) : null;\n  const button = /<button[^>]*>[^<]*pre[-\\s]?order[^<]*<\\/button>/i.test(h) || /<input[^>]*value=\"[^\"]*pre[-\\s]?order[^\"]*\"/i.test(h);\n  if (label || button) s.push('pre_order');\n  const u = Array.from(new Set(s));\n  const sku = (t.match(/\\bSKU\\s*:?\\s*([A-Za-z0-9-]{3,20})\\b/) || [])[1] || '';\n  return { stock: u.length === 1 ? u[0] : (u.length ? (u.includes('pre_order') ? 'pre_order' : 'conflicting') : 'not_found'), signals: u,\n    evidence: button ? 'pre-order button on the page' + (label ? ' (\"' + label[1] + '\")' : '') : (label ? 'pre-order label on the page (\"' + label[1] + '\")' : (ld ? 'schema.org ' + ld[1] : '')), sku };\n}\nconst out = [], log = [];\nasked.forEach((a, i) => {\n  const p = pages[i] || {};\n  const status = Number(p.statusCode) || 0;\n  const body = typeof p.body === 'string' ? p.body : (typeof p.data === 'string' ? p.data : '');\n  const base = { row_id: a.row_id, sku: a.sku, url: a.url };\n  const write = (action, note, extra) => { out.push({ json: Object.assign({ action }, base, { row: Object.assign({ stock_checked: STAMP + '; ' + note }, extra || {}) }) }); log.push(Object.assign({ verdict: action, note }, base)); };\n  if (doneByListing.has(String(a.sku))) { log.push(Object.assign({ verdict: 'listing decided this run; page not used for a write', page_status: status }, base)); return; }\n  if (status === 404) {\n    const inSitemap = smOk && (smBody.indexOf(a.url) !== -1 || new RegExp('[^0-9]' + String(a.sku).replace(/[^0-9A-Za-z-]/g, '') + '[^0-9]').test(smBody));\n    if (smOk && !inSitemap) return write('inactive', 'product page 404 and not in the Kuwait English sitemap; set inactive (owner rule, 17 Oct 2026). Kept \"Pre-Order\"; nothing deleted', { active: false });\n    return write('hand_note', 'product page 404 but ' + (smOk ? 'still in the Kuwait English sitemap' : 'the Kuwait sitemap could not be read') + '; no change; FLAG for the owner');\n  }\n  if (status !== 200 || !body) return write('hand_note', 'product page did not answer (status ' + (status || 'none') + '); no change; FLAG for the owner');\n  const r = read(body);\n  if (r.sku && r.sku !== String(a.sku)) return write('hand_note', 'product page shows another SKU (' + r.sku + '); no change; FLAG for the owner');\n  if (r.stock === 'pre_order') return write('hand_note', 'product page: ' + (r.evidence || 'pre-order') + '; kept \"Pre-Order\"');\n  if (r.stock === 'in_stock') return write('hand_note', 'product page says in stock, but the listing is the stock source and did not show this SKU; no change; FLAG for the owner');\n  if (r.stock === 'out_of_stock') return write('hand_note', 'product page says out of stock and shows no pre-order; kept \"Pre-Order\" (owner rule, 17 Oct 2026); FLAG for the owner');\n  return write('hand_note', 'product page gives ' + (r.stock === 'conflicting' ? 'conflicting stock signals (' + r.signals.join(', ') + ')' : 'no stock signal') + '; no change; FLAG for the owner');\n});\nif (!out.length) return [{ json: { action: 'none', preorder_log: log, sitemap_read: smOk } }];\nout[0].json.preorder_log = log; out[0].json.sitemap_read = smOk;\nreturn out;\n"
+   },
+   "id": "84450374-fcef-4ea6-af58-cbd85c7cb01e"
+  },
+  {
+   "name": "R13 Inactive or note?",
+   "type": "n8n-nodes-base.switch",
+   "typeVersion": 3.2,
+   "position": [
+    2200,
+    300
+   ],
+   "parameters": {
+    "rules": {
+     "values": [
+      {
+       "outputKey": "inactive",
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict"
+        },
+        "conditions": [
+         {
+          "leftValue": "={{ $json.action }}",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          },
+          "rightValue": "inactive"
+         }
+        ],
+        "combinator": "and"
+       }
+      },
+      {
+       "outputKey": "hand_note",
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict"
+        },
+        "conditions": [
+         {
+          "leftValue": "={{ $json.action }}",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          },
+          "rightValue": "hand_note"
+         }
+        ],
+        "combinator": "and"
+       }
+      }
+     ]
+    }
+   },
+   "id": "fcf44245-f65c-4dd4-8a2e-f2cb4fa35e41"
+  },
+  {
+   "name": "R14 Set inactive",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    2420,
+    220
+   ],
+   "notes": "Owner rule 17 Oct 2026: a Pre-Order hand row whose page is 404 and not in the Kuwait sitemap. Flag only; nothing deleted.",
+   "parameters": {
+    "resource": "row",
+    "operation": "update",
+    "dataTableId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "lwJbRv4TVqlFTILl",
+     "cachedResultName": "Claude Midas A7 catalogue"
+    },
+    "matchType": "allConditions",
+    "filters": {
+     "conditions": [
+      {
+       "keyName": "id",
+       "condition": "eq",
+       "keyValue": "={{ $json.row_id }}"
+      },
+      {
+       "keyName": "sku",
+       "condition": "eq",
+       "keyValue": "={{ $json.sku }}"
+      }
+     ]
+    },
+    "columns": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "active": "={{ $json.row.active }}",
+      "stock_checked": "={{ $json.row.stock_checked }}"
+     },
+     "schema": [
+      {
+       "id": "active",
+       "displayName": "active",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "boolean",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "stock_checked",
+       "displayName": "stock_checked",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      }
+     ]
+    }
+   },
+   "id": "40c76215-2bb9-4897-b6e1-64b5c7264577"
+  },
+  {
+   "name": "R15 Write stock checked",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1.1,
+   "position": [
+    2420,
+    400
+   ],
+   "notes": "Writes stock_checked only (evidence or a flag for the owner, with the date and run).",
+   "parameters": {
+    "resource": "row",
+    "operation": "update",
+    "dataTableId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "lwJbRv4TVqlFTILl",
+     "cachedResultName": "Claude Midas A7 catalogue"
+    },
+    "matchType": "allConditions",
+    "filters": {
+     "conditions": [
+      {
+       "keyName": "id",
+       "condition": "eq",
+       "keyValue": "={{ $json.row_id }}"
+      },
+      {
+       "keyName": "sku",
+       "condition": "eq",
+       "keyValue": "={{ $json.sku }}"
+      }
+     ]
+    },
+    "columns": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "stock_checked": "={{ $json.row.stock_checked }}"
+     },
+     "schema": [
+      {
+       "id": "stock_checked",
+       "displayName": "stock_checked",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      }
+     ]
+    }
+   },
+   "id": "e1358c0c-b605-40a9-90d8-6cab16d9e139"
+  },
+  {
+   "name": "Weekly schedule (Saturday 04:00 Amman)",
+   "type": "n8n-nodes-base.scheduleTrigger",
+   "typeVersion": 1.2,
+   "position": [
+    0,
+    -200
+   ],
+   "notes": "P3.2 draft. Fires only if the workflow is published, which needs the owner's go.",
+   "parameters": {
+    "rule": {
+     "interval": [
+      {
+       "field": "weeks",
+       "weeksInterval": 1,
+       "triggerAtDay": [
+        6
+       ],
+       "triggerAtHour": 4,
+       "triggerAtMinute": 0
+      }
+     ]
+    }
+   },
+   "id": "0b71f1b5-955f-48f1-8271-82181054b543"
+  }
+ ],
+ "connections": {
+  "Start refresh": {
+   "main": [
+    [
+     {
+      "node": "R1 Categories",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "R1 Categories": {
+   "main": [
+    [
+     {
+      "node": "R2 Read listing",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "R2 Read listing": {
+   "main": [
+    [
+     {
+      "node": "R3 Load catalogue",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "R3 Load catalogue": {
+   "main": [
+    [
+     {
+      "node": "R4 Plan rows",
+      "type": "main",
+      "index": 0
+     },
+     {
+      "node": "R9 Pre-order hand rows",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "R4 Plan rows": {
+   "main": [
+    [
+     {
+      "node": "R5 Insert or update?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "R5 Insert or update?": {
+   "main": [
+    [
+     {
+      "node": "R6 Insert row",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "R7 Update row",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "R8 Update hand stock",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "R15 Write stock checked",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "R9 Pre-order hand rows": {
+   "main": [
+    [
+     {
+      "node": "R9b Wait 11 s",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "R9b Wait 11 s": {
+   "main": [
+    [
+     {
+      "node": "R10 Read product page",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "R10 Read product page": {
+   "main": [
+    [
+     {
+      "node": "R10b Wait 11 s",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "R10b Wait 11 s": {
+   "main": [
+    [
+     {
+      "node": "R11 Read Kuwait sitemap",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "R11 Read Kuwait sitemap": {
+   "main": [
+    [
+     {
+      "node": "R12 Pre-order verdict",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "R12 Pre-order verdict": {
+   "main": [
+    [
+     {
+      "node": "R13 Inactive or note?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "R13 Inactive or note?": {
+   "main": [
+    [
+     {
+      "node": "R14 Set inactive",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "R15 Write stock checked",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Weekly schedule (Saturday 04:00 Amman)": {
+   "main": [
+    [
+     {
+      "node": "R1 Categories",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1",
+  "availableInMCP": true,
+  "timezone": "Asia/Amman"
+ },
+ "nodeGroups": [],
+ "_export_note": "17 Oct 2026: the 16 Oct export (c0722832) with the 17 Oct 00:36 update applied as sent (the ops of that update), node ids taken from the n8n read-back of 040930df. Code-node text = code-nodes/ (R4, R9, R12 checked equal to the code sent). 19 nodes, not published. Live runs: 429 (16 Oct, owner), 468 (17 Oct, hand stock). Pinned tests: 466, 470.",
+ "description": "17 Oct 2026 draft. Hand-stock-only mode; stock_checked on every stock write; Pre-Order hand-row rules (listing, product page, Kuwait sitemap). Weekly schedule added (fires only if published). No AI, no paid call. Not published.",
+ "updatedAt": "2026-10-16T21:42:44.979Z"
+}

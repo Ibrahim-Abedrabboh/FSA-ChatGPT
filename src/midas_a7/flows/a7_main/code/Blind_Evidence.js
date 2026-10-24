@@ -1,0 +1,1 @@
+const rows=$('Blind · Read run').all();const reviews=$input.all().map(x=>x.json).filter(x=>x.step===16);if(rows.length!==1||reviews.length!==1)throw Error('blind_evidence_ambiguous');return [{json:{recoveryId:"owner-blind-replacement-20261018-1",row:rows[0].json,review:JSON.parse(reviews[0].payload)}}];

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Midas Virtual Studio · Job request</title>
+  <style>
+    :root{font:16px/1.5 system-ui,sans-serif;color:#21302b;background:#f5f4ef}*{box-sizing:border-box}body{margin:0}main{max-width:900px;margin:auto;padding:32px 18px 70px}h1{font-size:2rem;margin:0 0 8px}p{color:#52625b}fieldset{border:1px solid #ccd4cd;border-radius:14px;background:white;margin:20px 0;padding:22px}legend{font-weight:700;padding:0 8px}label{display:block;font-weight:600;margin:12px 0 5px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 18px}input,select,textarea{width:100%;font:inherit;padding:10px;border:1px solid #89988e;border-radius:8px;background:white;color:inherit}input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #287c60;outline-offset:2px}.choices{display:flex;flex-wrap:wrap;gap:8px 20px}.choices label{display:flex;align-items:center;gap:7px;font-weight:400;margin:6px 0}.choices input{width:auto}.hint{font-size:.9rem;margin:5px 0 12px}button{font:inherit;border:0;border-radius:9px;padding:12px 18px;background:#17654a;color:white;cursor:pointer}button:disabled{opacity:.55;cursor:wait}pre{overflow:auto;white-space:pre-wrap;background:#e9eee9;border-radius:10px;padding:15px}output{display:block;margin-top:14px}.error{color:#9a1e1e}.ok{color:#17654a}@media(max-width:600px){main{padding-top:20px}fieldset{padding:15px}}
+  </style>
+</head>
+<body>
+<main>
+  <h1>Create a studio job</h1>
+  <p>Choose the same setup options as the studio. Review the exact payload before sending it.</p>
+  <form id="jobForm">
+    <fieldset><legend>01 · The Job</legend>
+      <div class="grid"><div><label for="job">Job</label><select id="job" required><option value="new_project">New Project</option><option value="edit">Edit</option><option value="single_item">Single item</option></select></div><div><label for="workOn">Work on</label><select id="workOn"><option value="one_by_one">One by one (same department)</option><option value="batch">Batch</option></select></div></div>
+    </fieldset>
+    <fieldset><legend>02 · The Item</legend>
+      <div class="grid"><div><label for="department">Department</label><input id="department" list="departments" placeholder="Automatic from references"><datalist id="departments"><option value="Home Furniture"><option value="Office Furniture"><option value="Accessories"><option value="Outdoor Furniture"></datalist></div><div><label for="category">Category</label><input id="category" placeholder="Automatic from references"></div><div><label for="subCategory">Sub-category</label><input id="subCategory" placeholder="Automatic from references"></div><div><label for="referenceType">Reference type</label><select id="referenceType"><option>Product / vendor reference</option><option>Room / target space</option><option>Inspiration / look</option><option>Previous result</option><option>Other views / pieces</option><option>Specifications / Excel</option></select></div></div>
+      <label for="files">Reference files</label><input id="files" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,.xls,.xlsx,.csv"><p class="hint">JPG, PNG, WebP, PDF, XLS/XLSX or CSV; 25 MB per file.</p>
+    </fieldset>
+    <fieldset><legend>03 · Scope</legend>
+      <label>Outcomes</label><div class="choices" id="outcomes"><label><input type="checkbox" value="White BK">White BK</label><label><input type="checkbox" value="Lifestyle" checked>Lifestyle</label><label><input type="checkbox" value="Website">Website</label><label><input type="checkbox" value="New Composition">New Composition</label><label><input type="checkbox" value="Variations">Variations</label><label><input type="checkbox" value="Create with this item">Create with this item</label><label><input type="checkbox" value="Others">Others</label></div>
+      <div class="grid"><div><label for="view">Views</label><select id="view"><option>Category template</option><option>Wide view</option><option>Close-up</option><option>Wide view + close-up</option></select></div><div><label for="aspect">Image proportions</label><select id="aspect"><option>Standard for category</option><option>Square 1:1</option><option>Portrait 4:5</option><option>Landscape 16:9</option></select></div><div><label for="resolution">Resolution</label><select id="resolution"><option>Standard for category</option><option>2K</option><option>4K</option></select></div><div><label for="imageSize">Image size</label><input id="imageSize" placeholder="Optional exact size, e.g. 2048x2560"></div></div>
+    </fieldset>
+    <fieldset><legend>04 · Preferences</legend>
+      <div class="grid"><div><label for="lighting">Lighting</label><select id="lighting"><option value="">Workflow default</option><option>Soft daylight</option><option>Golden afternoon</option><option>Warm evening</option></select></div><div><label for="wallPaint">Wall paint</label><select id="wallPaint"><option value="">Workflow default</option><option>White</option><option>Ivory</option><option>Sand</option><option>Greige</option><option>Taupe</option><option>Sage</option><option>Charcoal</option><option>Terracotta</option></select></div><div><label for="floor">Floor</label><select id="floor"><option value="">Workflow default</option><option>Light oak</option><option>Dark walnut</option><option>Limestone</option><option>Marble</option></select></div></div>
+      <div class="choices"><label><input id="useWorkflowDefaults" type="checkbox">Use workflow defaults</label></div>
+    </fieldset>
+    <fieldset><legend>05 · Suggestions</legend>
+      <div class="choices"><label><input id="plants" type="checkbox" checked>Plants</label><label><input id="human" type="checkbox">Human</label></div><label for="mood">Mood / Vibes</label><select id="mood"><option>Automatic</option><option>Calm &amp; natural</option><option>Warm &amp; inviting</option><option>Refined &amp; elegant</option><option>Bold &amp; expressive</option></select>
+    </fieldset>
+    <fieldset><legend>Workflow metadata</legend><p class="hint">Optional details used by 04 Contract, 05 Compose and plan critic. Blank values stay blank; they are not inferred from images.</p>
+      <div class="grid"><div><label for="color">Product color</label><input id="color"></div><div><label for="material">Product material</label><input id="material"></div><div><label for="hero">Hero item / focus</label><input id="hero"></div></div>
+      <label for="locks">Locks</label><textarea id="locks" rows="2" placeholder="One constraint per line"></textarea><label for="mustNot">Must not</label><textarea id="mustNot" rows="2" placeholder="One exclusion per line"></textarea>
+    </fieldset>
+    <fieldset><legend>Submit</legend><label for="endpoint">POST endpoint</label><input id="endpoint" type="url" required placeholder="https://your-server.example/jobs" autocomplete="url"><p class="hint">Uses multipart/form-data: one JSON field named <code>payload</code>, plus repeated <code>files</code> parts.</p><button id="submit" type="submit">Review choices and submit</button><output id="status" role="status" aria-live="polite"></output></fieldset>
+  </form>
+  <h2>Payload preview</h2><pre id="preview" aria-live="polite"></pre>
+</main>
+<script>
+(() => {
+  'use strict';
+  const form = document.querySelector('#jobForm');
+  const field = id => document.getElementById(id);
+  const value = id => field(id).value.trim();
+  const lines = id => value(id).split(/\r?\n/).map(x => x.trim()).filter(Boolean);
+  const runId = crypto.randomUUID();
+  const selected = () => [...document.querySelectorAll('#outcomes input:checked')].map(x => x.value);
+  const payload = () => {
+    const outcomes = selected();
+    const outcome = outcomes[0] || '';
+    const category = value('category') || value('department');
+    const view = value('view');
+    const lighting = value('lighting');
+    const aspect = value('aspect');
+    const resolution = value('resolution');
+    return {
+      job: outcome.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, ''),
+      jobMode: value('job'),
+      workOn: value('workOn'),
+      scope: { outcome, outcomes, view, aspect, resolution },
+      item: { department: value('department'), category: value('category'), subCategory: value('subCategory'), referenceType: value('referenceType') },
+      preferences: { lighting, wallPaint: value('wallPaint'), floor: value('floor'), useWorkflowDefaults: field('useWorkflowDefaults').checked },
+      styling: { plants: field('plants').checked, human: field('human').checked, mood: value('mood') },
+      metadata: {
+        product_category: category, color: value('color'), material: value('material'),
+        scene: outcome, light: lighting, camera: view, hero: value('hero'),
+        locks: lines('locks'), must_not: lines('mustNot'),
+        delivery: { image_size: value('imageSize'), aspect, resolution }
+      },
+      clientRunId: runId
+    };
+  };
+  const preview = () => { field('preview').textContent = JSON.stringify(payload(), null, 2); };
+  form.addEventListener('input', preview);
+  form.addEventListener('change', preview);
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    const status = field('status');
+    const outcomes = selected();
+    if (!outcomes.length) { status.className = 'error'; status.textContent = 'Select at least one outcome.'; return; }
+    const files = [...field('files').files];
+    if (files.some(file => file.size > 25 * 1024 * 1024)) { status.className = 'error'; status.textContent = 'Each file must be 25 MB or smaller.'; return; }
+    const destination = new URL(value('endpoint'));
+    if (!['https:', 'http:'].includes(destination.protocol)) { status.className = 'error'; status.textContent = 'Use an HTTP or HTTPS endpoint.'; return; }
+    const data = new FormData();
+    data.append('payload', JSON.stringify(payload()));
+    files.forEach(file => data.append('files', file, file.name));
+    field('submit').disabled = true;
+    status.className = '';
+    status.textContent = 'Submitting…';
+    try {
+      const response = await fetch(destination, { method: 'POST', body: data });
+      if (!response.ok) throw new Error(`Server returned HTTP ${response.status}.`);
+      status.className = 'ok'; status.textContent = 'Job submitted successfully.';
+    } catch (error) {
+      status.className = 'error'; status.textContent = `Submission failed: ${error.message} Check the endpoint and its CORS settings.`;
+    } finally { field('submit').disabled = false; }
+  });
+  preview();
+})();
+</script>
+</body>
+</html>

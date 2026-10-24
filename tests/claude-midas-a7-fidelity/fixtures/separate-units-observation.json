@@ -1,0 +1,116 @@
+{
+  "observation": {
+    "category_seen": "sectional sofa",
+    "colour_observed": "light beige",
+    "swatch_colours": [],
+    "material_appearance": "textured woven fabric upholstery, tan fabric on connector sides, metal connector hardware, and dark wood-look feet",
+    "pieces_seen": [
+      {
+        "label": "chaise sectional piece",
+        "kind": "chaise section",
+        "box": [
+          66,
+          52,
+          497,
+          650
+        ],
+        "seen_whole": true,
+        "role": "product"
+      },
+      {
+        "label": "right-arm sofa section",
+        "kind": "sofa section",
+        "box": [
+          494,
+          372,
+          966,
+          960
+        ],
+        "seen_whole": true,
+        "role": "product"
+      },
+      {
+        "label": "geometric toss pillow on chaise",
+        "kind": "cushion",
+        "box": [
+          79,
+          417,
+          237,
+          549
+        ],
+        "seen_whole": true,
+        "role": "context"
+      },
+      {
+        "label": "geometric toss pillow on sofa",
+        "kind": "cushion",
+        "box": [
+          513,
+          745,
+          686,
+          880
+        ],
+        "seen_whole": true,
+        "role": "context"
+      }
+    ],
+    "count_eye": 2,
+    "count_second": 2,
+    "count_stated": 2,
+    "count_printed": null,
+    "cropped": false,
+    "crop_note": "",
+    "hidden": [],
+    "readers_used": {
+      "photo": "gemini-3.8-flash",
+      "room": "",
+      "second": "claude-sonnet-5-5"
+    },
+    "views_not_pieces": [],
+    "signs": [],
+    "design_locks": [
+      "light beige textured fabric",
+      "unfinished tan connector panels with metal interlocking brackets",
+      "dark brown block feet",
+      "loose-look back cushions",
+      "track arm on right side of sofa piece",
+      "concentric square geometric accent pillows in orange, brown, and cream"
+    ],
+    "sided_parts": [
+      "chaise piece connects on the right",
+      "sofa piece has an arm on the right and connects on the left"
+    ],
+    "relations": [
+      "The chaise section and the sofa section interlock along their tan connecting faces to form a multi-seat sectional sofa."
+    ],
+    "relations_second": [],
+    "shown_with": [
+      "two square geometric accent pillows in orange, brown, and cream"
+    ],
+    "unclear_second": [
+      "The two decorative accent pillows sit on the sections, so they are not counted. They may be sold with the set."
+    ],
+    "written": {
+      "client": "Sofa set | Sofa set",
+      "files": [],
+      "files_not_read": [],
+      "photo_text": "",
+      "count_written": null,
+      "count_from": "client"
+    },
+    "room": null
+  },
+  "inventory": [
+    {
+      "item": "chaise section",
+      "count": 1,
+      "basis": "supplied"
+    },
+    {
+      "item": "sofa section",
+      "count": 1,
+      "basis": "supplied"
+    }
+  ],
+  "referenceRun": "claude-a7-20261017165728-1d79cw"
+}

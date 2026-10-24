@@ -1,0 +1,20 @@
+%% Description: A7 revision or variation flow (client page, pipeline, owner). Design, 14 Oct 2026.
+%% A chip or message on result X changes one axis and creates a new brief v+1 linked to X; old plans and reviews are voided.
+%% The client sees the plan preview and what stays locked, then confirms. The owner gives Go 1 on the plan.
+%% Images are made and checked (at most 2 repairs each). The owner approves or holds the package.
+%% The client sees a Generated image; "Approved" appears only after the owner's decision.
+%% ----
+sequenceDiagram
+  participant C as Client page
+  participant P as Pipeline (A7)
+  participant O as Owner
+  C->>P: Chip or message on result X (one axis: light, view, accessories, room)
+  P->>P: New brief v+1 linked to parent X, old plans and reviews voided
+  P-->>C: Plan preview and what stays locked
+  C->>P: Confirm
+  P->>O: Go 1 (plan)
+  O->>P: go
+  P->>P: Images, checks, at most 2 repairs each
+  P->>O: Package for decision
+  O->>P: approve or hold
+  P-->>C: Generated image, "Approved" only after the owner decision

@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A7 Refine Film</title>
+<style>
+@font-face{font-family:"Playfair Display";font-weight:400;font-style:normal;src:url(node_modules/@fontsource/playfair-display/files/playfair-display-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Playfair Display";font-weight:400;font-style:italic;src:url(node_modules/@fontsource/playfair-display/files/playfair-display-latin-400-italic.woff2) format("woff2")}
+@font-face{font-family:"Manrope";font-weight:400;src:url(node_modules/@fontsource/manrope/files/manrope-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Manrope";font-weight:600;src:url(node_modules/@fontsource/manrope/files/manrope-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Space Grotesk";font-weight:500;src:url(node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-500-normal.woff2) format("woff2")}
+:root{--ink:#121111;--off:#F6F6F6;--muted:#606060;--soft:#747474;--line:#E9E9E9;--line2:#D1D1D1;--red:#B22020;--gold:#F5CD6F;
+  --disp:"Playfair Display",Georgia,serif;--body:Manrope,system-ui,sans-serif;--label:"Space Grotesk",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#fff;color:var(--ink);-webkit-font-smoothing:antialiased;font-family:var(--body)}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#fff}
+.abs{position:absolute}
+.kick{font-family:var(--label);font-weight:500;letter-spacing:.18em;text-transform:uppercase;font-size:18px;color:var(--red)}
+.disp{font-family:var(--disp)}.it{font-style:italic}
+.pill{white-space:nowrap;font-family:var(--label);font-weight:500;font-size:17px;border:1.5px solid var(--ink);border-radius:30px;padding:7px 16px;display:inline-flex;gap:10px;align-items:center;background:#fff}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--gold)}
+.chip{white-space:nowrap;font-family:var(--label);font-weight:500;font-size:18px;border:1.5px solid var(--line2);border-radius:30px;padding:7px 16px;background:#fff;display:inline-flex;gap:8px;align-items:center;position:relative}
+.toast{display:inline-flex;align-items:center;gap:12px;border:1.5px solid var(--ink);border-radius:12px;padding:9px 16px;background:#fff;font-family:var(--label);font-size:18px;white-space:nowrap}
+.toast .who{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+.frame{position:absolute;width:1000px;height:620px;border:1.5px solid var(--ink);border-radius:14px;background:#fff;overflow:hidden;transform-origin:50% 50%}
+.row{position:absolute;left:150px;top:842px;display:flex;gap:12px;align-items:center}
+.sk{position:absolute;left:12px;right:12px;top:50%;height:2.5px;background:var(--red);transform-origin:0 50%;transform:scaleX(0)}
+.small{font-size:18px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div id="root"><div id="html"></div></div>
+<script>
+// =====================================================================
+// motion-foundations: the single source for every timing value below.
+// Tokens are the UI values from the skill; STAGE scales distances for a
+// 1920×1080 frame (2× a 960-wide UI). No other durations, easings or
+// spring constants appear in this file.
+// =====================================================================
+const motionTokens={
+  duration:{instant:.08,fast:.18,normal:.35,slow:.6,crawl:1.0},
+  easing:{smooth:[.22,1,.36,1],sharp:[.4,0,.2,1],bounce:[.34,1.56,.64,1],linear:[0,0,1,1]},
+  distance:{xs:4,sm:8,md:16,lg:24,xl:48},
+  scale:{subtle:.98,press:.95,pop:1.04},
+};
+const springs={
+  snappy:{stiffness:300,damping:30},gentle:{stiffness:120,damping:14},bouncy:{stiffness:400,damping:10},
+  instant:{stiffness:600,damping:35},release:{stiffness:200,damping:20},
+};
+const STAGE=2; const D=k=>motionTokens.distance[k]*STAGE; const T=motionTokens.duration;
+// cubic-bezier evaluator
+function bez([x1,y1,x2,y2]){const cx=3*x1,bx=3*(x2-x1)-cx,ax=1-cx-bx,cy=3*y1,by=3*(y2-y1)-cy,ay=1-cy-by;
+  const X=t=>((ax*t+bx)*t+cx)*t,Y=t=>((ay*t+by)*t+cy)*t,dX=t=>(3*ax*t+2*bx)*t+cx;
+  return x=>{if(x<=0)return 0;if(x>=1)return 1;let t=x;for(let i=0;i<8;i++){const e=X(t)-x,d=dX(t);if(Math.abs(e)<1e-5||!d)break;t-=e/d;}return Y(clamp(t));};}
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const E={};for(const k in motionTokens.easing)E[k]=bez(motionTokens.easing[k]);
+const tw=(t,start,dur,ease='smooth')=>E[ease](clamp((t-start)/dur));          // tween 0→1
+function sp(t,start,preset='gentle'){const {stiffness:k,damping:c}=springs[preset];const x=t-start;if(x<=0)return 0; // spring 0→1 (mass 1)
+  const w=Math.sqrt(k),z=c/(2*w);if(z>=1){return 1-Math.exp(-w*x)*(1+w*x);}const wd=w*Math.sqrt(1-z*z);
+  return 1-Math.exp(-z*w*x)*(Math.cos(wd*x)+(z*w/wd)*Math.sin(wd*x));}
+const lerp=(a,b,p)=>a+(b-a)*p;
+// transform + opacity only (foundations rule 4)
+function set(el,{o,x=0,y=0,s=1,r=0}){if(o!==undefined)el.style.opacity=o;el.style.transform=`translate(${x}px,${y}px) scale(${s}) rotate(${r}deg)`;}
+// presence: spring in, eased out; same distance both ways
+function presence(el,t,tin,tout,dist=D('lg'),preset='gentle'){const pin=sp(t,tin,preset),pout=tw(t,tout,T.normal,'sharp');
+  set(el,{o:clamp(pin*1.4)*(1-pout),y:(1-pin)*dist-pout*dist});return pin;}
+function H(html,cls,parent){const d=document.createElement('div');d.className='abs '+(cls||'');d.innerHTML=html;(parent||document.getElementById('html')).appendChild(d);return d;}
+const at=(el,x,y)=>{el.style.left=x+'px';el.style.top=y+'px';return el;};
+
+// =============================== timeline ===============================
+const T_INTRO_OUT=4.0, T_STAGE=4.4;
+const DUR=[4.0,4.2,4.2,3.2,4.2,4.8,4.4,4.6];
+const S0=[];{let s=T_STAGE+1.0;for(const d of DUR){S0.push(s);s+=d;}}
+const T_OUT=S0[7]+DUR[7], TOTAL=T_OUT+7.6;window.TOTAL=TOTAL;
+const cur=t=>{let k=-1;for(let i=0;i<8;i++)if(t>=S0[i])k=i;return k;};
+const lt=(t,i)=>t-S0[i];
+
+// =============================== room drawing ===============================
+const ROOM=`<svg width="1000" height="620" viewBox="0 0 1000 620" fill="none" stroke="#121111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+ <defs><linearGradient id="beamG{ID}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F5CD6F" stop-opacity=".75"/><stop offset="1" stop-color="#F5CD6F" stop-opacity=".12"/></linearGradient>
+ <linearGradient id="washG{ID}" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F5CD6F" stop-opacity=".30"/><stop offset=".7" stop-color="#F5CD6F" stop-opacity="0"/></linearGradient>
+ <clipPath id="wipe{ID}"><rect data-wipe x="0" y="0" width="1000" height="620" style="transform-origin:1000px 0;transform:scaleX(0)"/></clipPath></defs>
+ <g clip-path="url(#wipe{ID})" stroke="none"><rect width="1000" height="620" fill="url(#washG{ID})"/><polygon points="620,340 860,340 720,600 360,600" fill="url(#beamG{ID})"/></g>
+ <path d="M0 470H1000"/>
+ <rect x="620" y="80" width="240" height="260" rx="3"/><path d="M740 80V340M620 210H860"/>
+ <ellipse cx="370" cy="540" rx="280" ry="40" stroke="#D1D1D1"/>
+ <path d="M90 470V200M50 200H130L110 150H70Z M65 470H115"/>
+ <g data-sofa><rect x="160" y="300" width="400" height="90" rx="14"/><rect x="140" y="380" width="440" height="70" rx="10"/>
+ <rect x="120" y="340" width="60" height="110" rx="12"/><rect x="540" y="340" width="60" height="110" rx="12"/>
+ <path d="M293 304V384M427 304V384M170 450V474M550 450V474"/></g>
+</svg>`;
+let FID=0;
+function makeFrame(){const f=H(ROOM.replaceAll('{ID}',String(FID++)),'frame');return f;}
+const FX=150,FY=150;
+const frameX=at(makeFrame(),FX,FY);           // parent: result X (goes to history)
+const frameV=at(makeFrame(),FX,FY);           // child: brief v+1
+// overlays on v+1 (plan blueprint, checks)
+const OV=`<svg width="1000" height="620" viewBox="0 0 1000 620" fill="none">
+ <g data-plan>
+  <rect x="604" y="64" width="272" height="292" rx="6" stroke="#B22020" stroke-width="2.5" stroke-dasharray="10 8"/>
+  <rect x="104" y="284" width="512" height="206" rx="10" stroke="#121111" stroke-width="2.5" stroke-dasharray="10 8"/>
+ </g>
+ <g data-checks stroke="#121111" stroke-width="2.5">
+  ${[[120,300],[600,300],[120,474],[600,474]].map(([x,y],i)=>`<g data-ck="${i}" transform="translate(${x} ${y})"><path d="M-14 0H14M0 -14V14"/></g>`).join('')}
+ </g>
+</svg>`;
+const overlay=at(H(OV,''),FX,FY);overlay.style.width='1000px';overlay.style.height='620px';
+const tagChange=at(H('<span style="display:inline-flex;gap:8px;align-items:center;background:#B22020;color:#fff;font-family:var(--label);font-size:17px;padding:6px 14px;border-radius:30px">Changes: light</span>',''),FX+640,FY+20);
+const tagLock=at(H(`<span style="display:inline-flex;gap:8px;align-items:center;background:#121111;color:#fff;font-family:var(--label);font-size:17px;padding:6px 14px;border-radius:30px"><svg width="14" height="16" viewBox="0 0 16 18" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="8" width="12" height="9" rx="1.5"/><path d="M5 8V5a3 3 0 0 1 6 0v3"/></svg>Locked: the product as photographed</span>`,''),FX+110,FY+226);
+const CK='<svg width="26" height="26" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#121111"/><path d="M6 11.5l3.2 3L16 7.5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>';
+const ticks=[[120,300],[600,300],[120,474],[600,474]].map(([x,y])=>at(H(CK,''),FX+x+10,FY+y-36));
+// browser chrome for step 8 (client page)
+const chrome=at(H(`<div style="width:1000px;height:52px;background:#F6F6F6;border-bottom:1.5px solid #121111;display:flex;align-items:center;gap:10px;padding:0 20px">
+<span style="width:12px;height:12px;border-radius:50%;border:1.5px solid #121111"></span><span style="width:12px;height:12px;border-radius:50%;border:1.5px solid #121111"></span><span style="width:12px;height:12px;border-radius:50%;border:1.5px solid #121111"></span>
+<span style="margin-left:18px;font-family:var(--label);font-size:16px;color:#606060">Client page</span></div>`,''),FX,FY);
+const genLabel=at(H(`<div style="display:flex;gap:12px;align-items:center"><span style="background:#fff;border:1.5px solid #121111;border-radius:30px;padding:6px 14px;font-family:var(--label);font-size:17px">Generated image</span>
+<span data-stamp style="display:inline-block;font-family:var(--label);font-size:16px;letter-spacing:.05em;border:1.5px dashed #B22020;color:#B22020;border-radius:30px;padding:6px 14px;background:#fff">“Approved” only after the owner decision</span></div>`,''),FX+24,FY+548);
+// owner seal for step 5
+const seal=at(H(`<div style="width:132px;height:132px;border-radius:50%;background:#121111;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#F5CD6F;font-family:var(--label);border:4px solid #F5CD6F;box-shadow:0 0 0 6px #fff">
+<span style="font-size:13px;letter-spacing:.16em">OWNER</span><span style="font-family:var(--disp);font-size:46px;line-height:1">go</span><span style="font-size:12px;letter-spacing:.12em">GO 1 · PLAN</span></div>`,''),FX+1000-160,FY+30);
+
+// labels under the frame
+const tagX=at(H('<span class="pill" style="border-color:#D1D1D1;color:#606060">result X</span>',''),FX,790);
+const tagV=at(H('<span class="pill" style="border-color:#B22020;color:#B22020">brief v+1<span style="color:#747474;font-size:15px">parent: result X</span></span>',''),FX,790);
+const illus=at(H('<span class="small" style="font-size:15px;color:#747474">Illustration only, not a Midas product</span>',''),FX+1000,800);illus.style.translate='-100% 0';
+
+// step rows (under the frame)
+const rows=[
+  `<span class="chip" data-i>light</span><span class="chip" data-i>view</span><span class="chip" data-i>accessories</span><span class="chip" data-i>room</span><span class="small" data-i>one axis per change</span>`,
+  `<span class="chip" data-i>old plan<span class="sk"></span></span><span class="chip" data-i>old review<span class="sk"></span></span><span class="small" data-i>voided · result X stays as history</span>`,
+  `<span class="small" data-i>Shown to the client before anything is made</span>`,
+  `<span class="chip" data-i data-btn style="background:#121111;color:#fff;border-color:#121111;padding:9px 24px">Confirm</span><span data-i data-ok style="display:inline-flex">${CK}</span>`,
+  `<span class="toast" data-i><span class="who">Pipeline</span>go 1 · plan</span><span class="small" data-i>→</span><span class="toast" data-i style="border-color:#B22020"><span class="who">Owner</span>go</span>`,
+  `<span class="small" data-i>repairs</span><span data-i style="display:inline-flex;gap:8px"><span style="width:14px;height:14px;border-radius:50%;border:2px solid #B22020"></span><span style="width:14px;height:14px;border-radius:50%;border:2px solid #B22020"></span></span><span class="small" data-i>at most 2 per image, then hold</span>`,
+  `<span class="toast" data-i><span class="who">Pipeline</span>package</span><span class="small" data-i>→</span><span class="toast" data-i style="border-color:#B22020"><span class="who">Owner</span><span class="chip" style="padding:4px 14px;font-size:16px;border-color:#121111">approve</span><span style="color:#747474">or</span><span class="chip" style="padding:4px 14px;font-size:16px;border-color:#121111">hold</span></span>`,
+  `<span class="small" data-i>Shown on the client page as “Generated image”</span>`,
+].map(h=>{const r=H(h,'row');r.classList.remove('abs');r.style.position='absolute';return{el:r,items:[...r.querySelectorAll('[data-i]')]};});
+
+// right panel
+const PX=1240;
+const STEPS=[
+ ['Client page','→','Pipeline (A7)','Chip or message on result X','One axis: light, view, accessories, room'],
+ ['Pipeline (A7)','↻','','New brief v+1, linked to parent X','Old plans and reviews voided'],
+ ['Pipeline (A7)','→','Client page','Plan preview and what stays locked','The change and the locks, side by side'],
+ ['Client page','→','Pipeline (A7)','Confirm','Nothing runs until the client confirms'],
+ ['Pipeline (A7)','⇄','Owner','Go 1 (plan)','The owner replies: go'],
+ ['Pipeline (A7)','↻','','Images, checks','At most 2 repairs each, then hold'],
+ ['Pipeline (A7)','⇄','Owner','Package for decision','The owner replies: approve or hold'],
+ ['Pipeline (A7)','→','Client page','Generated image','“Approved” only after the owner decision'],
+].map(([a,arr,b,ti,su],i)=>{
+  const el=H(`<div data-p class="kick" style="color:#747474">Step ${String(i+1).padStart(2,'0')} of 08</div>
+  <div data-p style="display:flex;gap:10px;align-items:center;margin-top:18px;font-family:var(--label);font-size:17px;color:#606060"><span class="chip" style="font-size:16px;padding:5px 12px">${a}</span>${arr}${b?`<span class="chip" style="font-size:16px;padding:5px 12px">${b}</span>`:''}</div>
+  <div data-p class="disp" style="font-size:56px;letter-spacing:-1.5px;line-height:1.08;margin-top:26px">${ti}</div>
+  <div data-p style="font-size:24px;color:#606060;margin-top:16px;line-height:1.4">${su}</div>`,'');
+  at(el,PX,300);el.style.width='580px';return{el,parts:[...el.querySelectorAll('[data-p]')]};});
+const bigNum=at(H('','disp'),PX-8,120);bigNum.style.cssText+='font-size:150px;line-height:1;letter-spacing:-5px;font-variant-numeric:lining-nums;color:#E9E9E9';
+// progress (scaleX only)
+const progBase=at(H('',''),PX,900);progBase.style.cssText+='width:580px;height:2px;background:#E9E9E9';
+const progFill=at(H('',''),PX,900);progFill.style.cssText+='width:580px;height:2px;background:#121111;transform-origin:0 50%';
+const pdots=[...Array(8)].map((_,i)=>{const d=at(H('',''),PX+i*580/7-7,893);d.style.cssText+='width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid #D1D1D1';return d;});
+// header + status
+const head=at(H('<div class="kick">Midas Virtual Studio · Pipeline A7</div><div class="disp" style="font-size:30px;margin-top:6px">Refine or variation, <span class="it">as a new version</span></div>',''),FX,52);
+const status=at(H('<span class="dot"></span>Refine flow: design, not built · checked in n8n 15 Oct 2026','pill'),1800,62);status.style.translate='-100% 0';
+
+// ================= intro / outro (ink panels) =================
+const ink=at(H('',''),0,0);ink.style.cssText+='width:1920px;height:1080px;background:#121111';
+const goldLine=at(H('',''),160,300);goldLine.style.cssText+='width:1600px;height:3px;background:#F5CD6F;transform-origin:0 50%';
+const intro=at(H(`<div data-l class="kick" style="color:#F5CD6F">Midas Virtual Studio · Pipeline A7</div>
+<div data-l class="disp" style="font-size:150px;letter-spacing:-4px;line-height:1.02;margin-top:30px;color:#fff">One change.</div>
+<div data-l class="disp it" style="font-size:150px;letter-spacing:-4px;line-height:1.02;color:#F5CD6F">A new version.</div>
+<div data-l style="font-size:30px;color:#D1D1D1;margin-top:34px">How a refine request on result X becomes brief v+1, checked and approved like any job.</div>`,''),160,330);
+const introL=[...intro.querySelectorAll('[data-l]')];
+const outro=at(H(`<div data-o class="kick" style="color:#F5CD6F">Every change, a new version</div>
+<div data-o class="disp" style="font-size:76px;letter-spacing:-2px;line-height:1.08;margin-top:26px;color:#fff">Every change is a new version<br><span class="it" style="color:#F5CD6F">linked to its parent.</span></div>
+<div data-o style="font-size:28px;color:#D1D1D1;margin-top:30px">Earlier results stay as history.</div>
+<div data-o style="font-size:28px;color:#D1D1D1;margin-top:8px">“Approved” is shown to the client only after the owner’s recorded decision.</div>
+<div data-o style="margin-top:44px"><span class="pill" style="background:#121111;color:#fff;border-color:#F5CD6F"><span class="dot"></span>Refine flow: design, not built · A7 draft in n8n is not published · 15 Oct 2026</span></div>`,''),160,560);
+const outL=[...outro.querySelectorAll('[data-o]')];
+// version stack in outro (three cards, perspective via scale/translate)
+const stack=['result X','brief v+1','v+2 …'].map((n,i)=>{const c=H(`<div style="width:300px;height:186px;border-radius:12px;border:2px ${i===2?'dashed #606060':'solid '+(i===1?'#F5CD6F':'#D1D1D1')};background:${i===2?'transparent':'#1d1c1c'};display:flex;align-items:flex-end;padding:16px;font-family:var(--label);font-size:18px;color:${i===1?'#F5CD6F':'#D1D1D1'}">${n}</div>`,'');return at(c,160+i*360,190);});
+const links=[0,1].map(i=>{const l=at(H('',''),160+300+i*360,283);l.style.cssText+=`width:60px;height:3px;background:${i?'#606060':'#F5CD6F'};transform-origin:0 50%`;return l;});
+
+ink.style.zIndex=50;[goldLine,intro,outro,...stack,...links].forEach(e=>e.style.zIndex=51);
+window.ready=document.fonts.ready.then(()=>{window.render(0);return true;});
+
+window.render=function(t){
+  const c=cur(t);
+  // ---------- intro ----------
+  set(goldLine,{s:1});goldLine.style.transform=`scaleX(${tw(t,.15,T.crawl*1.2)*(1-tw(t,T_INTRO_OUT-.4,T.slow,'sharp'))})`;
+  introL.forEach((l,i)=>presence(l,t,.35+i*.08,T_INTRO_OUT-.5+i*.04,D('xl')));
+  // ink panel lifts away (page transition), returns for the outro
+  const lift=tw(t,T_INTRO_OUT,T.slow*1.4,'sharp'), drop=tw(t,T_OUT,T.slow*1.4,'smooth');
+  ink.style.transform=`translateY(${(-lift+drop)*1080}px)`;
+  ink.style.visibility=(lift<1||drop>0)?'visible':'hidden';
+  intro.style.visibility=t<T_INTRO_OUT+.6?'visible':'hidden';
+  // ---------- outro ----------
+  outro.style.visibility=t>T_OUT?'visible':'hidden';
+  outL.forEach((l,i)=>presence(l,t,T_OUT+1.6+i*.08,1e9,D('lg')));
+  stack.forEach((s,i)=>{const p=sp(t,T_OUT+.7+i*.25,'gentle');set(s,{o:t>T_OUT?clamp(p*1.4):0,y:(1-p)*D('xl'),s:lerp(motionTokens.scale.press,1,clamp(p))});s.style.visibility=t>T_OUT?'visible':'hidden';});
+  links.forEach((l,i)=>{l.style.transform=`scaleX(${tw(t,T_OUT+1.1+i*.25,T.slow)})`;l.style.visibility=t>T_OUT?'visible':'hidden';});
+
+  // ---------- stage chrome ----------
+  const stageIn=sp(t,T_STAGE,'gentle'), stageOut=tw(t,T_OUT,T.slow,'sharp');
+  [head,status].forEach((e,i)=>set(e,{o:clamp(sp(t,T_STAGE+.1+i*.08,'gentle'))*(1-stageOut),y:(1-clamp(sp(t,T_STAGE+.1+i*.08,'gentle')))*-D('md')}));
+  set(progBase,{o:clamp(stageIn)});progFill.style.opacity=clamp(stageIn);
+  let prog=0;if(c>=0)prog=(c+tw(t,S0[c]+DUR[c]*.55,DUR[c]*.45,'smooth')*(c<7?1:0))/7;
+  progFill.style.transform=`scaleX(${clamp(prog)})`;
+  pdots.forEach((d,i)=>{const on=i<=c,act=i===c;d.style.opacity=clamp(stageIn);d.style.background=on?(act?'#B22020':'#121111'):'#fff';d.style.borderColor=on?(act?'#B22020':'#121111'):'#D1D1D1';
+    d.style.transform=`scale(${act?lerp(1,1.35,clamp(sp(t,S0[i],'bouncy'))):1})`;});
+  // big step number (crossfade)
+  bigNum.textContent=c>=0?String(c+1).padStart(2,'0'):'';
+  set(bigNum,{o:c>=0?clamp(tw(t,S0[Math.max(c,0)],T.normal)):0,y:c>=0?(1-sp(t,S0[c],'snappy'))*D('lg'):0});
+  // right panel steps
+  STEPS.forEach((s,i)=>{const tin=S0[i]+.1,tout=i===7?T_OUT:S0[i]+DUR[i]-T.normal-.05;
+    s.el.style.visibility=(t>tin-.1&&t<tout+T.normal+.1)?'visible':'hidden';
+    s.parts.forEach((p,k)=>presence(p,t,tin+k*.07,tout+k*.03,D('lg'),'gentle'));});
+
+  // ---------- frames ----------
+  const fIn=sp(t,T_STAGE+.2,'gentle');
+  // frameX: visible from the start; at step 2 slides back into history
+  const back=sp(t,S0[1]+.3,'gentle');
+  // step 7: package (shrink), step 8: return
+  const pk=sp(t,S0[6]+.2,'gentle'), ret=sp(t,S0[7]+.15,'gentle');
+  const packS=lerp(1,.62,clamp(pk))*lerp(1,1/.62,clamp(ret))*(clamp(ret)>0?1:1);
+  const packX=lerp(0,-120,clamp(pk))*(1-clamp(ret)), packY=lerp(0,-60,clamp(pk))*(1-clamp(ret));
+  set(frameX,{o:clamp(fIn*1.4)*(1-stageOut)*lerp(1,.35,clamp(back)),x:lerp(0,-D('xl')*.6,clamp(back))+packX*.9,y:(1-clamp(fIn))*D('xl')+lerp(0,-D('xl')*.5,clamp(back))+packY*.9,
+    s:lerp(motionTokens.scale.subtle,1,clamp(fIn))*lerp(1,.9,clamp(back))*(pk>0?lerp(1,.62,clamp(pk))*lerp(1,1/.62,clamp(ret)):1)});
+  frameX.style.zIndex=1;
+  const vIn=sp(t,S0[1]+.55,'gentle');
+  const vSet={o:clamp(vIn*1.6)*(1-stageOut),x:(1-clamp(vIn))*D('xl')+packX,y:(1-clamp(vIn))*D('xl')*.5+packY,s:lerp(motionTokens.scale.press,1,clamp(vIn))*(pk>0?packS:1)};
+  set(frameV,vSet);frameV.style.zIndex=2;
+  [overlay,tagChange,tagLock,chrome,genLabel,seal,...ticks].forEach(e=>e.style.zIndex=3);
+  // all overlays ride on frameV's transform (origin at frame centre)
+  const ride=(el,ox,oy,extra={})=>{el.style.transformOrigin='0 0';const s=vSet.s;const cx=FX+500,cy=FY+310;const px=FX+ox,py=FY+oy; // position relative to frame
+    const nx=cx+(px-cx)*s+vSet.x-px, ny=cy+(py-cy)*s+vSet.y-py; set(el,{o:extra.o??1,x:nx+(extra.x||0),y:ny+(extra.y||0),s:s*(extra.s||1),r:extra.r||0});};
+  // light change (step 6 wipe) on frameV only
+  const wipe=frameV.querySelector('[data-wipe]');wipe.style.transform=`scaleX(${tw(t,S0[5]+.5,T.crawl*1.6,'smooth')})`;
+  frameX.querySelector('[data-wipe]').style.transform='scaleX(0)';
+  // plan overlay (step 3 → fades by step 5)
+  const planIn=tw(t,S0[2]+.5,T.slow),planOut=tw(t,S0[4]-.2,T.normal,'sharp');
+  overlay.style.transformOrigin='500px 310px';
+  const ovSet={o:planIn*(1-planOut)};
+  overlay.querySelector('[data-plan]').style.opacity=1;
+  const chkIn=tw(t,S0[5]+1.8,T.normal),chkOut=tw(t,S0[6]-.1,T.normal,'sharp');
+  overlay.querySelector('[data-checks]').style.opacity=chkIn*(1-chkOut);
+  // overlay svg contains both plan and checks; its own opacity = max of the two groups
+  overlay.querySelector('[data-plan]').style.opacity=planIn*(1-planOut);
+  ride(overlay,0,0,{o:(1-stageOut)*Math.max(planIn*(1-planOut),chkIn*(1-chkOut))>0?1:0});overlay.style.transformOrigin='0 0';
+  // tags pop in with snappy spring
+  const tc=sp(t,S0[2]+.9,'snappy'),tl=sp(t,S0[2]+1.2,'snappy');
+  ride(tagChange,640,20,{o:clamp(tc*1.5)*(1-planOut),s:lerp(.9,1,clamp(tc))});
+  ride(tagLock,110,226,{o:clamp(tl*1.5)*(1-planOut),s:lerp(.9,1,clamp(tl))});
+  // check marks on the locked sofa (step 6)
+  ticks.forEach((k,i)=>{const p=sp(t,S0[5]+2.0+i*.08,'bouncy');const [ox,oy]=[[130,264],[610,264],[130,438],[610,438]][i];ride(k,ox,oy,{o:clamp(p*2)*(1-chkOut),s:clamp(p,0,1.3)});});
+  // owner seal (step 5) – bouncy stamp
+  const sl=sp(t,S0[4]+1.6,'bouncy'),slOut=tw(t,S0[5]-.1,T.normal,'sharp');
+  ride(seal,840,30,{o:clamp(sl*2)*(1-slOut),s:lerp(1.6,1,clamp(sl)),r:lerp(-18,-6,clamp(sl))});
+  // client chrome + labels (step 8)
+  const cr=sp(t,S0[7]+.6,'gentle');ride(chrome,0,0,{o:clamp(cr*1.5)*(1-stageOut),y:(1-clamp(cr))*-D('md')});chrome.style.transformOrigin='0 0';
+  const gl=sp(t,S0[7]+1.2,'snappy');ride(genLabel,24,548,{o:clamp(gl*1.5)*(1-stageOut),y:(1-clamp(gl))*D('md')});genLabel.style.transformOrigin='0 0';
+  const stp=sp(t,S0[7]+1.9,'bouncy');const stEl=genLabel.querySelector('[data-stamp]');stEl.style.transform=`scale(${lerp(1.3,1,clamp(stp))}) rotate(${lerp(-8,0,clamp(stp))}deg)`;stEl.style.opacity=clamp(stp*2);
+  // tags under the frame
+  const swap=sp(t,S0[1]+1.0,'snappy');
+  set(tagX,{o:clamp(fIn)*(1-clamp(swap))*(1-stageOut),y:-clamp(swap)*D('sm')});
+  set(tagV,{o:clamp(swap)*(1-stageOut)*(1-clamp(pk)*(1-clamp(ret))),y:(1-clamp(swap))*D('sm')});
+  set(illus,{o:clamp(fIn)*(1-stageOut)*(1-clamp(pk)*(1-clamp(ret)))});
+
+  // ---------- rows under the frame ----------
+  rows.forEach((r,i)=>{const tin=S0[i]+.6,tout=S0[i]+DUR[i]-T.normal-.1;
+    r.el.style.visibility=(t>tin-.1&&t<tout+T.normal+.2)?'visible':'hidden';
+    r.items.forEach((it,k)=>presence(it,t,tin+k*.08,tout,D('md'),'snappy'));});
+  // step 1: pick "light"
+  {const p=sp(t,S0[0]+1.9,'snappy');const ch=rows[0].items;
+    ch[0].style.background=p>.5?'#121111':'#fff';ch[0].style.color=p>.5?'#fff':'#121111';ch[0].style.borderColor=p>.5?'#121111':'#D1D1D1';
+    const pulse=1+(motionTokens.scale.pop-1)*2*Math.sin(Math.PI*clamp((t-S0[0]-1.9)/T.normal));ch[0].style.transform+=` scale(${pulse})`;
+    for(let k=1;k<4;k++)ch[k].style.opacity=parseFloat(ch[k].style.opacity)*lerp(1,.4,clamp(p));}
+  // step 2: strike old plan/review
+  rows[1].items.slice(0,2).forEach((it,k)=>{const p=tw(t,S0[1]+1.6+k*.2,T.slow);it.querySelector('.sk').style.transform=`scaleX(${p})`;it.style.opacity=parseFloat(it.style.opacity)*lerp(1,.5,p);});
+  // step 4: press confirm, then check
+  {const b=rows[3].items[0];const press=tw(t,S0[3]+1.3,T.fast,'sharp')*(1-tw(t,S0[3]+1.3+T.fast,T.normal));b.style.transform+=` scale(${lerp(1,motionTokens.scale.press,press)})`;
+   const ok=rows[3].items[1];const p=sp(t,S0[3]+1.6,'bouncy');ok.style.transform+=` scale(${clamp(p,0,1.3)})`;ok.style.opacity=parseFloat(ok.style.opacity)*clamp(p*2);}
+  // steps 5 and 7: owner reply arrives later
+  [4,6].forEach(i=>{const rp=rows[i].items[2];const p=sp(t,S0[i]+1.5,'snappy');rp.style.opacity=parseFloat(rp.style.opacity)*clamp(p*1.5);rp.style.transform+=` translateX(${(1-clamp(p))*D('xl')}px)`;});
+};
+</script>
+</body>
+</html>

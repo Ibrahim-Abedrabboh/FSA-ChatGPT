@@ -1,0 +1,1 @@
+const q=$('Owner read webhook').first().json.query||{}; return [{json:q.id?{error:'not_found',http_status:404}:{jobs:[],total:0,capped:false,nextOffset:null,asOf:new Date().toISOString(),source:'A7 runs table',http_status:200}}];

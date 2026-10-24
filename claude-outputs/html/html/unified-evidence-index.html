@@ -1,0 +1,430 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Midas · Live execution evidence</title><style>
+:root{color-scheme:light;--paper:#f7f4ee;--ink:#292923;--gold:#9a7545;--line:#dcd6c9;--muted:#626258}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,sans-serif}a{color:inherit;text-underline-offset:4px}header{padding:22px 5vw;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;align-items:center}.brand{font:30px Georgia,serif;letter-spacing:5px}header nav{display:flex;gap:22px;flex-wrap:wrap;font-size:13px}.wrap{max-width:1380px;margin:auto;padding:52px 4vw}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted)}h1{font:clamp(36px,4.6vw,64px)/1.08 Georgia,serif;max-width:880px;margin:18px 0}h2{font:29px/1.2 Georgia,serif;margin:10px 0}h3{font-size:17px}.intro{max-width:900px;font-size:19px}.decision{background:#e9dfce;border-left:4px solid var(--gold);padding:22px 26px;margin:30px 0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:30px 0}.stat{padding:22px;border:1px solid var(--line);background:#fff}.stat b{font:35px Georgia,serif;display:block}.stat small{color:var(--muted)}.chain{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:28px 0}.chain div{background:#e8eae3;padding:20px}.chain .blocked{background:#f0e3d9}.chain strong{display:block}.chain small{display:block;margin-top:8px}.btn{display:inline-block;background:var(--ink);color:white;padding:12px 18px;text-decoration:none;border:0;cursor:pointer}.filters{display:flex;gap:10px;margin:30px 0;flex-wrap:wrap}.filters button{padding:10px 16px;border:1px solid var(--line);background:white;cursor:pointer;font:inherit}.filters button.active{background:var(--ink);color:white}.case{background:white;border:1px solid var(--line);margin:30px 0 50px;padding:25px;scroll-margin-top:20px}.case-head{display:flex;align-items:start;justify-content:space-between;gap:20px}.pill{background:#f0e8dc;padding:8px 12px;font-size:12px;max-width:250px}.pair{display:grid;grid-template-columns:1fr 1.8fr;gap:18px;margin:20px 0}.pair figure{margin:0;min-width:0}.pair img{display:block;width:100%;height:560px;object-fit:contain;background:#fafafa}.pair figcaption{padding-top:10px;color:var(--muted);font-size:12px}.assessment{background:#f7f4ef;padding:20px}.assessment p{margin:8px 0}.assessment small{color:var(--muted)}.facts{display:flex;flex-wrap:wrap;gap:22px;padding:22px 0;font-size:13px}.facts b{display:block}details{border-top:1px solid var(--line);padding-top:14px}summary{cursor:pointer}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f6f6f2;padding:16px;font:12px/1.6 ui-monospace,monospace;max-height:480px;overflow:auto}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:14px 12px;vertical-align:top;text-align:left}th{width:32%}td:nth-child(2){width:23%}footer{padding:36px 5vw;border-top:1px solid var(--line);font-size:13px}.note{color:var(--muted);font-size:14px}.section{margin-top:60px}.case[hidden]{display:none}@media(max-width:760px){header{align-items:start}.wrap{padding:30px 18px}.stats,.chain{grid-template-columns:repeat(2,1fr)}.pair{grid-template-columns:1fr}.pair img{height:auto;max-height:540px}.case{padding:16px}.case-head{display:block}.pill{display:inline-block}h2{font-size:24px}header nav{gap:8px;flex-direction:column}.facts{gap:15px}}@media print{header nav,.filters,.btn{display:none}body{background:white}.case{break-inside:avoid}.pair img{height:310px}.wrap{padding:16px}details{display:none}}
+</style><header><a href="/" class="brand">MIDAS</a><nav><a href="/unified-validation">Open live validation</a><a href="#cases">Actual results</a><a href="#coverage">Full scope coverage</a><a href="evidence.json">Evidence JSON</a></nav></header><main class="wrap"><span class="eyebrow">Execution validation · 1 October 2026 · U2</span><h1>Live execution validated.<br>Automatic quality control is still blocked.</h1><p class="intro">The website submits original images to a saved Magnific workflow, runs product interpretation and composition models, generates images and retrieves the files. This report includes the failures found in those outputs.</p><div class="decision"><strong>Release decision: not ready for unattended, quality-approved delivery across the full scope.</strong><br>The current interface does not expose the critic’s generated verdict. Automatic repair, multiple source files and verified Midas supporting-product selection are not connected in this Flow.</div><div class="stats"><div class="stat"><b>7</b><small>Actual website outputs</small></div><div class="stat"><b>7</b><small>Product cases</small></div><div class="stat"><b>2</b><small>Image engines attempted</small></div><div class="stat"><b>0</b><small>Automated quality approvals</small></div></div><div class="chain"><div><strong>1 · Product interpretation</strong>Gemini 3.8 Flash<small>Reads the reference, source conditions and requested selection. Execution is recorded; intermediate generated text is not exported.</small></div><div><strong>2 · Composition direction</strong>Gemini 3.1 Pro<small>Produces the image prompt. Several actual prompts are included below, extracted from image metadata.</small></div><div><strong>3 · Image generation</strong>Nano Banana Pro<small>Receives the original reference and compiled direction. Seedream attempts failed and its client option is disabled. Files from successful runs are downloaded and checked.</small></div><div class="blocked"><strong>4 · Review → repair → release</strong>Not operational<small>A critic ran in the preflight Space test, but its verdict could not be retrieved. The saved Flow ends at the image output.</small></div></div><p class="note">Four distinct model IDs were requested across the configurations: two text models and two image engines. Each successful original generation used three model stages. Three Seedream mode-override attempts and one fixed Seedream-node diagnostic failed at rendering; model availability in a catalogue did not prove executable Flow support. These are not four image generators, and a successful run is not a product-quality pass.</p><a class="btn" href="/unified-validation">Try the live validation →</a><section class="section"><h2>What the live checks establish</h2><ul><li>Website-owned Magnific OAuth access and saved-Flow input verification.</li><li>Repeated create request reused the same receipt; a separate client session could not read its files.</li><li>The browser closed at 08:16:46 UTC. Six original runs completed afterward; reopening retrieved the same jobs.</li><li>Seven original cases completed at native 2048 × 2048. Each download’s file signature, size, dimensions and SHA-256 were checked. Those are file checks, not visual approval.</li><li>Mobile validation page has no horizontal overflow at 390 pixels.</li><li>Twenty-two focused software tests passed, including ambiguous receipt handling, tenant separation, model routing and immutable job contracts. Mock tests are separate from live evidence.</li></ul><p class="note">The first test harness attempts failed on a browser navigation wait and a form-selector mismatch before any image submission. The retained raw log records those interruptions. No generation was resubmitted to fix them.</p></section><section class="section"><h2>Browser evidence</h2><p>The result comparison in the live client, followed by the mobile layout. These screenshots show the same saved website request.</p><div class="pair"><figure><a href="browser-result.png"><img src="browser-result.png" alt="Live client source and generated result comparison" loading="lazy"></a><figcaption>Live website · saved source and result</figcaption></figure><figure><a href="browser-mobile.png"><img src="browser-mobile.png" alt="Mobile client layout at 390 pixels" loading="lazy"></a><figcaption>Mobile client layout</figcaption></figure></div></section><section id="cases" class="section"><span class="eyebrow">Reference → actual generated result → observed defects</span><h2>Live cases and model comparisons</h2><p>Original vendor files are displayed unmodified. Output links serve the original generated PNGs from Studio storage. Their SHA-256 hashes match the execution records. Click an image to inspect it at full size.</p><div class="filters"><button class="active" data-filter="all">All results</button><button data-filter="original">Original seven</button><button data-filter="comparison">Seedream comparisons</button></div><article class="case" id="towel" data-kind="original"><div class="case-head"><div><span class="eyebrow">01-VRD-VL-TWL-EC1.jpg</span><h2>Towel sheet · soft bathroom daylight</h2></div><span class="pill">Candidate · limited product verification</span></div><div class="pair"><figure><a href="towel-source.jpg" target="_blank"><img src="towel-source.jpg" alt="Original vendor reference for Towel sheet · soft bathroom daylight" loading="lazy"></a><figcaption>Original input · unmodified</figcaption></figure><figure><a href="/api/unified-evidence/towel/output" target="_blank"><img src="/api/unified-evidence/towel/output" alt="Actual website generation for Towel sheet · soft bathroom daylight" loading="lazy"></a><figcaption>Actual output · 2048 × 2048 · original generated PNG</figcaption></figure></div><div class="assessment"><strong>Visual inspection</strong><p>The single mauve terry towel, end band and bathroom use are recognizable. The sheet grid, inset and green swatch were excluded. The drape hides part of the original outline; fibre composition, approved colour and dimensions remain unknown.</p><small>Assistant visual inspection during this validation; not the deployed automated critic. Automatic fidelity and integrity scores: unavailable.</small></div><div class="facts"><span>Flow time <b>58.0 s</b></span><span>Estimated total <b>90 credits</b></span><span>Reported image charge <b>75 credits</b></span><a href="towel.json">Download case evidence ↗</a></div><details><summary>Direction, model sequence and handoffs</summary><p><strong>Input → interpretation → composition prompt → image.</strong> The website submitted the request; no assistant manually rewrote the intermediate prompt during execution.</p><pre>{
+  &quot;models&quot;: [
+    &quot;GEMINI38_FLASH&quot;,
+    &quot;GEMINI31_PRO&quot;,
+    &quot;imagen-nano-banana-2&quot;
+  ],
+  &quot;runId&quot;: &quot;iVnwl73uKd&quot;,
+  &quot;workflow&quot;: &quot;rlUwxtcFH6&quot;,
+  &quot;providerSteps&quot;: {
+    &quot;success&quot;: true,
+    &quot;allTerminal&quot;: true,
+    &quot;workflowRunIdentifier&quot;: &quot;iVnwl73uKd&quot;,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;createdAt&quot;: &quot;2026-10-01T08:15:12.000000Z&quot;,
+    &quot;completedAt&quot;: &quot;2026-10-01T08:16:10.000000Z&quot;,
+    &quot;creationIdentifiers&quot;: [
+      &quot;5j6QlFlKxe&quot;
+    ],
+    &quot;nodeRuns&quot;: [
+      {
+        &quot;nodeId&quot;: &quot;66ceb6ac-010e-4e6d-b63b-51f6a225c0b8&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;5j6QlFlKxe&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:15:40.000000Z&quot;,
+        &quot;completedAt&quot;: null
+      },
+      {
+        &quot;nodeId&quot;: &quot;05aff7de-d616-4021-8cf8-cf7c153212c4&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:15:30.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:15:40.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;1eb697c7-978b-4a1f-a8b0-b33dd0795e78&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;LwGkOPGswO&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:15:12.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:15:12.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;0895de65-dffc-4933-9982-9db08f473d1a&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:15:13.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:15:13.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;3cc2e4e1-aff0-4eae-a7e0-c898864a20d7&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:15:13.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:15:29.000000Z&quot;
+      }
+    ]
+  }
+}</pre><h3>Client direction</h3><pre>Create one ultra-realistic styled interior product photograph using the supplied vendor product image as the authority. Recognize the actual accessory or accessory set in that image. Preserve every saleable product&#x27;s count, silhouette, construction, visible pattern direction, finish and relative dimensions. Do not copy the vendor white canvas, labels, SKU text, packaging, contact sheet layout or extra inset views into the composition. Distinguish multiple views from multiple physical pieces. Keep all target products fully visible and prominent, supported naturally on a suitable surface. Choose a plausible home setting that fits the actual item, using coherent scale, perspective, contact shadows and reflections. Do not invent product details to make a new design. Style: Warm contemporary. Lighting: Soft daylight. Camera: An editorial hero composition, product-forward, with enough surrounding context to understand its use. Supporting furniture is illustrative staging, not a claim about a Midas SKU. No typography, watermark, collage or duplicated target items. Additional user direction (product styling only): &quot;&quot;. If the direction conflicts with preserving the supplied product design and count, preserve the reference product.
+Product handling: Towels &amp; bath linen. Source handling: The photographed towel colour controls the initial view. Keep the border bands and pile; a conflicting olive swatch is unresolved, not a recolour instruction. Do not claim cotton percentage or GSM. Classification is provisional where dimensions could instead indicate a bath mat; record that uncertainty.. Category-specific checks: Border and bands; Terry pile appearance; Colour conflict disclosed; Towel not changed into a rug. Intended setting: A spa bathroom with a folded or hanging towel and an absorbent loop detail.. Role: This reference is the main product; build a complete coordinated composition around it. Output: Fully styled lifestyle scene. No catalogue accessory reference is supplied in this validation. Supporting decor is illustrative, never identify it as a sourced Midas product. Source sheets can contain several views of one item; do not turn inset views into additional physical products. Exact textile compositions, colour codes and measurements remain unknown unless explicitly supplied. User notes override ambiguous vendor labels for requested selection and count; they do not authorize changing the product design.</pre><h3>Actual image-model prompt</h3><pre>Not exported in this case record. The text-node output is not exposed through the Flow output contract.</pre></details></article><article class="case" id="bookends" data-kind="original"><div class="case-head"><div><span class="eyebrow">18-FLN-FC-SZ23034.jpg</span><h2>Bookends · functional study composition</h2></div><span class="pill">Correction required</span></div><div class="pair"><figure><a href="bookends-source.jpg" target="_blank"><img src="bookends-source.jpg" alt="Original vendor reference for Bookends · functional study composition" loading="lazy"></a><figcaption>Original input · unmodified</figcaption></figure><figure><a href="/api/unified-evidence/bookends/output" target="_blank"><img src="/api/unified-evidence/bookends/output" alt="Actual website generation for Bookends · functional study composition" loading="lazy"></a><figcaption>Actual output · 2048 × 2048 · original generated PNG</figcaption></figure></div><div class="assessment"><strong>Visual inspection</strong><p>The objects function as two book supports, but the broader wave-shaped reference piece is not fully legible and appears simplified. Product geometry is not established by the attractive styling.</p><small>Assistant visual inspection during this validation; not the deployed automated critic. Automatic fidelity and integrity scores: unavailable.</small></div><div class="facts"><span>Flow time <b>98.0 s</b></span><span>Estimated total <b>90 credits</b></span><span>Reported image charge <b>75 credits</b></span><a href="bookends.json">Download case evidence ↗</a></div><details><summary>Direction, model sequence and handoffs</summary><p><strong>Input → interpretation → composition prompt → image.</strong> The website submitted the request; no assistant manually rewrote the intermediate prompt during execution.</p><pre>{
+  &quot;models&quot;: [
+    &quot;GEMINI38_FLASH&quot;,
+    &quot;GEMINI31_PRO&quot;,
+    &quot;imagen-nano-banana-2&quot;
+  ],
+  &quot;runId&quot;: &quot;liybq3gv9E&quot;,
+  &quot;workflow&quot;: &quot;rlUwxtcFH6&quot;,
+  &quot;providerSteps&quot;: {
+    &quot;success&quot;: true,
+    &quot;allTerminal&quot;: true,
+    &quot;workflowRunIdentifier&quot;: &quot;liybq3gv9E&quot;,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;createdAt&quot;: &quot;2026-10-01T08:15:27.000000Z&quot;,
+    &quot;completedAt&quot;: &quot;2026-10-01T08:17:05.000000Z&quot;,
+    &quot;creationIdentifiers&quot;: [
+      &quot;iGoPccK3uK&quot;
+    ],
+    &quot;nodeRuns&quot;: [
+      {
+        &quot;nodeId&quot;: &quot;66ceb6ac-010e-4e6d-b63b-51f6a225c0b8&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;iGoPccK3uK&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:28.000000Z&quot;,
+        &quot;completedAt&quot;: null
+      },
+      {
+        &quot;nodeId&quot;: &quot;05aff7de-d616-4021-8cf8-cf7c153212c4&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:17.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:28.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;1eb697c7-978b-4a1f-a8b0-b33dd0795e78&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;lJnrPeBgv9&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:15:28.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:15:28.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;0895de65-dffc-4933-9982-9db08f473d1a&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:15:29.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:15:29.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;3cc2e4e1-aff0-4eae-a7e0-c898864a20d7&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:15:29.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:17.000000Z&quot;
+      }
+    ]
+  }
+}</pre><h3>Client direction</h3><pre>Create one ultra-realistic styled interior product photograph using the supplied vendor product image as the authority. Recognize the actual accessory or accessory set in that image. Preserve every saleable product&#x27;s count, silhouette, construction, visible pattern direction, finish and relative dimensions. Do not copy the vendor white canvas, labels, SKU text, packaging, contact sheet layout or extra inset views into the composition. Distinguish multiple views from multiple physical pieces. Keep all target products fully visible and prominent, supported naturally on a suitable surface. Choose a plausible home setting that fits the actual item, using coherent scale, perspective, contact shadows and reflections. Do not invent product details to make a new design. Style: Quiet minimal. Lighting: Golden afternoon. Camera: An editorial hero composition, product-forward, with enough surrounding context to understand its use. Supporting furniture is illustrative staging, not a claim about a Midas SKU. No typography, watermark, collage or duplicated target items. Additional user direction (product styling only): &quot;Use the paired objects to support books, with both original pieces clearly visible.&quot;. If the direction conflicts with preserving the supplied product design and count, preserve the reference product.
+Product handling: Bookend pairs. Source handling: Count two complementary physical pieces; the central negative space does not form a third item. Preserve grooves, speckling, openings and orientation. Books are contextual props, not attributed Midas products.. Category-specific checks: Exactly two bookends; Openings and grooves; Books supported plausibly; Stone-like appearance not asserted composition. Intended setting: A bookshelf or desk with a small book grouping between the two source bookends.. Role: This reference is the main product; build a complete coordinated composition around it. Output: Fully styled lifestyle scene. No catalogue accessory reference is supplied in this validation. Supporting decor is illustrative, never identify it as a sourced Midas product. Source sheets can contain several views of one item; do not turn inset views into additional physical products. Exact textile compositions, colour codes and measurements remain unknown unless explicitly supplied. User notes override ambiguous vendor labels for requested selection and count; they do not authorize changing the product design.</pre><h3>Actual image-model prompt</h3><pre>An editorial hero product photograph in a quiet minimal interior, bathed in the soft, low-angled glow of golden afternoon sunlight streaming through a nearby window. Resting on the smooth surface of a solid light-oak credenza, the pair of sculptural bookends from @[1eb697c7-978b-4a1f-a8b0-b33dd0795e78:img1:output] holds a curated selection of hardcover volumes upright between them. Both physical pieces remain completely visible, with the left arch-shaped bookend and the right undulating wave-shaped bookend bracing the spine-aligned books against their flat inner faces. The deeply etched concentric grooves, distinctive open negative-space circles, and speckled sandy-white porous texture of both pieces from @[1eb697c7-978b-4a1f-a8b0-b33dd0795e78:img1:output] are crisply defined under the warm directional illumination. Gentle contact shadows and warm highlights ground the setting naturally, while a softly focused background of warm limewash walls and a solitary ceramic bud vase completes the serene, refined composition.</pre></details></article><article class="case" id="jewellery-box" data-kind="original"><div class="case-head"><div><span class="eyebrow">18-PAN-BOX-285-B.jpg</span><h2>Jewellery box · close dressing-table view</h2></div><span class="pill">Correction required</span></div><div class="pair"><figure><a href="jewellery-box-source.jpg" target="_blank"><img src="jewellery-box-source.jpg" alt="Original vendor reference for Jewellery box · close dressing-table view" loading="lazy"></a><figcaption>Original input · unmodified</figcaption></figure><figure><a href="/api/unified-evidence/jewellery-box/output" target="_blank"><img src="/api/unified-evidence/jewellery-box/output" alt="Actual website generation for Jewellery box · close dressing-table view" loading="lazy"></a><figcaption>Actual output · 2048 × 2048 · original generated PNG</figcaption></figure></div><div class="assessment"><strong>Visual inspection</strong><p>One closed box was generated rather than duplicating its open inset. The lid stripe/block arrangement and surface appearance have changed; the internal mirror and compartments are untested in this closed view.</p><small>Assistant visual inspection during this validation; not the deployed automated critic. Automatic fidelity and integrity scores: unavailable.</small></div><div class="facts"><span>Flow time <b>64.0 s</b></span><span>Estimated total <b>90 credits</b></span><span>Reported image charge <b>75 credits</b></span><a href="jewellery-box.json">Download case evidence ↗</a></div><details><summary>Direction, model sequence and handoffs</summary><p><strong>Input → interpretation → composition prompt → image.</strong> The website submitted the request; no assistant manually rewrote the intermediate prompt during execution.</p><pre>{
+  &quot;models&quot;: [
+    &quot;GEMINI38_FLASH&quot;,
+    &quot;GEMINI31_PRO&quot;,
+    &quot;imagen-nano-banana-2&quot;
+  ],
+  &quot;runId&quot;: &quot;x4wQFpjfWK&quot;,
+  &quot;workflow&quot;: &quot;rlUwxtcFH6&quot;,
+  &quot;providerSteps&quot;: {
+    &quot;success&quot;: true,
+    &quot;allTerminal&quot;: true,
+    &quot;workflowRunIdentifier&quot;: &quot;x4wQFpjfWK&quot;,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;createdAt&quot;: &quot;2026-10-01T08:15:44.000000Z&quot;,
+    &quot;completedAt&quot;: &quot;2026-10-01T08:16:48.000000Z&quot;,
+    &quot;creationIdentifiers&quot;: [
+      &quot;yiDU2roPW9&quot;
+    ],
+    &quot;nodeRuns&quot;: [
+      {
+        &quot;nodeId&quot;: &quot;66ceb6ac-010e-4e6d-b63b-51f6a225c0b8&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;yiDU2roPW9&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:15.000000Z&quot;,
+        &quot;completedAt&quot;: null
+      },
+      {
+        &quot;nodeId&quot;: &quot;05aff7de-d616-4021-8cf8-cf7c153212c4&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:03.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:15.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;1eb697c7-978b-4a1f-a8b0-b33dd0795e78&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;4Re7Awa9Aa&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:15:45.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:15:45.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;0895de65-dffc-4933-9982-9db08f473d1a&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:15:45.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:15:45.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;3cc2e4e1-aff0-4eae-a7e0-c898864a20d7&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:15:45.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:03.000000Z&quot;
+      }
+    ]
+  }
+}</pre><h3>Client direction</h3><pre>Create one ultra-realistic styled interior product photograph using the supplied vendor product image as the authority. Recognize the actual accessory or accessory set in that image. Preserve every saleable product&#x27;s count, silhouette, construction, visible pattern direction, finish and relative dimensions. Do not copy the vendor white canvas, labels, SKU text, packaging, contact sheet layout or extra inset views into the composition. Distinguish multiple views from multiple physical pieces. Keep all target products fully visible and prominent, supported naturally on a suitable surface. Choose a plausible home setting that fits the actual item, using coherent scale, perspective, contact shadows and reflections. Do not invent product details to make a new design. Style: Modern classic. Lighting: Warm evening. Camera: A close detail view showing original finish and construction while keeping the whole target product or set within frame. Supporting furniture is illustrative staging, not a claim about a Midas SKU. No typography, watermark, collage or duplicated target items. Additional user direction (product styling only): &quot;One physical box. The open inset and closed main photo are views of the same product. Show the closed patterned lid clearly.&quot;. If the direction conflicts with preserving the supplied product design and count, preserve the reference product.
+Product handling: Jewellery &amp; storage boxes. Source handling: The open inset and closed main view are the same box, not two products. Preserve stripe layout, mirror, compartments, hinge and lining. Do not create a hybrid open/closed object.. Category-specific checks: One product across states; Stripe placement; Mirror and compartments; Hinge and lid plausible. Intended setting: A dressing table or bedroom console, showing the selected closed or open state.. Role: This reference is the main product; build a complete coordinated composition around it. Output: Fully styled lifestyle scene. No catalogue accessory reference is supplied in this validation. Supporting decor is illustrative, never identify it as a sourced Midas product. Source sheets can contain several views of one item; do not turn inset views into additional physical products. Exact textile compositions, colour codes and measurements remain unknown unless explicitly supplied. User notes override ambiguous vendor labels for requested selection and count; they do not authorize changing the product design.</pre><h3>Actual image-model prompt</h3><pre>Not exported in this case record. The text-node output is not exposed through the Flow output contract.</pre></details></article><article class="case" id="dining-12" data-kind="original"><div class="case-head"><div><span class="eyebrow">test 1.jpg</span><h2>Dining · twelve chairs total</h2></div><span class="pill">Correction required</span></div><div class="pair"><figure><a href="dining-12-source.jpg" target="_blank"><img src="dining-12-source.jpg" alt="Original vendor reference for Dining · twelve chairs total" loading="lazy"></a><figcaption>Original input · unmodified</figcaption></figure><figure><a href="/api/unified-evidence/dining-12/output" target="_blank"><img src="/api/unified-evidence/dining-12/output" alt="Actual website generation for Dining · twelve chairs total" loading="lazy"></a><figcaption>Actual output · 2048 × 2048 · original generated PNG</figcaption></figure></div><div class="assessment"><strong>Visual inspection</strong><p>The output shows ten countable chairs (four along each long side and two heads), rather than the requested twelve. The actual image prompt explicitly requested five per side plus two heads. The failure occurs despite the count being passed to the image model.</p><small>Assistant visual inspection during this validation; not the deployed automated critic. Automatic fidelity and integrity scores: unavailable.</small></div><div class="facts"><span>Flow time <b>62.0 s</b></span><span>Estimated total <b>90 credits</b></span><span>Reported image charge <b>75 credits</b></span><a href="dining-12.json">Download case evidence ↗</a></div><details><summary>Direction, model sequence and handoffs</summary><p><strong>Input → interpretation → composition prompt → image.</strong> The website submitted the request; no assistant manually rewrote the intermediate prompt during execution.</p><pre>{
+  &quot;models&quot;: [
+    &quot;GEMINI38_FLASH&quot;,
+    &quot;GEMINI31_PRO&quot;,
+    &quot;imagen-nano-banana-2&quot;
+  ],
+  &quot;runId&quot;: &quot;s6OqkBl8e2&quot;,
+  &quot;workflow&quot;: &quot;rlUwxtcFH6&quot;,
+  &quot;providerSteps&quot;: {
+    &quot;success&quot;: true,
+    &quot;allTerminal&quot;: true,
+    &quot;workflowRunIdentifier&quot;: &quot;s6OqkBl8e2&quot;,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;createdAt&quot;: &quot;2026-10-01T08:16:00.000000Z&quot;,
+    &quot;completedAt&quot;: &quot;2026-10-01T08:17:02.000000Z&quot;,
+    &quot;creationIdentifiers&quot;: [
+      &quot;N2XOYzO6D9&quot;
+    ],
+    &quot;nodeRuns&quot;: [
+      {
+        &quot;nodeId&quot;: &quot;66ceb6ac-010e-4e6d-b63b-51f6a225c0b8&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;N2XOYzO6D9&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:30.000000Z&quot;,
+        &quot;completedAt&quot;: null
+      },
+      {
+        &quot;nodeId&quot;: &quot;05aff7de-d616-4021-8cf8-cf7c153212c4&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:19.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:30.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;1eb697c7-978b-4a1f-a8b0-b33dd0795e78&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;1lRqw3Lr4r&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:01.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:01.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;0895de65-dffc-4933-9982-9db08f473d1a&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:01.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:01.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;3cc2e4e1-aff0-4eae-a7e0-c898864a20d7&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:02.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:18.000000Z&quot;
+      }
+    ]
+  }
+}</pre><h3>Client direction</h3><pre>Create one ultra-realistic styled interior product photograph using the supplied vendor product image as the authority. Recognize the actual accessory or accessory set in that image. Preserve every saleable product&#x27;s count, silhouette, construction, visible pattern direction, finish and relative dimensions. Do not copy the vendor white canvas, labels, SKU text, packaging, contact sheet layout or extra inset views into the composition. Distinguish multiple views from multiple physical pieces. Keep all target products fully visible and prominent, supported naturally on a suitable surface. Choose a plausible home setting that fits the actual item, using coherent scale, perspective, contact shadows and reflections. Do not invent product details to make a new design. Style: Modern classic. Lighting: Soft daylight. Camera: A wider room view with the entire target set still clearly legible, supporting furniture and circulation visible. Supporting furniture is illustrative staging, not a claim about a Midas SKU. No typography, watermark, collage or duplicated target items. Additional user direction (product styling only): &quot;Exactly twelve chairs total: five along each long side and one armchair at each end. Preserve the original table and chair designs. Fully styled dining room, all twelve chairs countable.&quot;. If the direction conflicts with preserving the supplied product design and count, preserve the reference product.
+Product handling: Dining sets. Source handling: Count chairs separately from the table. Twelve total means five each side plus two heads, not twelve plus two. Use the user count over contradictory source labels. Keep all backs countable in the wide view.. Category-specific checks: Exact requested chair total; Table edge and twin bases retained; Tableware fits dining use; Chair spacing and access plausible. Intended setting: A complete dining room, appropriate style and low, coherent table styling.. Role: This reference is the main product; build a complete coordinated composition around it. Output: Fully styled lifestyle scene. No catalogue accessory reference is supplied in this validation. Supporting decor is illustrative, never identify it as a sourced Midas product. Source sheets can contain several views of one item; do not turn inset views into additional physical products. Exact textile compositions, colour codes and measurements remain unknown unless explicitly supplied. User notes override ambiguous vendor labels for requested selection and count; they do not authorize changing the product design.</pre><h3>Actual image-model prompt</h3><pre>A wide-angle, ultra-realistic lifestyle interior photograph of a grand modern classic dining room featuring the dining suite from @[1eb697c7-978b-4a1f-a8b0-b33dd0795e78:img1:output]. The long dining table retains its distinct champagne gold finish, rounded corners, scalloped perimeter apron, and twin fluted urn pedestal bases joined by a low central floor stretcher. Arranged symmetrically around the table are exactly twelve matching chairs: five side chairs positioned along each long side and one matching armchair presiding at each head of the table. The composition is oriented so every chair back and carved frame is distinctly legible and countable. The chairs showcase identical champagne gold frames with carved rosette medallions and ivory-cream patterned damask upholstery on both seats and backrests. The spacious room is bathed in soft natural daylight streaming through tall sheer-curtained windows, illuminating light chevron hardwood floors and subtle off-white architectural wall mouldings. The table is minimally dressed with low-profile crystal glassware, matte ceramic dinnerware, and subtle floral accents that maintain complete visibility of the table design and chair silhouettes.</pre></details></article><article class="case" id="sofa-five" data-kind="original"><div class="case-head"><div><span class="eyebrow">test 6.jpg</span><h2>Sofa set · five seats in a full living room</h2></div><span class="pill">Correction required</span></div><div class="pair"><figure><a href="sofa-five-source.jpg" target="_blank"><img src="sofa-five-source.jpg" alt="Original vendor reference for Sofa set · five seats in a full living room" loading="lazy"></a><figcaption>Original input · unmodified</figcaption></figure><figure><a href="/api/unified-evidence/sofa-five/output" target="_blank"><img src="/api/unified-evidence/sofa-five/output" alt="Actual website generation for Sofa set · five seats in a full living room" loading="lazy"></a><figcaption>Actual output · 2048 × 2048 · original generated PNG</figcaption></figure></div><div class="assessment"><strong>Visual inspection</strong><p>Five seats appear in a furnished room, but the modules form separate seating instead of the requested full corner. The test direction itself weakened the requested assembly to a corner conversation area and forbade a connector; that is a scope/prompt defect as well as a result mismatch. Added inner arms and the single-seat geometry need checking against the original. The tables and accessories are illustrative, not verified Midas products.</p><small>Assistant visual inspection during this validation; not the deployed automated critic. Automatic fidelity and integrity scores: unavailable.</small></div><div class="facts"><span>Flow time <b>72.0 s</b></span><span>Estimated total <b>90 credits</b></span><span>Reported image charge <b>75 credits</b></span><a href="sofa-five.json">Download case evidence ↗</a></div><details><summary>Direction, model sequence and handoffs</summary><p><strong>Input → interpretation → composition prompt → image.</strong> The website submitted the request; no assistant manually rewrote the intermediate prompt during execution.</p><pre>{
+  &quot;models&quot;: [
+    &quot;GEMINI38_FLASH&quot;,
+    &quot;GEMINI31_PRO&quot;,
+    &quot;imagen-nano-banana-2&quot;
+  ],
+  &quot;runId&quot;: &quot;9cAgydNYZ7&quot;,
+  &quot;workflow&quot;: &quot;rlUwxtcFH6&quot;,
+  &quot;providerSteps&quot;: {
+    &quot;success&quot;: true,
+    &quot;allTerminal&quot;: true,
+    &quot;workflowRunIdentifier&quot;: &quot;9cAgydNYZ7&quot;,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;createdAt&quot;: &quot;2026-10-01T08:16:15.000000Z&quot;,
+    &quot;completedAt&quot;: &quot;2026-10-01T08:17:27.000000Z&quot;,
+    &quot;creationIdentifiers&quot;: [
+      &quot;P3pwGr642C&quot;
+    ],
+    &quot;nodeRuns&quot;: [
+      {
+        &quot;nodeId&quot;: &quot;66ceb6ac-010e-4e6d-b63b-51f6a225c0b8&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;P3pwGr642C&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:54.000000Z&quot;,
+        &quot;completedAt&quot;: null
+      },
+      {
+        &quot;nodeId&quot;: &quot;05aff7de-d616-4021-8cf8-cf7c153212c4&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:50.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:54.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;1eb697c7-978b-4a1f-a8b0-b33dd0795e78&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;xS25JtGjfW&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:15.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:15.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;0895de65-dffc-4933-9982-9db08f473d1a&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:15.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:15.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;3cc2e4e1-aff0-4eae-a7e0-c898864a20d7&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:15.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:49.000000Z&quot;
+      }
+    ]
+  }
+}</pre><h3>Client direction</h3><pre>Create one ultra-realistic styled interior product photograph using the supplied vendor product image as the authority. Recognize the actual accessory or accessory set in that image. Preserve every saleable product&#x27;s count, silhouette, construction, visible pattern direction, finish and relative dimensions. Do not copy the vendor white canvas, labels, SKU text, packaging, contact sheet layout or extra inset views into the composition. Distinguish multiple views from multiple physical pieces. Keep all target products fully visible and prominent, supported naturally on a suitable surface. Choose a plausible home setting that fits the actual item, using coherent scale, perspective, contact shadows and reflections. Do not invent product details to make a new design. Style: Warm contemporary. Lighting: Golden afternoon. Camera: A wider room view with the entire target set still clearly legible, supporting furniture and circulation visible. Supporting furniture is illustrative staging, not a claim about a Midas SKU. No typography, watermark, collage or duplicated target items. Additional user direction (product styling only): &quot;Show both original two-seat sofas and the original single seat, five seats total, arranged as a corner conversation area. Preserve existing arms and modules; do not invent a physical connector. Full styled living room with centre and side table.&quot;. If the direction conflicts with preserving the supplied product design and count, preserve the reference product.
+Product handling: Sofas &amp; modular seating. Source handling: Preserve source modules, seat and cushion counts, handedness, open ends, arms and feet. Three supplied modules do not prove they physically connect; do not invent a corner connector.. Category-specific checks: All seats and modules retained; Arms and upholstery unchanged; Functional conversation layout; Different requested styles use different coordinated props. Intended setting: A complete furnished conversation area with a centre table and a distinct side table when matching references are available.. Role: This reference is the main product; build a complete coordinated composition around it. Output: Fully styled lifestyle scene. No catalogue accessory reference is supplied in this validation. Supporting decor is illustrative, never identify it as a sourced Midas product. Source sheets can contain several views of one item; do not turn inset views into additional physical products. Exact textile compositions, colour codes and measurements remain unknown unless explicitly supplied. User notes override ambiguous vendor labels for requested selection and count; they do not authorize changing the product design.</pre><h3>Actual image-model prompt</h3><pre>Not exported in this case record. The text-node output is not exposed through the Flow output contract.</pre></details></article><article class="case" id="selected-chairs" data-kind="original"><div class="case-head"><div><span class="eyebrow">testv 3 chair only.jpg</span><h2>Selected chairs · exclude the crossed table</h2></div><span class="pill">Correction required</span></div><div class="pair"><figure><a href="selected-chairs-source.jpg" target="_blank"><img src="selected-chairs-source.jpg" alt="Original vendor reference for Selected chairs · exclude the crossed table" loading="lazy"></a><figcaption>Original input · unmodified</figcaption></figure><figure><a href="/api/unified-evidence/selected-chairs/output" target="_blank"><img src="/api/unified-evidence/selected-chairs/output" alt="Actual website generation for Selected chairs · exclude the crossed table" loading="lazy"></a><figcaption>Actual output · 2048 × 2048 · original generated PNG</figcaption></figure></div><div class="assessment"><strong>Visual inspection</strong><p>Two chairs were selected and the crossed-out table was removed. The contrasting tan/brown rear upholstery is lost and rear seams are invented. The image prompt describes the cream front but fails to explicitly preserve the contrasting back.</p><small>Assistant visual inspection during this validation; not the deployed automated critic. Automatic fidelity and integrity scores: unavailable.</small></div><div class="facts"><span>Flow time <b>65.0 s</b></span><span>Estimated total <b>90 credits</b></span><span>Reported image charge <b>75 credits</b></span><a href="selected-chairs.json">Download case evidence ↗</a></div><details><summary>Direction, model sequence and handoffs</summary><p><strong>Input → interpretation → composition prompt → image.</strong> The website submitted the request; no assistant manually rewrote the intermediate prompt during execution.</p><pre>{
+  &quot;models&quot;: [
+    &quot;GEMINI38_FLASH&quot;,
+    &quot;GEMINI31_PRO&quot;,
+    &quot;imagen-nano-banana-2&quot;
+  ],
+  &quot;runId&quot;: &quot;IbEV80tvEN&quot;,
+  &quot;workflow&quot;: &quot;rlUwxtcFH6&quot;,
+  &quot;providerSteps&quot;: {
+    &quot;success&quot;: true,
+    &quot;allTerminal&quot;: true,
+    &quot;workflowRunIdentifier&quot;: &quot;IbEV80tvEN&quot;,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;createdAt&quot;: &quot;2026-10-01T08:16:29.000000Z&quot;,
+    &quot;completedAt&quot;: &quot;2026-10-01T08:17:34.000000Z&quot;,
+    &quot;creationIdentifiers&quot;: [
+      &quot;8ajeQdLIrU&quot;
+    ],
+    &quot;nodeRuns&quot;: [
+      {
+        &quot;nodeId&quot;: &quot;66ceb6ac-010e-4e6d-b63b-51f6a225c0b8&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;8ajeQdLIrU&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:17:00.000000Z&quot;,
+        &quot;completedAt&quot;: null
+      },
+      {
+        &quot;nodeId&quot;: &quot;05aff7de-d616-4021-8cf8-cf7c153212c4&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:48.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:17:00.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;1eb697c7-978b-4a1f-a8b0-b33dd0795e78&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;VXHYtpYMMU&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:30.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:30.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;0895de65-dffc-4933-9982-9db08f473d1a&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:30.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:30.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;3cc2e4e1-aff0-4eae-a7e0-c898864a20d7&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:30.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:48.000000Z&quot;
+      }
+    ]
+  }
+}</pre><h3>Client direction</h3><pre>Create one ultra-realistic styled interior product photograph using the supplied vendor product image as the authority. Recognize the actual accessory or accessory set in that image. Preserve every saleable product&#x27;s count, silhouette, construction, visible pattern direction, finish and relative dimensions. Do not copy the vendor white canvas, labels, SKU text, packaging, contact sheet layout or extra inset views into the composition. Distinguish multiple views from multiple physical pieces. Keep all target products fully visible and prominent, supported naturally on a suitable surface. Choose a plausible home setting that fits the actual item, using coherent scale, perspective, contact shadows and reflections. Do not invent product details to make a new design. Style: Quiet minimal. Lighting: Soft daylight. Camera: A close detail view showing original finish and construction while keeping the whole target product or set within frame. Supporting furniture is illustrative staging, not a claim about a Midas SKU. No typography, watermark, collage or duplicated target items. Additional user direction (product styling only): &quot;Select only the two prominent chairs, one from each side. Exclude the table marked X and every other chair. Show the selected pair in a related dining-area close composition, their front and rear upholstery readable.&quot;. If the direction conflicts with preserving the supplied product design and count, preserve the reference product.
+Product handling: Chairs &amp; stools. Source handling: Preserve front/back fabrics, frames, legs and requested count. A source table marked for exclusion must not return.. Category-specific checks: Exact requested count; Front and rear finishes retained; All feet grounded; Excluded table absent. Intended setting: A relevant dining, reading or conversation corner; keep the chair or pair prominent.. Role: This reference is the main product; build a complete coordinated composition around it. Output: Fully styled lifestyle scene. No catalogue accessory reference is supplied in this validation. Supporting decor is illustrative, never identify it as a sourced Midas product. Source sheets can contain several views of one item; do not turn inset views into additional physical products. Exact textile compositions, colour codes and measurements remain unknown unless explicitly supplied. User notes override ambiguous vendor labels for requested selection and count; they do not authorize changing the product design.</pre><h3>Actual image-model prompt</h3><pre>A close interior photograph capturing the pair of elegant high-back dining chairs from @[1eb697c7-978b-4a1f-a8b0-b33dd0795e78:img1:output] arranged gracefully in a serene, quiet minimal dining alcove. The wooden dining table and excess chairs from the original source are entirely excluded. One chair is turned in a three-quarter front perspective, highlighting the plush padded seat and the tactile, woven cream-toned upholstery of the tall, contoured front backrest. The second chair is positioned slightly offset and angled away to display the sculpted lines and tailored seam details of its rear backrest. Both chairs retain their slender, square-tapered polished chrome legs firmly grounded on a light micro-cement floor, casting soft, natural contact shadows. Diffused morning daylight spills through a tall off-frame window, illuminating the authentic weave and subtle luster of the textiles without harsh highlights. The background consists of a smooth, warm plaster wall with clean architectural lines, maintaining an uncluttered, high-end residential atmosphere focused exclusively on the craftsmanship and finishes of the two chairs.</pre></details></article><article class="case" id="glass-platter" data-kind="original"><div class="case-head"><div><span class="eyebrow">00-FLN-FB-E24028.jpg</span><h2>Sculptural glass · reflection and transparency</h2></div><span class="pill">Candidate · limited product verification</span></div><div class="pair"><figure><a href="glass-platter-source.jpg" target="_blank"><img src="glass-platter-source.jpg" alt="Original vendor reference for Sculptural glass · reflection and transparency" loading="lazy"></a><figcaption>Original input · unmodified</figcaption></figure><figure><a href="/api/unified-evidence/glass-platter/output" target="_blank"><img src="/api/unified-evidence/glass-platter/output" alt="Actual website generation for Sculptural glass · reflection and transparency" loading="lazy"></a><figcaption>Actual output · 2048 × 2048 · original generated PNG</figcaption></figure></div><div class="assessment"><strong>Visual inspection</strong><p>One low translucent smoked-glass platter is placed on a supported surface with directional highlights and shadows. Its general waved silhouette is recognizable; the exact rim and swirl geometry have not been verified from an additional view.</p><small>Assistant visual inspection during this validation; not the deployed automated critic. Automatic fidelity and integrity scores: unavailable.</small></div><div class="facts"><span>Flow time <b>86.0 s</b></span><span>Estimated total <b>90 credits</b></span><span>Reported image charge <b>75 credits</b></span><a href="glass-platter.json">Download case evidence ↗</a></div><details><summary>Direction, model sequence and handoffs</summary><p><strong>Input → interpretation → composition prompt → image.</strong> The website submitted the request; no assistant manually rewrote the intermediate prompt during execution.</p><pre>{
+  &quot;models&quot;: [
+    &quot;GEMINI38_FLASH&quot;,
+    &quot;GEMINI31_PRO&quot;,
+    &quot;imagen-nano-banana-2&quot;
+  ],
+  &quot;runId&quot;: &quot;pCtnXvehwn&quot;,
+  &quot;workflow&quot;: &quot;rlUwxtcFH6&quot;,
+  &quot;providerSteps&quot;: {
+    &quot;success&quot;: true,
+    &quot;allTerminal&quot;: true,
+    &quot;workflowRunIdentifier&quot;: &quot;pCtnXvehwn&quot;,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;createdAt&quot;: &quot;2026-10-01T08:16:44.000000Z&quot;,
+    &quot;completedAt&quot;: &quot;2026-10-01T08:18:10.000000Z&quot;,
+    &quot;creationIdentifiers&quot;: [
+      &quot;Cq7mrcLEEy&quot;
+    ],
+    &quot;nodeRuns&quot;: [
+      {
+        &quot;nodeId&quot;: &quot;66ceb6ac-010e-4e6d-b63b-51f6a225c0b8&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;Cq7mrcLEEy&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:17:32.000000Z&quot;,
+        &quot;completedAt&quot;: null
+      },
+      {
+        &quot;nodeId&quot;: &quot;05aff7de-d616-4021-8cf8-cf7c153212c4&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:17:21.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:17:32.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;1eb697c7-978b-4a1f-a8b0-b33dd0795e78&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [
+          &quot;xS25OzTjfW&quot;
+        ],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:45.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:45.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;0895de65-dffc-4933-9982-9db08f473d1a&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:45.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:16:45.000000Z&quot;
+      },
+      {
+        &quot;nodeId&quot;: &quot;3cc2e4e1-aff0-4eae-a7e0-c898864a20d7&quot;,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;creationIdentifiers&quot;: [],
+        &quot;startedAt&quot;: &quot;2026-10-01T08:16:46.000000Z&quot;,
+        &quot;completedAt&quot;: &quot;2026-10-01T08:17:21.000000Z&quot;
+      }
+    ]
+  }
+}</pre><h3>Client direction</h3><pre>Create one ultra-realistic styled interior product photograph using the supplied vendor product image as the authority. Recognize the actual accessory or accessory set in that image. Preserve every saleable product&#x27;s count, silhouette, construction, visible pattern direction, finish and relative dimensions. Do not copy the vendor white canvas, labels, SKU text, packaging, contact sheet layout or extra inset views into the composition. Distinguish multiple views from multiple physical pieces. Keep all target products fully visible and prominent, supported naturally on a suitable surface. Choose a plausible home setting that fits the actual item, using coherent scale, perspective, contact shadows and reflections. Do not invent product details to make a new design. Style: Warm contemporary. Lighting: Warm evening. Camera: A close detail view showing original finish and construction while keeping the whole target product or set within frame. Supporting furniture is illustrative staging, not a claim about a Midas SKU. No typography, watermark, collage or duplicated target items. Additional user direction (product styling only): &quot;One low sculptural glass platter. Keep its asymmetric waved silhouette and smoked translucent swirls visible; do not obscure it with fruit or flowers.&quot;. If the direction conflicts with preserving the supplied product design and count, preserve the reference product.
+Product handling: Trays, jars &amp; kitchen tools. Source handling: Preserve tier count, handles, compartments and lids. Do not imply food-contact approval for a decorative object. Keep contents from concealing the product.. Category-specific checks: Function appropriate; Lid and handle geometry; All tiers or compartments visible. Intended setting: A kitchen, dining or hospitality surface appropriate to the exact function.. Role: This reference is the main product; build a complete coordinated composition around it. Output: Fully styled lifestyle scene. No catalogue accessory reference is supplied in this validation. Supporting decor is illustrative, never identify it as a sourced Midas product. Source sheets can contain several views of one item; do not turn inset views into additional physical products. Exact textile compositions, colour codes and measurements remain unknown unless explicitly supplied. User notes override ambiguous vendor labels for requested selection and count; they do not authorize changing the product design.</pre><h3>Actual image-model prompt</h3><pre>Not exported in this case record. The text-node output is not exposed through the Flow output contract.</pre></details></article><h2>Failed comparison attempts</h2><p>These attempts have no generated output. They are retained as failures, not silently replaced or counted as quality comparisons.</p><article class="case" data-kind="comparison"><h3>Bookends · functional study composition</h3><p>We couldn&#x27;t complete your request. Please try again. If it keeps happening, contact Support.</p><p>Run: BFaTdjoQRm · State: failed</p><p>Estimated request cost: 115 credits. Actual billed amount and refunds are unverified.</p></article><article class="case" data-kind="comparison"><h3>Dining · twelve chairs total</h3><p>We couldn&#x27;t complete your request. Please try again. If it keeps happening, contact Support.</p><p>Run: ThBATZVNR8 · State: failed</p><p>Estimated request cost: 115 credits. Actual billed amount and refunds are unverified.</p></article><article class="case" data-kind="comparison"><h3>Selected chairs · exclude the crossed table</h3><p>We couldn&#x27;t complete your request. Please try again. If it keeps happening, contact Support.</p><p>Run: 0mXAD1TfWv · State: failed</p><p>Estimated request cost: 115 credits. Actual billed amount and refunds are unverified.</p></article><article class="case" data-kind="comparison"><h3>Bookends · fixed Seedream node diagnostic (native tool, not website)</h3><p>We couldn&#x27;t complete your request. Please try again. If it keeps happening, contact Support.</p><p>Run: VvonSVMMUe · State: completed_with_errors</p><p>Estimated request cost: 116 credits. Actual billed amount and refunds are unverified.</p></article></section><section id="coverage" class="section"><h2>Coverage of the requested scope</h2><p>This table keeps the broader case families visible. A configured category, a historical result and a newly executed client test are different evidence states.</p><div class="table-wrap"><table><thead><tr><th>Case or capability</th><th>Status in this validation</th><th>Evidence / remaining work</th></tr></thead><tbody><tr><th>Towel sheet; swatch and detail inset</th><td>Executed</td><td>Mauve towel lifecycle completed; exact specifications not established.</td></tr><tr><th>Bookend pair; function and asymmetrical forms</th><td>Executed · correction required</td><td>Paired use rendered; shape identity requires correction.</td></tr><tr><th>Jewellery box; open and closed views</th><td>Executed · correction required</td><td>Closed view completed; full open-state package remains untested.</td></tr><tr><th>Twelve-chair dining set</th><td>Executed · correction required</td><td>Count failure recorded; single view, not the full variation package.</td></tr><tr><th>Three seating modules; five-seat corner</th><td>Executed · correction required</td><td>Five seats shown; continuous corner assembly not delivered.</td></tr><tr><th>Two selected chairs; exclusion mark X</th><td>Executed · correction required</td><td>Selection works; contrasting upholstery drift recorded.</td></tr><tr><th>Reflective/translucent glass accessory</th><td>Executed</td><td>One close lifestyle view; exact design verification remains limited.</td></tr><tr><th>Side table / centre table / gold wing bowl</th><td>Pending on this connection</td><td>Historical examples do not establish this new Flow’s results.</td></tr><tr><th>Dinnerware specification sheet</th><td>Pending on this connection</td><td>Must separate pieces, inset views, serving items and printed dimensions.</td></tr><tr><th>Bathrobe / mannequin / colour swatch</th><td>Pending on this connection</td><td>Needs silhouette, belt, collar and textile handling validation.</td></tr><tr><th>Cushion front/back and pink-heart bedding sheet</th><td>Pending on this connection</td><td>Needs motif, tufting, variant and scale checks.</td></tr><tr><th>Full bedrooms and ceiling / pendant lighting</th><td>Pending on this connection</td><td>Needs multi-piece inventory, fixture construction and room placement checks.</td></tr><tr><th>Showroom or furnished-room photos; people and occlusion</th><td>Pending on this connection</td><td>Requires selection, visible-evidence limits and room-preservation testing.</td></tr><tr><th>Several original images of one product or set</th><td>Not connected in this Flow</td><td>Current saved Flow has a single creation input.</td></tr><tr><th>User room + product + Midas references</th><td>Not connected in this Flow</td><td>Multi-reference role binding and preserved room geometry need proof.</td></tr><tr><th>Real coordinated Midas accessories, tables and reverse styling</th><td>Not connected in this Flow</td><td>Generated supporting props are illustrative; no Midas SKU claim.</td></tr><tr><th>Hero / supporting role; catalogue, lifestyle, wide, detail</th><td>Partly exercised</td><td>Controls exist. All category × role × view combinations have not been executed.</td></tr><tr><th>Multiple styles, lights, angles and full category templates</th><td>Partly exercised</td><td>Different cases use different moods; repeated full packages per item are pending.</td></tr><tr><th>All website categories, subcategories and sections</th><td>Configured snapshot only</td><td>Existing taxonomy remains a snapshot; coverage is not established by the dropdown.</td></tr><tr><th>Bulk folders, client Excel and verified colour/material descriptions</th><td>Pending</td><td>No catalogue ingestion or exact specifications are asserted.</td></tr><tr><th>True upscaling and delivery sizes</th><td>Partly exercised</td><td>Seven native image files checked; no AI upscale was performed in this validation.</td></tr><tr><th>Automatic scored review, targeted repair and final release</th><td>Blocked in current Magnific interface</td><td>Prompt-generator verdict cannot be retrieved; no conditional correction is wired.</td></tr><tr><th>Cost and time savings</th><td>Measured execution only</td><td>Credits and provider run duration recorded; no photography-cost baseline or token invoice available.</td></tr></tbody></table></div></section><section class="section"><h2>Cost, time and the savings narrative</h2><p><strong>630 estimated credits</strong> for 7 client generations: average <strong>90.0 credits per generation</strong>. Reported image-stage charges total 525 credits; average 75.0. These image charges exclude the unknown actual text-stage charges.</p><p>Three website Seedream mode-override attempts were estimated at 115 credits each. One separate native diagnostic using a fixed Seedream node was estimated at 116 credits. All four failed at rendering with a generic provider error. They are excluded from the successful-output average; actual billing/refunds are unverified.</p><p>For the 7 runs with complete native timestamps in this report, provider execution averaged 72.1 seconds (range 58–98 seconds). Upload, website preparation and final download time are additional.</p><p>Model token counts and the actual total charge for the text stages are not exposed by these receipts. Dollar costs and savings versus photography cannot be calculated honestly without the purchased credit rate and a comparable production baseline.</p><p class="note">One separate Space preflight preceded the client tests: an estimated 95 credits, with a reported 75-credit image charge. It is excluded from the client averages above.</p></section><section class="section"><h2>What is needed to close the gap</h2><ol><li>A supported server-readable vision review response: inventory, identity, placement, composition, assessed fidelity/integrity and evidence.</li><li>A persisted correction controller that preserves the original references, applies a targeted repair, stops after a bounded number of attempts and holds unresolved outputs.</li><li>Multiple reference inputs with explicit roles: product views, target room and genuine selected Midas catalogue items.</li><li>Rerun the remaining case families and complete output packages, then publish the client-ready release only when that evidence supports it.</li></ol><p>The strict review contract and bounded decision logic have been written and tested locally. They are not connected to a live critic. A separate supported model API connection is needed if Magnific cannot expose that output; the existing chat connector is not a credential available to the website.</p><p>Platform references: <a href="https://www.magnific.com/ai/docs/flows">Magnific Flows</a>, <a href="https://www.magnific.com/ai/docs/text-nodes">Magnific text nodes</a>, <a href="https://openrouter.ai/docs/guides/overview/auth/oauth">OpenRouter’s documented application authorization</a>. Documentation describes available mechanisms; the run receipts establish what was actually exercised here.</p></section></main><footer>One validation Space: <a href="https://www.magnific.com/app/spaces/a2e04342-a9f8-49ad-b865-a3c4b66e5341">Midas Unified Studio · U2 Execution Validation</a>. Active validated generation Flow: <a href="https://www.magnific.com/app/tools/flow/rlUwxtcFH6">Midas U2 · Product understanding and composition</a>. The failed selectable-model and fixed Seedream Flows remain diagnostic evidence. No Midas internal system integration was added.</footer><script>document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.case').forEach(c=>c.hidden=b.dataset.filter!=='all'&&b.dataset.filter!==c.dataset.kind)}))</script></html><script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4552e81bea8805a',t:'MTc5MTEyNzM0Mg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>

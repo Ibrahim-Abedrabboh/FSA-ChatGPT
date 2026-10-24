@@ -1,0 +1,1 @@
+const r=$input.first().json,p=r.body;if(r.statusCode!==200||p?.verified!==true||p.runId!==$('Receipt · Restore accepted input').first().json.run_id||p.clientRunId!==$('Receipt · Restore accepted input').first().json.client_run_id)return [{json:{verified:false}}];return [{json:{verified:true,proof:p}}];

@@ -1,0 +1,646 @@
+[
+ {
+  "package": "a7_main",
+  "id": "1cgZc9rmBOrPdKIe",
+  "versionId": "4669b0d7-fc52-4b76-94a7-63fd52a0ae58",
+  "nodes": 354,
+  "codeNodes": 151,
+  "codeSha256": {
+   "01 Intent & scope": "5f005b97e0fbb019e5790d0d601d5c8ed8688936cc1ac7873033c40ba9f5dce9",
+   "02 Ingest files": "f981ee4efa0790cb13f7b707b227c5a616d1fc72c212a28ce679dd0f9987d619",
+   "Refuse with reasons": "77e8f83e413318b5bf32d03a6fc8ef09152b7aedb836fbca7dc1fbfa60402c38",
+   "04-06 Evidence": "4e5d1508acb23d0837b3d3db3f676ad92dd2ff7331b63ff2af429d8cef8db636",
+   "Hold and ask the client": "bd5c85c514c5df16fe5c071af381bb8818f8a97c9fdcec25ed8bfe97d92ecae8",
+   "07 Route": "3838757158d4eb7f0ce674eb3ac280d0d479d8bf318e4369b2d8a9ce025d2384",
+   "08 Locks and freedoms": "9ec14c1f1e276b0e00928b10bb43ff8724b14b3e372c5bf1e4408e7bf91e1726",
+   "09b Contract": "811f9b1aa7eedfd6f9dcab36f05d1eb2a41310ddad17c7c1f6cd1687d0dad385",
+   "V1 Vault events": "695a3e88b6e51a2de2fa93c357401129d2d9e96ba3852bb68cb3831b7c475139",
+   "V2 One row per event": "d00b436174b7a6108beadc5a478f8fe91425569a644659ac9c5638e5a0d28600",
+   "10 Retrieve Midas pieces": "e74801ec36edafe56a6535ea1113dc26ffb9fc1052bb565bea306bdf613de694",
+   "11a Plan ticket": "53bf7b4c691591ce58293706cfc12bbdd375a4cfc4dba7bafcae8cd316c8cef5",
+   "11d Plan verdict": "4b5af3049f75166e43eb3690a4d8c786059f24f5e4762f1a4d546fbe706f01b9",
+   "12 Who leads the scene": "6e21648818a71b464a84bbc5cc645004ce90bd9586d91a8aafe9c2c7194063aa",
+   "11b Stylist check": "cca1337ca456d0947ef0bcb437c6b70197052034a0c4b3102e294e365fe2489f",
+   "G1 Go 1 verdict": "b6b2adea48f9edae1f23e1b709f8800b21e375c5d2b64a89a58ba6fe364e2fe3",
+   "G1 Restore state": "5cdb4e9a64435bf90113b432e1999fbb1b7c83b26cfdb1550f21b572714fa445",
+   "G1b Decision check": "a629fa9941dc53a722085a5af5494e4788b0e67a934cd52c8eb45930ebafc59f",
+   "G1d Forward result": "a8be6e2c03edd58910aaa84458ba36ca65ba35cadd2ca06dd276ce9cd3124e7c",
+   "04 Settings": "5dde85a5e03dc2e204389468d0fff7a8e489f4e59bd64b03cee230f4fdfd2916",
+   "13 Compile": "e794446fcc47df71b288c92a0ad475d89c78b460bfb687b987b4b2f3695460d3",
+   "14 Choose model": "c39de0fb593da941f677c5a47963e2971a6dcb91170e9efafd5aada98d671e6a",
+   "15b Dispatch guard": "c54b9751b1a37550e4ed08a50e0c0ceb3a08b4730953c6c58b12d90927f5c37f",
+   "15e Ready check": "b80fb48afa7d3a009410d18a54136bb25faa87e357f68fe501cab5c2a964e607",
+   "15f Build request": "741181382eb546b46de3d9838d18e49354b5cbc48061f0e8fb79e8b4fa51b506",
+   "15h Read submission": "0376574fa55bca461d8af96b8a3941fbb1bf453d97a5415a9857a66c2366e9ca",
+   "15l Read status": "56b9603e55e6635391ab0bb6d6f585dfac53c5cbe3f3e90e49b93ef0c34216f2",
+   "15m Receipt": "be5fd7174c507c6ce85984fb6803d9cfd5966b5ead7b053dac5657ad83ff2801",
+   "15o Final receipt": "3d507c4d1d0c1d777af5ac2f60e1ddb42f2932bdf2484a6fde7ca6e29ad5b60d",
+   "15q Stage 04 result": "169b2b35a0fff229c49193463cee2e59aaf5a699095c32e6f6efa91dab8dc6c3",
+   "16a Review ticket": "2ac485c577f65d150f4a05a09187e88a8b5d1fb6254fd95359bb237c02251617",
+   "16b Review verdict": "79b855900acd5e12d68932a1b5dbf5dd9a7c6da16edd81771f5ce7b27d8e39c6",
+   "G2 Go 2 verdict": "83067b9835a443ab946b599a8786046612cd4892213b73aee908cade1b1ce964",
+   "18a Package ticket": "82ea090d3e047bfa5ebb9dc6bce2e278ae2f3af11add657a42e5669294b3a2c1",
+   "18e Check master": "4347fe884b4bf5d9b59a4f2c5447dd788f1560cef46eddfdb08b51e4fdeb4644",
+   "18h Check files": "8dc206215f7ba9cda7fe7812542198703e87e798b584278c068d3885dadf564d",
+   "18j Files to upload": "f4bcf2df9706777bcc59fe364830beaecaff7a7b2a5432c3d5b3c0918216f73c",
+   "18l Manifest": "1f6f0a51339fee04c1cc8d7eaba197f79b5c6eecc7dc26bba21303b92619a97a",
+   "18n Identity entry": "259d6640803ab567a5d645c8637a2e07df836888a110a278f1db6e2bab4b8c25",
+   "18p Package result": "af6a8ec05b824fe2c6e78a97a5d50d9b18f3b28597f130267bf4a8f8b07cf20e",
+   "19a Scene ticket": "22759814c69ef645ea38dd8d0f87c98cf636e44d85405b60dd410481833dc267",
+   "19b0 Prop page list": "ac737d63ebfe2fe3dcf409045bc0eadfc7b507336fce0fbad30913ee20855bdd",
+   "19c Prop verdict": "0738fd3f0ac1ff36409dd4e91b008e5aee9cfba21883c24f294c4f53bdea6f24",
+   "19d2 Master check": "138762fb6567f67a9e6c3d7d119b5f4dc94588cbe1ce39f5d6412e425e8e7892",
+   "19e2 Room check": "95c2e00f2a30ec554a9c996663fc776d4acf84af18c494e8c9b57c8f84ae5bef",
+   "19f0 Photo list": "f486d1575f65eb37a909ca5192dc37b6c875019e949b8f33979e823c67cb9e7d",
+   "19f2 Photo check": "5919714d11fc2762f8e8201c014dc0a44c004b825aaf0d072afd198b53981127",
+   "19g Scene references": "aecb334e3012e1e5f54f415c160e64f7f51a99ad4210a4c18062317637313d1e",
+   "20a Scene files ticket": "759bf590f572aede5818ff758ac5f6db03419f8a8e866d76992856336d799106",
+   "20c Check scene master": "56cb4fbfb6d35d03cd2d97e16b525511989c5b72199e3da9f983635a800cc32e",
+   "20f Check scene files": "2cebfdf7659f1e2e221d09466bb8940cce3689e3ffb2d6210a2d0fc5a62b895e",
+   "20h Scene files to upload": "e3a40ad4d4eb1cc41fc8f12b3acd7ee2e7e8ee3e76c0d2938bce6b7750e8c868",
+   "20k Scene manifest": "d95e21ad375d3a9bffaa127123ecbcd12ff7c3e5a6f1a01c3456b27da56cd066",
+   "20m Scene files result": "0a17ef363f41f0daee7d1c8f8c99a577d1a2a1d2a235fc2e8490add96ad61b44",
+   "03a Eye fallback input": "422825d103223f64a9b7c2a3c6779260d26a9546c5eecad574e995238503df74",
+   "06a Room fallback input": "cbdf8c84f1912327fb409305d6d8ebc0d3320d5cb09b3189e773f021dd25e309",
+   "16xa Blind fallback input": "e7f80b37d33119f855ed98e849dde6e63c719aef47078e990c064029b1465f67",
+   "18e3 Clean background": "b34f3a36ee78fb021ef20d54f2832b264de7dc3111d4497346489fbfbdf8a188",
+   "Budget · 03 · Ticket": "65cbdb2e0c241696ce212208730de39e5bebcba456a1b2f4bfd7c8083e471cc0",
+   "Budget · 03 · Permit": "0df5bf2a0af4c861314ced05aabe642336e46eedf3b7df5dd2269e71ff54e00c",
+   "Budget · 03 · Hold": "a52a4a12a64e1f37cddcbadd65e7a2467e76e83f4d2efc3efb3148bece0a394e",
+   "Budget · 03 · Receipt": "301c536e08d382c6ee5da8fb6e6caa74c1f8a914a6384caea44a2bc86c310f1b",
+   "Budget · 03 · Restore": "cdd4d173262fd534bebcef1aaf86284f54fbaa3ca30390c8b071340aab6e988c",
+   "Budget · 05 · Ticket": "c3a675df579127b75d04efb751ba661682e5dae85797d6283b672770d0f00539",
+   "Budget · 05 · Permit": "d8705f53d92d50308513dc4ef55c644d14f0ab65bd2aa4d1fe453be4cd66e608",
+   "Budget · 05 · Hold": "9fcb863f3a2f3b0a539e54f19cee523bd73f9d9af6676bb1d6c32291848e292e",
+   "Budget · 05 · Receipt": "ae164eda94bd861e9f58b42a7325a93d83d60a70b111a3b84e4c04c5ae6846fc",
+   "Budget · 05 · Restore": "df5b6926fd02f649156d552fdf5ddd69ced5b573947301d211f33a1c645464e3",
+   "Budget · 06 · Ticket": "4be5413268ca30f610578b561b8cd31d7abdacb8652fb88f3f1208f40b5bb06e",
+   "Budget · 06 · Permit": "459bda54c7353cf11cce9438cfbccd59c8b519345d6bc92d5b2f63c614684c58",
+   "Budget · 06 · Hold": "87fbafdf4e28fe090bcb33c6e2578fc938a8cc62e70222bed1e3db9d6ccb0daf",
+   "Budget · 06 · Receipt": "f773e43a6e5b02d97889b3312a03fbef769f102bfb15e86538037b2a87cf9dcc",
+   "Budget · 06 · Restore": "8c6762fd06ec909261828e9b611af8dd0c44132854736e93fff55f28ce6e44ee",
+   "Budget · 09 · Ticket": "ef1571c346876ac9a20d959de20b190bac881681d41ea9543e834d5264e0dabd",
+   "Budget · 09 · Permit": "d9a8dc19f29f53fea0af3c18bb7d6e803231360bdc027cefaea65f4ba2c496e5",
+   "Budget · 09 · Hold": "15d286dfa0c7e30e610b1f37fe4a4e1bca2fab97d711901042c792df9e1e18e7",
+   "Budget · 09 · Receipt": "e4cab699d9af10e38dd684abc70b175cd9222e66692be260e3a53e43efc1f10a",
+   "Budget · 09 · Restore": "69f884ac0703690c54d70cc2461743ff2614045985a4f551295e391fb6e2cd3b",
+   "Budget · 11 · Ticket": "ada7735f310fc4e2c8ff4721d233d2bedc5dc812f3d26c0b17d026efc20e9d0f",
+   "Budget · 11 · Permit": "acdd70920987bc11b0c4b14d8c2f718174583b41721ffe11bff3ebe2821354b5",
+   "Budget · 11 · Hold": "6f832e0835125a9a932182c8ea418dac0cb34a0fcde5be6bff3fad5e37380da7",
+   "Budget · 11 · Receipt": "00e28bf10fb444b3e817b53ddaefcbdfacc40c612cf9f707913dcba71c6a44fc",
+   "Budget · 11 · Restore": "04bd01179342b5c0d5046d68484fe1d33bf5b63049303f130ea98f60e7bc8fa2",
+   "Budget · 11c · Ticket": "a6a616281f82c0b2cb297f4fe7c17c62ae06695f7fe39053a573b6d4fb308838",
+   "Budget · 11c · Permit": "916e616683204011d9b70e4cfdae129ee89f4ff5e1e0027d4f638edd08300ca5",
+   "Budget · 11c · Hold": "303db4fbf509bd85649451e931466c8ee6c64daf4dd73851ca29cd0b41198b93",
+   "Budget · 11c · Receipt": "7fe3456c8fad14cecc4fadbeb8414eed7461b48b60ec00276408d8de97c792b6",
+   "Budget · 11c · Restore": "d2a704697ae26868135513dcc64c563803a6473d3d3d6402768dea234d5d5a1a",
+   "Budget · 16 · Ticket": "149593c94e6b95c0e8759a8465f8cd0542a67e9680db2296c947e6390f06b3a4",
+   "Budget · 16 · Permit": "a1bf542548ca77318ae61503b1a12e0183bb3202a357c44cd3f24a3b7c9161d3",
+   "Budget · 16 · Hold": "41726577c3c3b69b4b215bfb4b4dca13c4900e217ad088178403259231788c3a",
+   "Budget · 16 · Receipt": "652ad00fa022cb3f1c9e0e4929c38207e9bf3df3ce45ae6e2b0f458a39e1bb27",
+   "Budget · 16 · Restore": "ac004a900e4d2087b23c94ec80304cf36acffb1c5f640a8831d1070add339db2",
+   "Budget · 16x · Ticket": "60c6b18411eb0b588dc5d91e4648c29b9e72ec2247e7562d0d6d8c9d92065fcb",
+   "Budget · 16x · Permit": "485b41f528c1c99892887eceeead1e95e66db798c9172cfb5fb84a34becc8f2e",
+   "Budget · 16x · Hold": "501c403190947bd9a185abc98d67b0ea0471b3fe8198b35cf04e9acdb6133984",
+   "Budget · 16x · Receipt": "1ddb2fb9e63a92f945ea043aba49a5196fa2b63535a468d487991749ac4bb9e3",
+   "Budget · 16x · Restore": "25145227178419b592fc2280b613b9ab02a79066b3d431d26232ee9baa2a9a62",
+   "Budget · 03b · Ticket": "20b6dce714909a62dd4fd4f41a29efd96aaeafecd7d409b07fe9be4357b62001",
+   "Budget · 03b · Permit": "bb8a300c39cff712bdcb5e5a5fc05b331e20f5c14b9cac0abf0c29601e8915f4",
+   "Budget · 03b · Hold": "173e264190171a00f1830980b524a7c839c8ea1440fba79a58e5dcfe5a835579",
+   "Budget · 03b · Receipt": "9a83dbb03483a4fca6e74788ec512e23d40bdaf0b666f34a0fb969864d23b52b",
+   "Budget · 03b · Restore": "e31a392409fec8d41c6d46cbd33af6c9a7afb78789480714cba37d8e1f2978e7",
+   "Budget · 06b · Ticket": "c741241dc74d0048638ca00fa30c96a8017267b713ea5ad05fef926144f2a296",
+   "Budget · 06b · Permit": "c96766054955bd68e180f404a3b4ee7d809c1540b094c08b0e377eabdd5e08e3",
+   "Budget · 06b · Hold": "dcdf9de869935f2fd4f7742b63f58c1ca10de1ecdc82ecec70a3c72ac7dd8eae",
+   "Budget · 06b · Receipt": "a100f5aee3b436853aeada85c35d85527b5ea6e87abb1064c982c3b24cc96fa2",
+   "Budget · 06b · Restore": "7b5514bc6b756b57fe7c630820e05bab0bfd7ced608a6395d25b2064b6b1a3f4",
+   "Budget · 16xb · Ticket": "049aa5ad397cdb005e38fed2fb7e7150c98c66a764aebb7709b74960827315da",
+   "Budget · 16xb · Permit": "68e21380f264d335e48cee445220d331d7dcdfd33518495a81be87c9b0bdba9c",
+   "Budget · 16xb · Hold": "6035963a03af4dfb2d3c90905301787ec5908828d365f2f41f444f29805f34fc",
+   "Budget · 16xb · Receipt": "dab4e3613dc4033806b3d297e1d7b26644762023b822e2b0e7d69281a3f70279",
+   "Budget · 16xb · Restore": "70b4ff448c80b5b6be78b92c4f58c0f6598f4e8d4a96afa0d388abc11874a924",
+   "Budget · 15g · Ticket": "99336ef953791b892066eafb95d623d79b5efd04bed1b11b8d694185b1e11021",
+   "Budget · 15g · Permit": "5938c080f7cac5d2081393c40bdffe9a1b7bf89283efaeb45fe45c74263972e0",
+   "Budget · 15g · Hold": "e4c8f54a76a6e8bad5db9d24ca0f670b955cb2d84190c695358717ffd7a81612",
+   "Budget · 15g · Receipt": "4a1476872be0d24b9d64d28c41544abaebfd705e55bd160bcfacd5be2c04a5ca",
+   "Budget · 15g · Restore": "2c37c8f8b8675308d62fb49c3b42e11188040fad9bd5e6753bed278857731d46",
+   "Budget · 15g · Check actual call": "36e499916fdbd9c16ea21bf7ec72be7294256b207b46868cba1d3c3fc3b068f3",
+   "Budget · 15g · Keep unpaid receipt": "06c7140a74be6c82da7dfd469375ded626743dc0b7f7f8255fabd7061e84b22a",
+   "Recovery · Request": "7719c77e737fc63086c0ea586e9dbb2a57e01efc7003ed5f9d4884a0dc358dbc",
+   "Recovery · Restore checkpoint": "ea6a74f14e11d2068796493dc070b5f709aa24057e3697110c51ad2be92605a3",
+   "Recovery · Granted": "9f781dda3b6610540eeb9acc645989dc0cdfd6e43e237a7ff1cd3d7e0b0bc939",
+   "Recovery · Cached count": "fbfb595291e41fd3fb764c39185bc3ced4386086a0d491ec2d1c0f30d066904c",
+   "Recovery · Fallback request": "07c5209163cfd18465e7827b9a7a6c5f5aab2f0cdb16b358b8c1f31b6ae1e300",
+   "Recovery · Fallback result": "a4c3b1444a194ff198af3715e03e312b11f8d425ab62ad358583f86e801d5e1d",
+   "Recovery · Parse route": "8b73ddbad8ed2f50d8cd17f859499d158fe11711dd3671cf979d8ff4dc9ebe94",
+   "Receipt · Restore accepted input": "7c630e2162d910deae3a8e9525f9423ece78fd7e537750766ae56354c430e5a2",
+   "Recovery · Preserved reader ready": "23e380e2bb8d93000d75b4d75ab2975f208ff3300119426ec77f523601d1f1ad",
+   "Recovery · Use saved reader result": "45c81d32a6a55094fcfd0219b90cb7f8623772cec84855ed35baa75c69832b00",
+   "Blind · Authorized request": "75ccf011b1e8db50e6f76b93a2dd27d6126148417860221a532a82413f38108d",
+   "Blind · Evidence": "b9e9b23070763afd0f02a344a58e642285db2ac881eda30710599affafcab672",
+   "Blind · Context": "bceb206b3125d80949e057285786e7d578afa84354e6cf0349e0bc9dc2a7e4ca",
+   "Blind · Settings route": "599ca9154b7c62befbfc333abc48b682283448c17d155ba2a75d6e347f030fdf",
+   "Blind · Build request": "86a34d5e165d949845916dac996dfaa27b308265fae8336812aaf174ebfa0daf",
+   "Blind · Ticket": "d9bd934070990d77c284e08740e88d152da6f0453535313c57b15159db06074f",
+   "Blind · Permit": "3db12f0b3a302c23705439605a42efb97a8f3c09f3b62b024b3bf545903cdff0",
+   "Blind · Receipt": "bbc1eb4ea81a4f96e86ed39e96ae3c19fe74fe60a5e850a259a924025bf9e418",
+   "Blind · Settled": "2eb8ea881e2b942adf11a4454f5f397fa7034fe99cc59485fd64a8852de36c34",
+   "Blind · Reuse saved": "5c5eacb8526bad30321e0072e644ae270768e9f6400de0e5af01d52b88375185",
+   "Blind · Answer": "f48f2a483e458ebbfe76691d0c09717b2a6fb931b46c52a4e2edbba505d6c3ba",
+   "Blind · Review verdict": "447dce0757f222e909c30128042ece8095fd58bf2577fe322479e07bbfd929ef",
+   "Package · Authorized request": "b07cda6cf7ce66f109bbe0a3923a57b172fabcd88976209c0006bb3547b2849e",
+   "Package · Evidence": "3bf7fcf4fa3404bb1fce81e5d16d6e7c2f15e53b8c873962c50a96d9396504a2",
+   "Package · Context": "b09bc890f005568a8a5ff517b490b2f7a6aeae187955d621101fbee613706dc0",
+   "Package · Restored approval": "7b7fefa6d867f5361605394fecb8c6258ca785a7917204614d14c634e997dd61",
+   "Package · Settings route": "9da70db5db5e3452b653055a500b10c98e5ce3addccf6906909c2aa8c044028d",
+   "Check source continuation": "b6624d6ce209f7740115f0b2c4ac99617fd192a4eda8747212a4de17caeb8e10",
+   "Confirmed source evidence": "578f363abf467d2235842ec13d969e4a6c6e3966fae7187849c3487f623e777c",
+   "Hold unverified source continuation": "d8e03936c9fac6122fda4f2661310b3627facc9bf4b39296141b3b44e791a438",
+   "E2 Edit base": "8685df8b209febefa38c96dbbe87bfb4444d9529fe8f237ecbc748b93b43c529"
+  },
+  "nodePatches": [
+   {
+    "node": "16x Blind count",
+    "parameter": "options.thinkingLevel",
+    "value": "low",
+    "reason": "Speed change 1: the blind count asks Gemini for low thinking; the image already goes inline, not through the Files API"
+   },
+   {
+    "node": "Scene due?",
+    "parameter": "conditions.conditions",
+    "value": [
+     {
+      "leftValue": "={{ ['white_package_ready', 'scene_room_ready', 'scene_files_ready', 'scene_files_held', 'edit_base_ready', 'scenes_start'].indexOf($('V1 Vault events').first().json.status) !== -1 && ($('V1 Vault events').first().json.outputs || []).some(o => ['lifestyle', 'hero', 'wide', 'detail', 'composition', 'scene'].indexOf(o.kind) !== -1) }}",
+      "operator": {
+       "operation": "true",
+       "singleValue": true,
+       "type": "boolean"
+      }
+     }
+    ],
+    "reason": "White master on demand: Scene due? also accepts scenes_start (a job without a white master, after go 1)"
+   }
+  ],
+  "settingsPatches": [
+   {
+    "setting": "parallelFanOut",
+    "value": [
+     "Images ready?"
+    ],
+    "reason": "Speed change 2: the critic review and the blind count run at the same time, then meet at the Reviews done merge"
+   },
+   {
+    "setting": "holdOnError",
+    "value": {
+     "runsTable": "l0roUCBwIQL3h9Eq"
+    },
+    "reason": "Phase 1.1 (FL-1, owner's go 22 Oct 2026): a run that ends in an error is recorded as a hold on its run row, naming the step"
+   }
+  ],
+  "patches": [
+   {
+    "file": "11b_Stylist_check.js",
+    "reason": "Speed change 3: no paid plan critic when only code-made white-master plans are left to check",
+    "originalSha256": "cca1337ca456d0947ef0bcb437c6b70197052034a0c4b3102e294e365fe2489f",
+    "patchedSha256": "617a8ea509c63d213453fe411248f39821e8a1aa372872a72fe6a8d8a2ee9ca7"
+   },
+   {
+    "file": "01_Intent_scope.js",
+    "reason": "White master on demand: 01 adds the white master only when asked (default) or when White BK or Website needs it",
+    "originalSha256": "5f005b97e0fbb019e5790d0d601d5c8ed8688936cc1ac7873033c40ba9f5dce9",
+    "patchedSha256": "612d8a067d4bfdcd83b36d083bb13266de271661f5ca6917546ba777a3140d4a"
+   },
+   {
+    "file": "01_Intent_scope.js",
+    "reason": "White master on demand: a composition follows the same flag",
+    "originalSha256": "612d8a067d4bfdcd83b36d083bb13266de271661f5ca6917546ba777a3140d4a",
+    "patchedSha256": "81fc3bc0f2fc32ba2514b472eedcc24f406b8b55e3282fcc80a6c218f3342071"
+   },
+   {
+    "file": "01_Intent_scope.js",
+    "reason": "White master on demand: a scene with this item follows the same flag",
+    "originalSha256": "81fc3bc0f2fc32ba2514b472eedcc24f406b8b55e3282fcc80a6c218f3342071",
+    "patchedSha256": "2c9c27651524708dc21b784efe1eae53c2ce660850b6f3c2744c9898b790f292"
+   },
+   {
+    "file": "01_Intent_scope.js",
+    "reason": "White master on demand: the brief records white_master 'not_asked' only for a job that makes none",
+    "originalSha256": "2c9c27651524708dc21b784efe1eae53c2ce660850b6f3c2744c9898b790f292",
+    "patchedSha256": "5adde70d8d9a1d9247a0fbd4db63c27f2666fc1a983eed47fdc9b1fcf1e42f6e"
+   },
+   {
+    "file": "12_Who_leads_the_scene.js",
+    "reason": "White master on demand: 12 knows when the job makes no white master",
+    "originalSha256": "6e21648818a71b464a84bbc5cc645004ce90bd9586d91a8aafe9c2c7194063aa",
+    "patchedSha256": "1f5b275b62cf09664057601e7c87070efadd3cb6c2c947a7abc8c052c2c42830"
+   },
+   {
+    "file": "12_Who_leads_the_scene.js",
+    "reason": "White master on demand: go 1 says the first scene is made next",
+    "originalSha256": "1f5b275b62cf09664057601e7c87070efadd3cb6c2c947a7abc8c052c2c42830",
+    "patchedSha256": "3d07955ffb5c6371e7e0d74249d41d7969814c895de63d70a9e228dc13bfddb9"
+   },
+   {
+    "file": "12_Who_leads_the_scene.js",
+    "reason": "White master on demand: the waiting note says the first scene is made next",
+    "originalSha256": "3d07955ffb5c6371e7e0d74249d41d7969814c895de63d70a9e228dc13bfddb9",
+    "patchedSha256": "08f5c7c7a08552288ab4abe6413ec64bd6c7c33d23eaa45b3a8c8a73560897da"
+   },
+   {
+    "file": "13_Compile.js",
+    "reason": "White master on demand: a scene of a job without a white master needs no white approval",
+    "originalSha256": "e794446fcc47df71b288c92a0ad475d89c78b460bfb687b987b4b2f3695460d3",
+    "patchedSha256": "25c7542ccf0333e32cfa50eb0e955e8ace6487816ada3a234b67425cb63a2ea8"
+   },
+   {
+    "file": "13_Compile.js",
+    "reason": "White master on demand: planned references list no white master when none is made",
+    "originalSha256": "25c7542ccf0333e32cfa50eb0e955e8ace6487816ada3a234b67425cb63a2ea8",
+    "patchedSha256": "63f7c161fe19374d03e9ba11903394d48d5751c8dea70a09b3b167031fe67882"
+   },
+   {
+    "file": "13_Compile.js",
+    "reason": "White master on demand: an order waits for stage 07, not for a white master",
+    "originalSha256": "63f7c161fe19374d03e9ba11903394d48d5751c8dea70a09b3b167031fe67882",
+    "patchedSha256": "87cde48364d6439486ecf8f9c482f10c2bcedbb46791146bee36eac395ee8035"
+   },
+   {
+    "file": "13_Compile.js",
+    "reason": "White master on demand: after go 1, a job without a white master goes to stage 07 instead of holding",
+    "originalSha256": "87cde48364d6439486ecf8f9c482f10c2bcedbb46791146bee36eac395ee8035",
+    "patchedSha256": "44f66e955f5e88ba42cb48ef60e1260983f9bfdf63a5e097b0c272e8b6c7f5ae"
+   },
+   {
+    "file": "14_Choose_model.js",
+    "reason": "White master on demand: no model is chosen when 13 hands the run to stage 07",
+    "originalSha256": "c39de0fb593da941f677c5a47963e2971a6dcb91170e9efafd5aada98d671e6a",
+    "patchedSha256": "9aebab90750fcf7a7a01cf92149926053b5acb6c4a504f786438bbc46de5d095"
+   },
+   {
+    "file": "15q_Stage_04_result.js",
+    "reason": "White master on demand: 15q records scenes_start, which Scene due? sends to 19a",
+    "originalSha256": "169b2b35a0fff229c49193463cee2e59aaf5a699095c32e6f6efa91dab8dc6c3",
+    "patchedSha256": "f962e7963be1a8560f09a09a23dede6c0f497e4c84b7677baaa908055c3c4a74"
+   },
+   {
+    "file": "19a_Scene_ticket.js",
+    "reason": "White master on demand: 19a knows when the job makes no white master",
+    "originalSha256": "22759814c69ef645ea38dd8d0f87c98cf636e44d85405b60dd410481833dc267",
+    "patchedSha256": "19df085edf8e4cd89937f7039e27c68ed55eb8cfb4f26cab995cff6315053eea"
+   },
+   {
+    "file": "19a_Scene_ticket.js",
+    "reason": "White master on demand: 19a asks for the white approval only when a white master is made",
+    "originalSha256": "19df085edf8e4cd89937f7039e27c68ed55eb8cfb4f26cab995cff6315053eea",
+    "patchedSha256": "3f5bef82c6bc5c74090e36e4df3780f319658614eb8dc7f9191b47a007ebeeb5"
+   },
+   {
+    "file": "19a_Scene_ticket.js",
+    "reason": "White master on demand: comment names the new status",
+    "originalSha256": "3f5bef82c6bc5c74090e36e4df3780f319658614eb8dc7f9191b47a007ebeeb5",
+    "patchedSha256": "4084950e256c8e8b70de16bd0eabd1dde3a5d98c3c0126d247b61c59cb18f809"
+   },
+   {
+    "file": "19d2_Master_check.js",
+    "reason": "White master on demand: 19d2 passes with no master when the job makes none",
+    "originalSha256": "138762fb6567f67a9e6c3d7d119b5f4dc94588cbe1ce39f5d6412e425e8e7892",
+    "patchedSha256": "924abc2ae26ec8a55b17ca94f75bb6d084ebce305a142fe2d5afb1aa041b7790"
+   },
+   {
+    "file": "19g_Scene_references.js",
+    "reason": "White master on demand: no white master reference when the job makes none",
+    "originalSha256": "aecb334e3012e1e5f54f415c160e64f7f51a99ad4210a4c18062317637313d1e",
+    "patchedSha256": "7aa776685d4b83ab68d1b31818218b502247bdfa0f613930341b41b3e710e738"
+   },
+   {
+    "file": "19g_Scene_references.js",
+    "reason": "White master on demand: no white master file when the job makes none",
+    "originalSha256": "7aa776685d4b83ab68d1b31818218b502247bdfa0f613930341b41b3e710e738",
+    "patchedSha256": "84d0aa53a54fb25dc0e646121c322c219ca9daf19d1608cb0fcda82aeb0d686d"
+   },
+   {
+    "file": "19g_Scene_references.js",
+    "reason": "White master on demand: the size cap drops the master only when one is sent (opening)",
+    "originalSha256": "84d0aa53a54fb25dc0e646121c322c219ca9daf19d1608cb0fcda82aeb0d686d",
+    "patchedSha256": "1a18ef03d3e84a24b7002f6845eaae918df7ddabe3937f653bcaad2e909ab1e2"
+   },
+   {
+    "file": "19g_Scene_references.js",
+    "reason": "White master on demand: the size cap drops the master only when one is sent (closing)",
+    "originalSha256": "1a18ef03d3e84a24b7002f6845eaae918df7ddabe3937f653bcaad2e909ab1e2",
+    "patchedSha256": "0ac5fd93f8f9f79afc2f5349e71d83e94cac28167261edbfa62721685e64fc8e"
+   },
+   {
+    "file": "G1_Go_1_verdict.js",
+    "reason": "White master on demand: the go 1 note names the first scene",
+    "originalSha256": "b6b2adea48f9edae1f23e1b709f8800b21e375c5d2b64a89a58ba6fe364e2fe3",
+    "patchedSha256": "d4a00eef733a8ee1d42184e7c24ae86d65157e945f162fa99c19428dcd439bed"
+   },
+   {
+    "file": "G1b_Decision_check.js",
+    "reason": "White master on demand: the go 1 decision says when the job makes no white master (key added only then)",
+    "originalSha256": "a629fa9941dc53a722085a5af5494e4788b0e67a934cd52c8eb45930ebafc59f",
+    "patchedSha256": "58049b991e0c7329d8ea2dae02fc7f3d2eea78c2e31a57b226096843586626b1"
+   },
+   {
+    "file": "G1d_Forward_result.js",
+    "reason": "White master on demand: the go 1 reply names the first scene",
+    "originalSha256": "a8be6e2c03edd58910aaa84458ba36ca65ba35cadd2ca06dd276ce9cd3124e7c",
+    "patchedSha256": "24978a90a15f9edd35074cd6f512e474ebe908bd5bbe94ffb0fe9c74ef65183f"
+   },
+   {
+    "file": "18a_Package_ticket.js",
+    "reason": "Phase 1.2: the package ticket carries the owner's deliver-as-exception, only when bound to the approved bytes and contract",
+    "originalSha256": "82ea090d3e047bfa5ebb9dc6bce2e278ae2f3af11add657a42e5669294b3a2c1",
+    "patchedSha256": "464cbe85eb96230db03552111fc14d94d6e7273b6858732d5346cac9bb087303"
+   },
+   {
+    "file": "18h_Check_files.js",
+    "reason": "Phase 1.2: 18h remembers a file that failed only the background rule",
+    "originalSha256": "8dc206215f7ba9cda7fe7812542198703e87e798b584278c068d3885dadf564d",
+    "patchedSha256": "646fb27bd24f1d3c865ef01514393645f8e1482954273e1f5f4dd357616793de"
+   },
+   {
+    "file": "18h_Check_files.js",
+    "reason": "Phase 1.2: 18h keeps the bytes of a background-rule failure",
+    "originalSha256": "646fb27bd24f1d3c865ef01514393645f8e1482954273e1f5f4dd357616793de",
+    "patchedSha256": "646fb27bd24f1d3c865ef01514393645f8e1482954273e1f5f4dd357616793de"
+   },
+   {
+    "file": "18h_Check_files.js",
+    "reason": "Phase 1.2 review fix: a file is rule-only only when its last try failed the background rule; the recorded problem is that rule problem",
+    "originalSha256": "646fb27bd24f1d3c865ef01514393645f8e1482954273e1f5f4dd357616793de",
+    "patchedSha256": "df4dd25db8ad90da29334a71208ce40d90dd552045a14949afa70749678c7f43"
+   },
+   {
+    "file": "18h_Check_files.js",
+    "reason": "Phase 1.2: with the owner's exception, a file that failed only the background rule is delivered and the problem recorded",
+    "originalSha256": "df4dd25db8ad90da29334a71208ce40d90dd552045a14949afa70749678c7f43",
+    "patchedSha256": "74169dccdef8b2043446519201027586284f6649818c6684db46a15f6d15260c"
+   },
+   {
+    "file": "18h_Check_files.js",
+    "reason": "Phase 1.2: 18h tracks whether only the background rule failed",
+    "originalSha256": "74169dccdef8b2043446519201027586284f6649818c6684db46a15f6d15260c",
+    "patchedSha256": "75b7ec0484ea436c55c08a0e8a701de137ae41a41c757c22a0378ea22a21cf7d"
+   },
+   {
+    "file": "18h_Check_files.js",
+    "reason": "Phase 1.2: 18h says when the owner may deliver the files as an exception",
+    "originalSha256": "75b7ec0484ea436c55c08a0e8a701de137ae41a41c757c22a0378ea22a21cf7d",
+    "patchedSha256": "2d065305f8ad5c693332c1d2012f9090eddc10ed34c845c1f4a736d0b46f6740"
+   },
+   {
+    "file": "18p_Package_result.js",
+    "reason": "Phase 1.2 review fix: 18p reads only this pass's package results, never an earlier pass's",
+    "originalSha256": "af6a8ec05b824fe2c6e78a97a5d50d9b18f3b28597f130267bf4a8f8b07cf20e",
+    "patchedSha256": "fd6ed67265fb46219d392f179372d8b7df1ea94476119531af100bcf9c53bdba"
+   },
+   {
+    "file": "18p_Package_result.js",
+    "reason": "Phase 1.2: the package records the owner's exception",
+    "originalSha256": "fd6ed67265fb46219d392f179372d8b7df1ea94476119531af100bcf9c53bdba",
+    "patchedSha256": "6ab6cf0d099c4bd858344e2cbd6ebcf1d3a53d2111e8a8c066a6f66a50aa2190"
+   },
+   {
+    "file": "18p_Package_result.js",
+    "reason": "Phase 1.2: a package delivered as an exception is never a reviewed catalogue release",
+    "originalSha256": "6ab6cf0d099c4bd858344e2cbd6ebcf1d3a53d2111e8a8c066a6f66a50aa2190",
+    "patchedSha256": "164341d60fac1262b64145825b5a30d826cbbfa0c3610ade1850da711dc4d28f"
+   },
+   {
+    "file": "18p_Package_result.js",
+    "reason": "Phase 1.2: the package note names the owner's exception",
+    "originalSha256": "164341d60fac1262b64145825b5a30d826cbbfa0c3610ade1850da711dc4d28f",
+    "patchedSha256": "3fc11f5692d3dce00b803e7e11ebdfe4dfa9e3781c751b7952625640849e4fd4"
+   },
+   {
+    "file": "18p_Package_result.js",
+    "reason": "Phase 1.2: a package held only by the background rule opens a go 2 decision (deliver as exception, repair, stop)",
+    "originalSha256": "3fc11f5692d3dce00b803e7e11ebdfe4dfa9e3781c751b7952625640849e4fd4",
+    "patchedSha256": "e983a637014e6232a26c9137942055434fcbd75c5660c8ba3ddd9b066f5d7764"
+   },
+   {
+    "file": "18p_Package_result.js",
+    "reason": "Phase 1.2: the package's go 2 ticket is written to the vault, where the owner's approval context reads it",
+    "originalSha256": "e983a637014e6232a26c9137942055434fcbd75c5660c8ba3ddd9b066f5d7764",
+    "patchedSha256": "a37510708c98dd4a477a438cb29f3747ef5367839a0d9d22e69c25074cf95681"
+   },
+   {
+    "file": "G2_Go_2_verdict.js",
+    "reason": "Phase 1.2: go 2 knows a package decision",
+    "originalSha256": "83067b9835a443ab946b599a8786046612cd4892213b73aee908cade1b1ce964",
+    "patchedSha256": "7876e6b7c4b0f14828d20fb6885e2d9d1554919e24a2aa121488fecd4b4e8789"
+   },
+   {
+    "file": "G2_Go_2_verdict.js",
+    "reason": "Phase 1.2: approve at the package's go 2 means deliver as exception",
+    "originalSha256": "7876e6b7c4b0f14828d20fb6885e2d9d1554919e24a2aa121488fecd4b4e8789",
+    "patchedSha256": "84d475fef7e0c9701f5580751850960d57510a6bca9033c2499b7cca3d6e5bd7"
+   },
+   {
+    "file": "G2_Go_2_verdict.js",
+    "reason": "Phase 1.2: stopping at the package decision says what stays",
+    "originalSha256": "84d475fef7e0c9701f5580751850960d57510a6bca9033c2499b7cca3d6e5bd7",
+    "patchedSha256": "49a0e1617671e2733c159f7a702fb419a0b42c492ba80a3c1adf8e1d52454db8"
+   },
+   {
+    "file": "G2_Go_2_verdict.js",
+    "reason": "Phase 1.2 review fix: a package decision's audit record carries the exception, not the white master's release",
+    "originalSha256": "49a0e1617671e2733c159f7a702fb419a0b42c492ba80a3c1adf8e1d52454db8",
+    "patchedSha256": "f71e1c282b4cdee0aee13daf3bbbd940dd83a0408ab4fd5e3f5027d4de6fd6e0"
+   },
+   {
+    "file": "18a_Package_ticket.js",
+    "reason": "Phase 1.3: the package ticket carries the delivery framing tolerance (76 +/- 3 points by default)",
+    "originalSha256": "464cbe85eb96230db03552111fc14d94d6e7273b6858732d5346cac9bb087303",
+    "patchedSha256": "f6a4307ef7c6a1b8d1cc6e4fb5cf073185bb76b188a78cf1b6121849c0ee1f47"
+   },
+   {
+    "file": "18a_Package_ticket.js",
+    "reason": "Phase 1.3: the package ticket carries the bound review's whole-in-frame result",
+    "originalSha256": "f6a4307ef7c6a1b8d1cc6e4fb5cf073185bb76b188a78cf1b6121849c0ee1f47",
+    "patchedSha256": "83d4b77e219a15a79ecb3034d66a297f4ed9c601677ce7ac7cc5e59eb277ad88"
+   },
+   {
+    "file": "18e3_Clean_background.js",
+    "reason": "Phase 1.3: 18e3 fits only a product a bound review found whole, and holds outside 76 +/- 3 on the longest side",
+    "originalSha256": "b34f3a36ee78fb021ef20d54f2832b264de7dc3111d4497346489fbfbdf8a188",
+    "patchedSha256": "c4b78e37edd6bb1396820b3203c65f256b1e8d4c6ab1c05c6cfb890b87aae14d"
+   },
+   {
+    "file": "18e3_Clean_background.js",
+    "reason": "Phase 1.3: 18e3 records why it fitted",
+    "originalSha256": "c4b78e37edd6bb1396820b3203c65f256b1e8d4c6ab1c05c6cfb890b87aae14d",
+    "patchedSha256": "a72ecf11dc0e4a27c8221ae4d37358d330e29ed03d0a95b330c7852d54e8e060"
+   },
+   {
+    "file": "18e3_Clean_background.js",
+    "reason": "Phase 1.3: 18e3 checks the span after fitting before it resamples",
+    "originalSha256": "a72ecf11dc0e4a27c8221ae4d37358d330e29ed03d0a95b330c7852d54e8e060",
+    "patchedSha256": "6b2230aa7ca209977d9b20c292ef3a7d37df571c55ebdd52d644b4d4515e95bd"
+   },
+   {
+    "file": "18e3_Clean_background.js",
+    "reason": "Phase 1.3: the skipped-step note names the delivery band",
+    "originalSha256": "6b2230aa7ca209977d9b20c292ef3a7d37df571c55ebdd52d644b4d4515e95bd",
+    "patchedSha256": "344d127bacec696d114e3a6e37c3a8bd56be13a5bbd394f5614e9286f7678a4f"
+   },
+   {
+    "file": "18e3_Clean_background.js",
+    "reason": "Phase 1.3: a framing hold says so plainly",
+    "originalSha256": "344d127bacec696d114e3a6e37c3a8bd56be13a5bbd394f5614e9286f7678a4f",
+    "patchedSha256": "e5f7bec03e49f249ad33813059746ca88b8c426cc07497d1c778d1a2a4bd5229"
+   },
+   {
+    "file": "Budget_15g_Ticket.js",
+    "reason": "Phase 1.5: the image budget ticket checks the request against the approved model 14 chose (status read as 14 reads it, any case), not a fixed id",
+    "originalSha256": "99336ef953791b892066eafb95d623d79b5efd04bed1b11b8d694185b1e11021",
+    "patchedSha256": "d6f857aaaf6f009f4d95ccb0e27faed44540395069450d4bcc5803e0636a7435"
+   },
+   {
+    "file": "Budget_15g_Ticket.js",
+    "reason": "Phase 1.5: the ledger reservation names the chosen model, so the ledger prices or refuses that model",
+    "originalSha256": "d6f857aaaf6f009f4d95ccb0e27faed44540395069450d4bcc5803e0636a7435",
+    "patchedSha256": "6bacc20d00b26bd96fa16a86b26b62fa841ea546b5dbf9ca3d8b6208f82d70b8"
+   },
+   {
+    "file": "01_Intent_scope.js",
+    "reason": "Phase 1.5: job ids other than owner-<uuid> are refused at intake with a reason, before any paid call",
+    "originalSha256": "5adde70d8d9a1d9247a0fbd4db63c27f2666fc1a983eed47fdc9b1fcf1e42f6e",
+    "patchedSha256": "0c5a571c2369c3f9ddfa2c45c20c2d8358e33f5ed3d20a4c682d96803b0aa585"
+   },
+   {
+    "file": "16b_Review_verdict.js",
+    "reason": "Phase 1.3 follow-up: the review keeps the blind count's cropped flag beside its box, reviewed or not",
+    "originalSha256": "79b855900acd5e12d68932a1b5dbf5dd9a7c6da16edd81771f5ce7b27d8e39c6",
+    "patchedSha256": "ff49f0755f1481e3e8d10cca65580c8d37729800643994ff1ab1e28954b5e3a6"
+   },
+   {
+    "file": "18a_Package_ticket.js",
+    "reason": "Phase 1.3 follow-up: without a review result, the package decides whole-in-frame by the review's own box test",
+    "originalSha256": "83d4b77e219a15a79ecb3034d66a297f4ed9c601677ce7ac7cc5e59eb277ad88",
+    "patchedSha256": "919da6dfa31926aff169f5143584d34841ca2e61afb8fcc5a2f31d159553ddc0"
+   },
+   {
+    "file": "19g_Scene_references.js",
+    "reason": "Phase 1.6: over the request size, 19g shrinks references above 2048 px (others first, then the vendor photo) in code before it drops the master or holds",
+    "originalSha256": "0ac5fd93f8f9f79afc2f5349e71d83e94cac28167261edbfa62721685e64fc8e",
+    "patchedSha256": "e7774ff406193264aeb6646844688d0d7ebcf4a962d3ab1f370ae891e4f99949"
+   },
+   {
+    "file": "19g_Scene_references.js",
+    "reason": "Phase 1.6: the size hold says the photos were resized first and are still too large",
+    "originalSha256": "e7774ff406193264aeb6646844688d0d7ebcf4a962d3ab1f370ae891e4f99949",
+    "patchedSha256": "e86c08a1ce3e749b7bc4adf621e3ed0c53434fb1a6590eec80b451125120c1b4"
+   },
+   {
+    "file": "19g_Scene_references.js",
+    "reason": "Phase 1.6: the trail names each resized reference (px and bytes, before and after)",
+    "originalSha256": "e86c08a1ce3e749b7bc4adf621e3ed0c53434fb1a6590eec80b451125120c1b4",
+    "patchedSha256": "090db97642ed80e825bb8750b1ec114fed387f06761071606307b14b996fd4a8"
+   }
+  ]
+ },
+ {
+  "package": "owner_bridge",
+  "id": "Mo9c5GmTcx0K79F7",
+  "versionId": "b41c6e1d-ad38-403a-939c-dd4802f7cd06",
+  "nodes": 14,
+  "codeNodes": 5,
+  "codeSha256": {
+   "Safe approval context": "e1e80baa6c4d6188ea906136b515c7372308fababfbae4295314b2693c6e39a3",
+   "Normalize owner upload": "da6ce44d0cbf296b16154c8027d14b7fd4a5b3700b6793535996f5cd20d7a99e",
+   "Safe action receipt": "439ac584c2bb866feb3627f4fde7b47317ca3b06b082e2073b8d4db2a73e10cc",
+   "Validate owner decision": "8c22158ab44a12273ca142bd4f12644ff26e3b5c05addb2bd529998fffce636c",
+   "Approved results": "dc3bdc7b02b9993cf789695b864151cf9d250868106b173935043e16f9b61812"
+  },
+  "patches": [
+   {
+    "file": "Safe_approval_context.js",
+    "reason": "Google Drive dropped: candidate links point at the service's signed file links",
+    "originalSha256": "e1e80baa6c4d6188ea906136b515c7372308fababfbae4295314b2693c6e39a3",
+    "patchedSha256": "91455f3d95565148b48c78e7a6e533ff1ea78e0436440e89f5f14a5b31139827"
+   }
+  ]
+ },
+ {
+  "package": "owner_read",
+  "id": "G4cLxmwbkCxmCbQF",
+  "versionId": "ba566aef-6402-4400-b5ee-509c25afa8e1",
+  "nodes": 6,
+  "codeNodes": 2,
+  "codeSha256": {
+   "Project safe status and history": "8d610dc6d21d95b4d68c6aebce208d2b059e5149eb96add0c1861bff9525b93e",
+   "Return empty queue": "9e917d3646e37e3a59cacf9c8553e02154c23a742cb93e070ced340f16c29ade"
+  }
+ },
+ {
+  "package": "owner_analysis",
+  "id": "AOTL7OVYtXLLs1L1",
+  "versionId": "f2d2a5cc-363d-4f57-a145-e8e2a896bc63",
+  "nodes": 5,
+  "codeNodes": 2,
+  "codeSha256": {
+   "Validate analysis-only intake": "0637d7782c44dafacac5d30c1044f21d48766b8d914d398e4be8ec2d22ca85ac",
+   "Bounded source receipt": "5681acff92db967cfbce6de58080b0c0150e869421f703fc5974ccfe89942c37"
+  }
+ },
+ {
+  "package": "analysis_only",
+  "id": "AMdtt1fFwHln4DB8",
+  "versionId": "eabd2f38-3e47-416a-8ed6-c9efc81429f7",
+  "nodes": 46,
+  "codeNodes": 23,
+  "codeSha256": {
+   "Validate analysis originals": "1ec30cc559ca52424c6bcac0430664fa6732a611cf7842d1c1c822a6257ebe41",
+   "Budget · 03 · Ticket": "4c18aa8c18cc44d35c491baab3f5c420534cd9d78556a3af3ed767e3aecda57e",
+   "Budget · 03 · Permit": "0df5bf2a0af4c861314ced05aabe642336e46eedf3b7df5dd2269e71ff54e00c",
+   "Budget · 03 · Receipt": "14e59c8a43d155dcefbd800ca6580da9c34a36db99de94cede1e0ef79d1afcb1",
+   "Budget · 03 · Restore": "cdd4d173262fd534bebcef1aaf86284f54fbaa3ca30390c8b071340aab6e988c",
+   "Carry after 03": "d1a22e9009b02468d29d10f1cd2165939dde5f906d6745b7ea056f67e91218dd",
+   "Budget · 05 · Ticket": "c3a675df579127b75d04efb751ba661682e5dae85797d6283b672770d0f00539",
+   "Budget · 05 · Permit": "d8705f53d92d50308513dc4ef55c644d14f0ab65bd2aa4d1fe453be4cd66e608",
+   "Budget · 05 · Receipt": "fb55de5d52e5c6289ac61c90e54733dd63d8600773546ab4b45d9c0a3d08d2ff",
+   "Budget · 05 · Restore": "df5b6926fd02f649156d552fdf5ddd69ced5b573947301d211f33a1c645464e3",
+   "Carry after 05": "d1a22e9009b02468d29d10f1cd2165939dde5f906d6745b7ea056f67e91218dd",
+   "Budget · 06 · Ticket": "4be5413268ca30f610578b561b8cd31d7abdacb8652fb88f3f1208f40b5bb06e",
+   "Budget · 06 · Permit": "459bda54c7353cf11cce9438cfbccd59c8b519345d6bc92d5b2f63c614684c58",
+   "Budget · 06 · Receipt": "be96a268ac5b7a4e0b2110fa471efa532620865c1a19a4facaa6b9bc330b397f",
+   "Budget · 06 · Restore": "8c6762fd06ec909261828e9b611af8dd0c44132854736e93fff55f28ce6e44ee",
+   "Carry after 06": "d1a22e9009b02468d29d10f1cd2165939dde5f906d6745b7ea056f67e91218dd",
+   "Prepare analysis conflict ticket": "c8d287f48332e305aebc4289403ef605a79489dfe252abf42f495f40da062e6e",
+   "Budget · 09 · Ticket": "cc6510df177898737ece6f40897f40d7c251597f49fdd08fe3798bbfddde4ac6",
+   "Budget · 09 · Permit": "d9a8dc19f29f53fea0af3c18bb7d6e803231360bdc027cefaea65f4ba2c496e5",
+   "Budget · 09 · Receipt": "7885134f1df30e7104c2ec95e21e4374667d25fcffce7734d5963d86b186925a",
+   "Budget · 09 · Restore": "69f884ac0703690c54d70cc2461743ff2614045985a4f551295e391fb6e2cd3b",
+   "Return verified reader pointers": "016ccdff7f46c029e8f1eb8633bf73802e831b56307d51c37b1647d913e537ab",
+   "Analysis hold": "800b7888372c5a9c98e6b0fdeac68af5d9b8c0ca8520215d31a80a5b6dfca0c5"
+  }
+ },
+ {
+  "package": "model_tests",
+  "id": "jYkKQ2NOreSG0t97",
+  "versionId": "d6a59452-b4f8-4e9e-a718-3830610a31f0",
+  "nodes": 13,
+  "codeNodes": 3,
+  "codeSha256": {
+   "Read test request": "d50be18fa1b0f567d3f7ae968dfcb577c593bce8b430c4d835a9995f03410c7f",
+   "Build model test": "08baec411ccb136d8db9805f9e90c62f3b4efeedcba97fd4d4b5dfbf6c823e4e",
+   "Normalize answer": "738b6668c6fbdf052dd9c4c120b309590932899879ed3a49e987d66f11d64ccd"
+  }
+ },
+ {
+  "package": "catalogue_refresh",
+  "id": "mGgKxO0638I77meF",
+  "versionId": "040930df-bf70-42eb-a404-49cd92b04b6a",
+  "nodes": 19,
+  "codeNodes": 4,
+  "codeSha256": {
+   "R1 Categories": "e62cee4d53a338d3d9202b18358d4769e964419ff4118f6d5d84dcb3cf650580",
+   "R4 Plan rows": "0f10938474e05a3d816d1faabab7c9857a99e6b32ca2ae2d853771297e8bd853",
+   "R9 Pre-order hand rows": "86e895361e2341ef63d07985b196207455f9ea458abe27716907f88ec4d6b51f",
+   "R12 Pre-order verdict": "60f5e7e2a3033f783a3d826900ccd4a5cf30683cc8190b19ca2d7385e8ba628d"
+  }
+ }
+]

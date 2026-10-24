@@ -1,0 +1,1304 @@
+{
+ "title": "Claude · Midas facet lists, Midas Kuwait /en/ site filters",
+ "made": "2026-10-17",
+ "made_by": "tools/claude-midas-facet-snapshot.py",
+ "source": "https://midasfurniture.com/en/ (category pages; filter lists as shown on page 1; no filter link was opened)",
+ "status": "Snapshot for the owner to review. Not used by A7 or the spec card until the owner approves.",
+ "rules": "Values copied word for word in page order; first page first. No rename, merge or addition. Counts shown on the site are not kept.",
+ "pages": [
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:18:35.381Z",
+   "title": "Coffee Tables - Midas Kuwait",
+   "filters_seen": [
+    "Price",
+    "Concept",
+    "Family Color",
+    "Shape",
+    "Size",
+    "Table Top Material",
+    "Material",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:18:46.532Z",
+   "title": "Sofas in Kuwait | Modern & Classic Sofas | Midas",
+   "filters_seen": [
+    "Category",
+    "Price",
+    "Concept",
+    "Family Color",
+    "Number of Seaters",
+    "Features",
+    "Size",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/bedroom-sets/wardrobes.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:18:57.762Z",
+   "title": "Wardrobes - Midas Kuwait",
+   "filters_seen": [
+    "Price",
+    "Concept",
+    "Family Color",
+    "Features",
+    "Wardrobe No. of Doors",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:12:38.353Z",
+   "title": "Home Furniture in Kuwait | Midas Furniture | Free Delivery",
+   "filters_seen": [
+    "Category",
+    "Price",
+    "Concept",
+    "Family Color",
+    "Shape",
+    "Size",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:12:50.249Z",
+   "title": "Living Room Furniture in Kuwait | Midas | Sale Up to 50%",
+   "filters_seen": [
+    "Category",
+    "Price",
+    "Concept",
+    "Family Color",
+    "Features",
+    "Shape",
+    "Fabric Type",
+    "Size",
+    "Table Frame Material",
+    "Material",
+    "Back Cushions",
+    "Seat Cushions",
+    "Chairs Upholstery",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:13:01.617Z",
+   "title": "Bedroom Furniture & Bedroom Sets | Midas Kuwait",
+   "filters_seen": [
+    "Category",
+    "Price",
+    "Concept",
+    "Family Color",
+    "Features",
+    "No. of Pieces",
+    "Size",
+    "Handles Materials",
+    "Headboard",
+    "Storage Space",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:13:13.882Z",
+   "title": "Dining Room Furniture in Kuwait | Midas | Free Storage",
+   "filters_seen": [
+    "Category",
+    "Price",
+    "Set includes",
+    "Concept",
+    "Family Color",
+    "Features",
+    "Shape",
+    "Fabric Type",
+    "Size",
+    "Chairs Upholstery",
+    "Chair Arms",
+    "Table Capacity",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:13:25.517Z",
+   "title": "Dining Chairs - Midas Kuwait",
+   "filters_seen": [
+    "Price",
+    "Concept",
+    "Family Color",
+    "Features",
+    "Shape",
+    "Fabric Type",
+    "Chairs Upholstery",
+    "Chair Arms",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:13:37.836Z",
+   "title": "Dining Tables - Midas Kuwait",
+   "filters_seen": [
+    "Price",
+    "Concept",
+    "Family Color",
+    "Features",
+    "No. of Pieces",
+    "Shape",
+    "Fabric Type",
+    "Table Top Material",
+    "Table Capacity",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:13:51.694Z",
+   "title": "Living Room Chairs in Kuwait | Midas | Free Delivery",
+   "filters_seen": [
+    "Price",
+    "Concept",
+    "Family Color",
+    "Features",
+    "Shape",
+    "Fabric Type",
+    "Size",
+    "Material",
+    "Back Cushions",
+    "Seat Cushions",
+    "Chairs Upholstery",
+    "Upholstery",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:14:03.522Z",
+   "title": "TV Units in Kuwait | Midas Furniture | Best Prices",
+   "filters_seen": [
+    "Price",
+    "Concept",
+    "Family Color",
+    "Shape",
+    "Table Frame Material",
+    "Table Top Material",
+    "Material",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/living-rooms/cabinets.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:14:15.327Z",
+   "title": "Cabinets in Kuwait | Storage Cabinets | Midas | Free Storage",
+   "filters_seen": [
+    "Price",
+    "Concept",
+    "Family Color",
+    "Shape",
+    "Table Frame Material",
+    "Table Top Material",
+    "Material",
+    "Handles Materials",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/bedroom-sets/night-stands.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:14:28.048Z",
+   "title": "Night Stands - Midas Kuwait",
+   "filters_seen": [
+    "Price",
+    "Concept",
+    "Family Color",
+    "Features",
+    "Handles Materials",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/bedroom-sets/beds.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:14:41.368Z",
+   "title": "Beds - Midas Kuwait",
+   "filters_seen": [
+    "Price",
+    "Concept",
+    "Family Color",
+    "Features",
+    "Size",
+    "Handles Materials",
+    "Headboard",
+    "Storage Space",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:14:55.195Z",
+   "title": "Side Tables - Midas Kuwait",
+   "filters_seen": [
+    "Price",
+    "Concept",
+    "Family Color",
+    "Shape",
+    "Fabric Type",
+    "Size",
+    "Table Top Material",
+    "Material",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/accessories.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:15:07.326Z",
+   "title": "Home Accessories in Kuwait | Midas Furniture | Free Delivery",
+   "filters_seen": [
+    "Category",
+    "Price",
+    "Shape",
+    "Concept",
+    "Family Color",
+    "No. of Pieces",
+    "Shape",
+    "Size",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:15:21.775Z",
+   "title": "Cushions in Kuwait | Midas | Free Delivery",
+   "filters_seen": [
+    "Inner Material",
+    "Price",
+    "Shape",
+    "Concept",
+    "Family Color",
+    "No. of Pieces",
+    "Size",
+    "Material",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/office-furniture.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:15:33.293Z",
+   "title": "Office Furniture in Kuwait | Midas Furniture | Best Prices",
+   "filters_seen": [
+    "Category",
+    "Price",
+    "Concept",
+    "Family Color",
+    "Shape",
+    "Size",
+    "Brand",
+    "Discount Filter"
+   ]
+  },
+  {
+   "url": "https://midasfurniture.com/en/outdoor-furniture.html",
+   "status": 200,
+   "read_utc": "2026-10-16T21:15:45.298Z",
+   "title": "Outdoor Furniture - Midas Kuwait",
+   "filters_seen": []
+  },
+  {
+   "url": "https://midasfurniture.com/en/sanova-end-table-living-rooms-midas.html",
+   "status": 404,
+   "read_utc": "2026-10-16T21:15:57.310Z",
+   "title": "",
+   "filters_seen": []
+  }
+ ],
+ "facets": [
+  {
+   "facet": "fabric",
+   "site_filter": "Fabric Type",
+   "values": [
+    "Boucle",
+    "Chenille",
+    "Leather Air",
+    "Linen",
+    "Microfiber",
+    "Velvet",
+    "Polyester",
+    "Genuine Leather",
+    "Stainless Steel",
+    "Cotton",
+    "Jacquard",
+    "Tweed",
+    "Faux fur",
+    "Nuvella",
+    "Faux Leather",
+    "Cashmere",
+    "Exposed",
+    "Suede",
+    "Leather"
+   ],
+   "seen_on": {
+    "Boucle": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Chenille": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Leather Air": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Linen": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Microfiber": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html"
+    ],
+    "Velvet": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Polyester": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Genuine Leather": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Stainless Steel": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Cotton": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html"
+    ],
+    "Jacquard": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html"
+    ],
+    "Tweed": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Faux fur": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Nuvella": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Faux Leather": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Cashmere": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Exposed": [
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html"
+    ],
+    "Suede": [
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html"
+    ],
+    "Leather": [
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html"
+    ]
+   },
+   "pages_with_filter": [
+    "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+    "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+    "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+   ]
+  },
+  {
+   "facet": "material",
+   "site_filter": "Material",
+   "values": [
+    "Mirror",
+    "Engineered Wood",
+    "Metal",
+    "Glass",
+    "Solid Wood",
+    "Plastic",
+    "Stainless Steel",
+    "Fiber Glass",
+    "Faux Marble",
+    "Acrylic",
+    "Polyester",
+    "Leather Air",
+    "Linen",
+    "Chenille",
+    "Wood",
+    "Iron",
+    "Fabric",
+    "Sintered Stone",
+    "Polypropylene",
+    "Cotton",
+    "Velvet",
+    "Jacquard"
+   ],
+   "seen_on": {
+    "Mirror": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html"
+    ],
+    "Engineered Wood": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/cabinets.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Metal": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Glass": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html"
+    ],
+    "Solid Wood": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/cabinets.html"
+    ],
+    "Plastic": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Stainless Steel": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Fiber Glass": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Faux Marble": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html"
+    ],
+    "Acrylic": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Polyester": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html"
+    ],
+    "Leather Air": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html"
+    ],
+    "Linen": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Chenille": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Wood": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Iron": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html"
+    ],
+    "Fabric": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html"
+    ],
+    "Sintered Stone": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Polypropylene": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html"
+    ],
+    "Cotton": [
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html"
+    ],
+    "Velvet": [
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html"
+    ],
+    "Jacquard": [
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html"
+    ]
+   },
+   "pages_with_filter": [
+    "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/cabinets.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html"
+   ]
+  },
+  {
+   "facet": "table top",
+   "site_filter": "Table Top Material",
+   "values": [
+    "Faux Marble",
+    "Solid Wood",
+    "Glass",
+    "Engineered Wood",
+    "Mirror",
+    "Marble",
+    "Fiber Glass",
+    "Ceramic",
+    "Acrylic",
+    "Tempered Glass",
+    "Sintered Stone",
+    "Travertine Stone",
+    "Genuine Marble",
+    "Stone",
+    "Metal",
+    "Stainless Steel",
+    "Polyresin",
+    "Faux leather",
+    "Aluminum",
+    "Genuine Leather"
+   ],
+   "seen_on": {
+    "Faux Marble": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Solid Wood": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/cabinets.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Glass": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Engineered Wood": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Mirror": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Marble": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Fiber Glass": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Ceramic": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Acrylic": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Tempered Glass": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Sintered Stone": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Travertine Stone": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Genuine Marble": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Stone": [
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html"
+    ],
+    "Metal": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Stainless Steel": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Polyresin": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Faux leather": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Aluminum": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Genuine Leather": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ]
+   },
+   "pages_with_filter": [
+    "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/cabinets.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html"
+   ]
+  },
+  {
+   "facet": "colour family",
+   "site_filter": "Family Color",
+   "values": [
+    "Black",
+    "White",
+    "Brown",
+    "Off-white",
+    "Beige",
+    "Grey",
+    "Gold",
+    "Multicolored",
+    "Silver",
+    "Mirror",
+    "Clear",
+    "Metallic",
+    "Green",
+    "Blue",
+    "Tiffany",
+    "Orange",
+    "Rose Gold",
+    "Greige",
+    "Pink",
+    "Red",
+    "Yellow",
+    "Pearl White",
+    "Bronze",
+    "Antique Gold",
+    "Antique White",
+    "Purple"
+   ],
+   "seen_on": {
+    "Black": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/night-stands.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/beds.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+     "https://midasfurniture.com/en/office-furniture.html"
+    ],
+    "White": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/wardrobes.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/cabinets.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/night-stands.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/beds.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+     "https://midasfurniture.com/en/office-furniture.html"
+    ],
+    "Brown": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/wardrobes.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/cabinets.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/night-stands.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/beds.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+     "https://midasfurniture.com/en/office-furniture.html"
+    ],
+    "Off-white": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/wardrobes.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html"
+    ],
+    "Beige": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/wardrobes.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/beds.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+     "https://midasfurniture.com/en/office-furniture.html"
+    ],
+    "Grey": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/wardrobes.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/night-stands.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/beds.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+     "https://midasfurniture.com/en/office-furniture.html"
+    ],
+    "Gold": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/wardrobes.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/office-furniture.html"
+    ],
+    "Multicolored": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html"
+    ],
+    "Silver": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html"
+    ],
+    "Mirror": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html"
+    ],
+    "Clear": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html"
+    ],
+    "Metallic": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html"
+    ],
+    "Green": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+     "https://midasfurniture.com/en/office-furniture.html"
+    ],
+    "Blue": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+     "https://midasfurniture.com/en/office-furniture.html"
+    ],
+    "Tiffany": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html"
+    ],
+    "Orange": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+     "https://midasfurniture.com/en/office-furniture.html"
+    ],
+    "Rose Gold": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/accessories.html"
+    ],
+    "Greige": [
+     "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/wardrobes.html",
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/beds.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html"
+    ],
+    "Pink": [
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html"
+    ],
+    "Red": [
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+     "https://midasfurniture.com/en/office-furniture.html"
+    ],
+    "Yellow": [
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html",
+     "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html"
+    ],
+    "Pearl White": [
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html"
+    ],
+    "Bronze": [
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+     "https://midasfurniture.com/en/accessories.html"
+    ],
+    "Antique Gold": [
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/accessories.html"
+    ],
+    "Antique White": [
+     "https://midasfurniture.com/en/home-furniture.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/night-stands.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/beds.html"
+    ],
+    "Purple": [
+     "https://midasfurniture.com/en/accessories.html"
+    ]
+   },
+   "pages_with_filter": [
+    "https://midasfurniture.com/en/accessories.html",
+    "https://midasfurniture.com/en/accessories/soft-furnishings/cushions.html",
+    "https://midasfurniture.com/en/home-furniture.html",
+    "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+    "https://midasfurniture.com/en/home-furniture/bedroom-sets/beds.html",
+    "https://midasfurniture.com/en/home-furniture/bedroom-sets/night-stands.html",
+    "https://midasfurniture.com/en/home-furniture/bedroom-sets/wardrobes.html",
+    "https://midasfurniture.com/en/home-furniture/dining-rooms.html",
+    "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-chairs.html",
+    "https://midasfurniture.com/en/home-furniture/dining-rooms/dining-tables.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/cabinets.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/chairs.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/sofa.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/tables/center-tables.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/tables/end-tables.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/tv-units.html",
+    "https://midasfurniture.com/en/office-furniture.html"
+   ]
+  },
+  {
+   "facet": "handles",
+   "site_filter": "Handles Materials",
+   "values": [
+    "Metal",
+    "Stainless Steel",
+    "Handleless",
+    "Solid Wood",
+    "Engineered Wood",
+    "Wood",
+    "zinc alloy"
+   ],
+   "seen_on": {
+    "Metal": [
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/night-stands.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/beds.html"
+    ],
+    "Stainless Steel": [
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+     "https://midasfurniture.com/en/home-furniture/living-rooms/cabinets.html"
+    ],
+    "Handleless": [
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html"
+    ],
+    "Solid Wood": [
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html"
+    ],
+    "Engineered Wood": [
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html"
+    ],
+    "Wood": [
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets/night-stands.html"
+    ],
+    "zinc alloy": [
+     "https://midasfurniture.com/en/home-furniture/bedroom-sets.html"
+    ]
+   },
+   "pages_with_filter": [
+    "https://midasfurniture.com/en/home-furniture/bedroom-sets.html",
+    "https://midasfurniture.com/en/home-furniture/bedroom-sets/beds.html",
+    "https://midasfurniture.com/en/home-furniture/bedroom-sets/night-stands.html",
+    "https://midasfurniture.com/en/home-furniture/living-rooms/cabinets.html"
+   ]
+  }
+ ],
+ "other_filters_not_used": [
+  {
+   "site_filter": "Concept",
+   "values": [
+    "Classic",
+    "Contemporary",
+    "Transitional",
+    "Office Furniture"
+   ]
+  },
+  {
+   "site_filter": "Shape",
+   "values": [
+    "Square",
+    "Rectangle",
+    "Round",
+    "Assortment",
+    "Geometric",
+    "Abstract",
+    "Oval",
+    "Semi-circle"
+   ]
+  },
+  {
+   "site_filter": "Size",
+   "values": [
+    "Large",
+    "Small",
+    "Medium"
+   ]
+  },
+  {
+   "site_filter": "Number of Seaters",
+   "values": [
+    "1 seater",
+    "2 seaters",
+    "3 seaters",
+    "4 seaters",
+    "5 seaters"
+   ]
+  },
+  {
+   "site_filter": "Features",
+   "values": [
+    "Extendable",
+    "Feather Filled",
+    "Swivel",
+    "Cup holder",
+    "Storage Space",
+    "Adjustable backrest",
+    "Space Saver",
+    "Stain-resistant fabric",
+    "Lights",
+    "Soft Close",
+    "USB",
+    "Rocker",
+    "Wireless Charging",
+    "Bed Storage",
+    "360-degree swivel",
+    "Footrest",
+    "Anti-Wrinkle"
+   ]
+  },
+  {
+   "site_filter": "Wardrobe No. of Doors",
+   "values": [
+    "4 Doors",
+    "6 Doors"
+   ]
+  },
+  {
+   "site_filter": "Table Frame Material",
+   "values": [
+    "Solid Wood + Engineered Wood",
+    "Solid Wood",
+    "Engineered Wood",
+    "Metal",
+    "Travertine Stone"
+   ]
+  },
+  {
+   "site_filter": "Back Cushions",
+   "values": [
+    "Detached",
+    "No Back",
+    "Attached"
+   ]
+  },
+  {
+   "site_filter": "Seat Cushions",
+   "values": [
+    "Detached",
+    "Attached"
+   ]
+  },
+  {
+   "site_filter": "Chairs Upholstery",
+   "values": [
+    "Upholstered Seat",
+    "Upholstered Seat & Back",
+    "Exposed",
+    "Assortmnet"
+   ]
+  },
+  {
+   "site_filter": "No. of Pieces",
+   "values": [
+    "1",
+    "2",
+    "3",
+    "5",
+    "6",
+    "7",
+    "8",
+    "4",
+    "12",
+    "16",
+    "55"
+   ]
+  },
+  {
+   "site_filter": "Headboard",
+   "values": [
+    "Exposed",
+    "Polyester",
+    "Velvet",
+    "Boucle",
+    "Leather Air",
+    "Linen",
+    "Chenille",
+    "Cotton",
+    "Microfiber",
+    "Engineered Wood",
+    "Nuvella"
+   ]
+  },
+  {
+   "site_filter": "Storage Space",
+   "values": [
+    "Yes",
+    "No"
+   ]
+  },
+  {
+   "site_filter": "Set includes",
+   "values": [
+    "Dining Table",
+    "4 Dining Chair",
+    "6 Dining Chair",
+    "8 Dining Chair",
+    "10 Dining Chair",
+    "12 Dining Chair"
+   ]
+  },
+  {
+   "site_filter": "Chair Arms",
+   "values": [
+    "with Arms",
+    "Assortment",
+    "Armless"
+   ]
+  },
+  {
+   "site_filter": "Table Capacity",
+   "values": [
+    "4 chairs",
+    "8 chairs",
+    "10 chairs"
+   ]
+  },
+  {
+   "site_filter": "Upholstery",
+   "values": [
+    "Tufted",
+    "Non-tufted",
+    "Deep Stitched",
+    "Stitched"
+   ]
+  },
+  {
+   "site_filter": "Inner Material",
+   "values": [
+    "Polyester"
+   ]
+  }
+ ]
+}

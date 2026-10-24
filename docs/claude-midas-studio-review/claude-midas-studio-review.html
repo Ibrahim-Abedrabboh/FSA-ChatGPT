@@ -1,0 +1,576 @@
+<title>Midas Studio Project Review</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: a single reading column (max 70rem) on warm paper; tables and diagrams scroll inside their own boxes.
+   Tokens follow the Midas Virtual Studio design system: one light theme, no dark theme, no shadows. */
+:root {
+  --canvas: #F5F2EC;
+  --surface: #FFFEFB;
+  --ink: #242620;
+  --muted-ink: #555B53;
+  --deep-olive: #283C32;
+  --champagne: #A77B4A;
+  --line: #C8CBC2;
+  --error: #9A3328;
+  --ok: #2F5D45;
+  --warn: #7A5A16;
+  --ok-bg: #E7EFE9;
+  --warn-bg: #F4ECDA;
+  --error-bg: #F5E4E1;
+  --info-bg: #ECEEE9;
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { background: var(--canvas); }
+body {
+  margin: 0; background: var(--canvas); color: var(--ink);
+  font-family: var(--sans); font-size: 16px; line-height: 26px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 70rem; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 72px;
+}
+header.top { display: grid; gap: 12px; padding-block-end: 28px; border-bottom: 1px solid var(--champagne); }
+.eyebrow { font-size: 14px; line-height: 20px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--muted-ink); }
+h1, h2, h3 { font-family: var(--serif); font-weight: 500; text-wrap: balance; margin: 0; color: var(--ink); }
+h1 { font-size: clamp(42px, 6vw, 64px); line-height: 1.08; letter-spacing: -.01em; }
+h2 { font-size: clamp(30px, 3.6vw, 40px); line-height: 1.15; }
+h3 { font-size: 26px; line-height: 1.2; }
+p { margin: 0; max-width: 68ch; }
+.lead { font-size: 18px; line-height: 28px; max-width: 64ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; line-height: 20px; color: var(--muted-ink); }
+nav.toc { margin-block: 28px 8px; display: flex; flex-wrap: wrap; gap: 8px; }
+nav.toc a {
+  font-size: 14px; line-height: 20px; color: var(--ink); text-decoration: none;
+  border: 1px solid var(--line); background: var(--surface); border-radius: var(--radius-sm);
+  padding: 6px 10px; min-height: 32px; display: inline-flex; align-items: center;
+}
+nav.toc a:hover { border-color: var(--champagne); }
+a { color: var(--deep-olive); text-underline-offset: 3px; }
+a:focus-visible, nav.toc a:focus-visible, summary:focus-visible { outline: 2px solid var(--deep-olive); outline-offset: 2px; }
+section { padding-block: 44px 8px; display: grid; gap: 18px; border-bottom: 1px solid var(--line); }
+section:last-of-type { border-bottom: 0; }
+.secnum { font-family: var(--sans); font-size: 14px; font-weight: 500; color: var(--champagne); letter-spacing: .06em; }
+ul, ol { margin: 0; padding-inline-start: 22px; max-width: 70ch; display: grid; gap: 6px; }
+.grid2 { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 20px; display: grid; gap: 10px; min-width: 0; }
+.panel h3 { font-size: 24px; }
+.verdict { background: var(--deep-olive); color: var(--surface); border-radius: var(--radius-lg); padding: 24px; display: grid; gap: 10px; }
+.verdict h3 { color: var(--surface); font-size: 30px; }
+.verdict p { color: var(--surface); }
+.verdict .eyebrow { color: #D9DED6; }
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 15px; line-height: 23px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { font-size: 14px; line-height: 20px; font-weight: 600; color: var(--muted-ink); background: var(--info-bg); }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tag { display: inline-block; font-size: 13px; line-height: 18px; font-weight: 500; padding: 2px 8px; border-radius: var(--radius-sm); border: 1px solid transparent; white-space: nowrap; }
+.t-ok { background: var(--ok-bg); color: var(--ok); border-color: #B9CDBF; }
+.t-warn { background: var(--warn-bg); color: var(--warn); border-color: #DCC79A; }
+.t-bad { background: var(--error-bg); color: var(--error); border-color: #DDB3AC; }
+.t-info { background: var(--info-bg); color: var(--muted-ink); border-color: var(--line); }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: 14px; line-height: 20px; color: var(--muted-ink); align-items: center; }
+.trace { font-size: 14px; line-height: 20px; color: var(--muted-ink); }
+.trace code, td code, p code, li code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px; background: var(--info-bg); padding: 0 4px; border-radius: 3px; overflow-wrap: anywhere; }
+.diagram { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 16px; overflow-x: auto; }
+.diagram pre.mermaid { margin: 0; background: transparent; font-family: var(--sans); }
+.cap { font-size: 14px; line-height: 20px; color: var(--muted-ink); }
+details { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 12px 16px; }
+details > summary { cursor: pointer; font-weight: 500; min-height: 28px; }
+details[open] > summary { margin-bottom: 10px; }
+.scen { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.scen .panel { border-color: var(--champagne); }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; font-size: 15px; }
+.kv dt { color: var(--muted-ink); font-weight: 500; }
+.kv dd { margin: 0; min-width: 0; }
+footer { padding-block-start: 32px; font-size: 14px; line-height: 20px; color: var(--muted-ink); display: grid; gap: 6px; }
+@media (max-width: 520px) { .kv { grid-template-columns: 1fr; } .kv dt { margin-top: 6px; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Project review for business stakeholders</div>
+  <h1>Midas Studio Project Review</h1>
+  <p class="lead">What Midas Studio is, how it works, what has actually been proven, and what has to happen next. One document that brings together the work done under the names Midas Studio, Midas VTON, Midas Styling, Midas furniture styling and the Midas A7 workflow.</p>
+  <div class="meta">
+    <span>Review date: 20 Oct 2026 (evidence gathered 10:45–12:15 UTC)</span>
+    <span>Version 1</span>
+    <span>Prepared by Claude for the owner</span>
+  </div>
+  <nav class="toc" aria-label="Sections">
+    <a href="#summary">Summary</a><a href="#purpose">1 Purpose</a><a href="#structure">2 Structure</a><a href="#software">3 Software</a><a href="#processes">4 Processes</a><a href="#automations">5 Automations</a><a href="#outcomes">6 Outcomes</a><a href="#quality">7 Quality</a><a href="#next">8 Next actions</a><a href="#sources">9 Sources</a>
+  </nav>
+</header>
+
+<section id="summary" aria-labelledby="h-summary">
+  <div class="secnum">Summary</div>
+  <h2 id="h-summary">Where the project stands</h2>
+  <div class="verdict">
+    <div class="eyebrow">Readiness verdict</div>
+    <h3>Owner pilot: the white-background image works under supervision. It is not ready for clients or for publishing to the catalogue.</h3>
+    <p>The core path, from sending a product photo to an owner-approved white-background image, has run on real photos. One delivered package exists, and it needed a manual recovery step. Room scenes have never been delivered. No output is yet marked as fit for the Midas catalogue, and only 2 of the 26 quality requirements are fully met.</p>
+  </div>
+  <div class="legend" aria-label="How to read the labels">
+    <span class="tag t-ok">Confirmed</span> checked in a live system or record during this review
+    <span class="tag t-info">Reported</span> stated in a session or document, not re-checked
+    <span class="tag t-warn">Intended</span> designed or built, not yet proven
+    <span class="tag t-bad">Gap / risk</span> missing, failing or unverified
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Area</th><th>Current state</th><th>Next step</th><th>What needs to be done to finish it</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Midas Studio as a whole</strong></td><td><span class="tag t-warn">Owner-only pilot</span> One private web app for the owner. No client access.</td><td>Make the white-image path reliable without manual help.</td><td>Prove scenes, repairs and edits live; then open a client path.</td></tr>
+      <tr><td><strong>A7 workflow (the engine)</strong></td><td><span class="tag t-ok">Published</span> Version <code>164ee70d</code>, 20 Oct 03:19 UTC. A newer draft with the package fix is <span class="tag t-bad">not live</span>.</td><td>Test the package fix for free, then publish it.</td><td>A clean run from photo to delivery files with no manual recovery.</td></tr>
+      <tr><td><strong>White-background image</strong></td><td><span class="tag t-ok">Works</span> Made, reviewed and owner-approved on real photos (18 and 20 Oct).</td><td>Fix framing for very wide products (20 Oct run held).</td><td>Repeat on 3–5 different products; measure pass rate.</td></tr>
+      <tr><td><strong>Package (JPG, WebP, manifest)</strong></td><td><span class="tag t-warn">Proven once</span> 18 Oct, through a one-off recovery step. 20 Oct package held.</td><td>Publish the fit-on-white fix.</td><td>A package made by the normal step on its own.</td></tr>
+      <tr><td><strong>Room scenes</strong></td><td><span class="tag t-bad">Never delivered</span> One empty room was made on 16 Oct; review failed on a provider outage.</td><td>One bounded paid scene test (proposed cap USD 3).</td><td>Scene review, scene Go 2 and delivery files proven live.</td></tr>
+      <tr><td><strong>Edit an approved image</strong></td><td><span class="tag t-warn">Built, published</span> No real paid edit has completed.</td><td>Run the 7 planned edit checks.</td><td>Each edit option proven once.</td></tr>
+      <tr><td><strong>Owner web app</strong></td><td><span class="tag t-ok">Live</span> on two sites. The second site is 7 changes behind the main code.</td><td>Choose one site as the main one.</td><td>Retire or refresh the other site.</td></tr>
+      <tr><td><strong>Cost control</strong></td><td><span class="tag t-ok">Active</span> Every paid call reserves budget first. Cost per run is estimated from usage, not from invoices.</td><td>Check provider usage for one uncertain call.</td><td>Reconcile estimates with provider billing.</td></tr>
+      <tr><td><strong>Security</strong></td><td><span class="tag t-bad">Action needed</span> An access key is stored in old run records. An old pipeline is still switched on.</td><td>Rotate the key; switch off the old pipeline.</td><td>Delete exposed records; review open web addresses.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="purpose" aria-labelledby="h-purpose">
+  <div class="secnum">1</div>
+  <h2 id="h-purpose">Project purpose and business value</h2>
+  <div class="grid2">
+    <div class="panel">
+      <h3>What Midas Studio does</h3>
+      <p>It turns a supplier's product photo into standard catalogue images for Midas, the furniture retailer. The source is the Midas Kuwait English website, with Saudi Arabia and Qatar sites also referenced. For each product it makes:</p>
+      <ul>
+        <li>a <strong>white master</strong>: the product alone on a pure white background, delivered as 1125 × 1125 pixel JPG and WebP files;</li>
+        <li><strong>room scenes</strong>: the product in a styled room, using only real Midas accessories that are in stock;</li>
+        <li>a <strong>package</strong>: the files, a manifest (list of files and checks), a draft description and a cost record.</li>
+      </ul>
+      <p class="trace">Sources: repo <code>README.md</code>, coverage register 15 Oct, stage 06 and 07 READMEs.</p>
+    </div>
+    <div class="panel">
+      <h3>Who it serves</h3>
+      <ul>
+        <li><strong>Intended users:</strong> the Midas in-house catalogue team, working from supplier photos.</li>
+        <li><strong>Actual users today:</strong> the owner only, through an invite-only web app.</li>
+        <li><strong>Clients:</strong> there is no live client path. The old client pipeline ("pipeline 3") is retired, and a client portal has not been built.</li>
+      </ul>
+      <p class="trace">Sources: owner workspace <code>DEPLOYMENT_STATUS.md</code>; feature status 18 Oct; owner's answer on pipeline 3 (20 Oct).</p>
+    </div>
+    <div class="panel">
+      <h3>The business problem</h3>
+      <p>Catalogue images from suppliers vary in quality, background and styling. Making consistent white-background and room images by hand is slow and costly. The owner's documents describe the aim as "saving with higher capacity; cost per need, not per generation".</p>
+      <p class="trace">Source: coverage register section 1, citing the owner's source documents (not in the repo).</p>
+    </div>
+    <div class="panel">
+      <h3>Intended benefits and what is measured</h3>
+      <ul>
+        <li><span class="tag t-warn">Intended</span> 90–95% faithfulness to the real product. This is a target only; nothing measures it yet.</li>
+        <li><span class="tag t-ok">Measured once</span> About USD 0.16 for one white-master run, and about 3 minutes of machine time plus owner waiting (20 Oct). These are estimates from usage, not invoices.</li>
+        <li><span class="tag t-bad">Not available</span> Volumes, time saved compared with manual work, the current cost per image, or return on investment. Without these, the business case cannot be quantified yet.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="structure" aria-labelledby="h-structure">
+  <div class="secnum">2</div>
+  <h2 id="h-structure">Project structure: one app, Midas Studio</h2>
+  <p>The owner confirmed on 20 Oct that every name below refers to one app, <strong>Midas Studio</strong>. The evidence shows how each name came about.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Name</th><th>What it refers to</th><th>Role today</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Midas</strong></td><td>The furniture retailer and brand.</td><td>Owner of the catalogue, the products and the accessories used in scenes.</td><td>–</td></tr>
+      <tr><td><strong>Midas Studio</strong> (also "Midas Virtual Studio")</td><td>The app as a whole.</td><td>The product name used for the project.</td><td><span class="tag t-warn">Owner pilot</span></td></tr>
+      <tr><td><strong>Midas furniture styling</strong> / <strong>Midas Styling app</strong></td><td>"Midas Furniture styling" is the name of the claude.ai Project where the work started (4–15 Oct). "Styling" also names the styling rules used inside the planner.</td><td>Earlier working name and planning space.</td><td><span class="tag t-info">Historical name</span></td></tr>
+      <tr><td><strong>Midas VTON</strong></td><td>"VTON" means virtual try-on. It was the name of six workflow drafts, Option A to A6, built 6–14 Oct and the direct ancestors of A7. A separate "customer try-on in their own room" idea was ruled out of scope on 16 Oct.</td><td>Predecessor generations. The try-on idea exists only as a concept page.</td><td><span class="tag t-info">Retired / not built</span></td></tr>
+      <tr><td><strong>Midas A7 workflow</strong></td><td>The 7th generation of the image engine, in n8n (an automation platform).</td><td>The engine behind the owner web app.</td><td><span class="tag t-ok">Published</span></td></tr>
+      <tr><td><strong>Owner workspace</strong></td><td>The private web app the owner uses to run A7.</td><td>The front end of Midas Studio today.</td><td><span class="tag t-ok">Live on 2 sites</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="diagram" role="img" aria-label="Timeline of how Midas Studio developed, from early experiments to A7">
+<pre class="mermaid">
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FFFEFB','primaryBorderColor':'#A77B4A','primaryTextColor':'#242620','lineColor':'#555B53','fontFamily':'Inter, system-ui, sans-serif','fontSize':'14px'}}}%%
+flowchart LR
+  E["Hero-shot experiments<br/>1–4 Oct"] --> P["Studio and job-request<br/>pipelines A to 5<br/>4–5 Oct"]
+  P --> V["Midas VTON<br/>Option A to A6<br/>6–14 Oct"]
+  V --> A7["Midas A7 workflow<br/>14 Oct onwards"]
+  A7 --> OW["Owner workspace<br/>web app, 17 Oct onwards"]
+  A7 --> SAT["Support workflows<br/>analysis, bridges, tests,<br/>catalogue refresh"]
+  OW --> MS(["Midas Studio<br/>(one app)"])
+  SAT --> MS
+</pre>
+  </div>
+  <p class="cap">How the names relate in time. Each generation was copied from the one before and extended. Source: n8n workflow creation dates and descriptions.</p>
+  <p class="trace">Not part of this project (owner agreed, 20 Oct): the Midas-AI-Chatbot repository (last changed 8 Sep 2026) and an earlier Midas ad-performance dashboard (Nov 2025 – Mar 2026).</p>
+</section>
+
+<section id="software" aria-labelledby="h-software">
+  <div class="secnum">3</div>
+  <h2 id="h-software">How the software supports the business</h2>
+  <p>Midas Studio has five main parts. The owner works only in the web app; everything else runs behind it.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Part</th><th>What it does, in plain words</th><th>Where it runs</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Owner web app</strong></td><td>Sign in, create a project, upload photos, read the photos for a fee, see a cost estimate, send a job, give the two approvals (Go 1 and Go 2), see results and history. It also includes a simple Overview page and a page for testing models.</td><td>Netlify (two sites)</td><td><span class="tag t-ok">Live</span></td></tr>
+      <tr><td><strong>Bridges</strong></td><td>Safe doors between the web app and the engine. They check files and identity, and forward jobs and approvals.</td><td>n8n</td><td><span class="tag t-ok">Published</span></td></tr>
+      <tr><td><strong>A7 engine</strong></td><td>Reads the photos, writes a contract (a locked list of what must not change), plans the styling, makes the image, reviews it, packages it and builds scenes.</td><td>n8n</td><td><span class="tag t-ok">Published</span></td></tr>
+      <tr><td><strong>AI services</strong></td><td>Google makes the image and reads photos; Anthropic Claude and OpenAI read, count, plan and review. Each is paid per use.</td><td>Provider clouds</td><td><span class="tag t-ok">In use</span></td></tr>
+      <tr><td><strong>Records and files</strong></td><td>Data tables hold every job, decision and cost. Google Drive holds the images. A Midas accessory catalogue of 428 items supplies the scene props.</td><td>n8n tables, Google Drive</td><td><span class="tag t-ok">In use</span></td></tr>
+      <tr><td><strong>Spending guard</strong></td><td>Before any paid call the engine asks the web app to reserve budget; afterwards it reports the cost. The job ceiling is USD 10.</td><td>Netlify + n8n</td><td><span class="tag t-ok">Active</span></td></tr>
+      <tr><td><strong>Python engine</strong></td><td>A planned replacement for the photo-reading step, written as ordinary code instead of n8n.</td><td>Not deployed</td><td><span class="tag t-warn">Paused by owner</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="diagram" role="img" aria-label="How the parts of Midas Studio connect">
+<pre class="mermaid">
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FFFEFB','primaryBorderColor':'#A77B4A','primaryTextColor':'#242620','lineColor':'#555B53','fontFamily':'Inter, system-ui, sans-serif','fontSize':'14px'}}}%%
+flowchart TB
+  O(["Owner"]) --> W["Owner web app<br/>(Netlify)"]
+  W -- "jobs and approvals" --> B["Bridges<br/>(n8n)"]
+  B --> A["A7 engine<br/>(n8n)"]
+  A -- "reserve budget / report cost" --> W
+  A --> AI["AI services<br/>Google, Anthropic, OpenAI"]
+  A --> T[("Job records<br/>and catalogue")]
+  A --> D[("Google Drive<br/>images")]
+  A -- "live stock check" --> M["Midas website"]
+  W -- "status and history" --> T
+</pre>
+  </div>
+  <p class="cap">The web app never talks to the AI services directly. Every job and approval passes through a bridge, and every paid call is reserved against a budget first.</p>
+</section>
+
+<section id="processes" aria-labelledby="h-processes">
+  <div class="secnum">4</div>
+  <h2 id="h-processes">Business processes from start to finish</h2>
+  <h3>4.1 Making images for one product (the main journey)</h3>
+  <p><strong>Starts with:</strong> the owner creating a project and uploading one or more supplier photos. <strong>Required information:</strong> the photo, what to make (white master and/or scenes), the piece count and name, and optional notes. <strong>Human decisions:</strong> two approvals, Go 1 and Go 2, plus one per scene. Nothing is released without the owner.</p>
+  <div class="diagram" role="img" aria-label="The product image journey with owner approvals and current proof status">
+<pre class="mermaid">
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FFFEFB','primaryBorderColor':'#A77B4A','primaryTextColor':'#242620','lineColor':'#555B53','fontFamily':'Inter, system-ui, sans-serif','fontSize':'14px'}}}%%
+flowchart TB
+  S["1 Send photos and brief"] --> R["2 Read the photos<br/>AI reads and counts pieces"]
+  R --> C["3 Contract<br/>what must not change"]
+  C --> P["4 Styling plan<br/>in-stock Midas accessories"]
+  P --> G1{"Go 1<br/>owner approves plan"}
+  G1 -- "go" --> I["5 Make white master<br/>(paid image call)"]
+  G1 -- "change / stop" --> P
+  I --> RV["6 Automatic review<br/>16 checks against the photo"]
+  RV --> G2{"Go 2<br/>owner decides"}
+  G2 -- "repair (max 2)" --> I
+  G2 -- "approve" --> PK["7 Package<br/>JPG + WebP + manifest, no AI"]
+  G2 -- "stop" --> X(["Stopped"])
+  PK --> SC["8 Room scenes<br/>empty room, place product"]
+  SC --> G3{"Go 2 per scene"}
+  G3 -- "approve" --> DL(["Delivery files"])
+  classDef proven fill:#E7EFE9,stroke:#2F5D45,color:#242620;
+  classDef partial fill:#F4ECDA,stroke:#7A5A16,color:#242620;
+  classDef notyet fill:#F5E4E1,stroke:#9A3328,color:#242620;
+  class S,R,C,P,G1,I,RV,G2 proven;
+  class PK partial;
+  class SC,G3,DL notyet;
+</pre>
+  </div>
+  <p class="cap">Green: proven on real jobs. Amber: proven once, with manual help. Red: never proven live. Repairs exist but have never run on a real job.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Step</th><th>Expected output</th><th>Typical time / cost (one measured run, 20 Oct)</th></tr></thead>
+    <tbody>
+      <tr><td>Read the photos (can be done first, as "source analysis")</td><td>Piece count, design details, warnings</td><td>The site reserves about USD 3.18 (3.99 with a room photo) before a reading. That is a ceiling; the actual spend was not reported.</td></tr>
+      <tr><td>Plan and Go 1</td><td>Shot plan, accessory shortlist</td><td>About 47 seconds of AI time; USD 0.05</td></tr>
+      <tr><td>White master</td><td>2048 px image in Drive</td><td>USD 0.0631</td></tr>
+      <tr><td>Review</td><td>Pass/fail on 16 checks, with reasons</td><td>About 1.7 minutes; the blind count alone took 84 seconds</td></tr>
+      <tr><td>Package</td><td>1125 px JPG + WebP, manifest, draft description</td><td>No AI cost</td></tr>
+      <tr><td><strong>Whole run</strong></td><td>–</td><td><strong>USD 0.164</strong>, about 197 seconds of machine time plus owner waits</td></tr>
+    </tbody>
+  </table></div>
+  <p class="trace">Source: run report <code>claude-outputs/claude-midas-a7-run-reports/2026-10-20-first-end-to-end-run.md</code>; A7 runs table row 53. Costs are estimates from token counts × price list, not invoices.</p>
+
+  <h3>4.2 Editing an approved image</h3>
+  <p>From an approved result the owner can ask for up to two changes from fixed lists: lighting, wall colour, floor, camera view, fewer or no props, or fixing a defect. The edit reuses the earlier photo reading and goes through Go 1 and Go 2 again. <span class="tag t-warn">Built and published 19 Oct</span> <span class="tag t-bad">No real edit has completed</span>. Five edit attempts on 19–20 Oct each stopped on a different fault; each fault was fixed in turn.</p>
+
+  <h3>4.3 Keeping the accessory catalogue current</h3>
+  <p>Scenes may only use Midas accessories that are in stock. A catalogue of 428 accessories was built from the Midas website (about 20% of the roughly 2,082 listed). A refresh workflow reads the website and updates stock. <span class="tag t-ok">Ran 4 times</span> <span class="tag t-warn">Weekly schedule built but switched off</span>. During each job the engine also checks live stock for the pieces it picks.</p>
+
+  <h3>4.4 Controlling cost</h3>
+  <div class="diagram" role="img" aria-label="How a paid call is guarded">
+<pre class="mermaid">
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FFFEFB','primaryBorderColor':'#A77B4A','primaryTextColor':'#242620','lineColor':'#555B53','fontFamily':'Inter, system-ui, sans-serif','fontSize':'14px'}}}%%
+flowchart LR
+  Q["Engine needs a paid call"] --> RS{"Budget reserved<br/>on the web app?"}
+  RS -- "no" --> H(["Hold, nothing paid"])
+  RS -- "yes" --> CALL["Call the AI service"]
+  CALL --> OK{"Answer received?"}
+  OK -- "yes" --> REP["Report actual cost"]
+  OK -- "unclear" --> KEEP(["Keep full reservation<br/>never resend automatically"])
+</pre>
+  </div>
+  <p class="cap">If the outcome of a call is unclear, the full reservation is counted as spent and the call is never repeated automatically. Two such uncertain calls (USD 1.66 in total) are still held from 18 Oct.</p>
+</section>
+
+<section id="automations" aria-labelledby="h-automations">
+  <div class="secnum">5</div>
+  <h2 id="h-automations">n8n automations</h2>
+  <p>n8n holds 63 workflows. 52 relate to Midas Studio; 11 belong to other projects. Below they are grouped by business role. "Published" means switched on and reachable. "Verified" means a stored record shows the business outcome, not just a run without errors.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Workflow</th><th>Business role</th><th>Depends on</th><th>Published</th><th>Draft newer than published?</th><th>Verified operation</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Claude · Midas A7 (stages 01–07)</strong><br/><span class="trace"><code>1cgZc9rmBOrPdKIe</code></span></td><td>The engine: reading, contract, plan, image, review, package, scenes, edits.</td><td>Google, Anthropic, OpenAI, Drive, job tables, Midas website, owner web app (budget)</td><td><span class="tag t-ok">Yes</span> <code>164ee70d</code></td><td><span class="tag t-bad">Yes</span> <code>5d280fcb</code>: 4 package steps change. A product too wide for the frame is fitted on a white canvas instead of the package being held. Not live.</td><td><span class="tag t-warn">Partly</span> Steps 1–7 on one product (18 Oct), shown only by the engine's own records. Scenes never.</td></tr>
+      <tr><td><strong>A7 · Owner submission and approval bridge</strong><br/><span class="trace"><code>Mo9c5GmTcx0K79F7</code></span></td><td>Passes jobs and Go 1 / Go 2 from the web app to A7.</td><td>A7, job tables</td><td><span class="tag t-ok">Yes</span> <code>cbb3afa3</code></td><td><span class="tag t-warn">Yes</span> autosave <code>268949ad</code>; looks like editor tidying, untested</td><td><span class="tag t-ok">Indirectly</span> Owner jobs reach A7 since the 20 Oct 01:57 fix</td></tr>
+      <tr><td><strong>A7 · Owner status and history</strong><br/><span class="trace"><code>G4cLxmwbkCxmCbQF</code></span></td><td>Read-only job status for the web app.</td><td>Job tables</td><td><span class="tag t-ok">Yes</span></td><td>No</td><td><span class="tag t-info">No stored runs</span></td></tr>
+      <tr><td><strong>A7 · Source analysis only</strong> + its owner bridge<br/><span class="trace"><code>AMdtt1fFwHln4DB8</code>, <code>AOTL7OVYtXLLs1L1</code></span></td><td>Reads and counts photos (paid) before a full job is sent.</td><td>Gemini, Claude, OpenAI, budget</td><td><span class="tag t-ok">Yes</span></td><td>No</td><td><span class="tag t-info">No stored runs</span> (saving is off)</td></tr>
+      <tr><td><strong>A7 · Model tests per stage</strong><br/><span class="trace"><code>jYkKQ2NOreSG0t97</code></span></td><td>Back end of the owner's "Testing models" page.</td><td>AI services</td><td><span class="tag t-ok">Yes</span></td><td>No</td><td><span class="tag t-ok">33 runs ok</span> on 19 Oct</td></tr>
+      <tr><td><strong>Claude · Midas catalogue refresh</strong><br/><span class="trace"><code>mGgKxO0638I77meF</code></span></td><td>Updates accessory stock from the Midas website.</td><td>Midas website, catalogue table</td><td><span class="tag t-warn">No</span> (weekly schedule inactive)</td><td>n/a</td><td><span class="tag t-ok">Yes</span> stock writes confirmed (16 Oct)</td></tr>
+      <tr><td><strong>Budget guard diagnostic</strong> and non-paid checks<br/><span class="trace"><code>7bDlk5hNoFFK1TJx</code> and 2 others</span></td><td>Manual tools used to recover stuck jobs and test cost accounting.</td><td>A7, web app</td><td>No (manual)</td><td>n/a</td><td><span class="tag t-ok">Yes</span> the 18 Oct package recovery was accepted</td></tr>
+      <tr><td><strong>Tests and scratch tools</strong> (about 20)</td><td>Reader tests, image-model tests, test senders, one-off checks.</td><td>Various</td><td>No</td><td>n/a</td><td>Test runs only. Reader test 3 scored 8 of 9 counts right; reader test 4 did not pass.</td></tr>
+      <tr><td><strong>Job request pipeline 3</strong> + white clean-up<br/><span class="trace"><code>LCkfLFMQS5MjA5FQ</code>, <code>MSU2K5WKKfizCapW</code></span></td><td>The old client pipeline (owner, 20 Oct: "Pipeline 3 is old").</td><td>A deleted credential; fal.ai</td><td><span class="tag t-bad">Still switched on</span></td><td>Cannot be opened</td><td>Retired in practice</td></tr>
+      <tr><td><strong>Midas VTON Option A to A6</strong>, pipelines A, 4, 5, early experiments</td><td>Earlier generations of the engine.</td><td>–</td><td>No</td><td>n/a</td><td>A6 made 3 reviewed images on 14 Oct (not owner-approved)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="panel">
+    <h3>Has successful operation been verified?</h3>
+    <ul>
+      <li><span class="tag t-bad">Not by n8n run logs.</span> A7 and its bridges are set to store no run logs, so no stored execution backs any A7 job after 18 Oct 01:21 UTC.</li>
+      <li><span class="tag t-ok">By the engine's own records.</span> These were read directly in this review.
+        <ul>
+          <li>Run <code>…1i4fxz</code> (18 Oct) reached a delivered package, approved by the owner after a passed review. The final step went through a recovery door.</li>
+          <li>Run <code>…4f80c2bf</code> (20 Oct) reached Go 2 and was held at Package.</li>
+        </ul>
+      </li>
+      <li><span class="tag t-info">Job outcomes.</span> Of the 54 jobs recorded, 28 are on hold, 13 never left "received", 4 were stopped by the owner, and 2 reached "white package ready". One of those 2 is a test row.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="outcomes" aria-labelledby="h-outcomes">
+  <div class="secnum">6</div>
+  <h2 id="h-outcomes">Latest consolidated outcomes</h2>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Reached the current project</h3>
+      <ul>
+        <li>Owner web app live with invite-only sign-in, projects and versions, estimates, send-once, Go 1/Go 2, source analysis, Midas link import, previous work and the Overview page.</li>
+        <li>A7 steps 1–6 (send to Go 2) proven on real photos. White masters made, reviewed and owner-approved.</li>
+        <li>One complete package (JPG, WebP, manifest, identity record) on 18 Oct.</li>
+        <li>Spending guard on every paid call, with costs reported after each call.</li>
+        <li>Accessory catalogue of 428 items; stock refresh run.</li>
+        <li>Edit feature built and published.</li>
+        <li>Repo code matches the live engine (20 Oct sync), with automated tests in CI.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Still in development</h3>
+      <ul>
+        <li>Fit-on-white fix for very wide products. Saved in n8n, not published.</li>
+        <li>New photo-reading prompt. Test 4 did not pass; the old prompt stays in A7.</li>
+        <li>Python version of the photo-reading step. Code exists; paused by the owner on 19 Oct.</li>
+        <li>Client page drafts 1–3 (mock only). Draft 3 is reused as an owner page.</li>
+        <li>Plants, mood, batches, add/remove/replace, notifications and a client portal: recorded as options, not applied.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Blocked or waiting</h3>
+      <ul>
+        <li>Room scenes: never delivered. The planned second paid test ("Phase 4") was never run.</li>
+        <li>Seven paid edit checks: waiting for the owner.</li>
+        <li>Run <code>…34b37efe</code>: Google returned an error. Whether it was charged is unknown until provider usage is checked.</li>
+        <li>Branch <code>final</code> (PR #40): newer notes, catalogue rules and tests not yet in the main code. The merge was blocked by a permission check during this review.</li>
+        <li>Five open questions about the Python/Railway engine.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Decisions later revised</h3>
+      <ul>
+        <li>Framing: hero image 25–40%, then 60–70% of height, then measured on the longest side (15–16 Oct).</li>
+        <li>Unclear pieces: "count as seen" replaced by "hold and ask" (16 Oct 00:50).</li>
+        <li>Scene props: generic props and people allowed (15 Oct), then Midas-only props and no people by default (16 Oct).</li>
+        <li>Image model: "none goes live before a test" (14 Oct), then Nano Banana 2.1 approved without the full test (15 Oct).</li>
+        <li>Job budget raised from USD 5 to USD 10 (18–20 Oct). The photo-reading step in n8n still caps at USD 5.</li>
+        <li>"Forget the budget" (20 Oct) was narrowed: the reservation is kept, and the cost is reported after the image.</li>
+        <li>Pipeline 3: "live for clients" (16 Oct), now old (20 Oct).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="quality" aria-labelledby="h-quality">
+  <div class="secnum">7</div>
+  <h2 id="h-quality">Quality and readiness</h2>
+  <h3>Checks actually performed</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Check</th><th>What it proves</th><th class="num">Result (20 Oct)</th></tr></thead>
+    <tbody>
+      <tr><td>9 engine test suites run automatically on every change (CI)</td><td>Engine rules behave as written, using sample data</td><td class="num"><span class="tag t-ok">389 / 389 pass</span></td></tr>
+      <tr><td>Owner web app tests and build</td><td>Screens and server functions behave as written</td><td class="num"><span class="tag t-ok">356 pass, 1 skipped</span></td></tr>
+      <tr><td>Python engine tests</td><td>Replacement code behaves as written (never live)</td><td class="num"><span class="tag t-ok">100 / 100</span></td></tr>
+      <tr><td>Older suites outside CI</td><td>Earlier stage rules</td><td class="num"><span class="tag t-warn">2 tests fail</span> (stage 05, owner answers Q1)</td></tr>
+      <tr><td>Browser flow tests of the owner studio</td><td>End-to-end clicks with a fake back end</td><td class="num"><span class="tag t-bad">Failing in review environment</span> (passed 18 Oct)</td></tr>
+      <tr><td>Real jobs on real photos</td><td>The live system works</td><td class="num"><span class="tag t-warn">White master yes; scenes no</span></td></tr>
+      <tr><td>Hosting security scan (Netlify)</td><td>No secrets in published files</td><td class="num"><span class="tag t-ok">0 findings</span> on both sites</td></tr>
+    </tbody>
+  </table></div>
+  <p class="trace">Automated tests use sample or code-made data. They prove the rules, not image quality. The 90–95% faithfulness target is not measured by any test.</p>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3>Known limitations</h3>
+      <ul>
+        <li>The image model ignores the framing instruction on wide sets (97.6% of the width on 20 Oct, against a 72–80% target).</li>
+        <li>Colour can drift. The 20 Oct review failed on a warmer fabric tone.</li>
+        <li>Provider outages (HTTP 503) stopped runs on 16 and 20 Oct.</li>
+        <li>The photo reader was right on 9 of 10 test photos in its best test. That is a small sample.</li>
+        <li>Only 2 of 26 quality requirements are fully met; 14 are partial and 6 are pending.</li>
+        <li>No delivered output is marked fit for the catalogue.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Not verified</h3>
+      <ul>
+        <li>Room scenes, scene review, scene Go 2 and delivery files.</li>
+        <li>Any repair on a real job.</li>
+        <li>Any completed edit of an approved image.</li>
+        <li>The package step without manual recovery.</li>
+        <li>Costs against provider invoices.</li>
+        <li>Anyone other than the owner using the system.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Go 2 on the 20 Oct run: two readings</h3>
+  <p>The review failed 2 of 16 checks: the fabric colour drifted, and the product touched the frame edge. The session had suggested a repair. The owner pressed approve, and the record reads "Owner approved · review failed". The owner does not recall the intent, so both readings are set out below.</p>
+  <div class="scen">
+    <div class="panel">
+      <h3>A. A deliberate exception</h3>
+      <p>The owner accepted the defects to see whether the package step would work on a real image. This was a test, not a catalogue release.</p>
+      <ul>
+        <li><strong>What it means:</strong> the system behaved as designed. It labelled the result truthfully as an owner exception, marked it not fit for the catalogue, and still held the package for the framing problem.</li>
+        <li><strong>Business risk:</strong> low, as long as exception images never reach the catalogue.</li>
+        <li><strong>What to do:</strong> keep it as a test record; repair or redo this product once the package fix is live.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>B. A test click without reading the review</h3>
+      <p>The messages around that minute ("checkgo", then "go" five seconds later) suggest the owner was moving the run along, not weighing the review.</p>
+      <ul>
+        <li><strong>What it means:</strong> the approval screen makes it easy to approve a failed image with one click.</li>
+        <li><strong>Business risk:</strong> medium once more people use the system. Defective images could be approved by habit.</li>
+        <li><strong>What to do:</strong> when a review fails, the approve button should ask for confirmation and a short reason, and suggest repair as the default.</li>
+      </ul>
+    </div>
+  </div>
+  <p><strong>Recommendation, in either case:</strong> treat the image as a test record, not a usable result, and add the confirmation step for approving a failed review (next action 6). That protects the catalogue whichever reading is true.</p>
+</section>
+
+<section id="next" aria-labelledby="h-next">
+  <div class="secnum">8</div>
+  <h2 id="h-next">Next actions</h2>
+  <p>In priority order. Every item that touches the live system or spends money needs the owner's approval, as the project rules require. Owners and estimates are <strong>proposed</strong> unless marked confirmed.</p>
+  <div class="tbl"><table>
+    <thead><tr><th class="num">#</th><th>Action</th><th>Why</th><th>Business benefit</th><th>Depends on / approval</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td><strong>Rotate the access key and remove stored records that contain it.</strong> Switch off pipeline 3 and the white clean-up workflow. Retire the old A6 site.</td><td>An access key is stored in plain text in old n8n run records. The old pipeline is still switched on and cannot be inspected.</td><td>Closes a security exposure; removes unknown open entry points.</td><td>Owner approval. Proposed: owner with Claude. Under 1 hour.</td></tr>
+      <tr><td class="num">2</td><td><strong>Publish the fit-on-white fix</strong> (<code>5d280fcb</code>) after a free test on a normal and a too-wide image.</td><td>Very wide products currently stop at the package step.</td><td>The package step works on its own; the 20 Oct product can be finished.</td><td>Owner presses Publish. Rollback version is recorded.</td></tr>
+      <tr><td class="num">3</td><td><strong>Check Google usage</strong> for run <code>…34b37efe</code> and for the two uncertain 18 Oct calls (USD 1.66 held).</td><td>Unknown charges are counted as spent.</td><td>Accurate cost picture; releases held budget.</td><td>Owner (Google AI Studio access).</td></tr>
+      <tr><td class="num">4</td><td><strong>Keep error records in n8n</strong> (errors only, with the key removed).</td><td>No run logs exist, so failures are hard to diagnose.</td><td>Faster fixes; real evidence of what worked.</td><td>Owner decision; do after action 1.</td></tr>
+      <tr><td class="num">5</td><td><strong>One bounded scene test:</strong> the bed (Test 8), proposed cap USD 3, stop at USD 2.40.</td><td>Scenes have never been delivered.</td><td>Proves the second half of the product.</td><td>Owner go for the paid run. Needs action 2.</td></tr>
+      <tr><td class="num">6</td><td><strong>Add a confirmation step to Go 2 when the review failed</strong> (reason required, repair suggested).</td><td>A failed image can be approved with one click.</td><td>Protects catalogue quality.</td><td>Owner agreement on wording. Small change.</td></tr>
+      <tr><td class="num">7</td><td><strong>Run one real repair and the 7 edit checks</strong>, each with a cap.</td><td>Both features are built but unproven.</td><td>Confidence that defects can be fixed without starting over.</td><td>Owner go for each paid run.</td></tr>
+      <tr><td class="num">8</td><td><strong>Choose one owner site.</strong> The second site (<code>claude-final-midas-a7</code>) is 7 changes behind the main code.</td><td>Two sites with different code confuse testing and costs.</td><td>One place to work; fewer surprises.</td><td>Owner decision.</td></tr>
+      <tr><td class="num">9</td><td><strong>Speed up the review.</strong> The blind count took 84 of 197 seconds.</td><td>The owner said one image takes too long.</td><td>Shorter waits per product.</td><td>Proposal in the 20 Oct run report.</td></tr>
+      <tr><td class="num">10</td><td><strong>Repo housekeeping:</strong> bring in branch <code>final</code> (PR #40), update the stale root README, and fix or add the two failing older suites to CI.</td><td>Newer notes and tests sit outside the main code; the README describes the 16 Oct state.</td><td>A reliable record for future work.</td><td>The PR #40 merge was blocked by a permission check; the owner must allow it or merge.</td></tr>
+      <tr><td class="num">11</td><td><strong>Collect baseline business numbers:</strong> current cost and time per catalogue image, and monthly volume.</td><td>No business case can be measured without them.</td><td>Shows whether Midas Studio saves money.</td><td>Owner or Midas team.</td></tr>
+      <tr><td class="num">12</td><td><strong>Decide the client path</strong> (portal or owner-run service) and the photo-reader prompt (Phase 2).</td><td>There is no live client path today.</td><td>Opens the product to its intended users.</td><td>Owner decision after actions 2–7.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="sources" aria-labelledby="h-sources">
+  <div class="secnum">9</div>
+  <h2 id="h-sources">Sources and open questions</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Source</th><th>What was used</th><th>Access</th></tr></thead>
+    <tbody>
+      <tr><td>GitHub repo <code>Ibrahim-Abedrabboh/claude-midas-studio</code></td><td>Documents, code, 56 pull requests, CI history, branches</td><td><span class="tag t-ok">Full</span></td></tr>
+      <tr><td>n8n (ibrahimnewaeon.app.n8n.cloud)</td><td>63 workflows, version history, published and draft versions, stored runs, job tables</td><td><span class="tag t-ok">Read-only</span> (8 old workflows cannot be opened)</td></tr>
+      <tr><td>Netlify</td><td>Current deploy of each site, branch, commit, security scan</td><td><span class="tag t-ok">Read-only</span> (no deploy history)</td></tr>
+      <tr><td>Google Drive</td><td>Folder and file titles only</td><td><span class="tag t-ok">Read-only</span></td></tr>
+      <tr><td>17 Claude Code sessions (15–20 Oct)</td><td>Commit messages and documents they produced; 3 transcripts in part</td><td><span class="tag t-bad">Most transcripts locked</span> to the owner's trusted device</td></tr>
+      <tr><td>claude.ai Project "Midas Furniture styling" (4–15 Oct)</td><td>The 196 files copied into the repo on 15 Oct</td><td><span class="tag t-bad">Chats not accessible</span></td></tr>
+      <tr><td>ChatGPT-hosted client Studio site</td><td>Repo references only</td><td><span class="tag t-bad">Not reachable</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3>Assumptions</h3>
+      <ul>
+        <li>Costs are the system's own estimates (token counts × price list), not invoices.</li>
+        <li>Owner wording from locked sessions is taken from commit messages and documents written at the time.</li>
+        <li>The engine's job records are accurate. They are written by the engine itself, so they are not independent evidence.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Conflicts resolved from the evidence</h3>
+      <ul>
+        <li>"A7 not published" in the root README is out of date. A7 has been published since 17 Oct; the live version was checked in n8n.</li>
+        <li>"First end-to-end run" is used for both 18 Oct and 20 Oct. On 18 Oct the package was completed with recovery help; on 20 Oct the run went through the normal flow but was held at the package step.</li>
+        <li>Documents quote different A7 versions (<code>9ad27255</code>, <code>78804143</code>, <code>524cf8fb</code>, <code>fb783f15</code>). Each was live at a different time; n8n shows <code>164ee70d</code> is live now.</li>
+        <li>Whether merges to main update the main owner site automatically: the site is on the latest main code for the web app (deploy of 20 Oct 03:49 UTC).</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Open questions for the owner</h3>
+      <ol>
+        <li>May Claude rotate the key and switch off pipeline 3 and the old A6 site (action 1)?</li>
+        <li>Which owner site is the main one going forward?</li>
+        <li>Should the Python engine continue? Five questions about it are unanswered.</li>
+        <li>Are baseline business numbers available (action 11)?</li>
+        <li>Should n8n keep error records (action 4)?</li>
+        <li>Is any decision log from the claude.ai Project missing from the repo?</li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h3>Ongoing work that could change these findings</h3>
+      <ul>
+        <li>Publishing the A7 package fix (changes Package from amber to green once tested).</li>
+        <li>The untested bridge autosave in n8n.</li>
+        <li>Merging branch <code>final</code> (PR #40).</li>
+        <li>Any owner run after 20 Oct 12:15 UTC.</li>
+      </ul>
+    </div>
+  </div>
+
+  <details>
+    <summary>Evidence index (for tracing)</summary>
+    <div class="kv" style="margin-top:8px">
+      <dt>Live A7 version</dt><dd><code>164ee70d-633d-4c82-a33f-32f9cf214077</code>; draft <code>5d280fcb-6619-4e34-9324-38767d025443</code></dd>
+      <dt>Delivered package</dt><dd>Run <code>claude-a7-20261017230527-1i4fxz</code>, A7 runs row 43, vault event 566</dd>
+      <dt>20 Oct run</dt><dd>Run <code>claude-a7-4f80c2bf-fac7-4e88-80c1-2a4fded57928</code>, runs row 53, vault 643–644</dd>
+      <dt>Latest run</dt><dd>Run <code>claude-a7-34b37efe</code>, runs row 54, operations row 11</dd>
+      <dt>Owner sites</dt><dd><code>midas-a7-owner-preview</code> at <code>fd97e84</code> (PR #53, 20 Oct 03:49 UTC); <code>claude-final-midas-a7</code> at <code>5793cee</code> (PR #44, 20 Oct 01:01 UTC)</dd>
+      <dt>Stored key</dt><dd>n8n execution 682 (and older A7 webhook runs)</dd>
+      <dt>Repo review notes</dt><dd><code>docs/claude-midas-studio-review/</code> in the repo</dd>
+    </div>
+  </details>
+
+  <h3>Update log</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Date</th><th>Change</th></tr></thead>
+    <tbody>
+      <tr><td class="num">20 Oct 2026</td><td>First version, after review of the repo, n8n, Netlify, Drive titles and session records.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>
+  <span>Midas Studio Project Review · prepared for the owner of Midas Studio · review date 20 Oct 2026.</span>
+  <span>Labels: Confirmed = checked in a live system during this review; Reported = stated in a session or document; Intended = built, not proven.</span>
+</footer>
+</div>

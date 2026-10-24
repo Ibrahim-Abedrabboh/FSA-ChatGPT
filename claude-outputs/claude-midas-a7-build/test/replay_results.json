@@ -1,0 +1,72 @@
+[
+ {
+  "test": "Test 1",
+  "owner_answer": "2",
+  "a7": "proceeds with 2 pieces",
+  "reason": "",
+  "client_question": ""
+ },
+ {
+  "test": "Test 2",
+  "owner_answer": "2",
+  "a7": "proceeds with 2 pieces",
+  "reason": "",
+  "client_question": ""
+ },
+ {
+  "test": "Test 3",
+  "owner_answer": "3 (to recheck)",
+  "a7": "holds for the client",
+  "reason": "Two independent counts of the photo disagree (6 and 7) and no number was given or written.",
+  "client_question": "Please tell us how many pieces the product has, and which pieces belong to it."
+ },
+ {
+  "test": "Test 4",
+  "owner_answer": "4",
+  "a7": "holds for the client",
+  "reason": "Two independent counts of the photo disagree (4 and 2) and no number was given or written.",
+  "client_question": "Please tell us how many pieces the product has, and which pieces belong to it."
+ },
+ {
+  "test": "Test 5",
+  "owner_answer": "4",
+  "a7": "proceeds with 4 pieces",
+  "reason": "",
+  "client_question": ""
+ },
+ {
+  "test": "Test 6",
+  "owner_answer": "4 (stool and mirror not in the set)",
+  "a7": "holds for the client",
+  "reason": "No piece count was given, nothing written settles it, and it is not confirmed whether these belong to the product: mirror, stool.",
+  "client_question": "Please confirm which pieces belong to the product. We were not sure about: mirror, stool."
+ },
+ {
+  "test": "Test 7",
+  "owner_answer": "2",
+  "a7": "holds for the owner",
+  "reason": "The photo reader did not answer (Service unavailable - try again later or consider setting this node to retry automatically (in the node settings)), so the photo could not be read yet. The client was not asked anything.",
+  "client_question": ""
+ },
+ {
+  "test": "Test 8",
+  "owner_answer": "1 (bed only)",
+  "a7": "proceeds with 1 pieces",
+  "reason": "",
+  "client_question": ""
+ },
+ {
+  "test": "Test 9",
+  "owner_answer": "15",
+  "a7": "proceeds with 15 pieces",
+  "reason": "",
+  "client_question": ""
+ },
+ {
+  "test": "Test 10",
+  "owner_answer": "7",
+  "a7": "proceeds with 7 pieces",
+  "reason": "",
+  "client_question": ""
+ }
+]

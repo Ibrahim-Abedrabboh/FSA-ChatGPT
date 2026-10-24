@@ -1,0 +1,612 @@
+{
+ "execution": "461",
+ "workflow": "YRl8RlplXULsrMyY",
+ "version": "6311040f",
+ "score_output": [
+  {
+   "run_id": "claude-rt3-20261016183433",
+   "stopped_at_cap": false,
+   "budget_at_stop": null,
+   "photos_read": "10 of 10",
+   "not_reached": [],
+   "summary": {
+    "model": "gpt-6.1-sol",
+    "answered": "10 of 10",
+    "count_right_test3": "8 of 9 scored photos (Test 3 not scored)",
+    "count_right_test2": "6 of 9 scored photos (from the test 2 README)",
+    "count_wrong_test3": [
+     "Test 8: 3 (owner 1)"
+    ],
+    "apart_counted_once_each": [
+     "Test 1 (separate shots in one image): yes, relation given",
+     "Test 2 (separate shots in one image): yes, relation given",
+     "Test 4 (standing separately in one shot): yes, relation given",
+     "Test 5 (standing separately in one shot): yes, relation given"
+    ],
+    "modules": [
+     "Test 3: 6 counted (owner 7, sheet note unclear); 0 cushions counted as pieces"
+    ],
+    "cushions_counted_anywhere": [],
+    "crop_flag_right": "8 of 9 (the reader's own flag; only Test 9 is cropped)",
+    "crop_after_box_check_right": "8 of 9",
+    "hidden_reported_on": [
+     "Test 1",
+     "Test 2",
+     "Test 3",
+     "Test 4",
+     "Test 5",
+     "Test 6",
+     "Test 8",
+     "Test 9",
+     "Test 10"
+    ],
+    "hidden_turned_into_cropped": [
+     "Test 8"
+    ],
+    "errors": [],
+    "tokens": {
+     "input": 15303,
+     "output": 14549
+    },
+    "usd_estimate": 0.1761,
+    "calls_without_token_counts": []
+   },
+   "cost_basis": "provider token counts x USD 2 input / 10 output per million (gpt-6.1-sol, read 16 Oct 2026); an estimate, not an invoice. Retried calls are not in the counts.",
+   "truth_source": "the owner's truth sheet (16 Oct 2026)",
+   "apart_photos": "Tests 1, 2 (separate shots in one image) and 4, 5 (standing separately in one shot), checked by eye on the Drive photos and the owner sheet, 16 Oct 2026"
+  },
+  {
+   "folder": "Test 1",
+   "file_name": "main.jpg",
+   "owner": "2",
+   "owner_note": "",
+   "test2_count": 1,
+   "test2_note": "read the chaise photo as the sofa from the opposite angle",
+   "test3_count": 2,
+   "change": "1 -> 2",
+   "test3": {
+    "tokens": {
+     "input": 889,
+     "output": 1185
+    },
+    "usd": 0.01363,
+    "count": 2,
+    "by_kind": "1 x chaise lounge; 1 x sofa",
+    "excluded": [],
+    "context": [
+     "chaise patterned cushion",
+     "sofa patterned cushion"
+    ],
+    "views_not_pieces": [],
+    "printed_counts": [],
+    "relations": [
+     "Chaise lounge and sofa: visually coordinated set, photographed apart."
+    ],
+    "cropped_flag": false,
+    "cut_off_pieces": [],
+    "hidden": [
+     "Chaise back upholstery partly covered by its decorative cushion.",
+     "Sofa back upholstery partly covered by its decorative cushion."
+    ],
+    "hidden_pieces": [
+     "chaise lounge",
+     "sofa"
+    ],
+    "nearest_edge": 18,
+    "cropped_after_box_check": false,
+    "count_ok": true,
+    "crop_flag_ok": true,
+    "crop_after_box_check_ok": true,
+    "hidden_kept_apart": true,
+    "apart_counted_once_each": true,
+    "apart_relation_given": true,
+    "cushions_counted": 0
+   }
+  },
+  {
+   "folder": "Test 2",
+   "file_name": "main.jpg",
+   "owner": "2",
+   "owner_note": "",
+   "test2_count": 1,
+   "test2_note": "read the second piece as an alternative configuration",
+   "test3_count": 2,
+   "change": "1 -> 2",
+   "test3": {
+    "tokens": {
+     "input": 942,
+     "output": 1220
+    },
+    "usd": 0.01408,
+    "count": 2,
+    "by_kind": "1 x chaise module; 1 x one-arm sofa module",
+    "excluded": [],
+    "context": [
+     "Upper patterned cushion",
+     "Lower patterned cushion"
+    ],
+    "views_not_pieces": [],
+    "printed_counts": [],
+    "relations": [
+     "Upper chaise component: appears to belong to the same sectional set as the lower sofa component, photographed apart."
+    ],
+    "cropped_flag": false,
+    "cut_off_pieces": [],
+    "hidden": [
+     "Upper chaise component: part of the back cushion is covered by the patterned cushion.",
+     "Lower sofa component: part of the left back cushion is covered by the patterned cushion."
+    ],
+    "hidden_pieces": [
+     "Upper chaise component",
+     "Lower sofa component"
+    ],
+    "nearest_edge": 16,
+    "cropped_after_box_check": false,
+    "count_ok": true,
+    "crop_flag_ok": true,
+    "crop_after_box_check_ok": true,
+    "hidden_kept_apart": true,
+    "apart_counted_once_each": true,
+    "apart_relation_given": true,
+    "cushions_counted": 0
+   }
+  },
+  {
+   "folder": "Test 3",
+   "file_name": "main.jpg",
+   "owner": "7",
+   "owner_note": "modules; the sheet note is unclear, so the count is shown but not scored",
+   "test2_count": 14,
+   "test2_note": "counted 7 cushions and the coffee table as product",
+   "test3_count": 6,
+   "change": "14 -> 6",
+   "test3": {
+    "tokens": {
+     "input": 1041,
+     "output": 2236
+    },
+    "usd": 0.02444,
+    "count": 6,
+    "by_kind": "5 x armless seat; 1 x corner seat",
+    "excluded": [],
+    "context": [
+     "coffee table",
+     "area rug",
+     "tall decorative vessel",
+     "short decorative vessel",
+     "small white vessel",
+     "white cup",
+     "cup saucer",
+     "gold-coloured tabletop dish",
+     "open illustrated publication",
+     "left horse artwork",
+     "right horse artwork"
+    ],
+    "views_not_pieces": [
+     "Isolated white-background view at left shows an armless module matching those in the sectional; it is not counted again."
+    ],
+    "printed_counts": [],
+    "relations": [
+     "Three straight armless modules stand side by side along the rear wall.",
+     "The corner module joins the rear row to the right-hand return.",
+     "Two armless modules continue forward from the corner along the image-right side.",
+     "The coffee table stands inside the sectional arrangement.",
+     "The sectional and coffee table stand on the area rug."
+    ],
+    "cropped_flag": false,
+    "cut_off_pieces": [],
+    "hidden": [
+     "Part of the leftmost module is concealed at the boundary of the staged view.",
+     "Part of the corner module is covered by the adjoining right-return module.",
+     "Part of the right-return middle module is covered by the nearer end module."
+    ],
+    "hidden_pieces": [
+     "leftmost straight module",
+     "turning corner module",
+     "right return middle module"
+    ],
+    "nearest_edge": 61,
+    "cropped_after_box_check": false,
+    "count_ok": null,
+    "crop_flag_ok": true,
+    "crop_after_box_check_ok": true,
+    "hidden_kept_apart": true,
+    "cushions_counted": 0,
+    "modules_note": "6 counted (owner 7, sheet note unclear); 0 cushions counted as pieces"
+   }
+  },
+  {
+   "folder": "Test 4",
+   "file_name": "main.jpg",
+   "owner": "4",
+   "owner_note": "",
+   "test2_count": 4,
+   "test2_note": "swatches kept apart",
+   "test3_count": 4,
+   "change": "same",
+   "test3": {
+    "tokens": {
+     "input": 1008,
+     "output": 1606
+    },
+    "usd": 0.01808,
+    "count": 4,
+    "by_kind": "2 x sofa; 2 x chair",
+    "excluded": [],
+    "context": [
+     "left sofa left red cushion",
+     "left sofa left patterned cushion",
+     "left sofa right grey cushion",
+     "left sofa right red cushion",
+     "right sofa left red cushion",
+     "right sofa left grey cushion",
+     "right sofa right grey cushion",
+     "right sofa right red cushion"
+    ],
+    "views_not_pieces": [
+     "Four rectangular material or colour samples across the top."
+    ],
+    "printed_counts": [],
+    "relations": [
+     "Left sofa: shown as part of the same coordinated arrangement as the two chairs and right sofa, photographed apart.",
+     "Right sofa: stands opposite the left sofa, with the two chairs between them.",
+     "Left lounge chair: stands beside the right lounge chair between the sofas.",
+     "Loose accent cushions rest against the sofa backs."
+    ],
+    "cropped_flag": false,
+    "cut_off_pieces": [],
+    "hidden": [
+     "Left sofa back partly covered by accent cushions.",
+     "Right sofa back partly covered by accent cushions."
+    ],
+    "hidden_pieces": [
+     "left sofa",
+     "right sofa"
+    ],
+    "nearest_edge": 29,
+    "cropped_after_box_check": false,
+    "count_ok": true,
+    "crop_flag_ok": true,
+    "crop_after_box_check_ok": true,
+    "hidden_kept_apart": true,
+    "apart_counted_once_each": true,
+    "apart_relation_given": true,
+    "cushions_counted": 0
+   }
+  },
+  {
+   "folder": "Test 5",
+   "file_name": "main.jpg",
+   "owner": "4",
+   "owner_note": "2 sofas and 2 armchairs",
+   "test2_count": 4,
+   "test2_note": "kinds wrong: 1 sofa + 3 chairs",
+   "test3_count": 4,
+   "change": "same",
+   "test3": {
+    "tokens": {
+     "input": 950,
+     "output": 1307
+    },
+    "usd": 0.01497,
+    "count": 4,
+    "by_kind": "1 x sofa; 3 x chair",
+    "excluded": [],
+    "context": [],
+    "views_not_pieces": [
+     "Upper-left square upholstery detail with a central covered button and radiating folds",
+     "Upper-middle square ornamental fabric detail",
+     "Upper-right square plaid fabric detail"
+    ],
+    "printed_counts": [],
+    "relations": [
+     "The sofa stands centrally between two armchairs on the left and one armchair on the right.",
+     "The rear-left armchair stands partly behind the front-left armchair.",
+     "All four furniture pieces share matching ornate frame styling and coordinated upholstery."
+    ],
+    "cropped_flag": false,
+    "cut_off_pieces": [],
+    "hidden": [
+     "Rear-left armchair partly covered by the front-left armchair"
+    ],
+    "hidden_pieces": [
+     "Rear-left armchair"
+    ],
+    "nearest_edge": 35,
+    "cropped_after_box_check": false,
+    "count_ok": true,
+    "crop_flag_ok": true,
+    "crop_after_box_check_ok": true,
+    "hidden_kept_apart": true,
+    "apart_counted_once_each": true,
+    "apart_relation_given": true,
+    "cushions_counted": 0
+   }
+  },
+  {
+   "folder": "Test 6",
+   "file_name": "main.jpg",
+   "owner": "6",
+   "owner_note": "",
+   "test2_count": 5,
+   "test2_note": "missed the second nightstand; crossed chest and wardrobe excluded",
+   "test3_count": 6,
+   "change": "5 -> 6",
+   "test3": {
+    "tokens": {
+     "input": 937,
+     "output": 1938
+    },
+    "usd": 0.02125,
+    "count": 6,
+    "by_kind": "1 x bed; 2 x nightstand; 1 x dressing table; 1 x mirror; 1 x stool",
+    "excluded": [
+     "crossed-out narrow chest",
+     "crossed-out wardrobe"
+    ],
+    "context": [
+     "left bedside lamp",
+     "right bedside lamp",
+     "bed linen",
+     "left bed pillow",
+     "middle bed pillow",
+     "right bed pillow",
+     "bed throw",
+     "flower vase on chest",
+     "yellow flower arrangement",
+     "plant on dressing table",
+     "small framed picture",
+     "small dressing-table container",
+     "bedside rug",
+     "left floor slipper",
+     "right floor slipper"
+    ],
+    "views_not_pieces": [],
+    "printed_counts": [],
+    "relations": [
+     "The two bedside cabinets stand on opposite sides of the bed.",
+     "The dressing table stands to the right of the wardrobe.",
+     "The mirror stands above the dressing table.",
+     "The stool stands in front of the dressing table.",
+     "The crossed-out narrow chest stands between the bed and wardrobe."
+    ],
+    "cropped_flag": false,
+    "cut_off_pieces": [],
+    "hidden": [
+     "The left bedside cabinet is partly covered by the bed.",
+     "The right bedside cabinet is partly covered by the bed.",
+     "The dressing table's central lower area is partly covered by the stool."
+    ],
+    "hidden_pieces": [
+     "left bedside cabinet",
+     "right bedside cabinet",
+     "dressing table"
+    ],
+    "nearest_edge": 26,
+    "cropped_after_box_check": false,
+    "count_ok": true,
+    "crop_flag_ok": true,
+    "crop_after_box_check_ok": true,
+    "hidden_kept_apart": true,
+    "cushions_counted": 0
+   }
+  },
+  {
+   "folder": "Test 7",
+   "file_name": "main.jpg",
+   "owner": "2",
+   "owner_note": "",
+   "test2_count": 2,
+   "test2_note": "two different shapes kept different",
+   "test3_count": 2,
+   "change": "same",
+   "test3": {
+    "tokens": {
+     "input": 2793,
+     "output": 525
+    },
+    "usd": 0.01084,
+    "count": 2,
+    "by_kind": "2 x bookend",
+    "excluded": [],
+    "context": [],
+    "views_not_pieces": [],
+    "printed_counts": [],
+    "relations": [
+     "The two matching textured pieces stand separately side by side, with a gap between them."
+    ],
+    "cropped_flag": false,
+    "cut_off_pieces": [],
+    "hidden": [],
+    "hidden_pieces": [],
+    "nearest_edge": 23,
+    "cropped_after_box_check": false,
+    "count_ok": true,
+    "crop_flag_ok": true,
+    "crop_after_box_check_ok": true,
+    "hidden_kept_apart": true,
+    "cushions_counted": 0
+   }
+  },
+  {
+   "folder": "Test 8",
+   "file_name": "main.jpg",
+   "owner": "1",
+   "owner_note": "",
+   "test2_count": 1,
+   "test2_note": "nightstands and lamps read as context",
+   "test3_count": 3,
+   "change": "1 -> 3",
+   "test3": {
+    "tokens": {
+     "input": 3797,
+     "output": 1758
+    },
+    "usd": 0.02517,
+    "count": 3,
+    "by_kind": "1 x bed; 2 x nightstand",
+    "excluded": [],
+    "context": [
+     "left lamp",
+     "right lamp",
+     "small bowl",
+     "taupe decorative pillow",
+     "rust decorative pillow",
+     "ochre decorative pillow",
+     "left white pillow",
+     "right white pillow",
+     "white duvet",
+     "rust throw",
+     "white fitted bedding",
+     "cream rug",
+     "left shelf book one",
+     "left shelf book two",
+     "left shelf book three",
+     "window book one",
+     "window book two",
+     "window book three",
+     "window book four",
+     "window book five"
+    ],
+    "views_not_pieces": [],
+    "printed_counts": [],
+    "relations": [
+     "Headboard, footboard, upholstered side rail and exposed wooden framing form one bed.",
+     "Left nightstand stands beside the left side of the headboard.",
+     "Right nightstand stands beside the right side of the headboard."
+    ],
+    "cropped_flag": true,
+    "cut_off_pieces": [
+     "left nightstand"
+    ],
+    "hidden": [
+     "Bed platform and upper side rails are partly covered by bedding.",
+     "Lower headboard is covered by pillows and bedding.",
+     "Right nightstand is largely obscured by the bed."
+    ],
+    "hidden_pieces": [
+     "bed",
+     "right nightstand"
+    ],
+    "nearest_edge": 0,
+    "cropped_after_box_check": true,
+    "count_ok": false,
+    "crop_flag_ok": false,
+    "crop_after_box_check_ok": false,
+    "hidden_kept_apart": false,
+    "cushions_counted": 0
+   }
+  },
+  {
+   "folder": "Test 9",
+   "file_name": "main.jpg",
+   "owner": "7 (label 15)",
+   "owner_note": "15 on the label, 7 visible; the only cropped photo",
+   "test2_count": 7,
+   "test2_note": "7 + the printed label",
+   "test3_count": 7,
+   "change": "same",
+   "test3": {
+    "tokens": {
+     "input": 921,
+     "output": 1835
+    },
+    "usd": 0.02019,
+    "count": 7,
+    "by_kind": "1 x table; 4 x chair; 2 x armchair",
+    "excluded": [],
+    "context": [
+     "left background cabinet",
+     "partial wall mirror",
+     "right background upholstered seat"
+    ],
+    "views_not_pieces": [],
+    "printed_counts": [
+     "12CHAIRS",
+     "2 ARMCHAIRS"
+    ],
+    "relations": [
+     "Four visible chairs stand along the far side of the table.",
+     "The right armchair stands at the right end of the table.",
+     "The partly cropped foreground armchair stands at the left end of the table."
+    ],
+    "cropped_flag": true,
+    "cut_off_pieces": [
+     "foreground left armchair"
+    ],
+    "hidden": [
+     "Leftmost far-side chair partly behind the table.",
+     "Second far-side chair partly behind the table.",
+     "Third far-side chair partly behind the table.",
+     "Fourth far-side chair partly behind the table.",
+     "Foreground left armchair partly obscured by the table.",
+     "Right end armchair partly behind the tabletop."
+    ],
+    "hidden_pieces": [
+     "leftmost far-side chair",
+     "second far-side chair",
+     "third far-side chair",
+     "fourth far-side chair",
+     "foreground left armchair",
+     "right end armchair"
+    ],
+    "nearest_edge": 0,
+    "cropped_after_box_check": true,
+    "count_ok": true,
+    "crop_flag_ok": true,
+    "crop_after_box_check_ok": true,
+    "hidden_kept_apart": true,
+    "cushions_counted": 0
+   }
+  },
+  {
+   "folder": "Test 10",
+   "file_name": "main.jpg",
+   "owner": "7",
+   "owner_note": "",
+   "test2_count": 7,
+   "test2_note": "the logo read as a printed label",
+   "test3_count": 7,
+   "change": "same",
+   "test3": {
+    "tokens": {
+     "input": 2025,
+     "output": 939
+    },
+    "usd": 0.01344,
+    "count": 7,
+    "by_kind": "1 x table; 6 x chair",
+    "excluded": [],
+    "context": [],
+    "views_not_pieces": [],
+    "printed_counts": [],
+    "relations": [
+     "Six matching chairs stand around the dining table: one at the left end, three along the far side and two along the near side."
+    ],
+    "cropped_flag": false,
+    "cut_off_pieces": [],
+    "hidden": [
+     "Table base partly covered by surrounding chairs.",
+     "Rear left chair partly covered by the tabletop and table support.",
+     "Rear middle chair partly covered by the tabletop and front middle chair.",
+     "Rear right chair largely covered by the table and front right chair.",
+     "Front right chair partly overlapped by the front middle chair."
+    ],
+    "hidden_pieces": [
+     "dining table",
+     "rear left chair",
+     "rear middle chair",
+     "rear right chair",
+     "front right chair"
+    ],
+    "nearest_edge": 99,
+    "cropped_after_box_check": false,
+    "count_ok": true,
+    "crop_flag_ok": true,
+    "crop_after_box_check_ok": true,
+    "hidden_kept_apart": true,
+    "cushions_counted": 0
+   }
+  }
+ ]
+}

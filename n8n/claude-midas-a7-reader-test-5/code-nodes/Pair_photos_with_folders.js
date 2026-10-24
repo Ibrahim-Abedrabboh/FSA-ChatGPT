@@ -1,0 +1,3 @@
+const folders = $('Find test folders').all().map(i => i.json).filter(f => /^Test \d+$/.test(String(f.name || '').trim())).sort((a, b) => Number(a.name.replace(/\D/g, '')) - Number(b.name.replace(/\D/g, '')));
+const files = $input.all().map(i => i.json).filter(f => f && f.id && !f.trashed);
+return folders.map(f => { const mine = files.filter(x => Array.isArray(x.parents) && x.parents.indexOf(f.id) !== -1); const p = mine.find(x => /^main\./i.test(String(x.name)) && String(x.mimeType || '').indexOf('image/') === 0) || mine.find(x => String(x.mimeType || '').indexOf('image/') === 0); return { json: { folder: f.name.trim(), file_id: p ? p.id : '', file_name: p ? p.name : '' } }; }).filter(x => x.json.file_id);

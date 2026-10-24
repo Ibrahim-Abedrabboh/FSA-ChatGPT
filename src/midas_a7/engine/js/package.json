@@ -1,0 +1,9 @@
+{
+  "name": "midas-a7-js-runner",
+  "private": true,
+  "type": "module",
+  "description": "Runs the frozen A7 Code-node logic and n8n-style expressions for the Python engine.",
+  "dependencies": {
+    "luxon": "3.5.0"
+  }
+}

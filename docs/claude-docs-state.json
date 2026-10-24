@@ -1,0 +1,24 @@
+{
+  "documented_commit": "b28604530e542834df451db201e0c197e3847eb6",
+  "documented_at": "2026-10-22",
+  "watched_paths": [
+    "src/",
+    "tools/",
+    "n8n/baseline/",
+    "n8n/claude-midas-a7/",
+    "services/",
+    "claude-outputs/claude-midas-a7-owner-workspace/",
+    "claude-outputs/claude-midas-a7-python-service-runbook-2026-10-20.md",
+    ".github/workflows/",
+    "Dockerfile",
+    "railway.json",
+    "pyproject.toml",
+    "README.md",
+    "CLAUDE.md"
+  ],
+  "ignored_paths": [
+    "claude-outputs/claude-midas-a7-owner-workspace/node_modules/",
+    "claude-outputs/claude-midas-a7-owner-workspace/dist/",
+    "docs/"
+  ]
+}

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0c10">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Testing models per stage — Midas Studio</title>
+  <script src="/owner/palette.js"></script>
+  <link rel="stylesheet" href="/owner/start.css">
+  <link rel="stylesheet" href="/owner/model-tests/model-tests.css">
+  <script src="/owner/start-session.js" defer></script>
+  <script src="/owner/model-tests/model-tests.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <header class="masthead"><a class="wordmark" href="/owner/" aria-label="Midas Studio owner workspace"><strong>MIDAS</strong><span>STUDIO</span></a><nav aria-label="Owner navigation"><span class="preview-tag">Private owner preview</span><a href="/owner/">Studio</a><a href="/owner/model-tests/" aria-current="page">Testing models</a><a href="/owner/controls/">Advanced controls</a></nav></header>
+  <main id="main" class="page mt-page">
+    <div class="page-intro"><p class="eyebrow">TESTING MODELS PER STAGE</p><h1>Compare models, one stage at a time.</h1><p>Send one photo to several model setups of the same A7 stage and compare the answers side by side: time, what each one counted and its estimated cost. Nothing here changes a job or the live workflow.</p></div>
+
+    <section aria-labelledby="stageTitle">
+      <h2 id="stageTitle" class="mt-h2">Stage</h2>
+      <div id="stageList" class="mt-stages" role="list"></div>
+    </section>
+
+    <form id="runForm" class="mt-form" novalidate>
+      <fieldset class="mt-fieldset">
+        <legend>Photo</legend>
+        <div class="mt-choice"><label><input type="radio" name="source" value="midas" checked> Midas test photo</label><label><input type="radio" name="source" value="upload"> My own photo</label></div>
+        <div id="midasPick" class="mt-row">
+          <label for="midasPhoto">Test photo</label>
+          <select id="midasPhoto" name="midas"></select>
+          <p id="midasTruth" class="mt-help"></p>
+        </div>
+        <div id="uploadPick" class="mt-row" hidden>
+          <label for="photoFile">Lifestyle photo (JPEG, PNG or WebP)</label>
+          <input id="photoFile" name="photo" type="file" accept="image/jpeg,image/png,image/webp">
+          <p class="mt-help">Larger photos are reduced in this browser to fit 3 MB before they are sent.</p>
+          <label for="expected">Correct number of product pieces (optional)</label>
+          <input id="expected" name="expected" type="number" min="1" max="40" inputmode="numeric">
+          <p class="mt-help">Count only the pieces of the set being sold. With a number, the page marks each answer right or wrong.</p>
+        </div>
+      </fieldset>
+      <fieldset class="mt-fieldset">
+        <legend>Model setups</legend>
+        <div id="armList" class="mt-arms"></div>
+      </fieldset>
+      <div class="mt-row"><label for="note">Note (optional)</label><input id="note" name="note" type="text" maxlength="300" placeholder="For example: my bedroom, evening light"></div>
+      <div class="mt-actions"><button id="runButton" class="primary-button" type="submit">Run the Eye test</button><p id="formStatus" class="mt-status" role="status" aria-live="polite"></p></div>
+    </form>
+
+    <section id="runSection" class="mt-run" aria-labelledby="runTitle" hidden>
+      <h2 id="runTitle" class="mt-h2">Result</h2>
+      <div class="mt-run-head"><img id="runPhoto" alt="The photo the models read"><div><p id="runMeta" class="mt-meta"></p><p id="runState" class="mt-status" role="status" aria-live="polite"></p></div></div>
+      <div class="mt-table-wrap"><table class="mt-table"><caption class="sr-only">Answers by model setup</caption><thead><tr><th scope="col">Setup</th><th scope="col">Time</th><th scope="col">Product pieces</th><th scope="col">Right count?</th><th scope="col">Est. cost</th><th scope="col">Category</th></tr></thead><tbody id="runRows"></tbody></table></div>
+      <div id="runDetails" class="mt-details"></div>
+    </section>
+
+    <section aria-labelledby="historyTitle" class="mt-history">
+      <h2 id="historyTitle" class="mt-h2">Recent runs</h2>
+      <p id="todayCount" class="mt-help"></p>
+      <ul id="historyList" class="mt-history-list"></ul>
+    </section>
+  </main>
+</body>
+</html>

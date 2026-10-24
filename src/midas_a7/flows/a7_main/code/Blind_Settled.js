@@ -1,0 +1,1 @@
+const r=$input.first().json;if(r.statusCode!==200||r.body?.status!=='completed'||r.body.responsePreserved!==true)throw Error('blind_receipt_uncertain');return [{json:$('Blind · Evidence').first().json}];

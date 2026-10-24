@@ -1,0 +1,1 @@
+{ "name": "midas-a7-shield", "version": "0.1.0", "description": "The Shield: masks keys, tokens, X-Midas-Key values and signed links in tool output before it is stored or shown", "author": { "name": "Midas Studio" } }

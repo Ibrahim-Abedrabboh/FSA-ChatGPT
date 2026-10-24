@@ -1,0 +1,386 @@
+{
+  "checked": "2026-10-18",
+  "textCalls": [
+    {
+      "runId": "claude-a7-20261017180546-r1onco",
+      "node": "16x Blind count",
+      "model": "gemini-3.8-flash",
+      "at": "2026-10-17T18:09:33.286Z",
+      "tokens": {
+        "input": 1413,
+        "output": 608
+      },
+      "outputId": "white_master",
+      "attempt": 1
+    },
+    {
+      "runId": "claude-a7-20261017180546-r1onco",
+      "node": "16 Critic review",
+      "model": "claude-sonnet-5-5",
+      "at": "2026-10-17T18:09:33.286Z",
+      "tokens": {
+        "input": 6247,
+        "output": 1804
+      },
+      "outputId": "white_master",
+      "attempt": 1
+    },
+    {
+      "runId": "claude-a7-20261017180546-r1onco",
+      "node": "09 Conflict check",
+      "model": "gpt-6-luna",
+      "at": "2026-10-17T18:06:23.725Z",
+      "tokens": {
+        "input": 675,
+        "output": 190
+      }
+    },
+    {
+      "runId": "claude-a7-20261017180546-r1onco",
+      "node": "05 Second count",
+      "model": "claude-sonnet-5-5",
+      "at": "2026-10-17T18:06:19.706Z",
+      "tokens": {
+        "input": 327,
+        "output": 354
+      }
+    },
+    {
+      "runId": "claude-a7-20261017180546-r1onco",
+      "node": "03 Eye reads the product photo",
+      "model": "gemini-3.8-flash",
+      "at": "2026-10-17T18:06:19.705Z",
+      "tokens": {
+        "input": 1708,
+        "output": 1863
+      }
+    },
+    {
+      "runId": "claude-a7-20261017174319-hpoy3g",
+      "node": "09 Conflict check",
+      "model": "gpt-6-luna",
+      "at": "2026-10-17T17:45:21.919Z",
+      "tokens": {
+        "input": 674,
+        "output": 158
+      }
+    },
+    {
+      "runId": "claude-a7-20261017174319-hpoy3g",
+      "node": "05 Second count",
+      "model": "claude-sonnet-5-5",
+      "at": "2026-10-17T17:45:19.049Z",
+      "tokens": {
+        "input": 327,
+        "output": 257
+      }
+    },
+    {
+      "runId": "claude-a7-20261017174319-hpoy3g",
+      "node": "03 Eye reads the product photo",
+      "model": "gemini-3.8-flash",
+      "at": "2026-10-17T17:45:19.048Z",
+      "tokens": {
+        "input": 1708,
+        "output": 1830
+      }
+    },
+    {
+      "runId": "claude-a7-20261017165728-1d79cw",
+      "node": "16x Blind count",
+      "model": "gemini-3.8-flash",
+      "at": "2026-10-17T17:10:13.465Z",
+      "tokens": {
+        "input": 1413,
+        "output": 881
+      },
+      "outputId": "white_master",
+      "attempt": 1
+    },
+    {
+      "runId": "claude-a7-20261017165728-1d79cw",
+      "node": "16 Critic review",
+      "model": "claude-sonnet-5-5",
+      "at": "2026-10-17T17:10:13.465Z",
+      "tokens": {
+        "input": 6080,
+        "output": 2893
+      },
+      "outputId": "white_master",
+      "attempt": 1
+    },
+    {
+      "runId": "claude-a7-20261017165728-1d79cw",
+      "node": "05 Second count",
+      "model": "claude-sonnet-5-5",
+      "at": "2026-10-17T16:59:55.865Z",
+      "tokens": {
+        "input": 327,
+        "output": 278
+      }
+    },
+    {
+      "runId": "claude-a7-20261017165728-1d79cw",
+      "node": "03 Eye reads the product photo",
+      "model": "gemini-3.8-flash",
+      "at": "2026-10-17T16:59:55.865Z",
+      "tokens": {
+        "input": 1708,
+        "output": 2820
+      }
+    },
+    {
+      "runId": "claude-a7-20261017165124-cv6b3r",
+      "node": "09 Conflict check",
+      "model": "gpt-6-luna",
+      "at": "2026-10-17T16:53:57.602Z",
+      "tokens": {
+        "input": 673,
+        "output": 299
+      }
+    },
+    {
+      "runId": "claude-a7-20261017165124-cv6b3r",
+      "node": "05 Second count",
+      "model": "claude-sonnet-5-5",
+      "at": "2026-10-17T16:53:51.914Z",
+      "tokens": {
+        "input": 327,
+        "output": 350
+      }
+    },
+    {
+      "runId": "claude-a7-20261017165124-cv6b3r",
+      "node": "03 Eye reads the product photo",
+      "model": "gemini-3.8-flash",
+      "at": "2026-10-17T16:53:51.914Z",
+      "tokens": {
+        "input": 1708,
+        "output": 2020
+      }
+    },
+    {
+      "runId": "claude-a7-20261017145225-44z8fo",
+      "node": "11 Stylist plans the scenes",
+      "model": "gpt-6.1-sol",
+      "at": "2026-10-17T14:53:14.874Z",
+      "tokens": {
+        "input": 3268,
+        "output": 1210
+      }
+    },
+    {
+      "runId": "claude-a7-20261017145225-44z8fo",
+      "node": "11c Plan critic",
+      "model": "claude-sonnet-5-5",
+      "at": "2026-10-17T14:53:28.489Z",
+      "tokens": {
+        "input": 3504,
+        "output": 2101
+      }
+    },
+    {
+      "runId": "claude-a7-20261017145225-44z8fo",
+      "node": "05 Second count",
+      "model": "claude-sonnet-5-5",
+      "at": "2026-10-17T14:52:46.618Z",
+      "tokens": {
+        "input": 1623,
+        "output": 422
+      }
+    },
+    {
+      "runId": "claude-a7-20261017145225-44z8fo",
+      "node": "03 Eye reads the product photo",
+      "model": "gemini-3.8-flash",
+      "at": "2026-10-17T14:52:46.618Z",
+      "tokens": {
+        "input": 1701,
+        "output": 1895
+      }
+    },
+    {
+      "runId": "claude-a7-20261017145107-qrw6b7",
+      "node": "09 Conflict check",
+      "model": "gpt-6-luna",
+      "at": "2026-10-17T14:51:38.648Z",
+      "tokens": {
+        "input": 805,
+        "output": 335
+      }
+    },
+    {
+      "runId": "claude-a7-20261017145107-qrw6b7",
+      "node": "03 Eye reads the product photo",
+      "model": "gemini-3.8-flash",
+      "at": "2026-10-17T14:51:32.806Z",
+      "tokens": {
+        "input": 1701,
+        "output": 1821
+      }
+    },
+    {
+      "runId": "claude-a7-20261017145107-qrw6b7",
+      "node": "05 Second count",
+      "model": "claude-sonnet-5-5",
+      "at": "2026-10-17T14:51:32.806Z",
+      "tokens": {
+        "input": 1623,
+        "output": 411
+      }
+    }
+  ],
+  "imageCalls": [
+    {
+      "runId": "claude-a7-20261017180546-r1onco",
+      "outputId": "white_master",
+      "model": "gemini-nano-banana-2.1",
+      "usage": {
+        "total_tokens": 4860,
+        "total_input_tokens": 2756,
+        "input_tokens_by_modality": [
+          {
+            "modality": "image",
+            "tokens": 1120
+          },
+          {
+            "modality": "text",
+            "tokens": 1636
+          }
+        ],
+        "total_cached_tokens": 0,
+        "total_output_tokens": 2104,
+        "output_tokens_by_modality": [
+          {
+            "modality": "image",
+            "tokens": 1680
+          }
+        ],
+        "total_tool_use_tokens": 0,
+        "total_thought_tokens": 0
+      }
+    },
+    {
+      "runId": "claude-a7-20261017165728-1d79cw",
+      "outputId": "white_master",
+      "model": "gemini-nano-banana-2.1",
+      "usage": {
+        "total_tokens": 6214,
+        "total_input_tokens": 2508,
+        "input_tokens_by_modality": [
+          {
+            "modality": "text",
+            "tokens": 1388
+          },
+          {
+            "modality": "image",
+            "tokens": 1120
+          }
+        ],
+        "total_cached_tokens": 0,
+        "total_output_tokens": 2596,
+        "output_tokens_by_modality": [
+          {
+            "modality": "image",
+            "tokens": 1680
+          }
+        ],
+        "total_tool_use_tokens": 0,
+        "total_thought_tokens": 1110
+      }
+    },
+    {
+      "runId": "claude-a7-20261016070205-lqpa9w",
+      "outputId": "wide",
+      "model": "gemini-nano-banana-2.1",
+      "usage": {
+        "total_tokens": 8476,
+        "total_input_tokens": 5723,
+        "input_tokens_by_modality": [
+          {
+            "modality": "image",
+            "tokens": 4480
+          },
+          {
+            "modality": "text",
+            "tokens": 1243
+          }
+        ],
+        "total_cached_tokens": 0,
+        "total_output_tokens": 2144,
+        "output_tokens_by_modality": [
+          {
+            "modality": "image",
+            "tokens": 1680
+          }
+        ],
+        "total_tool_use_tokens": 0,
+        "total_thought_tokens": 609
+      }
+    },
+    {
+      "runId": "claude-a7-20261016070205-lqpa9w",
+      "outputId": "wide_room",
+      "model": "gemini-nano-banana-2.1",
+      "usage": {
+        "total_tokens": 3197,
+        "total_input_tokens": 382,
+        "input_tokens_by_modality": [
+          {
+            "modality": "text",
+            "tokens": 382
+          }
+        ],
+        "total_cached_tokens": 0,
+        "total_output_tokens": 2085,
+        "output_tokens_by_modality": [
+          {
+            "modality": "image",
+            "tokens": 1680
+          }
+        ],
+        "total_tool_use_tokens": 0,
+        "total_thought_tokens": 730
+      }
+    },
+    {
+      "runId": "claude-a7-20261016070205-lqpa9w",
+      "outputId": "white_master",
+      "model": "gemini-nano-banana-2.1",
+      "usage": {
+        "total_tokens": 5268,
+        "total_input_tokens": 2304,
+        "input_tokens_by_modality": [
+          {
+            "modality": "text",
+            "tokens": 1184
+          },
+          {
+            "modality": "image",
+            "tokens": 1120
+          }
+        ],
+        "total_cached_tokens": 0,
+        "total_output_tokens": 2097,
+        "output_tokens_by_modality": [
+          {
+            "modality": "image",
+            "tokens": 1680
+          }
+        ],
+        "total_tool_use_tokens": 0,
+        "total_thought_tokens": 867
+      }
+    }
+  ],
+  "excluded": [
+    "Repeated vault records with same run, node, timestamp, output and attempt",
+    "Synthetic stage-04 fixture claude-a7-20261015-test-s04a",
+    "Refused operation with no token receipt"
+  ],
+  "sources": [
+    "https://ai.google.dev/gemini-api/docs/pricing",
+    "https://developers.openai.com/api/docs/pricing",
+    "https://platform.claude.com/docs/en/about-claude/pricing"
+  ]
+}
