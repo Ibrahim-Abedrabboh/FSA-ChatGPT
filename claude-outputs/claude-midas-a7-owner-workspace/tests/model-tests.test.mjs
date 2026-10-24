@@ -19,7 +19,7 @@ function memoryStore(){
 }
 const owner=async()=>Response.json({id:'owner-1'});
 const env=values=>name=>values[name];
-const ENABLED={A7_PAID_BUDGET_GUARDS_READY:'true',A7_READ_AUTHORIZATION:'Bearer test'};
+const ENABLED={A7_PAID_BUDGET_GUARDS_READY:'true',A7_READ_AUTHORIZATION:'Bearer test',A7_ENGINE_BASE_URL:'https://runner.example'};
 const production={deploy:{context:'production'},params:{}};
 const post=(form,origin='https://site.example')=>new Request('https://site.example/api/owner/model-tests',{method:'POST',headers:{origin,'sec-fetch-site':'same-origin'},body:form});
 const midasFetch=async()=>new Response(PNG,{headers:{'content-type':'image/png'}});
@@ -102,7 +102,7 @@ test('the background reader calls each setup once, stores every answer and never
  await background(request(),production);
  await background(request(),production);
  assert.equal(calls.length,2);
- assert.ok(calls.every(c=>c.url===modelTestWebhook()&&c.auth==='Bearer test'&&c.mime==='image/png'));
+ assert.ok(calls.every(c=>c.url===modelTestWebhook({get:env(ENABLED)})&&c.auth==='Bearer test'&&c.mime==='image/png'));
  assert.equal((await store.get(`owner-1/arms/${RUN_ID}/A`,{type:'json'})).error,'gateway_timeout');
  const e=await store.get(`owner-1/arms/${RUN_ID}/E`,{type:'json'});
  assert.equal(e.status,'done');assert.equal(e.summary.correct,true);assert.equal(e.costUsd,null);

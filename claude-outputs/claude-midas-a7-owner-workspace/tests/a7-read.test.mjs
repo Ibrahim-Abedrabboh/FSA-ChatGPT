@@ -40,7 +40,7 @@ test('owner job API enforces authentication and read-only access before upstream
 test('owner job API sanitizes upstream data and fails closed on errors',async()=>{
  const handler=(await import('../netlify/functions/owner-jobs.mjs')).default;
  const originalFetch=globalThis.fetch;
- globalThis.Netlify={env:{get:()=> 'test-credential'}};
+ globalThis.Netlify={env:{get:key=>key==='A7_ENGINE_BASE_URL'?'https://runner.example':'test-credential'}};
  let mode='owner';let calls=0;
  globalThis.fetch=async(url,options)=>{
   calls++;

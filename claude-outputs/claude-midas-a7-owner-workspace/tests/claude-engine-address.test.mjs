@@ -12,18 +12,19 @@ const withEnv = async (vars, fn) => {
 const ctx = {cookies: {get: () => 'synthetic-test-token'}, site: {url: 'https://example.test'}, deploy: {context: 'production'}};
 const check = () => connection(new Request('https://example.test/api/owner/connection'), ctx).then(r => r.json());
 
-test('the connection check names the engine it reached: the Python service or n8n', async () => {
+test('the connection check names the configured runner host', async () => {
   await withEnv({A7_READ_AUTHORIZATION: 'synthetic', A7_ENGINE_BASE_URL: 'https://midas-a7-production.up.railway.app'}, async calls => {
     const body = await check();
     assert.equal(body.connected, true);
-    assert.equal(body.engine, 'python_service');
+    assert.equal(body.engine, 'runner');
     assert.equal(body.engineHost, 'midas-a7-production.up.railway.app');
     assert.ok(calls.some(u => u.startsWith('https://midas-a7-production.up.railway.app/webhook/a7/owner-read')));
   });
   await withEnv({A7_READ_AUTHORIZATION: 'synthetic'}, async () => {
     const body = await check();
-    assert.equal(body.engine, 'n8n');
-    assert.equal(body.engineHost, 'ibrahimnewaeon.app.n8n.cloud');
+    assert.equal(body.connected, false);
+    assert.equal(body.reason, 'a7_engine_not_configured');
+    assert.equal(body.engine, 'unconfigured');
   });
 });
 
@@ -32,6 +33,6 @@ test('the engine address is read when a call is made, not when the module loads'
     assert.equal(modelTestWebhook(), 'https://midas-a7-production.up.railway.app/webhook/a7/model-test');
   });
   await withEnv({}, async () => {
-    assert.equal(modelTestWebhook(), 'https://ibrahimnewaeon.app.n8n.cloud/webhook/a7/model-test');
+    assert.throws(()=>modelTestWebhook(),/A7 engine not configured/);
   });
 });

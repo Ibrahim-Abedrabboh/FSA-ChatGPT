@@ -30,7 +30,7 @@ test('a decision the engine refuses with 401 is not confirmed, logged, and can b
   const previousFetch = globalThis.fetch, previousNetlify = globalThis.Netlify, previousStore = actionStore.get, previousError = console.error;
   const logged = [];
   let answer = 401, decisions = 0;
-  globalThis.Netlify = {env: {get: key => ({A7_OWNER_ACTIONS_ENABLED: 'true', A7_READ_AUTHORIZATION: 'synthetic'})[key]}};
+  globalThis.Netlify = {env: {get: key => ({A7_OWNER_ACTIONS_ENABLED: 'true', A7_READ_AUTHORIZATION: 'synthetic', A7_ENGINE_BASE_URL: 'https://runner.example'})[key]}};
   actionStore.get = (() => { const m = memoryStore(); return () => m; })();
   console.error = (...args) => logged.push(args.join(' '));
   globalThis.fetch = async url => {

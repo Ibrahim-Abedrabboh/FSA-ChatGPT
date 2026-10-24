@@ -10,6 +10,8 @@ on:
       - "pyproject.toml"
       - "Dockerfile"
       - "claude-outputs/claude-midas-a7-owner-workspace/**"
+      - "claude-runner/**"
+      - "tools/claude_*.py"
       - ".github/workflows/midas-a7-python.yml"
   push:
     branches: [main]
@@ -21,12 +23,39 @@ on:
       - "pyproject.toml"
       - "Dockerfile"
       - "claude-outputs/claude-midas-a7-owner-workspace/**"
+      - "claude-runner/**"
+      - "tools/claude_*.py"
       - ".github/workflows/midas-a7-python.yml"
 
 permissions:
   contents: read
 
 jobs:
+  runner:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Python checks
+        run: pip install -e '.[dev]'
+      - name: Prepare embedded JavaScript runtime
+        run: python claude-runner/runner.py setup
+      - name: Verify embedded content and handlers
+        run: |
+          python claude-runner/runner.py verify
+          python claude-runner/runner.py check
+      - name: Lint runner and local port tools
+        run: ruff check claude-runner/runner.py tools/claude_build_runner.py tools/claude_runner_node_overlay.py tools/claude_runner_test_bootstrap.py tests/py/test_claude_runner.py tests/py/test_claude_runner_parity.py
+      - name: Existing Python assertions against runner
+        run: python tools/claude_runner_test_bootstrap.py -q tests/py --ignore=tests/py/test_claude_runner_parity.py
+      - name: Runner image builds
+        run: docker build -f claude-runner/Dockerfile -t midas-a7-runner:ci .
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -51,7 +80,11 @@ jobs:
       - name: Lint
         run: ruff check src tests/py tools/n8n_to_flow.py tools/extract_prompt_catalog.py
       - name: Tests
-        run: python -m pytest -q
+        env:
+          MIDAS_JS_NODE_MODULES: ${{ github.workspace }}/src/midas_a7/engine/js/node_modules
+        run: |
+          python claude-runner/runner.py setup
+          python -m pytest -q
       - name: Image builds
         run: docker build -t midas-a7:ci .
 
