@@ -65,9 +65,9 @@ async def execute_recording(flow, services, execution_type, executor_type, handl
     return execution
 
 
-async def test_run_1591_old_service_and_runner_match_node_by_node(services, monkeypatch):
+async def test_run_1591_old_service_and_runner_match_node_by_node(services, monkeypatch, tmp_path):
     monkeypatch.setenv("PUBLIC_BASE_URL", "https://a7.test")
-    monkeypatch.setenv("MIDAS_RUNNER_HOME", "/private/tmp/midas-a7-runner-parity")
+    monkeypatch.setenv("MIDAS_RUNNER_HOME", str(tmp_path / "runner-runtime"))
     spec = importlib.util.spec_from_file_location("claude_runner_parity", ROOT / "claude-runner" / "runner.py")
     assert spec and spec.loader
     runner = importlib.util.module_from_spec(spec)

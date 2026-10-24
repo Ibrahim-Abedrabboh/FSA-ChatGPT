@@ -9,6 +9,7 @@ from __future__ import annotations
 import importlib.util
 import os
 import sys
+import tempfile
 import types
 from pathlib import Path
 
@@ -71,7 +72,7 @@ for name in names:
 
 sys.modules["midas_a7.flows"].__path__ = [str(ROOT / "src" / "midas_a7" / "flows")]
 
-code_root = Path(os.environ.get("MIDAS_RUNNER_TEST_CODE", "/private/tmp/midas-a7-runner-test-code"))
+code_root = Path(os.environ.get("MIDAS_RUNNER_TEST_CODE", str(Path(tempfile.gettempdir()) / "midas-a7-runner-test-code")))
 runner.runner_extract_code(code_root)
 for name, flow in runner.FLOWS.items():
     legacy_code = code_root / name / "code"
