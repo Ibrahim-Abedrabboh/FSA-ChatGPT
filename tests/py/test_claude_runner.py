@@ -147,6 +147,48 @@ def test_old_wait_signature_cannot_resume_a_later_wait(runner, monkeypatch):
         assert response.status_code == 409  # signature accepted; execution is deliberately marked running
 
 
+def test_resume_claim_rechecks_generation_after_signature_validation(runner, monkeypatch):
+    monkeypatch.setenv("RESUME_SIGNING_SECRET", "synthetic-resume-secret")
+    with TestClient(runner.app__create_app()) as client:
+        runtime = client.app.state.runtime
+        store = runtime.services.store
+        execution_id = store.create_execution("test-flow")
+        old_gate = {"id": execution_id, "flow_id": "test-flow", "resume_generation": 0,
+                    "wait": {"node": "Wait for go 1", "kind": "webhook"}}
+        newer_gate = {**old_gate, "resume_generation": 1, "wait": {"node": "Wait for go 2", "kind": "webhook"}}
+        store.save_execution(execution_id, "waiting", old_gate, wait_kind="webhook")
+        original = runtime.resume_from_webhook
+
+        async def advance_before_claim(run_id, item, expected_generation=None):
+            # Model another request completing Go1 after this request validated its Go1 signature.
+            store.save_execution(run_id, "waiting", newer_gate, wait_kind="webhook")
+            return await original(run_id, item, expected_generation)
+
+        monkeypatch.setattr(runtime, "resume_from_webhook", advance_before_claim)
+        stale = runtime.signature(execution_id, 1)
+        response = client.post(f"/webhook-waiting/{execution_id}?signature={stale}", json={})
+        assert response.status_code == 409
+        row = store.load_execution(execution_id)
+        assert row["status"] == "waiting" and row["resume_generation"] == 1
+
+
+def test_store_adds_generation_column_to_existing_database(runner, tmp_path):
+    database = tmp_path / "existing-runner.sqlite"
+    engine = runner.store__create_engine(f"sqlite:///{database}")
+    with engine.begin() as connection:
+        connection.execute(runner.store__text(
+            "CREATE TABLE executions (id INTEGER PRIMARY KEY AUTOINCREMENT, flow_id VARCHAR(64) NOT NULL, "
+            "status VARCHAR(16) NOT NULL, state JSON, wait_till DATETIME, wait_kind VARCHAR(16), error JSON, "
+            "created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL)"))
+    engine.dispose()
+    store = runner.store__Store(f"sqlite:///{database}")
+    try:
+        execution_id = store.create_execution("existing-db")
+        assert store.load_execution(execution_id)["resume_generation"] == 0
+    finally:
+        store.engine.dispose()
+
+
 def test_former_n8n_host_cannot_go_outbound(runner):
     services = runner.engine_services__Services.__new__(runner.engine_services__Services)
     services.settings = runner.config__Settings(self_aliases=())

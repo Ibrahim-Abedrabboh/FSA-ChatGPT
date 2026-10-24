@@ -29,7 +29,7 @@ The local run as of 24 Oct 2026 has confirmed `verify`, `check`, an in-process `
 ## Rollback
 
 - While n8n remains published, restore the previous `claude-final-midas-a7` engine setting and previous owner-site build. Confirm a new request reaches n8n.
-- Restore the previous Python Railway image and start command with the same database, URL, and secrets. Check `/health`, `/status`, old signed links, and parked-run state. Keep runner-created rows readable; do not delete them.
+- If runner-generation approval waits are outstanding, keep the runner available at their signed-link URL until those waits resolve or expire; the previous Python release cannot validate those newer links. Route new requests back to the prior engine separately if needed. Then restore the previous Python Railway image and start command with the same database, URL, and secrets. Check `/health`, `/status`, legacy signed links, and parked-run state. Keep runner-created rows readable; do not delete them.
 - Stop new runner traffic before restoring. Reconcile budget operations and any uncertain image call before retrying a job. Never resend an uncertain image request.
 
 ## Phase 4: retirement, only after the stability window and owner go

@@ -135774,7 +135774,9 @@ from sqlalchemy import create_engine as store__create_engine
 from sqlalchemy import delete as store__delete
 from sqlalchemy import func as store__func
 from sqlalchemy import insert as store__insert
+from sqlalchemy import inspect as store__inspect
 from sqlalchemy import select as store__select
+from sqlalchemy import text as store__text
 from sqlalchemy import update as store__update
 from sqlalchemy.engine import Engine as store__Engine
 from sqlalchemy.pool import StaticPool as store__StaticPool
@@ -136042,6 +136044,7 @@ store__executions = store__Table(
     store__Column("flow_id", store__String(64), nullable=False, index=True),
     store__Column("status", store__String(16), nullable=False, index=True),
     store__Column("state", store__JSON, nullable=True),
+    store__Column("resume_generation", store__Integer, nullable=False, default=0, server_default=store__text("0")),
     store__Column("wait_till", store__DateTime(timezone=True), nullable=True, index=True),
     store__Column("wait_kind", store__String(16), nullable=True),
     store__Column("error", store__JSON, nullable=True),
@@ -136119,6 +136122,11 @@ class store__Store:
         # Postgres runs concurrent calls on separate pooled connections; SQLite calls go one at a time.
         self._lock = store__threading.RLock() if url.startswith("sqlite") else store__contextlib.nullcontext()
         store__metadata.create_all(self.engine)
+        columns = {column["name"] for column in store__inspect(self.engine).get_columns("executions")}
+        if "resume_generation" not in columns:
+            with self.engine.begin() as connection:
+                connection.execute(store__text(
+                    "ALTER TABLE executions ADD COLUMN resume_generation INTEGER NOT NULL DEFAULT 0"))
 
     # ---------- executions ----------
     @store___serialized
@@ -136130,9 +136138,13 @@ class store__Store:
     @store___serialized
     def save_execution(self, execution_id: str, status: str, state: dict | None, wait_till: store__datetime | None = None,
                        wait_kind: str | None = None, error: dict | None = None) -> None:
+        values = {"status": status, "state": state, "wait_till": wait_till, "wait_kind": wait_kind,
+                  "error": error, "updated_at": store__now()}
+        if state is not None:
+            values["resume_generation"] = int(state.get("resume_generation", 0))
         with self.engine.begin() as c:
             c.execute(store__update(store__executions).where(store__executions.c.id == int(execution_id)).values(
-                status=status, state=state, wait_till=wait_till, wait_kind=wait_kind, error=error, updated_at=store__now()))
+                **values))
 
     @store___serialized
     def load_execution(self, execution_id: str) -> dict | None:
@@ -136148,11 +136160,14 @@ class store__Store:
             return [str(r[0]) for r in rows]
 
     @store___serialized
-    def claim_waiting(self, execution_id: str) -> dict | None:
-        """Atomically move a waiting run to running so it is resumed once only."""
+    def claim_waiting(self, execution_id: str, expected_generation: int | None = None) -> dict | None:
+        """Atomically claim a wait, optionally requiring its signed link generation to match."""
+        conditions = [store__executions.c.id == int(execution_id), store__executions.c.status == "waiting"]
+        if expected_generation is not None:
+            conditions.append(store__executions.c.resume_generation == expected_generation - 1)
         with self.engine.begin() as c:
-            res = c.execute(store__update(store__executions).where(store__and_(
-                store__executions.c.id == int(execution_id), store__executions.c.status == "waiting")).values(status="running", updated_at=store__now()))
+            res = c.execute(store__update(store__executions).where(store__and_(*conditions)).values(
+                status="running", updated_at=store__now()))
             if res.rowcount != 1:
                 return None
             row = c.execute(store__select(store__executions).where(store__executions.c.id == int(execution_id))).mappings().first()
@@ -140758,13 +140773,15 @@ class runtime__Runtime:
             runtime__log.warning("hold on error: the run row could not be updated (%s) [run %s, %s]", exc.__class__.__name__, execution.id, flow.name)
 
     # ---------- resuming parked runs ----------
-    async def resume_from_webhook(self, execution_id: str, item: engine_model__Item) -> tuple[int, dict[str, runtime__Any]]:
+    async def resume_from_webhook(self, execution_id: str, item: engine_model__Item,
+                                  expected_generation: int | None = None) -> tuple[int, dict[str, runtime__Any]]:
         row = await runtime__asyncio.to_thread(self.services.store.load_execution, execution_id)
         if not row:
             return 404, {"code": 404, "message": f"The execution \"{execution_id}\" does not exist."}
         if row["status"] != "waiting" or row.get("wait_kind") != "webhook":
             return 409, {"code": 409, "message": f"The execution \"{execution_id}\" is not waiting."}
-        claimed = await runtime__asyncio.to_thread(self.services.store.claim_waiting, execution_id)
+        claimed = await runtime__asyncio.to_thread(
+            self.services.store.claim_waiting, execution_id, expected_generation)
         if not claimed:
             return 409, {"code": 409, "message": f"The execution \"{execution_id}\" is not waiting."}
         self._spawn_resume(claimed, [item])
@@ -141182,7 +141199,7 @@ def app__create_app(settings: config__Settings | None = None, services: engine_s
         item["json"].pop("webhookUrl", None)
         item["json"].pop("executionMode", None)
         item["json"]["query"] = {k: v for k, v in item["json"]["query"].items() if k != "signature"}
-        status, body = await runtime.resume_from_webhook(execution_id, item)
+        status, body = await runtime.resume_from_webhook(execution_id, item, generation + 1)
         return app__JSONResponse(status_code=status, content=body)
 
     return app
