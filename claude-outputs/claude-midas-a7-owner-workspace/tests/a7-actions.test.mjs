@@ -100,7 +100,7 @@ test('refused sends and decisions carry plain words, never only a code',async()=
  for(const code of ['stale_decision','legacy_budget_missing','change_note_required'])assert.match(DECISION_HELP[code],/\./);
  const previousFetch=globalThis.fetch,previousNetlify=globalThis.Netlify;
  const context={runId:'claude-a7-run',clientId:'owner-'+randomUUID(),status:'awaiting_go_1',gate:'go1',round:1,revision:'a'.repeat(64),allowed:['go','change','stop'],shots:[],warnings:[]};
- globalThis.Netlify={env:{get:key=>({A7_OWNER_ACTIONS_ENABLED:'true',A7_READ_AUTHORIZATION:'synthetic'})[key]}};
+ globalThis.Netlify={env:{get:key=>({A7_OWNER_ACTIONS_ENABLED:'true',A7_READ_AUTHORIZATION:'synthetic',A7_ENGINE_BASE_URL:'https://runner.example'})[key]}};
  globalThis.fetch=async url=>String(url).includes('owner-context')?Response.json(context):Response.json({id:'owner',app_metadata:{roles:['owner']}});
  try{
   const response=await handler(new Request('https://example.test/api/owner/jobs/claude-a7-run/approval',{method:'POST',headers:{origin:'https://example.test','content-type':'application/json'},body:JSON.stringify({requestId:randomUUID(),revision:'b'.repeat(64),decision:'stop',note:'',confirmed:true})}),{params:{id:'claude-a7-run'},cookies:{get:()=> 'synthetic-test-token'},site:{url:'https://example.test'},deploy:{context:'production'}});
@@ -112,7 +112,7 @@ test('a decision A7 did not confirm can be sent again with the same body; an acc
  const values=new Map(),memory={setJSON:async(key,value,{onlyIfNew}={})=>{if(onlyIfNew&&values.has(key))return {modified:false};values.set(key,value);return {modified:true};},get:async key=>values.get(key)??null,set:async(key,value)=>{values.set(key,value);return {modified:true};},delete:async key=>{values.delete(key);}};
  const context={runId:'claude-a7-run',clientId:'owner-'+randomUUID(),status:'awaiting_go_1',gate:'go1',round:1,revision:'a'.repeat(64),allowed:['go','change','stop'],shots:[],warnings:[]};
  const previousFetch=globalThis.fetch,previousNetlify=globalThis.Netlify,previousStore=actionStore.get;let decisions=0,answer='fail';
- globalThis.Netlify={env:{get:key=>({A7_OWNER_ACTIONS_ENABLED:'true',A7_READ_AUTHORIZATION:'synthetic'})[key]}};actionStore.get=()=>memory;
+ globalThis.Netlify={env:{get:key=>({A7_OWNER_ACTIONS_ENABLED:'true',A7_READ_AUTHORIZATION:'synthetic',A7_ENGINE_BASE_URL:'https://runner.example'})[key]}};actionStore.get=()=>memory;
  globalThis.fetch=async url=>{url=String(url);if(url.includes('owner-context'))return Response.json(context);if(url.includes('owner-decision')){decisions++;if(answer==='fail')throw Error('socket hang up');return Response.json({accepted:true,forwarded:true,clientId:context.clientId,outcome:'received'});}return Response.json({id:'owner',app_metadata:{roles:['owner']}});};
  const send=()=>handler(new Request('https://example.test/api/owner/jobs/claude-a7-run/approval',{method:'POST',headers:{origin:'https://example.test','content-type':'application/json'},body:JSON.stringify({requestId:randomUUID(),revision:context.revision,decision:'stop',note:'',confirmed:true})}),{params:{id:'claude-a7-run'},cookies:{get:()=> 'synthetic-test-token'},site:{url:'https://example.test'},deploy:{context:'production'}});
  try{

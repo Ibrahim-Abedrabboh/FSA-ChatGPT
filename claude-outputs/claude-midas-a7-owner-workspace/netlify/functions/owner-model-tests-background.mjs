@@ -24,17 +24,17 @@ export function createModelTestsBackground(deps){
   const startedAt=deps.now().toISOString();
   await store.setJSON(`${owner}/runs/${id}`,{...run,status:'running',startedAt});
   await Promise.all(run.arms.map(async arm=>{
-   const answer=await callArm(deps.fetch,authorization,{stage:run.stage,arm,image});
+   const answer=await callArm(deps.fetch,authorization,{stage:run.stage,arm,image},{env:deps.env});
    await store.setJSON(`${owner}/arms/${id}/${arm}`,armRecord(arm,answer,run.expected));
   }));
   await store.setJSON(`${owner}/runs/${id}`,{...run,status:'done',startedAt,finishedAt:deps.now().toISOString()});
  };
 }
 
-export async function callArm(fetchImpl,authorization,body,{timeoutMs=ARM_TIMEOUT_MS}={}){
+export async function callArm(fetchImpl,authorization,body,{timeoutMs=ARM_TIMEOUT_MS,env}={}){
  const started=Date.now();
  try{
-  const response=await fetchImpl(modelTestWebhook(),{method:'POST',headers:{'Content-Type':'application/json',Authorization:authorization},body:JSON.stringify(body),redirect:'error',signal:AbortSignal.timeout(timeoutMs)});
+  const response=await fetchImpl(modelTestWebhook(env ? {get:env} : undefined),{method:'POST',headers:{'Content-Type':'application/json',Authorization:authorization},body:JSON.stringify(body),redirect:'error',signal:AbortSignal.timeout(timeoutMs)});
   let parsed=null;try{parsed=await response.json();}catch{}
   return {status:response.status,body:parsed,ms:Date.now()-started};
  }catch(error){

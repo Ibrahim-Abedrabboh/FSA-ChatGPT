@@ -1,5 +1,7 @@
 # Python service (`src/midas_a7`)
 
+**24 Oct 2026 source note:** A local single-file replacement candidate is documented in [claude-runner.md](claude-runner.md). This service remains the operational version until a separately approved cutover.
+
 *Technical documentation · checked against commit `2bd6550` (21 Oct 2026). 195 tests pass and `midas-a7 check` reports all node types handled at this commit.*
 
 ## How it works

@@ -198,7 +198,7 @@ def multipart_params(version, count=4):
     fields = [{"parameterType": "formData", "name": "payload", "value": "={{ $json.payload }}"}]
     fields += [{"parameterType": "formBinaryData", "name": f"files{i}", "inputDataFieldName": f'={{{{ $json.uploadFields[{i}] || "" }}}}'}
                for i in range(count)]
-    return {"method": "POST", "url": "https://ibrahimnewaeon.app.n8n.cloud/webhook/claude-midas-a7-analysis",
+    return {"method": "POST", "url": "https://example.test/webhook/claude-midas-a7-analysis",
             "authentication": "genericCredentialType", "genericAuthType": "httpHeaderAuth", "sendBody": True,
             "contentType": "multipart-form-data", "bodyParameters": {"parameters": fields},
             "options": {"timeout": 295000, "redirect": {"redirect": {"followRedirects": False}},

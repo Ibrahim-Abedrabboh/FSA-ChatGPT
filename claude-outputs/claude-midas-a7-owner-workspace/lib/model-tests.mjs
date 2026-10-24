@@ -1,10 +1,9 @@
 import {a7Webhook} from './a7-engine-base.mjs';
 // "Testing models per stage": the owner sends one photo to several model setups of one A7 stage and compares
 // what each returns. Only 03 Eye is connected; generation and verdict come next. Each setup ("arm") is one
-// call to the n8n workflow "A7 · Model tests per stage (owner page)", so every call stays under n8n Cloud's
-// ~100 s gateway limit unless the model itself is slower than that.
+// call to the configured A7 runner's model-test webhook.
 // Read per call, never once at load, so the configured engine is always the one used.
-export const modelTestWebhook = () => a7Webhook('a7/model-test');
+export const modelTestWebhook = env => a7Webhook('a7/model-test', env);
 export const DAILY_RUN_LIMIT = 20;
 export const ARM_TIMEOUT_MS = 110000;
 
